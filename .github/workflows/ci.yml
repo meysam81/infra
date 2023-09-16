@@ -43,6 +43,7 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: "plan"
+          tg_comment: "1"
         env:
           TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
