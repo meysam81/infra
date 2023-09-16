@@ -1,34 +1,65 @@
 name: ci
-concurrency:
-  group: ci-${{ github.ref_name }}
-  cancel-in-progress: true
-
 on:
   pull_request:
-    branches: ["main"]
-    types: [closed, opened, synchronize, reopened]
-  issue_comment:
-    types: [created]
-    if: contains(github.event.comment.body, 'digger')
-  workflow_dispatch: null
+    branches:
+      - main
+  push:
+    branches:
+      - main
 
-permissions:
-  contents: read
-  issues: write
-  pull-requests: write
-  statuses: write
+env:
+  tf_version: "1.5.7"
+  tg_version: "0.50.17"
+  working_dir: "terragrunt"
 
 jobs:
-  build:
+  checks:
     runs-on: ubuntu-latest
     steps:
-      - name: digger run
-        uses: diggerhq/digger@v0.1.31
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: Check terragrunt HCL
+        uses: gruntwork-io/terragrunt-action@v1
         with:
-          setup-terraform: true
-          terraform-version: v1.5.7
-          post-plans-as-one-comment: true
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: "hclfmt --terragrunt-check --terragrunt-diff"
+
+  plan:
+    runs-on: ubuntu-latest
+    needs: [checks]
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v1
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: "plan"
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [plan]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        uses: gruntwork-io/terragrunt-action@v1
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: "apply"
+        env:
+          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
