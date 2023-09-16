@@ -3,7 +3,7 @@ include {
 }
 
 terraform {
-  source = "../../terraform/modules/cloudflare"
+  source = "../../modules/cloudflare"
 }
 
 generate "provider" {
