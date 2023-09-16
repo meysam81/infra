@@ -12,7 +12,7 @@ on:
 env:
   tf_version: "1.5.7"
   tg_version: "0.50.17"
-  working_dir: "terragrunt"
+  working_dir: "live"
 
 jobs:
   checks:
