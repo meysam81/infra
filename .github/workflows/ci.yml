@@ -51,7 +51,6 @@ jobs:
           tg_comment: "1"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
 
@@ -71,6 +70,5 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: "apply"
         env:
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
