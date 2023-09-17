@@ -84,3 +84,11 @@ resource "cloudflare_record" "cloudflare_txt" {
   value   = var.cloudflare_txt_record
   zone_id = cloudflare_zone.root.id
 }
+
+module "myprivatemodule" {
+  source = "git@github.com:meysam81/sample-private-terraform-module.git//?ref=main"
+}
+
+output "myoutput" {
+  value = module.myprivatemodule.lucky_number
+}
