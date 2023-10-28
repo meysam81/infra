@@ -1,0 +1,31 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.83.5
+    hooks:
+      - alias: fmt
+        id: terraform_fmt
+      - alias: validate
+        id: terraform_validate
+        args:
+          - --tf-init-args=-upgrade
+          - --hook-config=--retry-once-with-cleanup=true
+      - alias: tflint
+        id: terraform_tflint
+        args:
+          - --args=--module
+      - id: terraform_checkov
+        args:
+          - --args=-d modules/
+          - --args=--skip-check=CKV_TF_1
+      - id: terraform_tfsec
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: check-executables-have-shebangs
+      - id: detect-aws-credentials
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: file-contents-sorter
+      - id: requirements-txt-fixer
+      - id: sort-simple-yaml

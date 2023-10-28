@@ -95,10 +95,10 @@ resource "cloudflare_record" "cloudflare_txt" {
 
 resource "cloudflare_zone" "developer_friendly_blog" {
   account_id = data.cloudflare_accounts.root.accounts[0].id
-  paused = false
-  plan   = var.cloudflare_zone_plan
-  type   = var.cloudflare_zone_type
-  zone   = var.developer_friendly_blog_domain_name
+  paused     = false
+  plan       = var.cloudflare_zone_plan
+  type       = var.cloudflare_zone_type
+  zone       = var.developer_friendly_blog_domain_name
 }
 
 resource "cloudflare_record" "substack_0" {
@@ -157,4 +157,3 @@ resource "cloudflare_record" "dev_blog_txt" {
   value   = var.cloudflare_txt_record
   zone_id = cloudflare_zone.developer_friendly_blog.id
 }
-

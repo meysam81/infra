@@ -10,7 +10,7 @@ generate "remote_state" {
   contents  = <<-EOF
     terraform {
       required_version = "~> 1.5"
-      
+
       backend "remote" {
         hostname = "${local.tfc_hostname}"
         organization = "${local.tfc_organization}"
