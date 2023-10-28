@@ -11,9 +11,8 @@ on:
 
 env:
   tf_version: "1.5.7"
-  tg_version: "0.50.17"
+  tg_version: "0.53.0"
   working_dir: "live"
-  AWS_REGION: "ap-southeast-1"
 
 permissions:
   id-token: write
@@ -39,7 +38,7 @@ jobs:
     needs: hclfmt
     uses: ./.github/workflows/sync.yml
     with:
-      aws-region: ${{ env.AWS_REGION }}
+      aws-region: ap-southeast-1
       command: "plan"
       comment: "1"
     secrets: inherit
@@ -49,7 +48,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/sync.yml
     with:
-      aws-region: ${{ env.AWS_REGION }}
+      aws-region: ap-southeast-1
       command: "apply"
     secrets: inherit
 
