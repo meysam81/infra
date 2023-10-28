@@ -13,6 +13,10 @@ on:
         required: false
         default: "0"
         type: string
+      aws-region:
+        description: "AWS Region"
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -24,9 +28,9 @@ jobs:
         run: |
           aws configure set --profile source aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set --profile source aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set --profile source region ${{ env.AWS_REGION }}
+          aws configure set --profile source region ${{ inputs.aws-region }}
           aws configure set --profile personal source_profile source
-          aws configure set --profile personal region ${{ env.AWS_REGION }}
+          aws configure set --profile personal region ${{ inputs.aws-region }}
           aws configure set --profile personal role_arn ${{ secrets.AWS_ROLE_ARN }}
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v1

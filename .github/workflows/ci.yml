@@ -39,6 +39,7 @@ jobs:
     needs: hclfmt
     uses: ./.github/workflows/sync.yml
     with:
+      aws-region: ${{ env.AWS_REGION }}
       command: "plan"
       comment: "1"
     secrets: inherit
@@ -48,6 +49,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/sync.yml
     with:
+      aws-region: ${{ env.AWS_REGION }}
       command: "apply"
     secrets: inherit
 
