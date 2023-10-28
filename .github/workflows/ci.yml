@@ -20,7 +20,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  hclfmt:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
