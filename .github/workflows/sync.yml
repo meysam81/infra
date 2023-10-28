@@ -19,7 +19,7 @@ on:
         type: string
 
 jobs:
-  deploy:
+  terragrunt:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
