@@ -5,7 +5,7 @@ on:
     inputs:
       command:
         description: "Command to run"
-        required: true
+        required: false
         default: "plan"
         type: string
       comment:
@@ -19,17 +19,17 @@ on:
         type: string
       working-dir:
         description: "Working directory"
-        required: true
+        required: false
         type: string
         default: live
       tf-version:
         description: "Terraform version"
-        required: true
+        required: false
         type: string
         default: 1.5.7
       tg-version:
         description: "Terragrunt version"
-        required: true
+        required: false
         type: string
         default: 0.53.0
 
