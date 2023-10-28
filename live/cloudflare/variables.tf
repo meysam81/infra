@@ -6,6 +6,7 @@ variable "domain_name" {
 
 variable "cloudflare_api_token" {
   type      = string
+  default   = ""
   sensitive = true
 }
 
