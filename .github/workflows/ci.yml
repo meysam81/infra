@@ -81,11 +81,12 @@ jobs:
       - name: Run Trivy vulnerability scanner in fs mode
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: "fs"
-          scan-ref: "."
+          format: template
+          output: trivy-results.sarif
+          scan-ref: .
+          scan-type: fs
+          template: '@/contrib/sarif.tpl'
           trivy-config: trivy.yaml
-          format: "sarif"
-          output: "trivy-results.sarif"
       - name: Upload Trivy results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         with:
