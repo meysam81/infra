@@ -7,10 +7,12 @@ on:
         description: "Command to run"
         required: true
         default: "plan"
+        type: string
       comment:
         description: "Whether to comment the PR"
         required: false
         default: "0"
+        type: string
 
 jobs:
   deploy:
