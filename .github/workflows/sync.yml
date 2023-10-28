@@ -1,0 +1,39 @@
+name: sync
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        description: "Command to run"
+        required: true
+        default: "plan"
+      comment:
+        description: "Whether to comment the PR"
+        required: false
+        default: "0"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        run: |
+          aws configure set --profile source aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set --profile source aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set --profile source region ${{ env.AWS_REGION }}
+          aws configure set --profile personal source_profile source
+          aws configure set --profile personal region ${{ env.AWS_REGION }}
+          aws configure set --profile personal role_arn ${{ secrets.AWS_ROLE_ARN }}
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v1
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: ${{ inputs.command }}
+          tg_comment: ${{ inputs.comment }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}

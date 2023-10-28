@@ -13,6 +13,7 @@ env:
   tf_version: "1.5.7"
   tg_version: "0.50.17"
   working_dir: "live"
+  AWS_REGION: "ap-southeast-1"
 
 permissions:
   id-token: write
@@ -35,43 +36,20 @@ jobs:
           tg_command: "hclfmt --terragrunt-check --terragrunt-diff"
 
   plan:
-    runs-on: ubuntu-latest
     needs: hclfmt
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-
-      - name: Plan
-        uses: gruntwork-io/terragrunt-action@v1
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
-          tg_command: "plan"
-          tg_comment: "1"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+    uses: ./.github/workflows/sync.yml
+    with:
+      command: "plan"
+      comment: "1"
+    secrets: inherit
 
   deploy:
-    runs-on: ubuntu-latest
     needs: plan
     if: github.ref == 'refs/heads/main'
-    steps:
-      - name: "Checkout"
-        uses: actions/checkout@v4
-
-      - name: Deploy
-        uses: gruntwork-io/terragrunt-action@v1
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
-          tg_command: "apply"
-        env:
-          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+    uses: ./.github/workflows/sync.yml
+    with:
+      command: "apply"
+    secrets: inherit
 
   trivy:
     runs-on: ubuntu-latest
