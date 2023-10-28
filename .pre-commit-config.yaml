@@ -13,10 +13,6 @@ repos:
         id: terraform_tflint
         args:
           - --args=--module
-      - id: terraform_checkov
-        args:
-          - --args=-d modules/
-          - --args=--skip-check=CKV_TF_1
       - id: terraform_tfsec
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
