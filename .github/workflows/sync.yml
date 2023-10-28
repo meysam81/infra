@@ -17,6 +17,21 @@ on:
         description: "AWS Region"
         required: true
         type: string
+      working-dir:
+        description: "Working directory"
+        required: true
+        type: string
+        default: live
+      tf-version:
+        description: "Terraform version"
+        required: true
+        type: string
+        default: 1.5.7
+      tg-version:
+        description: "Terragrunt version"
+        required: true
+        type: string
+        default: 0.53.0
 
 jobs:
   terragrunt:
@@ -35,9 +50,9 @@ jobs:
       - name: Plan
         uses: gruntwork-io/terragrunt-action@v1
         with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tf_version: ${{ inputs.tf-version }}
+          tg_version: ${{ inputs.tg-version }}
+          tg_dir: ${{ inputs.working-dir }}
           tg_command: ${{ inputs.command }}
           tg_comment: ${{ inputs.comment }}
         env:
