@@ -35,7 +35,7 @@ jobs:
           tg_command: "hclfmt --terragrunt-check --terragrunt-diff"
 
   plan:
-    needs: hclfmt
+    needs: lint
     uses: ./.github/workflows/sync.yml
     with:
       aws-region: ap-southeast-1
