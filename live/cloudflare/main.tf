@@ -139,3 +139,34 @@ resource "cloudflare_record" "dev_blog_txt" {
   value   = var.cloudflare_txt_record
   zone_id = cloudflare_zone.developer_friendly.id
 }
+
+# resource "cloudflare_email_routing_settings" "dev_blog_email" {
+#   zone_id = cloudflare_zone.developer_friendly.id
+#   enabled = "true"
+# }
+
+resource "cloudflare_email_routing_rule" "dev_blog_email_hi" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "Developer Friendly Hi"
+  enabled = true
+
+  matcher {
+    type  = "literal"
+    field = "to"
+    value = var.dev_blog_source_email
+  }
+
+  action {
+    type  = "forward"
+    value = [var.dev_blog_target_email]
+  }
+}
+
+resource "cloudflare_record" "dev_blog_dmarc" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "_dmarc"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = var.cloudflare_dmarc_record
+}

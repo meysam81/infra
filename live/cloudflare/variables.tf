@@ -60,12 +60,16 @@ variable "developer_friendly_domain_name" {
   default = "developer-friendly.com"
 }
 
-variable "substack_ip_0" {
+variable "dev_blog_source_email" {
   type    = string
-  default = "172.64.154.11"
+  default = "hi@developer-friendly.com"
+}
+variable "dev_blog_target_email" {
+  type    = string
+  default = "meysamazad81@gmail.com"
 }
 
-variable "substack_ip_1" {
+variable "cloudflare_dmarc_record" {
   type    = string
-  default = "104.18.33.245"
+  default = "v=DMARC1; p=none; rua=mailto:7791bc4d4a21451faf803795caac660e@dmarc-reports.cloudflare.net;"
 }
