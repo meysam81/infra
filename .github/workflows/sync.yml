@@ -48,7 +48,7 @@ jobs:
           aws configure set --profile personal region ${{ inputs.aws-region }}
           aws configure set --profile personal role_arn ${{ secrets.AWS_ROLE_ARN }}
       - name: Terragrunt ${{ inputs.command }}
-        uses: gruntwork-io/terragrunt-action@v1
+        uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ inputs.tf-version }}
           tg_version: ${{ inputs.tg-version }}
