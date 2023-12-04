@@ -170,3 +170,39 @@ resource "cloudflare_record" "dev_blog_dmarc" {
   type    = "TXT"
   value   = var.cloudflare_dmarc_record
 }
+
+resource "cloudflare_record" "dev_blog_mailing_0" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "mailing"
+  proxied = false
+  ttl     = 60
+  type    = "A"
+  value   = "3.13.222.255"
+}
+
+resource "cloudflare_record" "dev_blog_mailing_1" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "mailing"
+  proxied = false
+  ttl     = 60
+  type    = "A"
+  value   = "3.13.246.91"
+}
+
+resource "cloudflare_record" "dev_blog_mailing_2" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "mailing"
+  proxied = false
+  ttl     = 60
+  type    = "A"
+  value   = "3.130.60.26"
+}
+
+resource "cloudflare_record" "dev_blog_substack" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "@"
+  proxied = false
+  ttl     = 60
+  type    = "CNAME"
+  value   = "target.substack-custom-domains.com"
+}
