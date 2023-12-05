@@ -82,3 +82,39 @@ jobs:
         with:
           name: trivy-results
           path: trivy-results.sarif
+
+  site-edge:
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - name: Set up cache-id
+        run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - name: Cache statics
+        uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - name: Install dependencies
+        run: |
+          pip install -U pip -r requirements.txt
+      - name: Configure git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Build the doc
+        run: |
+          mkdocs build --verbose --clean --strict
+      - if: github.ref == 'refs/heads/main'
+        name: Deploy the doc
+        run: |
+          mike deploy --push --update-aliases edge latest
