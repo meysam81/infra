@@ -131,20 +131,6 @@ resource "cloudflare_record" "dev_blog_mailserver_2" {
   zone_id  = cloudflare_zone.developer_friendly.id
 }
 
-resource "cloudflare_record" "dev_blog_txt" {
-  name    = var.developer_friendly_domain_name
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = var.cloudflare_txt_record
-  zone_id = cloudflare_zone.developer_friendly.id
-}
-
-# resource "cloudflare_email_routing_settings" "dev_blog_email" {
-#   zone_id = cloudflare_zone.developer_friendly.id
-#   enabled = "true"
-# }
-
 resource "cloudflare_email_routing_rule" "dev_blog_email_hi" {
   zone_id = cloudflare_zone.developer_friendly.id
   name    = "Developer Friendly Hi"
