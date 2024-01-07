@@ -46,7 +46,7 @@ jobs:
       command: "plan"
       comment: "1"
       working-dir: ${{ matrix.directory }}
-      secrets: inherit
+    secrets: inherit
 
   deploy:
     needs: plan

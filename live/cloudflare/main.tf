@@ -101,6 +101,15 @@ resource "cloudflare_zone" "developer_friendly" {
   zone       = var.developer_friendly_domain_name
 }
 
+resource "cloudflare_record" "dev_blog_txt" {
+  name    = var.developer_friendly_domain_name
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = var.cloudflare_txt_record
+  zone_id = cloudflare_zone.developer_friendly.id
+}
+
 resource "cloudflare_record" "dev_blog_mailserver_0" {
   name     = var.developer_friendly_domain_name
   priority = 10
