@@ -26,7 +26,6 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-
       - name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
         with:
@@ -37,20 +36,30 @@ jobs:
 
   plan:
     needs: lint
+    strategy:
+      matrix:
+        directory:
+          - live/cloudflare
     uses: ./.github/workflows/sync.yml
     with:
       aws-region: ap-southeast-1
       command: "plan"
       comment: "1"
-    secrets: inherit
+      working-dir: ${{ matrix.directory }}
+      secrets: inherit
 
   deploy:
     needs: plan
+    strategy:
+      matrix:
+        directory:
+          - live/cloudflare
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/sync.yml
     with:
       aws-region: ap-southeast-1
       command: "apply"
+      working-dir: ${{ matrix.directory }}
     secrets: inherit
 
   trivy:

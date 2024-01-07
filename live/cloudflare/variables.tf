@@ -60,15 +60,6 @@ variable "developer_friendly_domain_name" {
   default = "developer-friendly.com"
 }
 
-variable "dev_blog_source_email" {
-  type    = string
-  default = "hi@developer-friendly.com"
-}
-variable "dev_blog_target_email" {
-  type    = string
-  default = "meysamazad81@gmail.com"
-}
-
 variable "cloudflare_dmarc_record" {
   type    = string
   default = "v=DMARC1; p=none; rua=mailto:7791bc4d4a21451faf803795caac660e@dmarc-reports.cloudflare.net;"
