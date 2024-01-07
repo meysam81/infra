@@ -229,9 +229,9 @@ resource "cloudflare_record" "maileroo_dmarc_record" {
 
 resource "cloudflare_record" "google_search_console" {
   zone_id = cloudflare_zone.developer_friendly.id
-  name    = "@"
+  name    = "google-site-verification"
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "google-site-verification=II0pZhJHA4p7hBDBQFrDALusl7XsRM1C0KU0hsqnGh0"
+  value   = "II0pZhJHA4p7hBDBQFrDALusl7XsRM1C0KU0hsqnGh0"
 }
