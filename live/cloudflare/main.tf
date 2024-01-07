@@ -171,33 +171,6 @@ resource "cloudflare_record" "dev_blog_dmarc" {
   value   = var.cloudflare_dmarc_record
 }
 
-resource "cloudflare_record" "dev_blog_mailing_0" {
-  zone_id = cloudflare_zone.developer_friendly.id
-  name    = "mailing"
-  proxied = false
-  ttl     = 60
-  type    = "A"
-  value   = "3.13.222.255"
-}
-
-resource "cloudflare_record" "dev_blog_mailing_1" {
-  zone_id = cloudflare_zone.developer_friendly.id
-  name    = "mailing"
-  proxied = false
-  ttl     = 60
-  type    = "A"
-  value   = "3.13.246.91"
-}
-
-resource "cloudflare_record" "dev_blog_mailing_2" {
-  zone_id = cloudflare_zone.developer_friendly.id
-  name    = "mailing"
-  proxied = false
-  ttl     = 60
-  type    = "A"
-  value   = "3.130.60.26"
-}
-
 resource "cloudflare_record" "dev_blog_substack" {
   zone_id = cloudflare_zone.developer_friendly.id
   name    = "@"
@@ -205,4 +178,60 @@ resource "cloudflare_record" "dev_blog_substack" {
   ttl     = 60
   type    = "CNAME"
   value   = "target.substack-custom-domains.com"
+}
+
+resource "cloudflare_record" "maileroo_spf_record" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "mailing"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = var.maileroo_spf_record
+}
+
+resource "cloudflare_record" "maileroo_dkim_record" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "mta._domainkey.mailing"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = var.maileroo_dkim_record
+}
+
+resource "cloudflare_record" "maileroo_mx_0" {
+  zone_id  = cloudflare_zone.developer_friendly.id
+  name     = "mailing"
+  proxied  = false
+  priority = 10
+  ttl      = 1
+  type     = "MX"
+  value    = "mx1.maileroo.com"
+}
+
+resource "cloudflare_record" "maileroo_mx_1" {
+  zone_id  = cloudflare_zone.developer_friendly.id
+  name     = "mailing"
+  proxied  = false
+  priority = 20
+  ttl      = 1
+  type     = "MX"
+  value    = "mx2.maileroo.com"
+}
+
+resource "cloudflare_record" "maileroo_dmarc_record" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "_dmarc.mailing"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = var.maileroo_dmarc_record
+}
+
+resource "cloudflare_record" "google_search_console" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "google-site-verification=II0pZhJHA4p7hBDBQFrDALusl7XsRM1C0KU0hsqnGh0"
 }

@@ -73,3 +73,18 @@ variable "cloudflare_dmarc_record" {
   type    = string
   default = "v=DMARC1; p=none; rua=mailto:7791bc4d4a21451faf803795caac660e@dmarc-reports.cloudflare.net;"
 }
+
+variable "maileroo_spf_record" {
+  type    = string
+  default = "v=spf1 include:_spf.maileroo.com ~all"
+}
+
+variable "maileroo_dkim_record" {
+  type    = string
+  default = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0Ws0CRgW34qcbpBAw+7XU8QFdcwSYnnWbqXAuXfpWsr5+84rTonzumQl3uPFEoX12qTGL6v2sW8oLOSVoWmDP1nLxFcRPteQUcKfE/yaqjiXlWa5pAmfbd/d3cW4uyn8WEddCOhEQLG/pEOYfa8gQnap8433la9iqMPPYtQYEdkmzfAM+To6dEgh89VLhsOvtz2FoMTmtNEPwH/QS8fXNRPWtTqZ6cFQSY3DVLwgvxXN943yxzPKojzJT2SUwl9GVg3rne7rC1WmHMjJjSouZKAPHYbzBAYY0p+wq8fTDGpDRKiZi6faMsB6drNuMJrYL8J2FWmZJx2hFEfoUgQv7QIDAQAB"
+}
+
+variable "maileroo_dmarc_record" {
+  type    = string
+  default = "v=DMARC1; p=reject;"
+}
