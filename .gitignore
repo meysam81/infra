@@ -56,3 +56,4 @@ backend.tf
 tfplan
 
 .pre-commit-trivy-cache
+provider*.tf

@@ -4,12 +4,6 @@ variable "domain_name" {
   default     = "meysam.io"
 }
 
-variable "cloudflare_api_token" {
-  type      = string
-  default   = ""
-  sensitive = true
-}
-
 variable "account_name" {
   type    = string
   default = "Meysam"

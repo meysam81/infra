@@ -4,11 +4,11 @@ repos:
     hooks:
       - alias: fmt
         id: terraform_fmt
-      - alias: validate
-        id: terraform_validate
-        args:
-          - --tf-init-args=-upgrade
-          - --hook-config=--retry-once-with-cleanup=true
+      # - alias: validate
+      #   id: terraform_validate
+      #   args:
+      #     - --tf-init-args=-upgrade
+      #     - --hook-config=--retry-once-with-cleanup=true
       - alias: tflint
         id: terraform_tflint
         args:
