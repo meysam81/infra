@@ -89,6 +89,15 @@ resource "cloudflare_record" "cloudflare_txt" {
   zone_id = cloudflare_zone.root.id
 }
 
+resource "cloudflare_record" "hashnode" {
+  name    = "h"
+  proxied = false
+  ttl     = 60
+  type    = "CNAME"
+  value   = "hashnode.network"
+  zone_id = cloudflare_zone.root.id
+}
+
 ####################
 # developer-friendly.com
 ####################
@@ -205,11 +214,20 @@ resource "cloudflare_record" "maileroo_dmarc_record" {
   value   = var.maileroo_dmarc_record
 }
 
-resource "cloudflare_record" "google_search_console" {
+resource "cloudflare_record" "google_site_verification" {
   zone_id = cloudflare_zone.developer_friendly.id
-  name    = "google-site-verification"
+  name    = "hyagyfbqrigp"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  value   = "gv-b6lgjkduelyu3e.dv.googlehosted.com"
+}
+
+resource "cloudflare_record" "github_challenge" {
+  zone_id = cloudflare_zone.developer_friendly.id
+  name    = "_github-challenge-developer-friendly-org"
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "II0pZhJHA4p7hBDBQFrDALusl7XsRM1C0KU0hsqnGh0"
+  value   = "ebb1b887a0"
 }
