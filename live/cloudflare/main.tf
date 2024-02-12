@@ -98,6 +98,15 @@ resource "cloudflare_record" "hashnode" {
   zone_id = cloudflare_zone.root.id
 }
 
+resource "cloudflare_record" "github_blog" {
+  name    = "tech"
+  proxied = false
+  ttl     = 600
+  type    = "CNAME"
+  value   = "meysam81.github.io"
+  zone_id = cloudflare_zone.root.id
+}
+
 ####################
 # developer-friendly.com
 ####################
