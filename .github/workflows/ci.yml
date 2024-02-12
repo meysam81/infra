@@ -58,7 +58,7 @@ jobs:
     uses: ./.github/workflows/sync.yml
     with:
       aws-region: ap-southeast-1
-      command: "apply"
+      command: apply -auto-approve
       working-dir: ${{ matrix.directory }}
     secrets: inherit
 
