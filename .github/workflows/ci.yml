@@ -36,7 +36,9 @@ jobs:
 
   plan:
     needs: lint
+    permissions: write-all
     strategy:
+      fail-fast: false
       matrix:
         directory:
           - live/cloudflare
@@ -51,7 +53,9 @@ jobs:
 
   deploy:
     needs: plan
+    permissions: write-all
     strategy:
+      fail-fast: false
       matrix:
         directory:
           - live/cloudflare
