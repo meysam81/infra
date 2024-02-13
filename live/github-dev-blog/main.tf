@@ -5,7 +5,7 @@ resource "gpg_private_key" "this" {
   rsa_bits   = var.gpg_key_rsa_bits
 }
 
-resource "github_user_gpg_key" "example" {
+resource "github_user_gpg_key" "this" {
   provider = github.individual
 
   armored_public_key = gpg_private_key.this.public_key
