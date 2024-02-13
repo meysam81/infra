@@ -4,7 +4,7 @@ terraform {
   required_providers {
     github = {
       source                = "integrations/github"
-      version               = "~> 6"
+      version               = "6.0.0-rc2"
       configuration_aliases = [github.individual]
     }
 
