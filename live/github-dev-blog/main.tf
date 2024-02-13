@@ -15,7 +15,7 @@ resource "github_actions_secret" "this" {
   provider = github.individual
 
   for_each = {
-    GPG_KEY_ID      = gpg_private_key.this.key_id
+    GPG_KEY_ID      = gpg_private_key.this.id
     GPG_PRIVATE_KEY = gpg_private_key.this.private_key
   }
 
