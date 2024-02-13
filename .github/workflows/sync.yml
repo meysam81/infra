@@ -60,7 +60,7 @@ jobs:
           tg_command: ${{ inputs.command }}
           tg_comment: ${{ inputs.comment }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_gpg_key_passphrase: ${{ secrets.GPG_KEY_PASSPHRASE }}
