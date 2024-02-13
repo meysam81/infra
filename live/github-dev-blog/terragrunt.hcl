@@ -9,4 +9,6 @@ include "github" {
 inputs = {
   gpg_key_name  = "Meysam Azad"
   gpg_key_email = "meysam81@@users.noreply.github.com"
+
+  repository = "blog"
 }

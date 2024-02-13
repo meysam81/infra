@@ -29,5 +29,5 @@ variable "gpg_key_rsa_bits" {
 variable "repository" {
   description = "The name of the repository"
   type        = string
-  default     = "blog"
+  nullable    = false
 }
