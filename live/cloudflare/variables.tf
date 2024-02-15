@@ -44,6 +44,11 @@ variable "cloudflare_zone_type" {
   default = "full"
 }
 
+variable "cloudflare_txt_record" {
+  type    = string
+  default = "v=spf1 include:_spf.mx.cloudflare.net ~all"
+}
+
 variable "developer_friendly_domain_name" {
   type    = string
   default = "developer-friendly.com"

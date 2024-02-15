@@ -110,12 +110,12 @@ resource "cloudflare_zone" "developer_friendly" {
   zone       = var.developer_friendly_domain_name
 }
 
-resource "cloudflare_record" "dev_blog_txt_cf" {
+resource "cloudflare_record" "dev_blog_txt" {
   name    = var.developer_friendly_domain_name
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
+  value   = var.cloudflare_txt_record
   zone_id = cloudflare_zone.developer_friendly.id
 }
 
