@@ -1,22 +1,6 @@
-variable "domain_name" {
-  type        = string
-  description = "The domain name to be used for the Cloudflare DNS zone."
-  default     = "meysam.io"
-}
-
 variable "account_name" {
   type    = string
   default = "Meysam"
-}
-
-variable "medium_ip_0" {
-  type    = string
-  default = "162.159.153.4"
-}
-
-variable "medium_ip_1" {
-  type    = string
-  default = "162.159.152.4"
 }
 
 variable "cloudflare_mx_0" {
