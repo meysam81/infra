@@ -56,7 +56,7 @@ resource "cloudflare_record" "meysam_io_txt" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = var.cloudflare_txt_record
+  value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
 }
 
 resource "cloudflare_record" "hashnode" {

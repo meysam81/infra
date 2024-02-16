@@ -35,3 +35,19 @@ resource "cloudflare_record" "aaaa_record" {
   type    = "AAAA"
   value   = each.key
 }
+
+resource "cloudflare_record" "dev_blog_convertkit" {
+  for_each = toset([
+    "3.13.222.255",
+    "3.13.246.91",
+    "3.130.60.26",
+  ])
+
+  zone_id = data.cloudflare_zone.dev_blog.id
+
+  name    = "mailing.developer-friendly.blog"
+  proxied = false
+  ttl     = 300
+  type    = "A"
+  value   = each.key
+}
