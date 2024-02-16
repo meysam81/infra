@@ -9,3 +9,7 @@ include "aws" {
 include "cloudflare" {
   path = find_in_parent_folders("provider_cloudflare.hcl")
 }
+
+inputs = {
+  target_email_address = "meysamazad81@gmail.com"
+}

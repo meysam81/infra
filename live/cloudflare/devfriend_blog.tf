@@ -29,6 +29,21 @@ resource "cloudflare_record" "devfriend_blog_txt" {
   value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
 }
 
+resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+  name    = "catch all"
+  enabled = true
+
+  matcher {
+    type = "all"
+  }
+
+  action {
+    type  = "forward"
+    value = [var.target_email_address]
+  }
+}
+
 resource "cloudflare_record" "a_record" {
   for_each = toset([
     "185.199.108.153",

@@ -39,6 +39,21 @@ resource "cloudflare_record" "devfriend_com_dmarc" {
   value   = "v=DMARC1; p=none; rua=mailto:7791bc4d4a21451faf803795caac660e@dmarc-reports.cloudflare.net;"
 }
 
+resource "cloudflare_email_routing_catch_all" "devfriend_com_email_catch_all" {
+  zone_id = data.cloudflare_zone.devfriend_com.id
+  name    = "catch all"
+  enabled = true
+
+  matcher {
+    type = "all"
+  }
+
+  action {
+    type  = "forward"
+    value = [var.target_email_address]
+  }
+}
+
 resource "cloudflare_record" "devfriend_com_substack" {
   zone_id = data.cloudflare_zone.devfriend_com.id
 

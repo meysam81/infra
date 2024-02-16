@@ -2,6 +2,21 @@ data "cloudflare_zone" "meysam_io" {
   name = "meysam.io"
 }
 
+resource "cloudflare_email_routing_catch_all" "meysam_io_email_catch_all" {
+  zone_id = data.cloudflare_zone.meysam_io.id
+  name    = "catch all"
+  enabled = true
+
+  matcher {
+    type = "all"
+  }
+
+  action {
+    type  = "forward"
+    value = [var.target_email_address]
+  }
+}
+
 resource "cloudflare_record" "medium" {
   for_each = toset([
     "162.159.152.4",
