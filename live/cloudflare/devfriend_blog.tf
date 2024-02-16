@@ -51,3 +51,31 @@ resource "cloudflare_record" "dev_blog_convertkit" {
   type    = "A"
   value   = each.key
 }
+
+resource "cloudflare_record" "dev_blog_convertkit_delivery" {
+  for_each = [
+    {
+      name = "ckespa",
+      key  = "spf.dm-0m76g26y.sg6.convertkit.com.",
+      type = "CNAME",
+    },
+    {
+      name = "cka._domainkey",
+      key  = "dkim.dm-0m76g26y.sg6.convertkit.com.",
+      type = "CNAME",
+    },
+    {
+      name = "_dmarc",
+      key  = "v=DMARC1; p=none;",
+      type = "TXT",
+    },
+  ]
+
+  zone_id = data.cloudflare_zone.dev_blog.id
+
+  name    = each.value.name
+  proxied = false
+  ttl     = 300
+  type    = each.value.type
+  value   = each.value.key
+}
