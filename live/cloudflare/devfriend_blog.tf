@@ -1,5 +1,32 @@
-data "cloudflare_zone" "dev_blog" {
+data "cloudflare_zone" "devfriend_blog" {
   name = "developer-friendly.blog"
+}
+
+resource "cloudflare_record" "devfriend_blog_mailserver" {
+  for_each = {
+    "route1.mx.cloudflare.net" = 28,
+    "route2.mx.cloudflare.net" = 31,
+    "route3.mx.cloudflare.net" = 9,
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name     = "developer-friendly.blog"
+  priority = each.value
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  value    = each.key
+}
+
+resource "cloudflare_record" "devfriend_blog_txt" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "developer-friendly.blog"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
 }
 
 resource "cloudflare_record" "a_record" {
@@ -10,7 +37,7 @@ resource "cloudflare_record" "a_record" {
     "185.199.111.153",
   ])
 
-  zone_id = data.cloudflare_zone.dev_blog.id
+  zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
   proxied = false
@@ -27,7 +54,7 @@ resource "cloudflare_record" "aaaa_record" {
     "2606:50c0:8003::153",
   ])
 
-  zone_id = data.cloudflare_zone.dev_blog.id
+  zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
   proxied = false
@@ -36,14 +63,14 @@ resource "cloudflare_record" "aaaa_record" {
   value   = each.key
 }
 
-resource "cloudflare_record" "dev_blog_convertkit" {
+resource "cloudflare_record" "devfriend_blog_convertkit" {
   for_each = toset([
     "3.13.222.255",
     "3.13.246.91",
     "3.130.60.26",
   ])
 
-  zone_id = data.cloudflare_zone.dev_blog.id
+  zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "mailing.developer-friendly.blog"
   proxied = false
@@ -52,28 +79,25 @@ resource "cloudflare_record" "dev_blog_convertkit" {
   value   = each.key
 }
 
-resource "cloudflare_record" "dev_blog_convertkit_delivery" {
-  for_each = [
-    {
-      name = "ckespa",
+resource "cloudflare_record" "devfriend_blog_convertkit_delivery" {
+  for_each = {
+    "ckespa" = {
       key  = "spf.dm-0m76g26y.sg6.convertkit.com.",
       type = "CNAME",
     },
-    {
-      name = "cka._domainkey",
+    "cka._domainkey" = {
       key  = "dkim.dm-0m76g26y.sg6.convertkit.com.",
       type = "CNAME",
     },
-    {
-      name = "_dmarc",
+    "_dmarc" = {
       key  = "v=DMARC1; p=none;",
       type = "TXT",
     },
-  ]
+  }
 
-  zone_id = data.cloudflare_zone.dev_blog.id
+  zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = each.value.name
+  name    = each.key
   proxied = false
   ttl     = 300
   type    = each.value.type
