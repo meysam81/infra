@@ -118,3 +118,13 @@ resource "cloudflare_record" "devfriend_blog_convertkit_delivery" {
   type    = each.value.type
   value   = each.value.key
 }
+
+resource "cloudflare_record" "devfriend_blog_google_site_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "developer-friendly.blog"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
+}
