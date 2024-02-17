@@ -128,3 +128,28 @@ resource "cloudflare_record" "devfriend_blog_google_site_verification" {
   type    = "TXT"
   value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
 }
+
+resource "cloudflare_record" "devfriend_blog_mailchimp" {
+  for_each = {
+    "k2._domainkey" = "dkim2.mcsv.net",
+    "k3._domainkey" = "dkim3.mcsv.net",
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = each.key
+  proxied = false
+  ttl     = 300
+  type    = "CNAME"
+  value   = each.value
+}
+
+resource "cloudflare_record" "devfriend_blog_mailchimp_dmarc" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "_dmarc"
+  proxied = false
+  ttl     = 300
+  type    = "TXT"
+  value   = "v=DMARC1; p=none;"
+}
