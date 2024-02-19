@@ -88,7 +88,7 @@ resource "cloudflare_record" "devfriend_com_www" {
   zone_id = data.cloudflare_zone.devfriend_com.id
 
   name    = "www"
-  proxied = true
+  proxied = false
   ttl     = 3600
   type    = "CNAME"
   value   = "developer-friendly.com"
