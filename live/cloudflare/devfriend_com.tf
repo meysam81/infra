@@ -83,3 +83,13 @@ resource "cloudflare_record" "devfriend_com_github_challenge" {
   type    = "TXT"
   value   = "ebb1b887a0"
 }
+
+resource "cloudflare_record" "devfriend_com_www" {
+  zone_id = data.cloudflare_zone.devfriend_com.id
+
+  name    = "www"
+  proxied = true
+  ttl     = 3600
+  type    = "CNAME"
+  value   = "developer-friendly.com"
+}

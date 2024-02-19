@@ -56,7 +56,7 @@ resource "cloudflare_record" "a_record" {
 
   name    = "developer-friendly.blog"
   proxied = false
-  ttl     = 300
+  ttl     = 3600
   type    = "A"
   value   = each.key
 }
@@ -73,50 +73,9 @@ resource "cloudflare_record" "aaaa_record" {
 
   name    = "developer-friendly.blog"
   proxied = false
-  ttl     = 300
+  ttl     = 3600
   type    = "AAAA"
   value   = each.key
-}
-
-resource "cloudflare_record" "devfriend_blog_convertkit" {
-  for_each = toset([
-    "3.13.222.255",
-    "3.13.246.91",
-    "3.130.60.26",
-  ])
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "mailing.developer-friendly.blog"
-  proxied = false
-  ttl     = 300
-  type    = "A"
-  value   = each.key
-}
-
-resource "cloudflare_record" "devfriend_blog_convertkit_delivery" {
-  for_each = {
-    "ckespa" = {
-      key  = "spf.dm-0m76g26y.sg6.convertkit.com.",
-      type = "CNAME",
-    },
-    "cka._domainkey" = {
-      key  = "dkim.dm-0m76g26y.sg6.convertkit.com.",
-      type = "CNAME",
-    },
-    "_dmarc" = {
-      key  = "v=DMARC1; p=none;",
-      type = "TXT",
-    },
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = each.key
-  proxied = false
-  ttl     = 300
-  type    = each.value.type
-  value   = each.value.key
 }
 
 resource "cloudflare_record" "devfriend_blog_google_site_verification" {
@@ -129,27 +88,12 @@ resource "cloudflare_record" "devfriend_blog_google_site_verification" {
   value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
 }
 
-resource "cloudflare_record" "devfriend_blog_mailchimp" {
-  for_each = {
-    "k2._domainkey" = "dkim2.mcsv.net",
-    "k3._domainkey" = "dkim3.mcsv.net",
-  }
-
+resource "cloudflare_record" "devfriend_blog_www" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = each.key
-  proxied = false
-  ttl     = 300
+  name    = "www"
+  proxied = true
+  ttl     = 3600
   type    = "CNAME"
-  value   = each.value
-}
-
-resource "cloudflare_record" "devfriend_blog_mailchimp_dmarc" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "_dmarc"
-  proxied = false
-  ttl     = 300
-  type    = "TXT"
-  value   = "v=DMARC1; p=none;"
+  value   = "developer-friendly.blog"
 }
