@@ -2,6 +2,32 @@ data "cloudflare_zone" "meysam_io" {
   name = "meysam.io"
 }
 
+data "cloudflare_accounts" "meysam" {
+  name = "Meysam"
+}
+
+resource "cloudflare_email_routing_address" "licenseware" {
+  account_id = data.cloudflare_accounts.meysam.accounts[0].id
+  email      = "meysam@licenseware.io"
+}
+
+resource "cloudflare_email_routing_rule" "lwarebot" {
+  zone_id = data.cloudflare_zone.meysam_io.id
+  name    = "lwarebot"
+  enabled = true
+
+  matcher {
+    type  = "literal"
+    field = "to"
+    value = "lwarebot@meysam.io"
+  }
+
+  action {
+    type  = "forward"
+    value = ["meysam@licenseware.io"]
+  }
+}
+
 resource "cloudflare_email_routing_catch_all" "meysam_io_email_catch_all" {
   zone_id = data.cloudflare_zone.meysam_io.id
   name    = "catch all"
