@@ -8,9 +8,11 @@ resource "gpg_private_key" "this" {
 }
 
 resource "github_user_gpg_key" "this" {
+  for_each = var.gpg_key_emails
+
   provider = github.individual
 
-  armored_public_key = gpg_private_key.this.armored_public_key
+  armored_public_key = gpg_private_key.this[each.value].armored_public_key
 }
 
 resource "aws_ssm_parameter" "this" {
