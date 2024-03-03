@@ -14,6 +14,13 @@ env:
   tf_version: "1.5.7"
   tg_version: "0.53.0"
   working_dir: "live"
+  INPUT_PRE_EXEC_1: |
+    aws configure --profile source-profile set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+    aws configure --profile source-profile set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+    aws configure --profile source-profile set region ap-southeast-1
+    aws configure --profile personal set role_arn "${{ secrets.AWS_ROLE_ARN }}"
+    aws configure --profile personal set source_profile source-profile
+    aws configure --profile personal set region ap-southeast-1
 
 permissions:
   id-token: write
