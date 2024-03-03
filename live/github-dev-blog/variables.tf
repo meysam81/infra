@@ -1,13 +1,7 @@
-variable "gpg_key_name" {
-  description = "The name of the GPG key"
-  type        = string
-  nullable    = false
-}
-
-variable "gpg_key_email" {
-  description = "The email address associated with the GPG key"
-  type        = string
-  nullable    = false
+variable "gpg_key_emails" {
+  type        = map(string)
+  description = "A key value pair of email to title for each GPG key"
+  default     = {}
 }
 
 variable "gpg_key_passphrase" {
@@ -24,10 +18,4 @@ variable "gpg_key_rsa_bits" {
     condition     = var.gpg_key_rsa_bits >= 2048
     error_message = "The RSA key must be at least 2048 bits"
   }
-}
-
-variable "repository" {
-  description = "The name of the repository"
-  type        = string
-  nullable    = false
 }
