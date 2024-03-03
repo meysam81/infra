@@ -10,7 +10,7 @@ resource "gpg_private_key" "this" {
 resource "github_user_gpg_key" "this" {
   provider = github.individual
 
-  armored_public_key = gpg_private_key.this.public_key
+  armored_public_key = gpg_private_key.this.armored_public_key
 }
 
 resource "aws_ssm_parameter" "this" {
