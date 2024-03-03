@@ -8,6 +8,6 @@ include "github" {
 
 inputs = {
   gpg_key_name_email = {
-    "meysam@developer-friendly.blog": "Meysam Azad"
+    "meysam@developer-friendly.blog" : "Meysam Azad"
   }
 }

@@ -12,5 +12,9 @@ terraform {
       source  = "Olivr/gpg"
       version = "~> 0.2"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.23"
+    }
   }
 }
