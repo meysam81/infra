@@ -5,7 +5,7 @@ items:
     kind: HelmRepository
     metadata:
       name: cert-manager
-      namespace: cert-manager
+      namespace: flux-system
     spec:
       interval: 60m
       url: https://charts.jetstack.io
@@ -13,7 +13,7 @@ items:
     kind: HelmRelease
     metadata:
       name: cert-manager
-      namespace: cert-manager
+      namespace: flux-system
     spec:
       chart:
         spec:
