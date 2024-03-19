@@ -1,2 +1,3 @@
 resources:
+  - ./namespaces/gotk-sync.yml
   - ./helm-releases/gotk-sync.yml
