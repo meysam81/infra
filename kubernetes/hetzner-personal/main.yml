@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: source.toolkit.fluxcd.io/v1
+    kind: GitRepository
+    metadata:
+      name: meysam81-infra
+      namespace: flux-system
+    spec:
+      interval: 1m0s
+      ref:
+        branch: main
+      secretRef:
+        name: flux-system
+      url: https://github.com/meysam81/infra.git
+  - apiVersion: kustomize.toolkit.fluxcd.io/v1
+    kind: Kustomization
+    metadata:
+      name: helm-releases
+      namespace: flux-system
+    spec:
+      interval: 10m0s
+      path: ./kubernetes/hetzner-personal
+      prune: true
+      sourceRef:
+        kind: GitRepository
+        name: flux-system

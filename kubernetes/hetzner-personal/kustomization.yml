@@ -1,0 +1,2 @@
+resources:
+  - ./helm-releases/gotk-sync.yml
