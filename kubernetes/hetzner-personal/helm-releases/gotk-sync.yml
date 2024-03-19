@@ -4,7 +4,7 @@ items:
   - apiVersion: source.toolkit.fluxcd.io/v1
     kind: GitRepository
     metadata:
-      name: flux-system
+      name: meysam81-infra
       namespace: flux-system
     spec:
       interval: 1m0s
@@ -16,11 +16,11 @@ items:
   - apiVersion: kustomize.toolkit.fluxcd.io/v1
     kind: Kustomization
     metadata:
-      name: flux-system
+      name: helm-releases
       namespace: flux-system
     spec:
       interval: 10m0s
-      path: ./kubernetes/hetzner-personal
+      path: ./kubernetes/hetzner-personal/helm-releases
       prune: true
       sourceRef:
         kind: GitRepository
