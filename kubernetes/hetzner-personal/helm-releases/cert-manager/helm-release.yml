@@ -33,6 +33,7 @@ items:
         enable: true
         ignoreFailures: true
         timeout: 1m
+      targetNamespace: cert-manager
       timeout: 10m
       upgrade:
         cleanupOnFail: true
