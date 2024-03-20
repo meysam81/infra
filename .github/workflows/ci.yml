@@ -14,24 +14,6 @@ env:
   tf_version: "1.5.7"
   tg_version: "0.53.0"
   working_dir: "live"
-  INPUT_PRE_EXEC_1: |
-    mkdir ~/.aws
-
-    cat << 'EOF' > ~/.aws/credentials
-    [source-profile]
-    aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY_ID }}
-    aws_secret_access_key = ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    EOF
-
-    cat << 'EOF' > ~/.aws/config
-    [profile source-profile]
-    region = ap-southeast-1
-
-    [profile personal]
-    region = ap-southeast-1
-    role_arn = ${{ secrets.AWS_ROLE_ARN }}
-    source_profile = personal
-    EOF
 
 permissions:
   id-token: write
