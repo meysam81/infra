@@ -1,0 +1,4 @@
+hetzner:
+  hosts:
+    hetzner-personal:
+      ansible_host: hetzner-personal

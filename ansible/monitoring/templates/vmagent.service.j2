@@ -1,0 +1,21 @@
+[Unit]
+Description=Victoria Metrics - VMAgent
+Documentation=https://github.com/VictoriaMetrics/VictoriaMetrics
+
+[Service]
+ExecStart=/usr/local/bin/vmagent-prod \
+  -promscrape.config=/etc/victoria-metrics/vmagent.yml \
+  -remoteWrite.url={{ prometheus_remote_write.url }} \
+  -remoteWrite.basicAuth.username={{ prometheus_remote_write.username }} \
+  -remoteWrite.basicAuth.passwordFile=/etc/victoria-metrics/remote-url-password \
+  -influxListenAddr='' \
+  -httpListenAddr='' \
+  -remoteWrite.tmpDataPath=/var/lib/victoria-metrics/remote-write-data
+Restart=always
+RestartSec=5
+User=victoria-metrics
+Group=victoria-metrics
+WorkingDirectory=/var/lib/victoria-metrics
+
+[Install]
+WantedBy=multi-user.target

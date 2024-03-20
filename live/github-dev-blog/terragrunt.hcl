@@ -11,7 +11,7 @@ include "aws" {
 }
 
 inputs = {
-  gpg_key_name_email = {
+  gpg_key_emails = {
     "meysam@developer-friendly.blog" : "Meysam Azad"
   }
 }

@@ -1,0 +1,11 @@
+- name: Include vars
+  ansible.builtin.include_vars:
+    file: vars-{{ ansible_architecture }}.yml
+  tags:
+    - always
+- name: Install node-exporter
+  ansible.builtin.import_tasks: node-exporter.yml
+- name: Install vmagent
+  ansible.builtin.import_tasks: victoria-metrics.yml
+- name: Install promtail
+  ansible.builtin.import_tasks: promtail.yml

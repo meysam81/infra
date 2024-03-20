@@ -1,0 +1,92 @@
+- name: Download vmutils
+  ansible.builtin.get_url:
+    url: "{{ vmutils_url }}"
+    dest: "{{ downloads_dir }}/{{ vmutils_url | basename }}"
+    mode: "0444"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
+  register: vmutils_download
+- name: Extract binaries
+  ansible.builtin.unarchive:
+    src: "{{ vmutils_download.dest }}"
+    dest: "{{ downloads_dir }}"
+    remote_src: true
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
+    extra_opts:
+      - vmagent-prod
+      - vmalert-prod
+      - vmalert-tool-prod
+      - vmauth-prod
+      - vmbackup-prod
+      - vmrestore-prod
+      - vmctl-prod
+- name: Install binaries with the suffix
+  ansible.builtin.copy:
+    src: "{{ downloads_dir }}/{{ item }}"
+    dest: /usr/local/bin/{{ item }}
+    mode: "0555"
+    owner: root
+    group: root
+    remote_src: true
+  loop:
+    - vmagent-prod
+    - vmalert-prod
+    - vmalert-tool-prod
+    - vmauth-prod
+    - vmbackup-prod
+    - vmrestore-prod
+    - vmctl-prod
+- name: Ensure victoria-metrics group exists
+  ansible.builtin.group:
+    name: victoria-metrics
+    state: present
+    system: true
+- name: Ensure victoria-metrics user exists
+  ansible.builtin.user:
+    name: victoria-metrics
+    state: present
+    group: victoria-metrics
+    system: true
+    shell: /bin/false
+    create_home: true
+- name: Ensure victoria-metrics relevant dir exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: victoria-metrics
+    group: victoria-metrics
+    mode: "0755"
+  loop:
+    - /var/lib/victoria-metrics
+    - /var/log/victoria-metrics
+    - /etc/victoria-metrics
+- name: Copy service file
+  ansible.builtin.template:
+    src: vmagent.service.j2
+    dest: /etc/systemd/system/vmagent.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload vmagent service
+- name: Copy config file
+  ansible.builtin.template:
+    src: vmagent.yml.j2
+    dest: /etc/victoria-metrics/vmagent.yml
+    owner: victoria-metrics
+    group: victoria-metrics
+    mode: "0440"
+  notify: Reload vmagent service
+- name: Create remote url password file
+  ansible.builtin.copy:
+    content: "{{ prometheus_remote_write.password }}"
+    dest: /etc/victoria-metrics/remote-url-password
+    owner: victoria-metrics
+    group: victoria-metrics
+    mode: "0440"
+- name: Start vmagent service
+  ansible.builtin.systemd:
+    name: vmagent
+    state: started
+    enabled: true
+    daemon_reload: true

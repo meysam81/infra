@@ -1,0 +1,15 @@
+---
+- name: Install node-exporter
+  ansible.builtin.apt:
+    name: prometheus-node-exporter
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+- name: Update configuration
+  ansible.builtin.template:
+    src: prometheus-node-exporter
+    dest: /etc/default/prometheus-node-exporter
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart node-exporter

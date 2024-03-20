@@ -1,0 +1,8 @@
+- name: Install monitoring on Ubuntu
+  hosts: all
+  gather_facts: true
+  become: true
+  vars_files:
+    - ../vars/grafana-cloud.yml
+  roles:
+    - monitoring

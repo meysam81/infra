@@ -1,0 +1,13 @@
+[Unit]
+Description=Grafana Promtail
+Documentation=https://github.com/grafana/loki
+
+[Service]
+ExecStart=/usr/local/bin/promtail -config.file /etc/promtail/promtail.yml
+Restart=always
+RestartSec=5
+User=promtail
+Group=promtail
+
+[Install]
+WantedBy=multi-user.target
