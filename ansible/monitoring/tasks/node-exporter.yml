@@ -1,15 +1,56 @@
 ---
-- name: Install node-exporter
-  ansible.builtin.apt:
-    name: prometheus-node-exporter
+- name: Download node-exporter
+  ansible.builtin.get_url:
+    url: "{{ node_exporter_url }}"
+    dest: "{{ downloads_dir }}/{{ node_exporter_url | basename }}"
+    mode: "0444"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
+- name: Install node exporter
+  ansible.builtin.unarchive:
+    src: "{{ downloads_dir }}/{{ node_exporter_url | basename }}"
+    dest: /usr/local/bin/
+    remote_src: true
+    mode: "0755"
+    owner: root
+    group: root
+    extra_opts:
+      - --strip-components=1
+      - --wildcards
+      - "**/node_exporter"
+  notify: Restart node-exporter
+- name: Create group node-exporter
+  ansible.builtin.group:
+    name: node-exporter
     state: present
-    update_cache: true
-    cache_valid_time: 3600
-- name: Update configuration
+    system: true
+- name: Create user node-exporter
+  ansible.builtin.user:
+    name: node-exporter
+    group: node-exporter
+    state: present
+    system: true
+    shell: /bin/false
+    home: /etc/node_exporter
+- name: Create service node-exporter
   ansible.builtin.template:
-    src: prometheus-node-exporter
-    dest: /etc/default/prometheus-node-exporter
+    src: node-exporter.service.j2
+    dest: /etc/systemd/system/node-exporter.service
     owner: root
     group: root
     mode: "0644"
   notify: Restart node-exporter
+- name: Copy config node-exporter
+  ansible.builtin.template:
+    src: node-exporter.env.j2
+    dest: /etc/node_exporter/node_exporter.env
+    owner: node-exporter
+    group: node-exporter
+    mode: "0640"
+  notify: Restart node-exporter
+- name: Start the service node-exporter
+  ansible.builtin.systemd:
+    name: node-exporter
+    state: started
+    enabled: true
+    daemon_reload: true

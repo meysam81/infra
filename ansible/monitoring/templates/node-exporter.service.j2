@@ -1,0 +1,14 @@
+[Unit]
+Description=Node Exporter
+After=network.target
+
+[Service]
+User=node-exporter
+Group=node-exporter
+EnvironmentFile=/etc/node_exporter/node_exporter.env
+ExecStart=/usr/local/bin/node_exporter $OPTIONS
+Restart=always
+
+
+[Install]
+WantedBy=multi-user.target

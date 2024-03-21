@@ -14,9 +14,6 @@
     owner: root
     group: root
     remote_src: true
-    creates: /usr/local/bin/promtail
-    extra_opts:
-      - "{{ promtail_source_binary_name }}"
 - name: Install promtail
   ansible.builtin.copy:
     src: "{{ downloads_dir }}/{{ promtail_source_binary_name }}"

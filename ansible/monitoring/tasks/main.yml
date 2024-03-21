@@ -3,6 +3,8 @@
     file: vars-{{ ansible_architecture }}.yml
   tags:
     - always
+- name: Install prerequisites
+  ansible.builtin.import_tasks: prerequisites.yml
 - name: Install node-exporter
   ansible.builtin.import_tasks: node-exporter.yml
 - name: Install vmagent

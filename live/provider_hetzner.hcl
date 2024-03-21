@@ -8,7 +8,7 @@ generate "provider_hetzner" {
       sensitive = true
     }
 
-    provider "hetzner" {
+    provider "hcloud" {
       token = var.hetzner_api_token
     }
   EOF
