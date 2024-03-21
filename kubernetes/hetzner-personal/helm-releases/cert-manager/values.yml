@@ -69,7 +69,7 @@ global:
 
 # Install the cert-manager CRDs, it is recommended to not use Helm to manage
 # the CRDs
-installCRDs: false
+installCRDs: true
 
 # +docs:section=Controller
 
