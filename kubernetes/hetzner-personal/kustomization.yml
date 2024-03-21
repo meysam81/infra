@@ -2,5 +2,5 @@ resources:
   - ./namespaces/gotk-sync.yml
   - ./helm-releases/gotk-sync.yml
   # - ./networking/gotk-sync.yml
-  - ./gateway/gotk-sync.yml
-  - ./applications/gotk-sync.yml
+  # - ./gateway/gotk-sync.yml
+  # - ./applications/gotk-sync.yml
