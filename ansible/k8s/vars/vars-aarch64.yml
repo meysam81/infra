@@ -1,0 +1,2 @@
+fluxcd_url: https://github.com/fluxcd/flux2/releases/download/v2.2.3/flux_2.2.3_linux_arm.tar.gz
+fluxcd_checksum: a8dcf688296aedec3225fb2c183c9e2ce3bda26788d10f9d01ddb7bdb5b55288

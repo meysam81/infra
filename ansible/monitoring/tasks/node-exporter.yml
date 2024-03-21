@@ -6,6 +6,7 @@
     mode: "0444"
     owner: "{{ ansible_env.SUDO_USER }}"
     group: "{{ ansible_env.SUDO_USER }}"
+    checksum: "sha256:{{ node_exporter_checksum }}"
 - name: Install node exporter
   ansible.builtin.unarchive:
     src: "{{ downloads_dir }}/{{ node_exporter_url | basename }}"

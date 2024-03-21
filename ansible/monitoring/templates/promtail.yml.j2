@@ -3,7 +3,7 @@ server:
   grpc_listen_port: 0
 
 positions:
-  filename: /tmp/positions.yaml
+  filename: /var/lib/promtail/positions.yaml
 
 clients:
   - url: https://{{ loki_remote_write.username }}:{{ loki_remote_write.password }}@{{ loki_remote_write.host }}/loki/api/v1/push

@@ -11,8 +11,8 @@
   ansible.builtin.unarchive:
     src: "{{ downloads_dir }}/{{ promtail_url | basename }}"
     dest: "{{ downloads_dir }}"
-    owner: root
-    group: root
+    owner: "{{ ansible_env.SUDO_USER }}"
+    group: "{{ ansible_env.SUDO_USER }}"
     remote_src: true
 - name: Install promtail
   ansible.builtin.copy:
@@ -38,13 +38,16 @@
     system: true
     state: present
   notify: Restart promtail
-- name: Create promtail config dir
+- name: Create promtail relevant dir
   ansible.builtin.file:
-    path: /etc/promtail
+    path: "{{ item }}"
     state: directory
     owner: promtail
     group: promtail
     mode: "0755"
+  loop:
+    - /etc/promtail
+    - /var/lib/promtail
 - name: Copy promtail config file
   ansible.builtin.template:
     src: promtail.yml.j2
