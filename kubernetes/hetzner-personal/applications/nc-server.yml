@@ -26,7 +26,7 @@ items:
             app: nc-server
         spec:
           containers:
-            - args: ["nc -l -p 8080 -e cat index.html"]
+            - args: ["nc -lk -p 8080 -e cat index.html"]
               command: ["sh", "-c"]
               image: busybox:1
               name: nc-server
