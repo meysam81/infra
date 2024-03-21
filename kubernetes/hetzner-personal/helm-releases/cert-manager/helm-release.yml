@@ -28,6 +28,7 @@ items:
         createNamespace: true
         remediation:
           retries: 3
+        skipCRDs: false
       interval: 30m
       maxHistory: 10
       releaseName: cert-manager
