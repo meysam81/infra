@@ -3,5 +3,7 @@
   kubernetes.core.k8s:
     definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/meysam81/infra//kubernetes/hetzner-personal/flux-system?timeout=60&ref=main') }}"
     state: present
-    wait: true
-    wait_timeout: 300
+- name: Apply the root manifest
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.url', 'https://raw.githubusercontent.com/meysam81/infra/main/kubernetes/hetzner-personal/main.yml', split_lines=false) | from_yaml }}"
+    state: present

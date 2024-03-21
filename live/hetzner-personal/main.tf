@@ -24,10 +24,7 @@ resource "hcloud_server" "this" {
     network_id = hcloud_network.this.id
   }
 
-  user_data = <<-EOF
-    #include
-    https://gist.github.com/meysam81/01f63f0cecddcf0d8dfaaefc451b8c14/raw/ca418cecec61f52a5a67c736ef6773f092de63db/config.yml
-  EOF
+  user_data = file("${path.module}/cloud-init.yml")
 
   depends_on = [
     hcloud_network_subnet.this
