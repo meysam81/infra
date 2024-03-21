@@ -29,28 +29,28 @@ items:
             - args: ["httpd -f -p 8080 -h /www"]
               command: ["sh", "-c"]
               image: busybox:1
-              name: http-server
               livenessProbe:
+                failureThreshold: 3
                 httpGet:
                   path: /
                   port: http
                 initialDelaySeconds: 1
                 periodSeconds: 10
-                failureThreshold: 3
                 successThreshold: 1
                 timeoutSeconds: 2
-              readinessProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 1
-                periodSeconds: 10
-                failureThreshold: 3
-                successThreshold: 1
-                timeoutSeconds: 2
+              name: http-server
               ports:
                 - containerPort: 8080
                   name: http
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 2
               volumeMounts:
                 - mountPath: /www/index.html
                   name: http-server
