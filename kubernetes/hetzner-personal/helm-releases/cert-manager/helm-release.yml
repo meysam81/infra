@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: List
 items:
@@ -29,11 +30,12 @@ items:
           retries: 3
       interval: 30m
       maxHistory: 10
+      releaseName: cert-manager
+      targetNamespace: cert-manager
       test:
         enable: true
         ignoreFailures: true
         timeout: 1m
-      targetNamespace: cert-manager
       timeout: 10m
       upgrade:
         cleanupOnFail: true
