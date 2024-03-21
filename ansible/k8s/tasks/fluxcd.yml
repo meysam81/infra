@@ -1,7 +1,7 @@
 ---
 - name: Install flux-system bootstrap manifests
   kubernetes.core.k8s:
-    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/meysam81/infra//kubernetes/hetzner-personal/flux-system?timeout=20&ref=main') }}"
+    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/meysam81/infra//kubernetes/hetzner-personal/flux-system?timeout=60&ref=main') }}"
     state: present
     wait: true
-    wait_timeout: 30
+    wait_timeout: 300
