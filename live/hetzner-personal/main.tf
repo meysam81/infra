@@ -26,7 +26,7 @@ resource "hcloud_server" "this" {
 
   user_data = <<-EOF
     #include
-    https://gist.github.com/meysam81/01f63f0cecddcf0d8dfaaefc451b8c14/raw/e1e9c4d7d66221a864de5dc793062a397d495d98/config.yml
+    https://gist.github.com/meysam81/01f63f0cecddcf0d8dfaaefc451b8c14/raw/ca418cecec61f52a5a67c736ef6773f092de63db/config.yml
   EOF
 
   depends_on = [
@@ -46,14 +46,17 @@ resource "hcloud_firewall" "this" {
     description = "Allow ICMP i.e. ping"
   }
 
-  rule {
-    direction = "in"
-    protocol  = "tcp"
-    port      = "22"
-    source_ips = [
-      format("%s/32", data.aws_ssm_parameter.this.value),
-    ]
-    description = "Admin public IP address"
+  dynamic "rule" {
+    for_each = toset([22, 6443])
+    content {
+      direction = "in"
+      protocol  = "tcp"
+      port      = rule.value
+      source_ips = [
+        format("%s/32", data.aws_ssm_parameter.this.value),
+      ]
+      description = "Admin public IP address"
+    }
   }
 }
 
