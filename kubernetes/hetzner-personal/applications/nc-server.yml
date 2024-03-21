@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    data:
+      index.html: |
+        <h1>Hello, World!</h1>
+    kind: ConfigMap
+    metadata:
+      name: nc-server
+      namespace: default
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: nc-server
+      namespace: default
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: nc-server
+      template:
+        metadata:
+          labels:
+            app: nc-server
+        spec:
+          containers:
+            - args: ["-l", "-p", "8080", "-e", "cat", "index.html"]
+              command: ["nc"]
+              image: busybox:1
+              name: nc-server
+              ports:
+                - containerPort: 8080
+                  name: http
+              volumeMounts:
+                - mountPath: /www/
+                  name: nc-server
+                  readOnly: true
+                  subPath: index.html
+              workingDir: /www/
+          volumes:
+            - configMap:
+                name: nc-server
+              name: nc-server
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: nc-server
+      namespace: default
+    spec:
+      ports:
+        - name: http
+          port: 80
+          protocol: TCP
+          targetPort: http
+      selector:
+        app: nc-server
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: nc-server
+      namespace: default
+    spec:
+      parentRefs:
+        - name: cluster-gateway
+          namespace: cert-manager
+      rules:
+        - backendRefs:
+            - name: nc-server
+              port: 80
