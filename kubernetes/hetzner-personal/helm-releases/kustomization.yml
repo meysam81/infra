@@ -14,4 +14,3 @@ configMapGenerator:
 resources:
   - cert-manager/helm-release.yml
   - external-secrets/helm-release.yml
-  - gotk-sync.yml
