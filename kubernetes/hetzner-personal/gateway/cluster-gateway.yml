@@ -6,6 +6,9 @@ metadata:
 spec:
   gatewayClassName: cilium
   listeners:
-    - protocol: HTTP
-      port: 80
+    - allowedRoutes:
+        namespaces:
+          from: All
       name: http
+      port: 80
+      protocol: HTTP
