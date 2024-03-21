@@ -87,3 +87,9 @@ items:
         - backendRefs:
             - name: http-server
               port: 80
+          filters:
+            - type: URLRewrite
+              urlRewrite:
+                path:
+                  replaceFullPath: /
+                  type: ReplaceFullPath
