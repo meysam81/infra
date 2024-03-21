@@ -8,45 +8,63 @@ items:
         <h1>Hello, World!</h1>
     kind: ConfigMap
     metadata:
-      name: nc-server
+      name: http-server
       namespace: default
   - apiVersion: apps/v1
     kind: Deployment
     metadata:
-      name: nc-server
+      name: http-server
       namespace: default
     spec:
       replicas: 1
       selector:
         matchLabels:
-          app: nc-server
+          app: http-server
       template:
         metadata:
           labels:
-            app: nc-server
+            app: http-server
         spec:
           containers:
-            - args: ["nc -lk -p 8080 -e cat index.html"]
+            - args: ["httpd -f -p 8080 -h /www"]
               command: ["sh", "-c"]
               image: busybox:1
-              name: nc-server
+              name: http-server
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 1
+                periodSeconds: 10
+                failureThreshold: 3
+                successThreshold: 1
+                timeoutSeconds: 2
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 1
+                periodSeconds: 10
+                failureThreshold: 3
+                successThreshold: 1
+                timeoutSeconds: 2
               ports:
                 - containerPort: 8080
                   name: http
               volumeMounts:
                 - mountPath: /www/index.html
-                  name: nc-server
+                  name: http-server
                   readOnly: true
                   subPath: index.html
               workingDir: /www/
           volumes:
             - configMap:
-                name: nc-server
-              name: nc-server
+                name: http-server
+              name: http-server
   - apiVersion: v1
     kind: Service
     metadata:
-      name: nc-server
+      name: http-server
       namespace: default
     spec:
       ports:
@@ -55,11 +73,11 @@ items:
           protocol: TCP
           targetPort: http
       selector:
-        app: nc-server
+        app: http-server
   - apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
-      name: nc-server
+      name: http-server
       namespace: default
     spec:
       parentRefs:
@@ -67,5 +85,5 @@ items:
           namespace: cert-manager
       rules:
         - backendRefs:
-            - name: nc-server
+            - name: http-server
               port: 80
