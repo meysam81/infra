@@ -34,7 +34,7 @@ items:
                 - containerPort: 8080
                   name: http
               volumeMounts:
-                - mountPath: /www/
+                - mountPath: /www/index.html
                   name: nc-server
                   readOnly: true
                   subPath: index.html

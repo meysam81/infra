@@ -55,6 +55,14 @@ resource "hcloud_firewall" "this" {
       description = "Admin public IP address"
     }
   }
+
+  rule {
+    direction   = "in"
+    protocol    = "tcp"
+    port        = 80
+    source_ips  = ["0.0.0.0/0"]
+    description = "Allow HTTP from everywhere"
+  }
 }
 
 resource "hcloud_firewall_attachment" "this" {
