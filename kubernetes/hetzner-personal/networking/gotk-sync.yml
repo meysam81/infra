@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: kustomize.toolkit.fluxcd.io/v1
+    kind: Kustomization
+    metadata:
+      name: networking
+      namespace: flux-system
+    spec:
+      interval: 10m0s
+      path: ./kubernetes/hetzner-personal/networking
+      prune: true
+      dependsOn:
+        - name: namespaces
+          namespace: flux-system
+      sourceRef:
+        kind: GitRepository
+        name: flux-system

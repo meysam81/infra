@@ -12,5 +12,6 @@ configMapGenerator:
     namespace: flux-system
 
 resources:
-  - ./cert-manager/helm-release.yml
-  - ./external-secrets/helm-release.yml
+  - cert-manager/helm-release.yml
+  - external-secrets/helm-release.yml
+  - gotk-sync.yml
