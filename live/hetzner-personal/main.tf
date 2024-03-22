@@ -16,7 +16,7 @@ resource "hcloud_network_subnet" "this" {
 
 resource "hcloud_server" "this" {
   name        = "personal"
-  server_type = "cax11"
+  server_type = "cax31" # "cax11" only temporarily until credit runs out :)
   image       = "ubuntu-22.04"
   location    = "nbg1"
 
