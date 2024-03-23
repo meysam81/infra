@@ -1,6 +1,5 @@
 - name: Include vars
-  ansible.builtin.include_vars:
-    file: vars-{{ ansible_architecture }}.yml
+  ansible.builtin.include_vars: vars-{{ ansible_architecture }}.yml
   tags:
     - always
 - name: Install prerequisites
@@ -9,5 +8,11 @@
   ansible.builtin.import_tasks: node-exporter.yml
 - name: Install vmagent
   ansible.builtin.import_tasks: victoria-metrics.yml
+  tags:
+    - vmagent
 - name: Install promtail
   ansible.builtin.import_tasks: promtail.yml
+- name: Install fail2ban exporter
+  ansible.builtin.import_tasks: fail2ban-exporter.yml
+  tags:
+    - fail2ban-exporter

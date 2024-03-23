@@ -28,3 +28,6 @@
             type: wireguard
           operator:
             replicas: 1
+          ipam:
+            operator:
+              clusterPoolIPv4PodCIDRList: 20.0.0.0/8

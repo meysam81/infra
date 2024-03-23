@@ -1,4 +1,6 @@
+---
+fail2ban_exporter_url: https://gitlab.com/hectorjsmith/fail2ban-prometheus-exporter/-/releases/v0.10.1/downloads/fail2ban_exporter_0.10.1_linux_arm64.tar.gz
+node_exporter_checksum: e386c7b53bc130eaf5e74da28efc6b444857b77df8070537be52678aefd34d96
+node_exporter_url: https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
 promtail_url: https://github.com/grafana/loki/releases/download/v2.9.5/promtail-linux-arm64.zip
 vmutils_url: https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v1.99.0/vmutils-linux-arm64-v1.99.0.tar.gz
-node_exporter_url: https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-arm64.tar.gz
-node_exporter_checksum: e386c7b53bc130eaf5e74da28efc6b444857b77df8070537be52678aefd34d96
