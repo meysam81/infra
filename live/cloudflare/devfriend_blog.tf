@@ -97,3 +97,13 @@ resource "cloudflare_record" "devfriend_blog_www" {
   type    = "CNAME"
   value   = "developer-friendly.blog"
 }
+
+resource "cloudflare_record" "github_domain_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "_github-challenge-developer-friendly-org"
+  proxied = false
+  ttl     = 3600
+  type    = "TXT"
+  value   = "06e0a79c66"
+}
