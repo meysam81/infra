@@ -7,3 +7,5 @@ loki_remote_write:
   host: logs-prod-012.grafana.net
   username: 596709
   password: "{{ prometheus_remote_write.password }}"
+
+admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"

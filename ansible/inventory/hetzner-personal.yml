@@ -2,3 +2,4 @@ hetzner:
   hosts:
     hetzner-personal:
       ansible_host: hetzner-personal
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"

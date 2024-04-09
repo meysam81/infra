@@ -1,0 +1,16 @@
+- name: Install monitoring on Ubuntu
+  hosts: hetzner
+  gather_facts: true
+  become: true
+  vars_files:
+    - ./vars.yml
+  roles:
+    - monitoring
+# - name: Bootstrap K8s on Ubuntu
+#   hosts: hetzner
+#   gather_facts: true
+#   become: true
+#   environment:
+#     KUBECONFIG: /home/meysam/.kube/config
+#   roles:
+#     - name: k8s

@@ -1,0 +1,101 @@
+- name: Install common software properties
+  ansible.builtin.apt:
+    name: software-properties-common
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ cache_valid_time }}"
+- name: Add apt repository
+  ansible.builtin.apt_repository:
+    repo: "ppa:vbernat/haproxy-{{ haproxy_version }}"
+    state: present
+- name: Install haproxy {{ haproxy_version }}
+  ansible.builtin.apt:
+    name: haproxy={{ haproxy_version }}.*
+    state: present
+    update_cache: true
+    cache_valid_time: "{{ cache_valid_time }}"
+- name: Allow HTTP and HTTPS traffic
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+  with_items:
+    - "80"
+    - "443"
+  tags:
+    - firewall
+    - never
+- name: Create group haproxy
+  ansible.builtin.group:
+    name: haproxy
+    state: present
+    system: true
+  tags:
+    - users
+- name: Create user haproxy
+  ansible.builtin.user:
+    name: haproxy
+    state: present
+    system: true
+    group: haproxy
+    home: /var/lib/haproxy
+    shell: /usr/sbin/nologin
+  tags:
+    - users
+- name: Create relevant directories for haproxy
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: haproxy
+    group: haproxy
+    mode: "0755"
+  with_items:
+    - /etc/haproxy
+    - /var/lib/haproxy
+    - /run/haproxy
+  tags:
+    - directories
+- name: Generate self-signed certificate to avoid warnings
+  block:
+    - name: Generate private key for haproxy
+      community.crypto.openssl_privatekey:
+        path: /etc/ssl/private/haproxy.pem
+        type: RSA
+        size: 4096
+        mode: "0400"
+      tags:
+        - ssl
+    - name: Generate self-signed certificate
+      community.crypto.x509_certificate:
+        path: /etc/ssl/certs/haproxy.pem
+        privatekey_path: /etc/ssl/private/haproxy.pem
+        owner: root
+        group: root
+        mode: "0644"
+        provider: selfsigned
+      tags:
+        - ssl
+    - name: Merge private key and certificate for haproxy
+      ansible.builtin.copy:
+        content: |
+          {{ lookup('file', '/etc/ssl/private/haproxy.pem') }}
+          {{ lookup('file', '/etc/ssl/certs/haproxy.pem') }}
+        dest: /etc/ssl/certs/haproxy-fullchain.pem
+        owner: haproxy
+        group: haproxy
+        mode: "0400"
+- name: Copy config file
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    owner: haproxy
+    group: haproxy
+    mode: "0644"
+  tags:
+    - config
+  notify: Start the haproxy service
+- name: Start the systemd service
+  ansible.builtin.systemd:
+    name: haproxy
+    state: started
+    enabled: true
+    daemon_reload: true
