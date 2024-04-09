@@ -39,18 +39,6 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-      - name: Configure AWS credentials
-        run: |
-          aws configure set --profile source aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws configure set --profile source aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set --profile source region ${{ inputs.aws-region }}
-          aws configure set --profile personal source_profile source
-          aws configure set --profile personal region ${{ inputs.aws-region }}
-          aws configure set --profile personal role_arn ${{ secrets.AWS_ROLE_ARN }}
-      - name: Check credentials
-        run: |
-          aws sts get-caller-identity --profile source
-          aws sts get-caller-identity --profile personal
       - name: Terragrunt ${{ inputs.command }}
         uses: gruntwork-io/terragrunt-action@v2
         with:
@@ -58,7 +46,7 @@ jobs:
           tg_version: ${{ inputs.tg-version }}
           tg_dir: ${{ inputs.working-dir }}
           tg_command: ${{ inputs.command }}
-          tg_comment: ${{ inputs.comment }}
+          tg_comment: ${{ inputs.comment }} --terragrunt-iam-role ${{ secrets.TERRAGRUNT_IAM_ROLE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           TF_TOKEN_app_terraform_io: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
