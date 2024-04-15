@@ -55,7 +55,7 @@ resource "cloudflare_record" "a_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = false
+  proxied = true
   ttl     = 3600
   type    = "A"
   value   = each.key
@@ -72,7 +72,7 @@ resource "cloudflare_record" "aaaa_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = false
+  proxied = true
   ttl     = 3600
   type    = "AAAA"
   value   = each.key
@@ -92,7 +92,7 @@ resource "cloudflare_record" "devfriend_blog_www" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "www"
-  proxied = false
+  proxied = true
   ttl     = 3600
   type    = "CNAME"
   value   = "developer-friendly.blog"
