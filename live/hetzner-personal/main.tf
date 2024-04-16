@@ -2,6 +2,10 @@ data "aws_ssm_parameter" "this" {
   name = "/meysam/public-ip-address"
 }
 
+data "cloudflare_zone" "devfriend_blog" {
+  name = "developer-friendly.blog"
+}
+
 resource "hcloud_network" "this" {
   name     = "personal"
   ip_range = "10.0.0.0/8"
@@ -44,7 +48,21 @@ resource "hcloud_firewall" "this" {
   }
 
   dynamic "rule" {
-    for_each = toset([22, 6443])
+    for_each = toset([80, 443])
+    content {
+      direction = "in"
+      protocol  = "tcp"
+      port      = rule.value
+      source_ips = [
+        "0.0.0.0/0",
+        "::/0"
+      ]
+      description = "Allow HTTP and HTTPS from everywhere"
+    }
+  }
+
+  dynamic "rule" {
+    for_each = toset([22])
     content {
       direction = "in"
       protocol  = "tcp"
@@ -63,9 +81,36 @@ resource "hcloud_firewall" "this" {
     source_ips  = ["0.0.0.0/0"]
     description = "Allow HTTP from everywhere"
   }
+
+  depends_on = [
+    hcloud_server.this,
+  ]
 }
 
 resource "hcloud_firewall_attachment" "this" {
   firewall_id = hcloud_firewall.this.id
   server_ids  = [hcloud_server.this.id]
+}
+
+resource "random_uuid" "this" {}
+
+resource "cloudflare_record" "this" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = format("%s.developer-friendly.blog", random_uuid.this.id)
+  proxied = false
+  ttl     = 60
+  type    = "A"
+  value   = hcloud_server.this.ipv4_address
+}
+
+
+resource "cloudflare_record" "this_v6" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = format("%s.developer-friendly.blog", random_uuid.this.id)
+  proxied = false
+  ttl     = 60
+  type    = "AAAA"
+  value   = hcloud_server.this.ipv6_address
 }
