@@ -180,3 +180,9 @@ resource "cloudflare_record" "this_v6" {
   type    = "AAAA"
   value   = hcloud_primary_ip.this["ipv6"].ip_address
 }
+
+resource "aws_ssm_parameter" "this" {
+  name  = "/hetzner-personal/domain-name"
+  type  = "String"
+  value = format("%s.developer-friendly.blog", random_uuid.this.id)
+}
