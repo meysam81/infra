@@ -9,7 +9,7 @@ resources:
   - root-password.yml
   - password.yml
   - secrets.yml
-  # - release.yml
+  - release.yml
 
 configurations:
   - kustomizeconfig.yml
