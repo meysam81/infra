@@ -38,3 +38,15 @@
     - ./vars.yml
   roles:
     - k8s-oidc
+- name: Configure cluster secret store
+  hosts: hetzner
+  gather_facts: false
+  become: true
+  tags:
+    - css
+    - never
+  environment:
+    AWS_PROFILE: personal
+    KUBECONFIG: /home/meysam/.kube/config
+  roles:
+    - cluster-secret-store
