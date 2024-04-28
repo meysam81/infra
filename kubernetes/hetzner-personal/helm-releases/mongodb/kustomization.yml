@@ -1,17 +1,16 @@
 configMapGenerator:
-  - name: mongodb-values
-    files:
-      - values.yaml=./values.yml
+  - name: mongodb-config
+    envs:
+      - configs.env
 
 resources:
   - namespace.yml
-  - repository.yml
-  - root-password.yml
   - password.yml
   - secrets.yml
-  - release.yml
+  - statefulset.yml
 
-configurations:
-  - kustomizeconfig.yml
+images:
+  - name: mongo
+    newTag: "7"
 
 namespace: mongodb
