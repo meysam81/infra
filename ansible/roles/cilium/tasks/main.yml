@@ -1,4 +1,23 @@
 ---
+- name: Install Kubernetes library
+  ansible.builtin.pip:
+    name: kubernetes<30
+    state: present
+- name: Install helm binary
+  block:
+    - name: Download helm install script
+      ansible.builtin.get_url:
+        url: https://git.io/get_helm.sh
+        dest: /tmp/get_helm.sh
+        mode: "0755"
+        owner: "{{ ansible_env.SUDO_USER }}"
+        group: "{{ ansible_env.SUDO_USER }}"
+    - name: Run helm install script
+      ansible.builtin.shell:
+        cmd: /tmp/get_helm.sh
+        creates: /usr/local/bin/helm
+      environment:
+        DESIRED_VERSION: "{{ helm_version }}"
 - name: Install Kubernetes gateway CRDs
   kubernetes.core.k8s:
     src: "{{ item }}"

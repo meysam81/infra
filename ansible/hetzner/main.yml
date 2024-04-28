@@ -1,4 +1,4 @@
-- name: Install monitoring on Ubuntu
+- name: Configure monitoring
   hosts: hetzner
   gather_facts: true
   become: true
@@ -6,13 +6,35 @@
     - ./vars.yml
   roles:
     - monitoring
-- name: Bootstrap K8s on Ubuntu
+- name: Configure K8s networking
   hosts: hetzner
   gather_facts: true
   become: true
   environment:
     KUBECONFIG: /home/meysam/.kube/config
   tags:
-    - k8s
+    - network
   roles:
-    - name: k8s
+    - cilium
+- name: Configure K8s gitops
+  hosts: hetzner
+  gather_facts: true
+  become: true
+  environment:
+    KUBECONFIG: /home/meysam/.kube/config
+  tags:
+    - gitops
+  roles:
+    - fluxcd
+- name: Configure K8s OIDC
+  hosts: hetzner
+  gather_facts: true
+  become: true
+  tags:
+    - oidc
+  vars:
+    kubeconfig: /home/meysam/.kube/config
+  vars_files:
+    - ./vars.yml
+  roles:
+    - k8s-oidc

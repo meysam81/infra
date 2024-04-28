@@ -45,6 +45,7 @@ resource "hcloud_server" "this" {
           - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0Ahbpsia1LsujDaUDD/JpTGWcykQfFpKjGzQzbB0zqL8hDPMg/VWZeJO0Pa0+x4GvYDeYREYIESblj7stEOR/VYRnje0O7NVmnCBEkoKvuqTyLODoY7FMqpd5jrw38SdZ7tiDGHOvpLVAv1xPklaLpId38gnS7ibGLUgbindY6x7zH5+C5+2cKeS0h5T572y1C71+g17N34QBYch271zf35EfAb/ocVNFLd27zyHX2mhLdvDfzIm6NK0V4kLmXkGZCxaHl3mZvzZ464Pdkwa+gFXY4FGn6InCMVsvH/qpDLfFxz47sBF5lBGlBbbYCPeOLjpGjRYnZwXfI40z84m5E3LjjQW95S3FWTgkUQXVpZSgAwKtx0oVvipRy7o8gOV+iB46btK1xifQ1I4/JbL1phuAng9lppNir3e5LfA9afJvDGiYmfoD5usiIPHRBB44Si+wXQz5XCeILfHDeq/LVohz3dKd7q2hl0IxxUd3Vfq6xA3eVdaEu3yW5X0DAR8TIpr+p8ht8UyM/PCTfAgCRWEPdJk+OJESz7b+V0fdgMafZ0hZVJPzBLrylm13rYQA4ux1896sl7Sd1s0C7ahyXi6IyY5vz6kyUdwGv+0LTgLhooBkPG75sWJ7JEQLvofT111LoIhlDs5sGEACu4HUw0Cc1YD29FPHI9D4m3dCsw== meysam@meysam-mac.local
     packages:
       - fail2ban
+      - certbot
       - python3
       - python3-pip
     package_update: true
@@ -63,7 +64,7 @@ resource "hcloud_server" "this" {
       - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
       - |
         curl https://get.k3s.io | \
-          INSTALL_K3S_VERSION="v1.29.2+k3s1" \
+          INSTALL_K3S_VERSION="v1.29.4+k3s1" \
           INSTALL_K3S_EXEC="--cluster-cidr=20.0.0.0/8,2001:cafe:42::/56
             --kube-apiserver-arg=service-account-jwks-uri=https://${cloudflare_record.this.name}/openid/v1/jwks
             --kube-apiserver-arg=service-account-issuer=https://${cloudflare_record.this.name}
