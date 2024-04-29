@@ -6,7 +6,7 @@ configMapGenerator:
 resources:
   - namespace.yml
   - password.yml
-  - secrets.yml
+  - externalsecret.yml
   - pushsecret.yml
   - statefulset.yml
 
