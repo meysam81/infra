@@ -8,7 +8,22 @@ resources:
   - password.yml
   - externalsecret.yml
   - pushsecret.yml
+  - service.yml
   - statefulset.yml
+
+replacements:
+  - source:
+      kind: StatefulSet
+      name: mongodb
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: mongodb-headless
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
 
 images:
   - name: mongo

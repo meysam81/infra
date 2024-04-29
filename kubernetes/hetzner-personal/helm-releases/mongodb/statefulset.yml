@@ -16,6 +16,9 @@ spec:
       containers:
         - name: mongo
           image: mongo
+          ports:
+            - containerPort: 27017
+              name: mongodb
           envFrom:
             - configMapRef:
                 name: mongodb-config
