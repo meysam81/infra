@@ -124,22 +124,15 @@ resource "hcloud_firewall" "this" {
     }
   }
 
-  dynamic "rule" {
-    for_each = toset([22])
-    content {
-      direction = "in"
-      protocol  = "tcp"
-      port      = rule.value
-      source_ips = [
-        format("%s/32", data.aws_ssm_parameter.this.value),
-      ]
-      description = "Admin public IP address"
-    }
+  rule {
+    direction = "in"
+    protocol  = "tcp"
+    port      = "any"
+    source_ips = [
+      format("%s/32", data.aws_ssm_parameter.this.value),
+    ]
+    description = "Admin public IP address"
   }
-
-  depends_on = [
-    hcloud_server.this,
-  ]
 }
 
 resource "hcloud_primary_ip" "this" {
