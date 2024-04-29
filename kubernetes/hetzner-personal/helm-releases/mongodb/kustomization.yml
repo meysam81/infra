@@ -7,7 +7,7 @@ resources:
   - namespace.yml
   - password.yml
   - secrets.yml
-  - push-secret.yml
+  - pushsecret.yml
   - statefulset.yml
 
 images:
