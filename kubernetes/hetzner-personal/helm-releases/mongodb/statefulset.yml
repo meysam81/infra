@@ -24,6 +24,12 @@ spec:
           volumeMounts:
             - name: mongo-storage
               mountPath: /data/db
-      volumes:
-        - name: mongo-storage
-          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
