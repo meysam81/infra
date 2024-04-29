@@ -7,9 +7,9 @@ resources:
   - namespace.yml
   - password.yml
   - externalsecret.yml
-  - pushsecret.yml
   - service.yml
   - statefulset.yml
+  - pushsecret.yml
 
 replacements:
   - source:
