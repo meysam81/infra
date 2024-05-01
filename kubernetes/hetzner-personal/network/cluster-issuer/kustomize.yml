@@ -1,0 +1,14 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-issuer
+  namespace: flux-system
+spec:
+  force: false
+  interval: 10m0s
+  path: ./kubernetes/hetzner-personal/network/cluster-issuer
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
