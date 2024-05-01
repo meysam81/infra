@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openid-configuration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openid-configuration
+  template:
+    metadata:
+      labels:
+        app: openid-configuration
+    spec:
+      containers:
+        - args:
+            - --host 0.0.0.0
+            - --port 8443
+            - --root .
+            - --log-level info
+            - --http2
+            - --http2-tls-cert cert.pem
+            - --http2-tls-key key.pem
+            - --compression
+            - --health
+            - --experimental-metrics
+          command:
+            - static-web-server
+          image: ghcr.io/static-web-server/static-web-server
+          name: static-web-server
+          ports:
+            - containerPort: 8443
+              name: https
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /var/www/static-web-server
+              name: static-content
+              readOnly: true
+          workingDir: /var/www/static-web-server
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      volumes:
+        - hostPath:
+            path: /var/www/static-web-server
+            type: DirectoryOrCreate
+          name: static-content

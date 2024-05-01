@@ -1,0 +1,24 @@
+resources:
+  - deployment.yml
+  - service.yml
+  - httproute.yml
+
+images:
+  - name: ghcr.io/static-web-server/static-web-server
+    newTag: "2"
+
+replacements:
+  - source:
+      kind: Deployment
+      name: static-web-server
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: static-web-server
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
+
+namespace: cert-manager

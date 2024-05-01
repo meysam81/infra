@@ -2,10 +2,6 @@ data "aws_ssm_parameter" "this" {
   name = "/meysam/public-ip-address"
 }
 
-data "cloudflare_zone" "devfriend_blog" {
-  name = "developer-friendly.blog"
-}
-
 resource "hcloud_network" "this" {
   name     = "personal"
   ip_range = "10.0.0.0/8"
@@ -66,8 +62,8 @@ resource "hcloud_server" "this" {
         curl https://get.k3s.io | \
           INSTALL_K3S_VERSION="v1.29.4+k3s1" \
           INSTALL_K3S_EXEC="--cluster-cidr=20.0.0.0/8,2001:cafe:42::/56
-            --kube-apiserver-arg=service-account-jwks-uri=https://${cloudflare_record.this.name}/openid/v1/jwks
-            --kube-apiserver-arg=service-account-issuer=https://${cloudflare_record.this.name}
+            --kube-apiserver-arg=service-account-jwks-uri=https://${cloudflare_record.this["A"].name}/openid/v1/jwks
+            --kube-apiserver-arg=service-account-issuer=https://${cloudflare_record.this["A"].name}
             --service-cidr=30.0.0.0/12,2001:cafe:43::/112
             --disable traefik
             --disable-network-policy
@@ -149,29 +145,6 @@ resource "hcloud_firewall_attachment" "this" {
   firewall_id = hcloud_firewall.this.id
   server_ids  = [hcloud_server.this.id]
 
-}
-
-resource "random_uuid" "this" {}
-
-resource "cloudflare_record" "this" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = format("%s.developer-friendly.blog", random_uuid.this.id)
-  proxied = false
-  ttl     = 60
-  type    = "A"
-  value   = hcloud_primary_ip.this["ipv4"].ip_address
-}
-
-
-resource "cloudflare_record" "this_v6" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = format("%s.developer-friendly.blog", random_uuid.this.id)
-  proxied = false
-  ttl     = 60
-  type    = "AAAA"
-  value   = hcloud_primary_ip.this["ipv6"].ip_address
 }
 
 resource "aws_ssm_parameter" "this" {

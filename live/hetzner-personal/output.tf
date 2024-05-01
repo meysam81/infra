@@ -7,5 +7,5 @@ output "server_ipv6_address" {
 }
 
 output "server_hostname" {
-  value = cloudflare_record.this.name
+  value = cloudflare_record.this["A"].name
 }

@@ -11,4 +11,4 @@ loki_remote_write:
 admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"
 
 domain_name: "{{ lookup('amazon.aws.ssm_parameter', '/hetzner-personal/domain-name', profile='personal', region='ap-southeast-1') }}"
-domain_email: admin@developer-friendly.blog
+domain_email: meysam@developer-friendly.blog
