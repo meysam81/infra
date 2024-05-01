@@ -15,12 +15,9 @@ spec:
       containers:
         - args:
             - --host=0.0.0.0
-            - --port=8443
+            - --port=8080
             - --root=.
             - --log-level=info
-            - --http2
-            - --http2-tls-cert=cert.pem
-            - --http2-tls-key=key.pem
             - --compression
             - --health
             - --experimental-metrics
@@ -29,8 +26,8 @@ spec:
           image: ghcr.io/static-web-server/static-web-server
           name: static-web-server
           ports:
-            - containerPort: 8443
-              name: https
+            - containerPort: 8080
+              name: http
           securityContext:
             readOnlyRootFilesystem: true
           volumeMounts:
