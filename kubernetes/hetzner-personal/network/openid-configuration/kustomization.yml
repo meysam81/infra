@@ -10,12 +10,12 @@ images:
 replacements:
   - source:
       kind: Deployment
-      name: static-web-server
+      name: openid-configuration
       fieldPath: spec.template.metadata.labels
     targets:
       - select:
           kind: Service
-          name: static-web-server
+          name: openid-configuration
         fieldPaths:
           - spec.selector
         options:
