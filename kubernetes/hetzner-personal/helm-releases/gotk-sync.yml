@@ -16,3 +16,4 @@ items:
       sourceRef:
         kind: GitRepository
         name: flux-system
+      wait: false

@@ -3,14 +3,10 @@ configurations:
 
 configMapGenerator:
   - files:
-      - values.yaml=./cert-manager/values.yml
-    name: cert-manager-config
-    namespace: flux-system
-  - files:
       - values.yaml=./external-secrets/values.yml
     name: external-secrets-config
     namespace: flux-system
 
 resources:
-  - cert-manager/helm-release.yml
+  - ./cert-manager/kustomize.yml
   - external-secrets/helm-release.yml
