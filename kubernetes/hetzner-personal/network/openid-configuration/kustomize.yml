@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   force: false
-  interval: 10m0s
+  interval: 1m
   path: ./kubernetes/hetzner-personal/network/openid-configuration
   prune: true
   sourceRef:
