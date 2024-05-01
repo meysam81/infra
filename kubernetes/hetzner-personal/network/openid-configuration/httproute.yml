@@ -8,7 +8,7 @@ spec:
       kind: Gateway
       name: developer-friendly-blog
       namespace: cert-manager
-      sectionName: http
+      sectionName: https
   rules:
     - filters:
         - responseHeaderModifier:
