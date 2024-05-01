@@ -45,5 +45,5 @@ spec:
       volumes:
         - hostPath:
             path: /var/www/static-web-server
-            type: DirectoryOrCreate
+            type: Directory
           name: static-content
