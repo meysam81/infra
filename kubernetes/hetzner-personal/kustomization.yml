@@ -2,3 +2,4 @@ resources:
   - ./namespaces/gotk-sync.yml
   - ./helm-releases/gotk-sync.yml
   - ./network/kustomize.yml
+  - ./applications/kustomize.yml

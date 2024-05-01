@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: listmonk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: listmonk
+  serviceName: listmonk
+  template:
+    metadata:
+      labels:
+        app: listmonk
+    spec:
+      containers:
+        - command:
+            - ./listmonk
+            - --idempotent
+          envFrom:
+            - configMapRef:
+                name: listmonk-config
+            - secretRef:
+                name: listmonk-secrets
+          image: listmonk/listmonk
+          name: listmonk
+          ports:
+            - containerPort: 9000
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /listmonk/uploads
+              name: uploads
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+  volumeClaimTemplates:
+    - metadata:
+        name: uploads
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
