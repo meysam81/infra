@@ -13,7 +13,7 @@
     create_home: false
 - name: Create working dir for static-web-server user
   ansible.builtin.file:
-    path: "{{ static_web_server_home }}"
+    path: "{{ static_web_server_root }}"
     state: directory
     owner: static-web-server
     group: static-web-server

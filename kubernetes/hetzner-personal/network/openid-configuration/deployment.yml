@@ -13,23 +13,17 @@ spec:
         app: openid-configuration
     spec:
       containers:
-        # - args:
-        #     - --host=0.0.0.0
-        #     - --port=8080
-        #     - --root=.
-        #     - --log-level=info
-        #     - --compression
-        #     - --health
-        #     - --experimental-metrics
-        #   command:
-        #     - /static-web-server
-        - command:
-            - sh
-            - -c
-          args:
-            - python -m http.server -d . 8080
-          # image: ghcr.io/static-web-server/static-web-server
-          image: python:3.12-alpine
+        - args:
+            - --host=0.0.0.0
+            - --port=8080
+            - --root=./static
+            - --log-level=info
+            - --compression
+            - --health
+            - --experimental-metrics
+          command:
+            - /static-web-server
+          image: ghcr.io/static-web-server/static-web-server
           name: static-web-server
           ports:
             - containerPort: 8080

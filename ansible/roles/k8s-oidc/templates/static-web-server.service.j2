@@ -9,7 +9,7 @@ ExecStartPre=/usr/bin/test -s openid/v1/jwks
 ExecStart=/usr/local/bin/static-web-server \
   --host 0.0.0.0 \
   --port 443 \
-  --root . \
+  --root {{ static_web_server_static }} \
   --log-level info \
   --http2 \
   --http2-tls-cert cert.pem \
@@ -18,7 +18,7 @@ ExecStart=/usr/local/bin/static-web-server \
   --health \
   --experimental-metrics
 Restart=on-failure
-WorkingDirectory={{ static_web_server_home }}
+WorkingDirectory={{ static_web_server_root }}
 User=static-web-server
 Group=static-web-server
 RestartSec=5
