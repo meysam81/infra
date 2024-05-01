@@ -1,0 +1,4 @@
+resources:
+  - gateway.yml
+
+namespace: cert-manager
