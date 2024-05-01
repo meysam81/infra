@@ -14,18 +14,18 @@ spec:
     spec:
       containers:
         - args:
-            - --host 0.0.0.0
-            - --port 8443
-            - --root .
-            - --log-level info
+            - --host=0.0.0.0
+            - --port=8443
+            - --root=.
+            - --log-level=info
             - --http2
-            - --http2-tls-cert cert.pem
-            - --http2-tls-key key.pem
+            - --http2-tls-cert=cert.pem
+            - --http2-tls-key=key.pem
             - --compression
             - --health
             - --experimental-metrics
           command:
-            - static-web-server
+            - /static-web-server
           image: ghcr.io/static-web-server/static-web-server
           name: static-web-server
           ports:
