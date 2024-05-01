@@ -2,9 +2,10 @@ resources:
   - externalsecret.yml
   - service.yml
   - statefulset.yml
+  - httproute.yml
 
 configMapGenerator:
-  - name: listmonk-config
+  - name: listmonk
     envs:
       - configs.env
 

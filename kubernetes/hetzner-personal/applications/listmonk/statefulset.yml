@@ -19,9 +19,9 @@ spec:
             - --idempotent
           envFrom:
             - configMapRef:
-                name: listmonk-config
+                name: listmonk
             - secretRef:
-                name: listmonk-secrets
+                name: listmonk
           image: listmonk/listmonk
           name: listmonk
           ports:
