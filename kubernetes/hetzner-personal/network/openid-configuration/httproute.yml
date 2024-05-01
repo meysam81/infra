@@ -10,7 +10,11 @@ spec:
       namespace: cert-manager
       sectionName: https
   rules:
-    - filters:
+    - backendRefs:
+        - kind: Service
+          name: openid-configuration
+          port: 80
+      filters:
         - responseHeaderModifier:
             set:
               - name: Access-Control-Allow-Credentials
