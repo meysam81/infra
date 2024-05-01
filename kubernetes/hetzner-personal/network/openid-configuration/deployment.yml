@@ -39,10 +39,9 @@ spec:
               readOnly: true
           workingDir: /var/www/static-web-server
       securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
+        runAsGroup: 995
         runAsNonRoot: true
-        runAsUser: 1000
+        runAsUser: 994
       volumes:
         - hostPath:
             path: /var/www/static-web-server
