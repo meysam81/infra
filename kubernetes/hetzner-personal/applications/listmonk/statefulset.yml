@@ -13,6 +13,28 @@ spec:
       labels:
         app: listmonk
     spec:
+      containers:
+        - command:
+            - ./listmonk
+            - --idempotent
+            - --static-dir=/listmonk/static
+          envFrom:
+            - configMapRef:
+                name: listmonk
+            - secretRef:
+                name: listmonk
+          image: listmonk/listmonk
+          name: listmonk
+          ports:
+            - containerPort: 9000
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /listmonk/uploads
+              name: uploads
+            - mountPath: /listmonk/static
+              name: static
       initContainers:
         - command:
             - ./listmonk
@@ -34,30 +56,27 @@ spec:
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
-      containers:
-        - command:
-            - ./listmonk
-            - --idempotent
-          envFrom:
-            - configMapRef:
-                name: listmonk
-            - secretRef:
-                name: listmonk
-          image: listmonk/listmonk
-          name: listmonk
-          ports:
-            - containerPort: 9000
-              name: http
+        - args:
+            - curl -Lo favicon.ico $LOGO_URL
+          command:
+            - sh
+            - -c
+          image: curlimages/curl
+          name: static
           securityContext:
             readOnlyRootFilesystem: true
           volumeMounts:
-            - mountPath: /listmonk/uploads
-              name: uploads
+            - mountPath: /listmonk/static
+              name: static
+          workingDir: /listmonk/static
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+    volumes:
+      - emptyDir: {}
+        name: static
   volumeClaimTemplates:
     - metadata:
         name: uploads
