@@ -57,7 +57,7 @@ spec:
             - mountPath: /listmonk/uploads
               name: uploads
         - args:
-            - curl -Lo favicon.ico $LOGO_URL
+            - curl -LO $LOGO_URL
           command:
             - sh
             - -c
