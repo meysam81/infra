@@ -17,7 +17,6 @@ spec:
         - command:
             - ./listmonk
             - --idempotent
-            - --static-dir=/listmonk/static
           envFrom:
             - configMapRef:
                 name: listmonk
@@ -33,8 +32,6 @@ spec:
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
-            - mountPath: /listmonk/static
-              name: static
         - args:
             - |
               set -eu
@@ -67,7 +64,7 @@ spec:
         - command:
             - ./listmonk
             - --idempotent
-            - --install
+            - --upgrade
             - --yes
           envFrom:
             - configMapRef:
@@ -84,32 +81,11 @@ spec:
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
-        - args:
-            - |
-              set -eu
-              curl -LO $LOGO_URL
-          command:
-            - sh
-            - -c
-          envFrom:
-            - configMapRef:
-                name: listmonk
-          image: curlimages/curl
-          name: static
-          securityContext:
-            readOnlyRootFilesystem: true
-          volumeMounts:
-            - mountPath: /listmonk/static
-              name: static
-          workingDir: /listmonk/static
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-      volumes:
-        - emptyDir: {}
-          name: static
   volumeClaimTemplates:
     - metadata:
         name: uploads
