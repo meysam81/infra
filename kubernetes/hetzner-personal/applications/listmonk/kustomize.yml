@@ -4,7 +4,7 @@ metadata:
   name: listmonk
   namespace: flux-system
 spec:
-  force: false
+  force: true
   interval: 10m0s
   path: ./kubernetes/hetzner-personal/applications/listmonk
   prune: true
