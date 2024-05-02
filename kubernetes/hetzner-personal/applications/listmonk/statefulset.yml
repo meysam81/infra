@@ -41,11 +41,12 @@ spec:
 
               interval=$POSTGRES_HEALTHCHECK_INTERVAL_SECONDS
 
+              export PGPASSWORD=$LISTMONK_db__password
+
               alias check="pg_isready \
                 --host=$LISTMONK_db__host \
                 --username=$LISTMONK_db__user \
-                --dbname=$LISTMONK_db__database \
-                --password=$LISTMONK_db__password"
+                --dbname=$LISTMONK_db__database"
 
               while sleep $interval; do
                 check
