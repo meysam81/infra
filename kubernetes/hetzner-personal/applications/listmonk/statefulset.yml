@@ -74,9 +74,9 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-    volumes:
-      - emptyDir: {}
-        name: static
+      volumes:
+        - emptyDir: {}
+          name: static
   volumeClaimTemplates:
     - metadata:
         name: uploads
