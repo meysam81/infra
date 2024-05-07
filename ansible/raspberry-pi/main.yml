@@ -1,38 +1,40 @@
-- name: Install k3s
-  hosts: raspberry
+- become: true
   gather_facts: true
-  become: true
+  hosts: raspberry
+  name: Install k3s
   roles:
     - k3s
   tags:
     - k3s
-- name: Configure monitoring
-  hosts: raspberry
+- become: true
   gather_facts: true
-  become: true
+  hosts: raspberry
+  name: Configure monitoring
+  roles:
+    - monitoring
+  tags:
+    - monitoring
   vars_files:
     - ./vars.yml
-  roles:
-    - monitoring
-  tags:
-    - monitoring
-- name: Configure K8s networking
+- become: true
+  environment:
+    KUBECONFIG: /home/meysam/.kube/config
+  gather_facts: true
   hosts: raspberry
-  gather_facts: true
-  become: true
-  environment:
-    KUBECONFIG: /home/meysam/.kube/config
+  name: Configure K8s networking
   roles:
     - cilium
   tags:
     - cilium
-- name: Configure K8s gitops
-  hosts: hetzner
-  gather_facts: true
-  become: true
+- become: true
   environment:
     KUBECONFIG: /home/meysam/.kube/config
-  tags:
-    - gitops
+  gather_facts: true
+  hosts: hetzner
+  name: Configure K8s gitops
   roles:
     - fluxcd
+  tags:
+    - fluxcd
+  vars_files:
+    - ./vars.yml

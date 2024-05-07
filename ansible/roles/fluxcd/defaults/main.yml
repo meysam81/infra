@@ -1,3 +1,6 @@
 ---
 helm_version: v3.14.3
 downloads_dir: /tmp
+
+bootstrap_manifest: https://github.com/meysam81/infra//kubernetes/{{ fluxcd_root_dir }}/flux-system?timeout=60&ref=main
+root_manifest: https://raw.githubusercontent.com/meysam81/infra/main/kubernetes/{{ fluxcd_root_dir }}/main.yml

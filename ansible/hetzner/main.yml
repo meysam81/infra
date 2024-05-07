@@ -1,52 +1,54 @@
-- name: Configure monitoring
-  hosts: hetzner
+- become: true
   gather_facts: true
-  become: true
-  vars_files:
-    - ./vars.yml
+  hosts: hetzner
+  name: Configure monitoring
   roles:
     - monitoring
-- name: Configure K8s networking
-  hosts: hetzner
-  gather_facts: true
-  become: true
+  vars_files:
+    - ./vars.yml
+- become: true
   environment:
     KUBECONFIG: /home/meysam/.kube/config
-  tags:
-    - network
+  gather_facts: true
+  hosts: hetzner
+  name: Configure K8s networking
   roles:
     - cilium
-- name: Configure K8s gitops
-  hosts: hetzner
-  gather_facts: true
-  become: true
+  tags:
+    - network
+- become: true
   environment:
     KUBECONFIG: /home/meysam/.kube/config
-  tags:
-    - gitops
+  gather_facts: true
+  hosts: hetzner
+  name: Configure K8s gitops
   roles:
     - fluxcd
-- name: Configure K8s OIDC
-  hosts: hetzner
+  tags:
+    - gitops
+  vars_files:
+    - ./vars.yml
+- become: true
   gather_facts: true
-  become: true
+  hosts: hetzner
+  name: Configure K8s OIDC
+  roles:
+    - k8s-oidc
   tags:
     - oidc
   vars:
     kubeconfig: /home/meysam/.kube/config
   vars_files:
     - ./vars.yml
-  roles:
-    - k8s-oidc
-- name: Configure cluster secret store
-  hosts: hetzner
-  gather_facts: false
-  become: true
-  tags:
-    - css
-    - never
+- become: true
   environment:
     AWS_PROFILE: personal
     KUBECONFIG: /home/meysam/.kube/config
+  gather_facts: false
+  hosts: hetzner
+  name: Configure cluster secret store
   roles:
     - cluster-secret-store
+  tags:
+    - css
+    - never
