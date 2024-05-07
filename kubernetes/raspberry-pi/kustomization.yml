@@ -1,3 +1,4 @@
 resources:
   - ./gateway/kustomize.yml
   - ./home-assistant/kustomize.yml
+  - ./mosquitto/kustomize.yml

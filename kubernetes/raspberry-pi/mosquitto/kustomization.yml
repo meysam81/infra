@@ -1,0 +1,30 @@
+configMapGenerator:
+  - name: mosquitto-config
+    files:
+      - mosquitto.conf
+
+secretGenerator:
+  - name: mosquitto-password
+    files:
+      - password_file
+
+resources:
+  - deployment.yml
+
+images:
+  - name: eclipse-mosquitto
+    newTag: "2"
+
+replacements:
+  - source:
+      kind: Deployment
+      name: mosquitto
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: mosquitto
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
