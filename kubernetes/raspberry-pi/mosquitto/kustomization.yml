@@ -28,3 +28,5 @@ replacements:
           - spec.selector
         options:
           create: true
+
+namespace: default
