@@ -2,6 +2,9 @@ homeassistant:
   name: Meysam
   unit_system: metric
 
+switch:
+  - platform: orvibo
+
 http:
   use_x_forwarded_for: true
   trusted_proxies:
