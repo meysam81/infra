@@ -1,3 +1,8 @@
+resources:
+  - pvc.yml
+  - service.yml
+  - deployment.yml
+
 configMapGenerator:
   - name: mosquitto-config
     files:
@@ -7,9 +12,6 @@ secretGenerator:
   - name: mosquitto-password
     files:
       - password_file
-
-resources:
-  - deployment.yml
 
 images:
   - name: eclipse-mosquitto
