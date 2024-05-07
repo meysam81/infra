@@ -10,9 +10,4 @@ loki_remote_write:
 
 admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"
 
-domain_name: "{{ lookup('amazon.aws.ssm_parameter', '/hetzner-personal/domain-name', profile='personal', region='ap-southeast-1') }}"
-domain_email: meysam@developer-friendly.blog
-
-fail2ban_exporter_enabled: true
-
-fluxcd_root_dir: hetzner-personal
+fluxcd_root_dir: raspberry-pi

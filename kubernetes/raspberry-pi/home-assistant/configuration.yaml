@@ -1,0 +1,17 @@
+# home-assistant:
+#   name: Meysam
+#   latitude: 1
+#   longitude: 1
+#   elevation: 0
+#   unit_system: metric
+#   currency: GBP
+#   external_url: "http://example.com"
+#   internal_url: "http://home.example.com"
+#   allow_external_scripts: false
+#   legacy_templates: true
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.11.130
+    - 20.0.0.96

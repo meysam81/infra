@@ -1,0 +1,29 @@
+resources:
+  - service.yml
+  - deployment.yml
+  - httproute.yml
+
+configMapGenerator:
+  - name: home-assistant
+    files:
+      - configuration.yaml
+
+images:
+  - name: ghcr.io/home-assistant/home-assistant
+    newTag: stable
+
+replacements:
+  - source:
+      kind: Deployment
+      name: home-assistant
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: home-assistant
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
+
+namespace: default

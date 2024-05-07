@@ -1,0 +1,2 @@
+resources:
+  - ./gateway/kustomize.yml

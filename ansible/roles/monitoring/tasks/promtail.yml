@@ -48,6 +48,15 @@
   loop:
     - /etc/promtail
     - /var/lib/promtail
+- name: Fetch loki password file
+  ansible.builtin.copy:
+    content: "{{ loki_remote_write.password }}"
+    dest: "{{ loki_remote_write_password_file }}"
+    owner: promtail
+    group: promtail
+    mode: "0400"
+  no_log: true
+  notify: Restart promtail
 - name: Copy promtail config file
   ansible.builtin.template:
     src: promtail.yml.j2

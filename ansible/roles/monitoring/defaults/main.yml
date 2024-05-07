@@ -1,3 +1,6 @@
 ---
 downloads_dir: /tmp
 promtail_source_binary_name: promtail-linux-arm64
+fail2ban_exporter_enabled: false
+
+loki_remote_write_password_file: /etc/promtail/loki-password

@@ -5,9 +5,9 @@
     - always
 - name: Install flux-system bootstrap manifests
   kubernetes.core.k8s:
-    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/meysam81/infra//kubernetes/hetzner-personal/flux-system?timeout=60&ref=main') }}"
+    definition: "{{ lookup('kubernetes.core.kustomize', dir='https://github.com/meysam81/infra//kubernetes/{{ fluxcd_root_dir }}/flux-system?timeout=60&ref=main') }}"
     state: present
 - name: Apply the root manifest
   kubernetes.core.k8s:
-    definition: "{{ lookup('ansible.builtin.url', 'https://raw.githubusercontent.com/meysam81/infra/main/kubernetes/hetzner-personal/main.yml', split_lines=false) | from_yaml }}"
+    definition: "{{ lookup('ansible.builtin.url', 'https://raw.githubusercontent.com/meysam81/infra/main/kubernetes/{{ fluxcd_root_dir }}/main.yml', split_lines=false) | from_yaml }}"
     state: present

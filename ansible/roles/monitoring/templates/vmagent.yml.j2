@@ -12,11 +12,13 @@ scrape_configs:
       - targets:
           - localhost:9100
         labels:
-          instance: hetzner-personal
+          instance: {{ ansible_hostname }}
 
+{% if fail2ban_exporter_enabled %}
   - job_name: fail2ban-exporter
     static_configs:
       - targets:
           - localhost:9191
         labels:
-          instance: hetzner-personal
+          instance: {{ ansible_hostname }}
+{% endif %}

@@ -1,0 +1,87 @@
+---
+- name: Ensure the machine knows its own hostname
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: 127.0.0.1 {{ ansible_hostname }}
+- name: Enable netfilter kernel module
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: br_netfilter
+    owner: root
+    group: root
+    mode: "0644"
+- name: Enable netfilter sysctl
+  ansible.builtin.copy:
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+    dest: /etc/sysctl.d/k8s.conf
+    owner: root
+    group: root
+    mode: "0644"
+- name: Load sysctl
+  ansible.builtin.command:
+    cmd: "sysctl --system"
+  changed_when: false
+- name: Enable cgroup
+  ansible.builtin.lineinfile:
+    path: /boot/firmware/cmdline.txt
+    line: "cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory"
+    state: present
+  notify: Reboot machine
+- name: Install k3s
+  environment:
+    INSTALL_K3S_VERSION: v1.29.4+k3s1
+    INSTALL_K3S_EXEC: |
+      --disable traefik
+      --disable-network-policy
+      --kube-apiserver-arg bind-address=0.0.0.0
+      --flannel-backend none
+      --write-kubeconfig /home/meysam/.kube/config
+      --secrets-encryption
+  ansible.builtin.command:
+    cmd: "{{ lookup('ansible.builtin.url', 'https://get.k3s.io', split_lines=false) }}"
+    # creates: /usr/local/bin/k3s
+- name: Ensure kube config ownership is set
+  ansible.builtin.file:
+    path: /home/meysam/.kube
+    owner: meysam
+    group: meysam
+    recurse: true
+- name: Ensure bash completion is installed
+  ansible.builtin.package:
+    name: bash-completion
+    state: present
+- name: Ensure bash completion dir is present
+  ansible.builtin.file:
+    path: /etc/bash_completion.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Create kubectl completion
+  ansible.builtin.copy:
+    content: "{{ lookup('pipe', 'kubectl completion bash') }}"
+    dest: /etc/bash_completion.d/kubectl
+    owner: root
+    group: root
+    mode: "0644"
+- name: Create k3s completion
+  ansible.builtin.copy:
+    content: "{{ lookup('pipe', 'k3s completion bash') }}"
+    dest: /etc/bash_completion.d/k3s
+    owner: root
+    group: root
+    mode: "0644"
+- name: Add kubectl alias to bashrc
+  ansible.builtin.lineinfile:
+    path: /home/meysam/.bashrc
+    line: "alias k=kubectl"
+    create: yes
+    state: present
+- name: Add kubectl completion to bashrc
+  ansible.builtin.lineinfile:
+    path: /home/meysam/.bashrc
+    line: "complete -F __start_kubectl k"
+    create: yes
+    state: present
