@@ -28,7 +28,7 @@ spec:
               subPath: mosquitto.conf
               readOnly: true
             - name: mosquitto-password
-              mountPath: /mosquitto/config/
+              mountPath: /mosquitto/config
               subPath: password_file
               readOnly: true
           livenessProbe:
