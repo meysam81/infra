@@ -1,4 +1,5 @@
 resources:
+  - pvc.yml
   - service.yml
   - deployment.yml
   - httproute.yml
