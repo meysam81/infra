@@ -26,9 +26,9 @@ spec:
             - name: config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
-              # readOnly: true
-            - name: config-volume
-              mountPath: /config
+              readOnly: true
+            - name: data
+              mountPath: /config/.storage
             - name: dbus-volume
               mountPath: /run/dbus
               readOnly: true
@@ -36,8 +36,9 @@ spec:
         - name: config-file
           configMap:
             name: home-assistant
-        - name: config-volume
-          emptyDir: {}
+        - name: data
+          PersistentVolumeClaim:
+            claimName: home-assistant
         - name: dbus-volume
           hostPath:
             path: /run/dbus
