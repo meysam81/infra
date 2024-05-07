@@ -1,5 +1,8 @@
 - name: Include vars
   ansible.builtin.include_vars: vars-{{ ansible_architecture }}.yml
+  tags:
+    - promtail
+    - vmagent
 - name: Install prerequisites
   ansible.builtin.import_tasks: prerequisites.yml
 - name: Install node-exporter
@@ -10,6 +13,8 @@
     - vmagent
 - name: Install promtail
   ansible.builtin.import_tasks: promtail.yml
+  tags:
+    - promtail
 - name: Install fail2ban exporter
   ansible.builtin.import_tasks: fail2ban-exporter.yml
   when: fail2ban_exporter_enabled

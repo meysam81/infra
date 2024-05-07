@@ -1,0 +1,8 @@
+- become: true
+  gather_facts: true
+  hosts: localhost
+  name: Configure monitoring
+  roles:
+    - monitoring
+  vars_files:
+    - ./vars.yml

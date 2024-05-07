@@ -1,0 +1,15 @@
+prometheus_remote_write:
+  url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+  username: 988203
+  password: "{{ lookup('amazon.aws.ssm_parameter', '/grafana_cloud/remote_write/password', profile='personal', region='ap-southeast-1') }}"
+
+loki_remote_write:
+  host: logs-prod-012.grafana.net
+  username: 596709
+  password: "{{ prometheus_remote_write.password }}"
+
+admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"
+
+fail2ban_exporter_enabled: true
+
+fluxcd_root_dir: hetzner-personal
