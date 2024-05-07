@@ -30,7 +30,7 @@
   environment:
     KUBECONFIG: /home/meysam/.kube/config
   gather_facts: true
-  hosts: hetzner
+  hosts: raspberry
   name: Configure K8s gitops
   roles:
     - fluxcd
