@@ -17,7 +17,6 @@ spec:
           kind: Service
           name: home-assistant
           port: 80
-      filters:
       matches:
         - path:
             type: PathPrefix
