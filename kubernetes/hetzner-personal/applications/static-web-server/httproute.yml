@@ -4,7 +4,7 @@ metadata:
   name: static-web-server
 spec:
   hostnames:
-    - static.developer-friendly.blog
+    - newsletter.developer-friendly.blog
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
@@ -52,5 +52,8 @@ spec:
           type: ResponseHeaderModifier
       matches:
         - path:
-            type: PathPrefix
-            value: /
+            type: Exact
+            value: /logo.webp
+        - path:
+            type: Exact
+            value: /favicon.ico

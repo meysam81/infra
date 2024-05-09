@@ -50,6 +50,7 @@ spec:
               name: config-volume
               readOnly: true
               subPath: config.toml
+          workingDir: /var/public
       initContainers:
         - args:
             - |
