@@ -60,6 +60,9 @@ spec:
           command:
             - sh
             - "-c"
+          envFrom:
+            - configMapRef:
+                name: static-web-server
           image: curlimages/curl
           name: init
           securityContext:
