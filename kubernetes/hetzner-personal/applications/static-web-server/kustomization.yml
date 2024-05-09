@@ -1,0 +1,31 @@
+resources:
+  - service.yml
+  - deployment.yml
+
+images:
+  - name: joseluisq/static-web-server
+    newTag: 2-alpine
+  - name: curlimages/curl
+    newTag: 8.7.1
+
+configMapGenerator:
+  - name: static-web-server
+    envs:
+      - configs.env
+  - name: static-web-server-config
+    files:
+      - config.toml
+
+replacements:
+  - source:
+      kind: Deployment
+      name: static-web-server
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: static-web-server
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true

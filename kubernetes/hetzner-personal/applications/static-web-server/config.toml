@@ -1,0 +1,18 @@
+[general]
+host = "::"
+port = 80
+log-level = "info"
+cache-control-headers = true
+compression = true
+security-headers = true
+cors-allow-origins = [
+  "https://newsletter.developer-friendly.blog",
+]
+directory-listing = false
+threads-multiplier = 2
+grace-period = 3
+log-remote-address = true
+redirect-trailing-slash = true
+compression-static = true
+health = true
+maintenance-mode = false
