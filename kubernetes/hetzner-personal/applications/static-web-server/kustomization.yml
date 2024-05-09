@@ -1,6 +1,7 @@
 resources:
   - service.yml
   - deployment.yml
+  - httproute.yml
 
 images:
   - name: joseluisq/static-web-server
