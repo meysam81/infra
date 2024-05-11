@@ -133,12 +133,6 @@ resource "cloudflare_record" "devfriend_blog_mandrillapp_txt" {
   value   = "mandrill_verify.HpAYL5AwBEAKayRaLLfEtg"
 }
 
-# TXT newsletter.developer-friendly.blog v=spf1 include:_spf.maileroo.com ~all
-# TXT mta._domainkey.newsletter.developer-friendly.blog v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtwoLlnNHF5QSKVIbZ6PJ0zcF0IyxELjBgoqWz/fl1/jcHnk9hFiaSNz1yMnQaONQQmhUoOVZUWzMEq/EJmCdBa3M8uv+fwECMAktcOCTw91hOPMNGlAFLRbpjJvDvabM9lprM9zmtvnp4MnxPAGB7nhjQRxzyMihLindvp9otclrxwSW949HGsbm1Vtx8lN94N1yxi/L5w0KKn5OXM955OsGsxy4N6YSpF4O6ZFiAR4thHek1I65cwG9AN9UHyjR2PGEvRVjZFDalUcBiXMxJK/URYcriPXLoW9o8DuhIFgKZIMjfF8l0oxeka/aRREuDCKBfNVjJQ3CU31vLNbscwIDAQAB
-# MX newsletter.developer-friendly.blog mx1.maileroo.com priority 10
-# MX newsletter.developer-friendly.blog mx2.maileroo.com priority 20
-# TXT _dmarc.newsletter.developer-friendly.blog v=DMARC1; p=reject;
-# CNAME click.newsletter.developer-friendly.blog click.maileroo.com
 resource "cloudflare_record" "devfriend_blog_maileroo_txt" {
   for_each = {
     "newsletter"                = "v=spf1 include:_spf.maileroo.com ~all",

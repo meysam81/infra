@@ -4,7 +4,7 @@ metadata:
   name: root
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 5m
   path: ./kubernetes/hetzner-personal
   prune: true
   sourceRef:

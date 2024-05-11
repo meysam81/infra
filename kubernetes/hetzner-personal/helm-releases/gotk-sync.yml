@@ -7,7 +7,7 @@ items:
       name: helm-releases
       namespace: flux-system
     spec:
-      interval: 10m0s
+      interval: 5m
       path: ./kubernetes/hetzner-personal/helm-releases
       prune: true
       dependsOn:

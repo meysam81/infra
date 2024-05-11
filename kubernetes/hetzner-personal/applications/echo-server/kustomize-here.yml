@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: certificate
+  name: echo-server
   namespace: flux-system
 spec:
-  force: false
+  force: true
   interval: 5m
-  path: ./kubernetes/hetzner-personal/network/certificate
+  path: ./kubernetes/hetzner-personal/applications/echo-server
   prune: true
   sourceRef:
     kind: GitRepository

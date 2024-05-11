@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: echo-server
+spec:
+  interval: 1m
+  ref:
+    branch: main
+  timeout: 60s
+  url: https://github.com/developer-friendly/echo-server.git

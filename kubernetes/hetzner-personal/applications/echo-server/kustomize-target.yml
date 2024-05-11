@@ -1,14 +1,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: mosquitto
-  namespace: flux-system
+  name: echo-server
 spec:
-  force: false
-  interval: 5m
-  path: ./kubernetes/raspberry-pi/mosquitto
+  force: true
+  interval: 10m0s
+  path: ./kustomize/overlays/dev
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: echo-server
   wait: true

@@ -13,8 +13,8 @@ resource "cloudflare_record" "this" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = format("%s.developer-friendly.blog", random_uuid.this.id)
-  proxied = false
-  ttl     = 60
+  proxied = true
+  ttl     = 1
   type    = each.key
   value   = hcloud_primary_ip.this[each.value].ip_address
 }

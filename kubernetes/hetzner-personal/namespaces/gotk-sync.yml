@@ -7,7 +7,7 @@ items:
       name: namespaces
       namespace: flux-system
     spec:
-      interval: 10m0s
+      interval: 5m
       path: ./kubernetes/hetzner-personal/namespaces
       prune: true
       sourceRef:

@@ -1,0 +1,5 @@
+resources:
+  - gitrepo.yml
+  - kustomize-target.yml
+
+namespace: flux-system

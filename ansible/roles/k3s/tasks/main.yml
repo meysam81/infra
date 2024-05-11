@@ -35,6 +35,8 @@
     INSTALL_K3S_EXEC: |
       --disable traefik
       --disable-network-policy
+      --kube-apiserver-arg=service-account-jwks-uri=https://{{ public_oidc_url }}/openid/v1/jwks
+      --kube-apiserver-arg=service-account-issuer=https://{{ public_oidc_url }}
       --kube-apiserver-arg bind-address=0.0.0.0
       --flannel-backend none
       --write-kubeconfig /home/meysam/.kube/config

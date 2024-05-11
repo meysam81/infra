@@ -59,3 +59,6 @@ tfplan
 provider*.tf
 **/target
 **/vendor
+
+kubernetes/hetzner-personal/applications/listmonk/secrets.env
+kubernetes/hetzner-personal/applications/listmonk/.envrc
