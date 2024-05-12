@@ -6,5 +6,7 @@ spec:
   interval: 1m
   ref:
     branch: main
+  secretRef:
+    name: echo-server-git
   timeout: 60s
-  url: https://github.com/developer-friendly/echo-server.git
+  url: ssh://git@github.com/developer-friendly/echo-server
