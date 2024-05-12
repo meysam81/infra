@@ -3,3 +3,4 @@ resources:
   - ./helm-releases/gotk-sync.yml
   - ./network/kustomize.yml
   - ./applications/kustomize.yml
+  - ./notifications/kustomize.yml
