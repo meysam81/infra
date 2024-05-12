@@ -1,4 +1,5 @@
 resources:
+  - externalsecret.yml
   - gitrepo.yml
   - kustomize-target.yml
 
