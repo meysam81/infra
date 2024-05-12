@@ -10,7 +10,7 @@ items:
     spec:
       interval: 60m
       url: https://charts.external-secrets.io
-  - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+  - apiVersion: helm.toolkit.fluxcd.io/v2beta2
     kind: HelmRelease
     metadata:
       name: external-secrets
@@ -36,7 +36,7 @@ items:
         enable: true
         ignoreFailures: true
         timeout: 1m
-      timeout: 5m
+      timeout: 1m
       upgrade:
         cleanupOnFail: true
         crds: CreateReplace
