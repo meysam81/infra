@@ -187,6 +187,7 @@ items:
                 value: info
             receiver: discord
             continue: false
+            groupWait: 0s
           - matchers:
               - name: severity
                 matchType: "=~"
@@ -195,7 +196,7 @@ items:
                 matchType: "=~"
                 value: "GitRepository|Kustomization|HelmRelease"
             receiver: slack
-            groupWait: 3m
+            groupWait: 1m
             repeatInterval: 1h
             continue: false
         matchers:
