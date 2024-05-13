@@ -43,10 +43,10 @@ items:
         remediation:
           remediateLastFailure: true
       values:
-        alertmanagerSpec:
-          alertmanagerConfigMatcherStrategy:
-            type: None
         alertmanager:
+          alertmanagerSpec:
+            alertmanagerConfigMatcherStrategy:
+              type: None
           enabled: true
           config:
             global:
