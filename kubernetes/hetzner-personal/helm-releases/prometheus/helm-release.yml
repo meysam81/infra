@@ -135,6 +135,7 @@ items:
       namespace: monitoring
     spec:
       receivers:
+        - name: default
         - name: slack
           slackConfigs:
             - apiURL:
@@ -178,7 +179,7 @@ items:
           - severity
         groupInterval: 5m
         groupWait: 30s
-        receiver: discord
+        receiver: default
         repeatInterval: 12h
         routes:
           - matchers:
@@ -198,7 +199,3 @@ items:
             groupWait: 1m
             repeatInterval: 1h
             continue: false
-        matchers:
-          - name: severity
-            matchType: "=~"
-            value: "critical|warning|error|info"
