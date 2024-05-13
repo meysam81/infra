@@ -5,6 +5,15 @@ metadata:
 spec:
   force: true
   interval: 1m
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/template/spec/containers/0/command
+          value:
+            - /broken-app
+      target:
+        kind: Deployment
+        name: echo-server
   path: ./kustomize/overlays/dev
   prune: true
   sourceRef:

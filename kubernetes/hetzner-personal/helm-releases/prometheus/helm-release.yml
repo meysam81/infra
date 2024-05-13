@@ -178,7 +178,7 @@ items:
         groupBy:
           - severity
           - revision
-        groupInterval: 60m
+        groupInterval: 10m
         groupWait: 5m
         receiver: default-receiver
         repeatInterval: 12h
