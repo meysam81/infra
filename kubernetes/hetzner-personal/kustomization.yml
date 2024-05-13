@@ -4,3 +4,4 @@ resources:
   - ./network/kustomize.yml
   - ./applications/kustomize.yml
   - ./notifications/kustomize.yml
+  - ./webhook-sync/kustomize.yml
