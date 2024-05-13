@@ -135,7 +135,6 @@ items:
       namespace: monitoring
     spec:
       receivers:
-        - name: default-receiver
         - name: slack
           slackConfigs:
             - apiURL:
@@ -171,11 +170,11 @@ items:
                 {{ end }}
               title: "{{ .CommonAnnotations.summary }}"
       route:
-        continue: false
+        continue: true
         groupBy:
           - alertname
-          - app
-          - env
+          - kind
+          - name
           - severity
         groupInterval: 5m
         groupWait: 30s
