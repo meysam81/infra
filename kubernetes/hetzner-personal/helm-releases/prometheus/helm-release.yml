@@ -190,6 +190,7 @@ items:
                 value: info
             receiver: discord
             groupWait: 1s
+            groupInterval: 1m
           - matchers:
               - name: severity
                 value: error
