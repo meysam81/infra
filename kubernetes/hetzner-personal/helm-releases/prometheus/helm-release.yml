@@ -72,18 +72,65 @@ items:
               - target_matchers:
                   - "alertname = InfoInhibitor"
             route:
-              continue: true
               group_by: ["namespace"]
               group_wait: 30s
               group_interval: 5m
               repeat_interval: 12h
               receiver: "null"
               routes:
+                - matchers:
+                    - name: severity
+                      value: info
+                  receiver: discord
+                  continue: false
+                  groupWait: 0s
+                - matchers:
+                    - name: severity
+                      matchType: "=~"
+                      value: "critical|error"
+                  receiver: slack
+                  groupWait: 1m
+                  repeatInterval: 1h
+                  continue: false
                 - receiver: "null"
                   matchers:
                     - alertname =~ "Watchdog|InfoInhibitor"
             receivers:
               - name: "null"
+              - name: slack
+                slackConfigs:
+                  - apiURL:
+                      key: slackWebhook
+                      name: alertmanager
+                      optional: false
+                    channel: "#alerts"
+                    sendResolved: true
+                    text: |-
+                      {{ range .Alerts }}
+                      *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                      *Description:* {{ .Annotations.description }}
+                      *Details:*
+                      {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                      {{ end }}
+                      {{ end }}
+                    title: "{{ .CommonAnnotations.summary }}"
+                    titleLink: "{{ .CommonAnnotations.runbook_url }}"
+              - name: discord
+                discordConfigs:
+                  - apiURL:
+                      key: discordWebhook
+                      name: alertmanager
+                      optional: false
+                    sendResolved: false
+                    message: |-
+                      {{ range .Alerts }}
+                      *Info:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                      *Description:* {{ .Annotations.description }}
+                      *Details:*
+                      {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                      {{ end }}
+                      {{ end }}
+                    title: "{{ .CommonAnnotations.summary }}"
             templates:
               - "/etc/alertmanager/config/*.tmpl"
         coreDns:
@@ -129,74 +176,3 @@ items:
         creationPolicy: Owner
         deletionPolicy: Delete
         immutable: false
-  - apiVersion: monitoring.coreos.com/v1alpha1
-    kind: AlertmanagerConfig
-    metadata:
-      name: alertmanager
-      namespace: monitoring
-    spec:
-      receivers:
-        - name: default
-        - name: slack
-          slackConfigs:
-            - apiURL:
-                key: slackWebhook
-                name: alertmanager
-                optional: false
-              channel: "#alerts"
-              sendResolved: true
-              text: |-
-                {{ range .Alerts }}
-                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
-                *Description:* {{ .Annotations.description }}
-                *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                {{ end }}
-                {{ end }}
-              title: "{{ .CommonAnnotations.summary }}"
-              titleLink: "{{ .CommonAnnotations.runbook_url }}"
-        - name: discord
-          discordConfigs:
-            - apiURL:
-                key: discordWebhook
-                name: alertmanager
-                optional: false
-              sendResolved: false
-              message: |-
-                {{ range .Alerts }}
-                *Info:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
-                *Description:* {{ .Annotations.description }}
-                *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
-                {{ end }}
-                {{ end }}
-              title: "{{ .CommonAnnotations.summary }}"
-      route:
-        continue: true
-        groupBy:
-          - alertname
-          - kind
-          - name
-          - severity
-        groupInterval: 5m
-        groupWait: 30s
-        receiver: default
-        repeatInterval: 12h
-        routes:
-          - matchers:
-              - name: severity
-                value: info
-            receiver: discord
-            continue: false
-            groupWait: 0s
-          - matchers:
-              - name: severity
-                matchType: "=~"
-                value: "critical|error"
-              - name: kind
-                matchType: "=~"
-                value: "GitRepository|Kustomization|HelmRelease"
-            receiver: slack
-            groupWait: 1m
-            repeatInterval: 1h
-            continue: false
