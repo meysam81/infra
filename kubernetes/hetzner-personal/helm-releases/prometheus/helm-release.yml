@@ -43,25 +43,162 @@ items:
         remediation:
           remediateLastFailure: true
       values:
-        kubeStateMetrics:
+        alertmanager:
+          enabled: true
+          config:
+            global:
+              resolve_timeout: 5m
+            inhibit_rules:
+              - source_matchers:
+                  - "severity =~ critical|error"
+                target_matchers:
+                  - "severity =~ warning|info"
+                equal:
+                  - "namespace"
+                  - "alertname"
+              - source_matchers:
+                  - "severity = warning"
+                target_matchers:
+                  - "severity = info"
+                equal:
+                  - "namespace"
+                  - "alertname"
+              - source_matchers:
+                  - "alertname = InfoInhibitor"
+                target_matchers:
+                  - "severity = info"
+                equal:
+                  - "namespace"
+              - target_matchers:
+                  - "alertname = InfoInhibitor"
+            route:
+              group_by: ["namespace"]
+              group_wait: 30s
+              group_interval: 5m
+              repeat_interval: 12h
+              receiver: "null"
+              routes:
+                - receiver: "null"
+                  matchers:
+                    - alertname = "Watchdog"
+            receivers:
+              - name: "null"
+            templates:
+              - "/etc/alertmanager/config/*.tmpl"
+        coreDns:
           enabled: false
         grafana:
           enabled: false
         kubeApiServer:
           enabled: false
-        kubelet:
-          enabled: false
-        coreDns:
-          enabled: false
         kubeDns:
           enabled: false
         kubeEtcd:
           enabled: false
+        kubeProxy:
+          enabled: false
         kubeScheduler:
           enabled: false
-        kubeProxy:
+        kubeStateMetrics:
+          enabled: false
+        kubelet:
           enabled: false
         nodeExporter:
           enabled: false
         prometheus:
           enabled: false
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: alertmanager
+      namespace: monitoring
+    spec:
+      data:
+        - remoteRef:
+            key: /slack/developer-friendly/webhooks/alerts
+          secretKey: slackWebhook
+        - remoteRef:
+            key: /discord/developer-friendly/webhooks/info
+          secretKey: discordWebhook
+      refreshInterval: 5m
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Delete
+        immutable: false
+  - apiVersion: monitoring.coreos.com/v1alpha1
+    kind: AlertmanagerConfig
+    metadata:
+      name: alertmanager
+      namespace: monitoring
+    spec:
+      receivers:
+        - name: default-receiver
+        - name: slack
+          slackConfigs:
+            - apiURL:
+                key: slackWebhook
+                name: alertmanager
+                optional: false
+              channel: "#alerts"
+              sendResolved: true
+              text: |-
+                {{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+                {{ end }}
+              title: "{{ .CommonAnnotations.summary }}"
+              titleLink: "{{ .CommonAnnotations.runbook_url }}"
+        - name: discord
+          discordConfigs:
+            - apiURL:
+                key: discordWebhook
+                name: alertmanager
+                optional: false
+              sendResolved: false
+              message: |-
+                {{ range .Alerts }}
+                *Info:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+                {{ end }}
+              title: "{{ .CommonAnnotations.summary }}"
+      route:
+        continue: false
+        groupBy:
+          - alertname
+          - app
+          - env
+          - severity
+        groupInterval: 5m
+        groupWait: 30s
+        receiver: discord
+        repeatInterval: 12h
+        routes:
+          - matchers:
+              - name: severity
+                value: info
+            receiver: discord
+            continue: false
+          - matchers:
+              - name: severity
+                matchType: "=~"
+                value: "critical|error"
+              - name: kind
+                matchType: "=~"
+                value: "GitRepository|Kustomization|HelmRelease"
+            receiver: slack
+            groupWait: 3m
+            repeatInterval: 1h
+            continue: false
+        matchers:
+          - name: severity
+            matchType: "=~"
+            value: "critical|warning|error|info"
