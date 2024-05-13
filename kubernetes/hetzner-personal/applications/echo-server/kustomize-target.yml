@@ -4,7 +4,7 @@ metadata:
   name: echo-server
 spec:
   force: true
-  interval: 10m0s
+  interval: 1m
   patches:
     - patch: |
         - op: replace
