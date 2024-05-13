@@ -176,8 +176,8 @@ items:
       route:
         continue: false
         groupBy:
-          - name
           - severity
+          - revision
         groupInterval: 60m
         groupWait: 5m
         receiver: default-receiver
