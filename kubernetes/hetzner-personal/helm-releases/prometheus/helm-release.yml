@@ -72,6 +72,7 @@ items:
               - target_matchers:
                   - "alertname = InfoInhibitor"
             route:
+              continue: true
               group_by: ["namespace"]
               group_wait: 30s
               group_interval: 5m
