@@ -176,9 +176,7 @@ items:
       route:
         continue: false
         groupBy:
-          - alertname
           - name
-          - kind
           - severity
         groupInterval: 60m
         groupWait: 5m
