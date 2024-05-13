@@ -120,7 +120,7 @@ items:
         - remoteRef:
             key: /discord/developer-friendly/webhooks/info
           secretKey: discordWebhook
-      refreshInterval: 5m
+      refreshInterval: 6m
       secretStoreRef:
         kind: ClusterSecretStore
         name: aws-parameter-store
