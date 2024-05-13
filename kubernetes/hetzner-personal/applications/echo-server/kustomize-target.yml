@@ -19,4 +19,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: echo-server
+  timeout: 1m
   wait: true
