@@ -9,6 +9,8 @@ configMapGenerator:
       - ./debug.jsonnet
       - ./config.yml
     name: kratos-files
+    options:
+      disableNameSuffixHash: true
 
 resources:
   - repository.yml
