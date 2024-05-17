@@ -22,7 +22,6 @@ spec:
     - kustomize:
         patches:
           - target:
-              version: v1
               kind: Deployment
               name: kratos
             patch: |
