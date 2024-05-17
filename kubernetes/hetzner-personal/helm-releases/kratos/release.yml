@@ -18,6 +18,19 @@ spec:
     skipCRDs: false
   interval: 30m
   maxHistory: 10
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Deployment
+              name: kratos
+            patch: |
+              - op: add
+                path: /spec/template/spec/initContainers/0/envFrom/-
+                value:
+                  secretRef:
+                    name: kratos-secrets
   releaseName: kratos
   targetNamespace: auth
   test:
