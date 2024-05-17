@@ -179,8 +179,8 @@ resource "cloudflare_record" "ory_example" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "ory-example"
-  proxied = true
-  ttl     = 1
+  proxied = false
+  ttl     = 3600
   type    = "CNAME"
   value   = "developer-friendly.github.io"
 }
