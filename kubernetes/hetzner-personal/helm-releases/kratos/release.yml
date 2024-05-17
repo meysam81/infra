@@ -51,7 +51,7 @@ spec:
                   - --config
                   - /var/lib/kratos/config.yml
                   - --expose-metrics-port
-                  - 4434
+                  - "4434"
   releaseName: kratos
   targetNamespace: auth
   test:
