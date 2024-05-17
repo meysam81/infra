@@ -22,15 +22,6 @@ spec:
     - kustomize:
         patches:
           - target:
-              kind: Deployment
-              name: kratos
-            patch: |
-              - op: add
-                path: /spec/template/spec/initContainers/0/envFrom
-                value:
-                  - secretRef:
-                      name: kratos-secrets
-          - target:
               kind: Job
               name: kratos-automigrate
             patch: |
