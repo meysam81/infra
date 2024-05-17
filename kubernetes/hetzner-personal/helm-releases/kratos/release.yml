@@ -37,7 +37,7 @@ spec:
     enable: true
     ignoreFailures: true
     timeout: 1m
-  timeout: 5m
+  timeout: 1m
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
