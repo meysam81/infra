@@ -175,17 +175,17 @@ resource "cloudflare_record" "devfriend_blog_maileroo_cname" {
   value   = "click.maileroo.net"
 }
 
-resource "cloudflare_record" "ory_example" {
+resource "cloudflare_record" "ory" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "ory-example"
+  name    = "ory"
   proxied = true
   ttl     = 1
   type    = "CNAME"
   value   = "developer-friendly.github.io"
 }
 
-resource "cloudflare_ruleset" "ory_example" {
+resource "cloudflare_ruleset" "ory" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
   name    = "Set CORS header"
   kind    = "zone"
@@ -199,10 +199,15 @@ resource "cloudflare_ruleset" "ory_example" {
         operation = "set"
         value     = "true"
       }
+      headers {
+        name      = "access-control-allow-origin"
+        operation = "set"
+        value     = "https://ory.developer-friendly.blog"
+      }
     }
 
-    expression  = "(http.host eq \"ory-example.developer-friendly.blog\")"
-    description = "Set CORS headers for ORY Example"
+    expression  = "(http.host eq \"ory.developer-friendly.blog\")"
+    description = "Set CORS headers for ORY"
     enabled     = true
   }
 }

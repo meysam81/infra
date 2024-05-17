@@ -1,0 +1,19 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=./values.yml
+    name: kratos-config
+  - files:
+      - ./debug.jsonnet
+      - ./config.yml
+    name: kratos-files
+
+resources:
+  - repository.yml
+  - release.yml
+  - externalsecret.yml
+  - httproute.yml
+
+namespace: flux-system

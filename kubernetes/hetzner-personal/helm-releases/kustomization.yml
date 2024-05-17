@@ -11,3 +11,4 @@ resources:
   - ./cert-manager/kustomize.yml
   - external-secrets/helm-release.yml
   - prometheus/helm-release.yml
+  - kratos/helm-release.yml

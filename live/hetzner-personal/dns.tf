@@ -28,8 +28,23 @@ resource "cloudflare_record" "newsletter" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "newsletter.developer-friendly.blog"
-  proxied = false
-  ttl     = 60
+  proxied = true
+  ttl     = 1
+  type    = each.key
+  value   = hcloud_primary_ip.this[each.value].ip_address
+}
+
+resource "cloudflare_record" "kratos" {
+  for_each = {
+    "A"    = "ipv4"
+    "AAAA" = "ipv6"
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "kratos.developer-friendly.blog"
+  proxied = true
+  ttl     = 1
   type    = each.key
   value   = hcloud_primary_ip.this[each.value].ip_address
 }
