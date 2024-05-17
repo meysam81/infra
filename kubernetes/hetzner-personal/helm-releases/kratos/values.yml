@@ -146,7 +146,14 @@ kratos:
     # eg:
     # - sleep 5;
     #   - kratos
-    customArgs: []
+    customArgs:
+      - migrate
+      - sql
+      - -e
+      - --yes
+      - --config
+      - /var/lib/kratos/config.yml
+
     # -- resource requests and limits for the automigration initcontainer
     resources: {}
 

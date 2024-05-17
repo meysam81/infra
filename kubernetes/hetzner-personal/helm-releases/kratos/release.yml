@@ -30,15 +30,15 @@ spec:
                 value:
                   - secretRef:
                       name: kratos-secrets
-              - op: replace
-                path: /spec/template/spec/initContainers/0/args
+          - target:
+              kind: Job
+              name: kratos-automigrate
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/envFrom
                 value:
-                  - migrate
-                  - sql
-                  - -e
-                  - --yes
-                  - --config
-                  - /var/lib/kratos/config.yml
+                  - secretRef:
+                      name: kratos-secrets
           - target:
               kind: StatefulSet
               name: kratos-courier
