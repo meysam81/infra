@@ -30,6 +30,19 @@ spec:
                 value:
                   - secretRef:
                       name: kratos-secrets
+          - target:
+              kind: StatefulSet
+              name: kratos-courier
+            patch: |
+              - op: replace
+                path: /spec/template/spec/containers/0/args
+                value:
+                  - courier
+                  - watch
+                  - --config
+                  - /var/lib/kratos/config.yml
+                  - --expose-metrics-port
+                  - 4434
   releaseName: kratos
   targetNamespace: auth
   test:
