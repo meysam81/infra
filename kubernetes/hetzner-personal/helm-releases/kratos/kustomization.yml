@@ -13,6 +13,7 @@ configMapGenerator:
       disableNameSuffixHash: true
 
 resources:
+  - pvc.yml
   - repository.yml
   - release.yml
   - externalsecret.yml
