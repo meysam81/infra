@@ -22,16 +22,16 @@ spec:
     - kustomize:
         patches:
           - target:
-              kind: Job
-              name: kratos-automigrate
+              kind: Deployment
+              name: kratos
             patch: |
               - op: add
-                path: /spec/template/spec/containers/0/envFrom
+                path: /spec/template/spec/initContainers/0/envFrom
                 value:
                   - secretRef:
                       name: kratos-secrets
               - op: replace
-                path: /spec/template/spec/containers/0/args
+                path: /spec/template/spec/initContainers/0/args
                 value:
                   - migrate
                   - sql
