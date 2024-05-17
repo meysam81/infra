@@ -9,7 +9,6 @@ configMapGenerator:
       - ./debug.jsonnet
       - ./config.yml
     name: kratos-files
-    namespace: auth
     options:
       disableNameSuffixHash: true
 
@@ -19,4 +18,4 @@ resources:
   - externalsecret.yml
   - httproute.yml
 
-namespace: flux-system
+namespace: auth
