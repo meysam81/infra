@@ -174,3 +174,13 @@ resource "cloudflare_record" "devfriend_blog_maileroo_cname" {
   type    = "CNAME"
   value   = "click.maileroo.net"
 }
+
+resource "cloudflare_record" "ory_example" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "ory-example"
+  proxied = true
+  ttl     = 1
+  type    = "CNAME"
+  value   = "developer-friendly.github.io"
+}

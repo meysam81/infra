@@ -8,8 +8,6 @@ loki_remote_write:
   username: 596709
   password: "{{ prometheus_remote_write.password }}"
 
-admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"
-
 fail2ban_exporter_enabled: true
 
 fluxcd_root_dir: hetzner-personal

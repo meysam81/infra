@@ -125,7 +125,7 @@ resource "hcloud_firewall" "this" {
     protocol  = "tcp"
     port      = "any"
     source_ips = [
-      format("%s/32", data.aws_ssm_parameter.this.value),
+      data.aws_ssm_parameter.this.value,
     ]
     description = "Admin public IP address"
   }

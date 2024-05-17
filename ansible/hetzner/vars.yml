@@ -8,8 +8,6 @@ loki_remote_write:
   username: 596709
   password: "{{ prometheus_remote_write.password }}"
 
-admin_ip_address: "{{ lookup('amazon.aws.ssm_parameter', '/meysam/public-ip-address', profile='personal', region='ap-southeast-1') }}"
-
 domain_name: "{{ lookup('amazon.aws.ssm_parameter', '/hetzner-personal/domain-name', profile='personal', region='ap-southeast-1') }}"
 domain_email: meysam@developer-friendly.blog
 
