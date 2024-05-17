@@ -189,7 +189,7 @@ resource "cloudflare_ruleset" "ory_example" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
   name    = "Set CORS header"
   kind    = "zone"
-  phase   = "http_request_late_transform"
+  phase   = "http_response_headers_transform"
 
   rules {
     action = "rewrite"
@@ -199,13 +199,6 @@ resource "cloudflare_ruleset" "ory_example" {
         operation = "set"
         value     = "true"
       }
-
-      headers {
-        name       = "access-control-allow-origin"
-        operation  = "set"
-        expression = "http.origin"
-      }
-
     }
 
     expression  = "(http.host eq \"ory-example.developer-friendly.blog\")"
