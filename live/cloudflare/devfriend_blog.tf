@@ -184,3 +184,32 @@ resource "cloudflare_record" "ory_example" {
   type    = "CNAME"
   value   = "developer-friendly.github.io"
 }
+
+resource "cloudflare_ruleset" "ory_example" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+  name    = "Set CORS header"
+  kind    = "zone"
+  phase   = "http_request_late_transform"
+
+  rules {
+    action = "rewrite"
+    action_parameters {
+      headers {
+        name      = "access-control-allow-credentials"
+        operation = "set"
+        value     = "true"
+      }
+
+      headers {
+        name       = "access-control-allow-origin"
+        operation  = "set"
+        expression = "http.origin"
+      }
+
+    }
+
+    expression  = "(http.host eq \"ory-example.developer-friendly.blog\")"
+    description = "Set CORS headers for ORY Example"
+    enabled     = true
+  }
+}
