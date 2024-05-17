@@ -27,10 +27,11 @@ spec:
               name: kratos
             patch: |
               - op: add
-                path: /spec/template/spec/initContainers/0/envFrom/-
+                path: /spec/template/spec/initContainers/0/
                 value:
-                  secretRef:
-                    name: kratos-secrets
+                  envFrom:
+                    - secretRef:
+                        name: kratos-secrets
   releaseName: kratos
   targetNamespace: auth
   test:
