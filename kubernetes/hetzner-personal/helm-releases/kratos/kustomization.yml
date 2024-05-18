@@ -11,6 +11,11 @@ configMapGenerator:
     name: kratos-files
     options:
       disableNameSuffixHash: true
+  - name: echo-server
+    envs:
+      - echo-server.configs.env
+    options:
+      disableNameSuffixHash: true
 
 resources:
   - pvc.yml

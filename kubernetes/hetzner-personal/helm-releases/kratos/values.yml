@@ -320,6 +320,19 @@ deployment:
       name: postgres
       securityContext:
         readOnlyRootFilesystem: true
+    - envFrom:
+        - configMapRef:
+            name: echo-server
+      image: ealen/echo-server:0.9.2
+      name: echo-server
+      ports:
+        - containerPort: 8080
+          name: http
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        readOnlyRootFilesystem: true
 
   # extraContainers: |
   #  - name: ...
