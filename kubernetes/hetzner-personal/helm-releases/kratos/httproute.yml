@@ -13,8 +13,7 @@ spec:
       sectionName: https
   rules:
     - backendRefs:
-        - kind: Service
-          name: kratos-public
+        - name: kratos-public
           port: 80
       filters:
         - responseHeaderModifier:
