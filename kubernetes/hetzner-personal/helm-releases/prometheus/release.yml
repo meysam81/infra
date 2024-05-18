@@ -1,0 +1,99 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: kube-prometheus-stack
+      version: 58.x
+  install:
+    crds: Create
+    createNamespace: true
+    remediation:
+      retries: 3
+  interval: 30m
+  maxHistory: 10
+  releaseName: kube-prometheus-stack
+  targetNamespace: monitoring
+  test:
+    enable: true
+    ignoreFailures: true
+    timeout: 1m
+  timeout: 5m
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  values:
+    alertmanager:
+      alertmanagerSpec:
+        alertmanagerConfigMatcherStrategy:
+          type: None
+      enabled: true
+      config:
+        global:
+          resolve_timeout: 5m
+        inhibit_rules:
+          - source_matchers:
+              - "severity =~ critical|error"
+            target_matchers:
+              - "severity =~ warning|info"
+            equal:
+              - "namespace"
+              - "alertname"
+          - source_matchers:
+              - "severity = warning"
+            target_matchers:
+              - "severity = info"
+            equal:
+              - "namespace"
+              - "alertname"
+          - source_matchers:
+              - "alertname = InfoInhibitor"
+            target_matchers:
+              - "severity = info"
+            equal:
+              - "namespace"
+          - target_matchers:
+              - "alertname = InfoInhibitor"
+        route:
+          group_by: ["namespace"]
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 12h
+          receiver: "null"
+          routes:
+            - receiver: "null"
+              matchers:
+                - alertname =~ "Watchdog|InfoInhibitor"
+        receivers:
+          - name: "null"
+        templates:
+          - "/etc/alertmanager/config/*.tmpl"
+    coreDns:
+      enabled: false
+    grafana:
+      enabled: false
+    kubeApiServer:
+      enabled: false
+    kubeDns:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeStateMetrics:
+      enabled: false
+    kubelet:
+      enabled: false
+    nodeExporter:
+      enabled: false
+    prometheus:
+      enabled: false
