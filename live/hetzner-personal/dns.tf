@@ -34,7 +34,7 @@ resource "cloudflare_record" "newsletter" {
   value   = hcloud_primary_ip.this[each.value].ip_address
 }
 
-resource "cloudflare_record" "kratos" {
+resource "cloudflare_record" "auth" {
   for_each = {
     "A"    = "ipv4"
     "AAAA" = "ipv6"
@@ -42,7 +42,7 @@ resource "cloudflare_record" "kratos" {
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "kratos.developer-friendly.blog"
+  name    = "auth.developer-friendly.blog"
   proxied = true
   ttl     = 1
   type    = each.key
