@@ -10,5 +10,5 @@ configMapGenerator:
 resources:
   - ./cert-manager/kustomize.yml
   - external-secrets/helm-release.yml
-  # - prometheus/helm-release.yml
-  # - kratos/kustomize.yml
+  - prometheus/helm-release.yml
+  - kratos/kustomize.yml
