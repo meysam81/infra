@@ -1,0 +1,13 @@
+[Unit]
+Description=Update K8s JWKs
+
+[Service]
+Environment=KUBECONFIG=/home/k8s-oidc/.kube/config
+User=k8s-oidc
+Group=k8s-oidc
+ExecStart=/usr/local/bin/update-jwks
+Restart=on-failure
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

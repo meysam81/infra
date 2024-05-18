@@ -1,9 +1,83 @@
----
-- name: Certbot
-  ansible.builtin.import_tasks: certbot.yml
+- name: Create the group k8s-oidc
+  ansible.builtin.group:
+    name: k8s-oidc
+    state: present
+- name: Create the user k8s-oidc
+  ansible.builtin.user:
+    name: k8s-oidc
+    group: k8s-oidc
+    shell: /bin/false
+    home: /home/k8s-oidc
+    createhome: true
+- name: Ensure kube config dir exists
+  ansible.builtin.file:
+    path: /home/k8s-oidc/.kube
+    state: directory
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0700"
+- name: Copy kubeconfig for k8s-oidc
+  ansible.builtin.copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /home/k8s-oidc/.kube/config
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0400"
+    remote_src: true
+- name: Place the GitHub Deploy Key in /home/k8s-oidc/.ssh/github
+  ansible.builtin.copy:
+    content: "{{ github_deploy_key }}"
+    dest: /home/k8s-oidc/.ssh/github
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0400"
   tags:
-    - certbot
-- name: Static web server
-  ansible.builtin.import_tasks: static-server.yml
-  tags:
-    - static-web-server
+    - ssh
+  no_log: true
+- name: Create the GitHub SSH config
+  ansible.builtin.copy:
+    content: |
+      Host github.com
+        User git
+        IdentityFile ~/.ssh/github
+    dest: /home/k8s-oidc/.ssh/config
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0400"
+- name: Populate the GitHub's known host
+  ansible.builtin.copy:
+    content: "{{ github_known_host }}"
+    dest: /home/k8s-oidc/.ssh/known_hosts
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0400"
+- name: Place the update-jwks script in /usr/local/bin
+  ansible.builtin.template:
+    src: update-jwks.sh.j2
+    dest: /usr/local/bin/update-jwks
+    owner: root
+    group: root
+    mode: "0755"
+  notify: Reload update-jwks
+- name: Create the update-jwks.service
+  ansible.builtin.template:
+    src: update-jwks.service.j2
+    dest: /etc/systemd/system/update-jwks.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload update-jwks
+- name: Create the update-jwks.timer
+  ansible.builtin.template:
+    src: update-jwks.timer.j2
+    dest: /etc/systemd/system/update-jwks.timer
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload update-jwks
+- name: Enable and start the update-jwks.timer
+  ansible.builtin.systemd:
+    name: update-jwks.timer
+    enabled: true
+    state: started
+    daemon_reload: true

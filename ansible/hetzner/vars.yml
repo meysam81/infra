@@ -14,3 +14,6 @@ domain_email: meysam@developer-friendly.blog
 fail2ban_exporter_enabled: true
 
 fluxcd_root_dir: hetzner-personal
+
+github_deploy_key: "{{ lookup('amazon.aws.ssm_parameter', '/github/k8s-oidc-provider/deploy-key', profile='personal', region='ap-southeast-1') }}"
+role_arn: "{{ lookup('amazon.aws.ssm_parameter', '/external-secrets/role-arn', profile='personal', region='ap-southeast-1') }}"

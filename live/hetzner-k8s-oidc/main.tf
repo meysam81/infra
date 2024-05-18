@@ -1,25 +1,13 @@
-data "terraform_remote_state" "hetzner_personal" {
-  backend = "remote"
-
-  config = {
-    hostname     = "app.terraform.io"
-    organization = "meysam"
-    workspaces = {
-      name = "hetzner-personal"
-    }
-  }
-}
-
 locals {
-  k8s_oidc_url = data.terraform_remote_state.hetzner_personal.outputs.server_hostname
+  k8s_oidc_url = "https://meysam81.github.io/k8s-oidc-provider"
 }
 
 data "tls_certificate" "this" {
-  url = "https://${local.k8s_oidc_url}"
+  url = local.k8s_oidc_url
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
-  url = "https://${local.k8s_oidc_url}"
+  url = local.k8s_oidc_url
 
   # JWT token audience (aud)
   client_id_list = [
@@ -64,4 +52,10 @@ resource "aws_iam_role" "this" {
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
   ]
+}
+
+resource "aws_ssm_parameter" "this" {
+  name  = "/external-secrets/role-arn"
+  type  = "String"
+  value = aws_iam_role.this.arn
 }

@@ -15,8 +15,3 @@
   ansible.builtin.import_tasks: promtail.yml
   tags:
     - promtail
-- name: Install fail2ban exporter
-  ansible.builtin.import_tasks: fail2ban-exporter.yml
-  when: fail2ban_exporter_enabled
-  tags:
-    - fail2ban-exporter

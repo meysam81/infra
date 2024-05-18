@@ -17,14 +17,6 @@
     - name: Set role arn
       ansible.builtin.set_fact:
         role_arn: "{{ role_name_info.iam_roles[0].arn }}"
-- name: Ensure external-secrets namespace exists
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: external-secrets
 - name: Create Kubernetes ServiceAccount with annotations
   kubernetes.core.k8s:
     state: present

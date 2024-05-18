@@ -49,6 +49,8 @@
   gather_facts: false
   hosts: hetzner
   name: Configure cluster secret store
+  vars_files:
+    - ./vars.yml
   roles:
     - cluster-secret-store
   tags:
