@@ -292,7 +292,7 @@ deployment:
         - |
           set -eu
 
-          export DSN="$(grep dsn /etc/config/config.yml | cut -d' ' -f2)"
+          export DSN="$(grep dsn /var/lib/kratos/config.yml | cut -d' ' -f2)"
 
           interval=30
 
@@ -323,9 +323,9 @@ deployment:
       securityContext:
         readOnlyRootFilesystem: true
       volumeMounts:
-      - mountPath: /etc/config
-        name: kratos-config-volume
-        readOnly: true
+        - mountPath: /var/lib/kratos
+          name: kratos-files
+          readOnly: true
     - envFrom:
         - configMapRef:
             name: echo-server
