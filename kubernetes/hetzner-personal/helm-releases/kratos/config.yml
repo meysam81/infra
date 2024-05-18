@@ -257,7 +257,7 @@ selfservice:
       enabled: true
     totp:
       config:
-        issuer: https://kratos.developer-friendly.blog
+        issuer: https://auth.developer-friendly.blog
       enabled: false
     lookup_secret:
       enabled: false
@@ -307,7 +307,7 @@ serve:
       max_age: 0
       debug: false
       enabled: true
-    base_url: https://kratos.developer-friendly.blog
+    base_url: https://auth.developer-friendly.blog
     port: 4433
     request_log:
       disable_for_health: true
