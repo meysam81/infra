@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    name: prometheus
+    - name: prometheus
   force: false
   interval: 5m
   path: ./kubernetes/hetzner-personal/helm-releases/alertmanager
