@@ -26,7 +26,7 @@ spec:
               - name: Access-Control-Allow-Methods
                 value: GET, PUT, POST, DELETE, OPTIONS
               - name: Access-Control-Allow-Origin
-                value: "*"
+                value: https://ory.developer-friendly.blog
               - name: Cache-Control
                 value: no-cache, no-store
               - name: Content-Security-Policy
