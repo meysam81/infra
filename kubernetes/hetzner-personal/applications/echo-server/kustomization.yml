@@ -1,6 +1,0 @@
-resources:
-  - externalsecret.yml
-  - gitrepo.yml
-  - kustomize-target.yml
-
-namespace: flux-system
