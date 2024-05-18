@@ -288,44 +288,6 @@ deployment:
 
   # -- If you want to add extra sidecar containers.
   extraContainers: |
-    - args:
-        - |
-          set -eu
-
-          export DSN="$(grep dsn /var/lib/kratos/config.yml | cut -d' ' -f2)"
-
-          interval=30
-
-          POSTGRES_USER=$(echo $DSN | sed -e 's/.*\/\///' | cut -d: -f1)
-          PGPASSWORD=$(echo $DSN | awk -F: '{print $3}' | cut -d@ -f1)
-          POSTGRES_HOST=$(echo $DSN | awk -F@ '{print $2}' | cut -d/ -f1)
-          POSTGRES_DB=$(echo $DSN | sed -e 's/.*\///' | cut -d? -f1)
-
-          echo testing connection to $POSTGRES_DB
-
-          alias check="pg_isready \
-            --host=$POSTGRES_HOST \
-            --username=$POSTGRES_USER \
-            --dbname=$POSTGRES_DB"
-
-
-          while sleep $interval; do
-            check
-          done
-      command:
-        - sh
-        - -c
-      envFrom:
-        - secretRef:
-            name: kratos-secrets
-      image: postgres:16-alpine
-      name: postgres
-      securityContext:
-        readOnlyRootFilesystem: true
-      volumeMounts:
-        - mountPath: /var/lib/kratos
-          name: kratos-files
-          readOnly: true
     - envFrom:
         - configMapRef:
             name: echo-server
