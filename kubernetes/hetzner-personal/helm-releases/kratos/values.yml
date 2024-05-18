@@ -292,6 +292,8 @@ deployment:
         - |
           set -eu
 
+          export DSN="$(grep dsn /etc/config/config.yml | cut -d' ' -f2)"
+
           interval=30
 
           POSTGRES_USER=$(echo $DSN | sed -e 's/.*\/\///' | cut -d: -f1)
@@ -320,6 +322,10 @@ deployment:
       name: postgres
       securityContext:
         readOnlyRootFilesystem: true
+      volumeMounts:
+      - mountPath: /etc/config
+        name: kratos-config-volume
+        readOnly: true
     - envFrom:
         - configMapRef:
             name: echo-server
