@@ -23,5 +23,6 @@ resources:
   - release.yml
   - externalsecret.yml
   - httproute.yml
+  - refgrant.yml
 
 namespace: auth

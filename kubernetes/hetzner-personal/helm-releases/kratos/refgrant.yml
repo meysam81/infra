@@ -1,0 +1,11 @@
+kind: ReferenceGrant
+metadata:
+  name: kratos
+spec:
+  from:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: auth
+  to:
+    - group: ""
+      kind: Service
