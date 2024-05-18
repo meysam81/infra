@@ -60,7 +60,7 @@ resource "hcloud_server" "this" {
       - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
       - |
         curl https://get.k3s.io | \
-          INSTALL_K3S_VERSION="v1.29.4+k3s1" \
+          INSTALL_K3S_VERSION="v1.30.0+k3s1" \
           INSTALL_K3S_EXEC="--cluster-cidr=20.0.0.0/8,2001:cafe:42::/56
             --kube-apiserver-arg=service-account-jwks-uri=https://${cloudflare_record.this["A"].name}/openid/v1/jwks
             --kube-apiserver-arg=service-account-issuer=https://${cloudflare_record.this["A"].name}

@@ -3,12 +3,18 @@
   ansible.builtin.pip:
     name: kubernetes<30
     state: present
-    extra_args: --break-system-packages
+- name: Install curl and wget
+  ansible.builtin.package:
+    name:
+      - curl
+      - wget
+    state: present
 - name: Install helm binary
   block:
     - name: Run helm install script
       ansible.builtin.shell:
         cmd: "{{ lookup('url', 'https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3', split_lines=False) }}"
+        executable: /bin/bash
         creates: /usr/local/bin/helm
       environment:
         DESIRED_VERSION: "{{ helm_version }}"
