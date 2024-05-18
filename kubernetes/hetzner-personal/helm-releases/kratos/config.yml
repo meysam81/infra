@@ -300,6 +300,9 @@ serve:
     cors:
       allowed_origins:
         - https://ory.developer-friendly.blog
+      exposed_headers:
+        - content-type
+        - origin
       options_passthrough: true
       max_age: 0
       debug: false
