@@ -63,6 +63,8 @@ spec:
                   - /var/lib/kratos/config.yml
                   - --expose-metrics-port
                   - "4434"
+              - op: remove
+                path: /spec/template/spec/containers/1
   releaseName: kratos
   targetNamespace: auth
   test:
