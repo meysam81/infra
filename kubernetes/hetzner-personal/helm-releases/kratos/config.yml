@@ -287,7 +287,7 @@ courier:
   smtp:
     from_address: no-reply@developer-friendly.blog
     from_name: Developer Friendly
-    # connection_uri: PLACEHOLDER
+    connection_uri: PLACEHOLDER
   template_override_path: /conf/courier-templates
   templates:
     recovery:
@@ -351,13 +351,13 @@ log:
   redaction_text: ""
   format: json
   level: trace
-# secrets:
-#   cookie:
-#     - PLACEHOLDER
-#   cipher:
-#     - PLACEHOLDER
-#   default:
-#     - PLACEHOLDER
+secrets:
+  cookie:
+    - PLACEHOLDER
+  cipher:
+    - PLACEHOLDER
+  default:
+    - PLACEHOLDER
 hashers:
   argon2:
     iterations: 1

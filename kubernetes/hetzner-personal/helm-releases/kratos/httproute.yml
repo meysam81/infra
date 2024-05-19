@@ -51,8 +51,6 @@ spec:
                 value: none
               - name: X-XSS-Protection
                 value: "0"
-              - name: Origin
-                value: https://auth.developer-friendly.blog
           type: ResponseHeaderModifier
       matches:
         - path:

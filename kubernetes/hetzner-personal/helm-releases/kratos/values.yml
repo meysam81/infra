@@ -253,7 +253,10 @@ deployment:
   # -- Array of extra envs to be passed to the deployment. Kubernetes format is expected
   # - name: FOO
   #   value: BAR
-  extraEnv: []
+  extraEnv:
+    - secretRef:
+        name: kratos-secrets
+
   # -- If you want to mount external volume
   # For example, mount a secret containing Certificate root CA to verify database
   # TLS connection.
@@ -394,6 +397,14 @@ deployment:
 
   # -- Parameters for the automigration initContainer
   automigration:
+    customArgs:
+      - migrate
+      - sql
+      - -e
+      - --yes
+      - --config
+      - /var/lib/kratos/config.yml
+
     # -- Array of extra envs to be passed to the initContainer. Kubernetes format is expected
     # - name: FOO
     #   value: BAR
