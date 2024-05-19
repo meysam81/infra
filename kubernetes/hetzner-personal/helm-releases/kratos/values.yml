@@ -441,6 +441,9 @@ statefulSet:
     - name: kratos-files
       configMap:
         name: kratos-files
+    - name: kratos-data
+      persistentVolumeClaim:
+        claimName: kratos-data
   extraVolumeMounts:
     - name: kratos-templates
       mountPath: /conf/courier-templates
@@ -448,6 +451,8 @@ statefulSet:
     - name: kratos-files
       mountPath: /var/lib/kratos
       readOnly: true
+    - name: kratos-data
+      mountPath: /var/kratos
 
   # -- If you want to add extra init containers. These are processed before the migration init container.
   extraInitContainers: ""
