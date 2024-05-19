@@ -17,3 +17,5 @@ nameReference:
         kind: HelmRelease
       - path: /spec/values/statefulSet/extraVolumeMounts/name
         kind: HelmRelease
+      - path: /spec/values/deployment/extraContainers
+        kind: HelmRelease
