@@ -67,6 +67,41 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  values:
+    deployment:
+      extraVolumes:
+        - name: kratos-files
+          configMap:
+            name: kratos-files
+        - name: kratos-data
+          persistentVolumeClaim:
+            claimName: kratos-data
+      extraVolumeMounts:
+        - name: kratos-files
+          mountPath: /var/lib/kratos
+          readOnly: true
+        - name: kratos-data
+          mountPath: /var/kratos
+    statefulSet:
+      extraVolumes:
+        - name: kratos-templates
+          configMap:
+            name: kratos-templates
+        - name: kratos-files
+          configMap:
+            name: kratos-files
+        - name: kratos-data
+          persistentVolumeClaim:
+            claimName: kratos-data
+      extraVolumeMounts:
+        - name: kratos-templates
+          mountPath: /conf/courier-templates
+          readOnly: true
+        - name: kratos-files
+          mountPath: /var/lib/kratos
+          readOnly: true
+        - name: kratos-data
+          mountPath: /var/kratos
   valuesFrom:
     - kind: ConfigMap
       name: kratos-config

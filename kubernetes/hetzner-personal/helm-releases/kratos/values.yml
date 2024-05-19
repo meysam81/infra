@@ -258,19 +258,8 @@ deployment:
   # -- If you want to mount external volume
   # For example, mount a secret containing Certificate root CA to verify database
   # TLS connection.
-  extraVolumes:
-    - name: kratos-files
-      configMap:
-        name: kratos-files
-    - name: kratos-data
-      persistentVolumeClaim:
-        claimName: kratos-data
-  extraVolumeMounts:
-    - name: kratos-files
-      mountPath: /var/lib/kratos
-      readOnly: true
-    - name: kratos-data
-      mountPath: /var/kratos
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # extraVolumes:
   #   - name: postgresql-tls
@@ -443,25 +432,8 @@ statefulSet:
   # -- If you want to mount external volume
   # For example, mount a secret containing Certificate root CA to verify database
   # TLS connection.
-  extraVolumes:
-    - name: kratos-templates
-      configMap:
-        name: kratos-templates
-    - name: kratos-files
-      configMap:
-        name: kratos-files
-    - name: kratos-data
-      persistentVolumeClaim:
-        claimName: kratos-data
-  extraVolumeMounts:
-    - name: kratos-templates
-      mountPath: /conf/courier-templates
-      readOnly: true
-    - name: kratos-files
-      mountPath: /var/lib/kratos
-      readOnly: true
-    - name: kratos-data
-      mountPath: /var/kratos
+  extraVolumes: []
+  extraVolumeMounts: []
 
   # -- If you want to add extra init containers. These are processed before the migration init container.
   extraInitContainers: ""
