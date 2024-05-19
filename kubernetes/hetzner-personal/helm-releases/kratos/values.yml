@@ -435,12 +435,12 @@ statefulSet:
   # For example, mount a secret containing Certificate root CA to verify database
   # TLS connection.
   extraVolumes:
-    - name: kratos-files
-      configMap:
-        name: kratos-files
     - name: kratos-templates
       configMap:
         name: kratos-templates
+    - name: kratos-files
+      configMap:
+        name: kratos-files
   extraVolumeMounts:
     - name: kratos-templates
       mountPath: /conf/courier-templates
