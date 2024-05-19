@@ -81,3 +81,14 @@
     enabled: true
     state: started
     daemon_reload: true
+- name: Place /tmp cleanup script
+  ansible.builtin.copy:
+    content: |
+      #!/usr/bin/env sh
+      set -eu
+
+      find /tmp -type f -mmin +360 -delete
+    dest: /etc/cron.hourly/tmp-cleanup
+    owner: root
+    group: root
+    mode: "0755"
