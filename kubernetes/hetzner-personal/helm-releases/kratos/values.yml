@@ -435,12 +435,18 @@ statefulSet:
   # For example, mount a secret containing Certificate root CA to verify database
   # TLS connection.
   extraVolumes:
+    - name: kratos-files
+      configMap:
+        name: kratos-files
     - name: kratos-templates
       configMap:
         name: kratos-templates
   extraVolumeMounts:
     - name: kratos-templates
       mountPath: /conf/courier-templates
+      readOnly: true
+    - name: kratos-files
+      mountPath: /var/lib/kratos
       readOnly: true
 
   # -- If you want to add extra init containers. These are processed before the migration init container.
