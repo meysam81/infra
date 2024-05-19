@@ -232,7 +232,7 @@ selfservice:
               body: file:///var/lib/kratos/debug.jsonnet
               response:
                 ignore: true
-      ui_url: https://ory.developer-friendly.blog/user/settings
+      ui_url: https://ory.developer-friendly.blog/settings
   methods:
     link:
       config:
