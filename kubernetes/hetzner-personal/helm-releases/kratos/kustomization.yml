@@ -12,12 +12,12 @@ configMapGenerator:
   - name: echo-server
     envs:
       - echo-server.configs.env
+    options:
+      disableNameSuffixHash: true
   - name: kratos-templates
     files:
       - ./templates/email-verification.html.gotmpl
       - ./templates/account-recovery.html.gotmpl
-    options:
-      disableNameSuffixHash: true
 
 resources:
   - pvc.yml
