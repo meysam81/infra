@@ -25,6 +25,15 @@ spec:
               kind: Deployment
               name: kratos
             patch: |
+              - op: add
+                path: /spec/template/spec/initContainers/0/envFrom
+                value:
+                  - secretRef:
+                      name: kratos-secrets
+          - target:
+              kind: Deployment
+              name: kratos
+            patch: |
               - op: replace
                 path: /spec/template/spec/containers/0/args
                 value:
