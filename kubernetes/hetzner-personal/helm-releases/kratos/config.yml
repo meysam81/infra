@@ -20,7 +20,7 @@ selfservice:
             config:
               url: http://localhost:8080/registration/before
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
       after:
@@ -45,7 +45,7 @@ selfservice:
             config:
               url: http://localhost:8080/registration/after
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
         default_browser_return_url: https://ory.developer-friendly.blog
@@ -58,7 +58,7 @@ selfservice:
             config:
               url: http://localhost:8080/login/before
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
       after:
@@ -91,7 +91,7 @@ selfservice:
             config:
               url: http://localhost:8080/login/after
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
           - hook: require_verified_address
@@ -105,7 +105,7 @@ selfservice:
             config:
               url: http://localhost:8080/verify/after
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
         default_browser_return_url: https://ory.developer-friendly.blog
@@ -116,7 +116,7 @@ selfservice:
             config:
               url: http://localhost:8080/verify/before
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
       use: link
@@ -130,7 +130,7 @@ selfservice:
             config:
               url: http://localhost:8080/recovery/after
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
         default_browser_return_url: https://ory.developer-friendly.blog
@@ -141,7 +141,7 @@ selfservice:
             config:
               url: http://localhost:8080/recovery/before
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
       use: link
@@ -160,7 +160,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/password
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -170,7 +170,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/totp
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -180,7 +180,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/oidc
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -190,7 +190,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/webauthn
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -200,7 +200,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/lookup_secret
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -210,7 +210,7 @@ selfservice:
               config:
                 url: http://localhost:8080/settings/profile
                 method: POST
-                body: file:///var/lib/kratos/debug.jsonnet
+                body: file:///var/lib/kratos/config/debug.jsonnet
                 response:
                   ignore: true
           default_browser_return_url: https://ory.developer-friendly.blog
@@ -219,7 +219,7 @@ selfservice:
             config:
               url: http://localhost:8080/settings/after
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
         default_browser_return_url: https://ory.developer-friendly.blog
@@ -229,7 +229,7 @@ selfservice:
             config:
               url: http://localhost:8080/settings/before
               method: POST
-              body: file:///var/lib/kratos/debug.jsonnet
+              body: file:///var/lib/kratos/config/debug.jsonnet
               response:
                 ignore: true
       ui_url: https://ory.developer-friendly.blog/settings

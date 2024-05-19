@@ -10,14 +10,7 @@ spec:
         kind: HelmRepository
         name: ory
       version: 0.42.x
-  install:
-    crds: Create
-    createNamespace: true
-    remediation:
-      retries: 3
-    skipCRDs: false
   interval: 30m
-  maxHistory: 10
   postRenderers:
     - kustomize:
         patches:
@@ -40,7 +33,7 @@ spec:
                   - serve
                   - all
                   - --config
-                  - /var/lib/kratos/config.yml
+                  - /var/lib/kratos/config/config.yml
           - target:
               kind: StatefulSet
               name: kratos-courier
@@ -51,7 +44,7 @@ spec:
                   - courier
                   - watch
                   - --config
-                  - /var/lib/kratos/config.yml
+                  - /var/lib/kratos/config/config.yml
                   - --expose-metrics-port
                   - "4434"
               - op: remove
@@ -59,8 +52,6 @@ spec:
   releaseName: kratos
   test:
     enable: false
-    ignoreFailures: true
-    timeout: 1m
   timeout: 5m
   upgrade:
     cleanupOnFail: true
@@ -70,15 +61,20 @@ spec:
   values:
     deployment:
       extraVolumes:
-        - name: kratos-files
+        - name: kratos-config
           configMap:
-            name: kratos-files
+            name: kratos-config
+            items:
+              - key: kratos-config.yml
+                path: config.yml
+              - key: debug.jsonnet
+                path: debug.jsonnet
         - name: kratos-data
           persistentVolumeClaim:
             claimName: kratos-data
       extraVolumeMounts:
-        - name: kratos-files
-          mountPath: /var/lib/kratos
+        - name: kratos-config
+          mountPath: /var/lib/kratos/config
           readOnly: true
         - name: kratos-data
           mountPath: /var/kratos
@@ -87,9 +83,14 @@ spec:
         - name: kratos-templates
           configMap:
             name: kratos-templates
-        - name: kratos-files
+        - name: kratos-config
           configMap:
-            name: kratos-files
+            name: kratos-config
+            items:
+              - key: kratos-config.yml
+                path: config.yml
+              - key: debug.jsonnet
+                path: debug.jsonnet
         - name: kratos-data
           persistentVolumeClaim:
             claimName: kratos-data
@@ -97,8 +98,8 @@ spec:
         - name: kratos-templates
           mountPath: /conf/courier-templates
           readOnly: true
-        - name: kratos-files
-          mountPath: /var/lib/kratos
+        - name: kratos-config
+          mountPath: /var/lib/kratos/config
           readOnly: true
         - name: kratos-data
           mountPath: /var/kratos

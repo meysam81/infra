@@ -4,11 +4,9 @@ configurations:
 configMapGenerator:
   - files:
       - values.yaml=./values.yml
-    name: kratos-config
-  - files:
       - ./debug.jsonnet
-      - ./config.yml
-    name: kratos-files
+      - kratos-config.yml=./config.yml
+    name: kratos-config
   - name: echo-server
     envs:
       - echo-server.configs.env

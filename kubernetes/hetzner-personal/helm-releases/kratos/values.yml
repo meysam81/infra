@@ -152,7 +152,7 @@ kratos:
       - -e
       - --yes
       - --config
-      - /var/lib/kratos/config.yml
+      - /var/lib/kratos/config/config.yml
 
     # -- resource requests and limits for the automigration initcontainer
     resources: {}
@@ -248,7 +248,7 @@ deployment:
   extraArgs:
     - serve
     - --config
-    - /var/lib/kratos/config.yml
+    - /var/lib/kratos/config/config.yml
 
   # -- Array of extra envs to be passed to the deployment. Kubernetes format is expected
   # - name: FOO
@@ -390,7 +390,7 @@ deployment:
       - -e
       - --yes
       - --config
-      - /var/lib/kratos/config.yml
+      - /var/lib/kratos/config/config.yml
 
     # -- Array of extra envs to be passed to the initContainer. Kubernetes format is expected
     # - name: FOO
