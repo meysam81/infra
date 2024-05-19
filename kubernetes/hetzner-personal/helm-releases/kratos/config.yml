@@ -288,6 +288,18 @@ courier:
     from_address: no-reply@developer-friendly.blog
     from_name: Developer Friendly
     # connection_uri: PLACEHOLDER
+  template_override_path: /conf/courier-templates
+  templates:
+    # recovery:
+    #   valid:
+    #     email:
+    #       body:
+    #         html: TODO
+    verification:
+      valid:
+        email:
+          body:
+            html: file:///conf/courier-templates/email-verification.html.gotmpl
 oauth2_provider:
   headers:
     Authorization: Bearer some-token
