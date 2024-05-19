@@ -364,14 +364,14 @@ ciphers:
 cookies:
   path: /
   same_site: None
-  domain: developer-friendly.blog
+  domain: .developer-friendly.blog
 session:
   lifespan: 1h
   cookie:
     path: /
     persistent: false
     same_site: None
-    domain: developer-friendly.blog
+    domain: .developer-friendly.blog
   earliest_possible_extend: 1h
   whoami:
     tokenizer:

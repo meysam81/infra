@@ -204,6 +204,16 @@ resource "cloudflare_ruleset" "ory" {
         operation = "set"
         value     = "https://ory.developer-friendly.blog"
       }
+      headers {
+        name      = "access-control-allow-headers"
+        operation = "set"
+        value     = "*"
+      }
+      headers {
+        name      = "access-control-allow-methods"
+        operation = "set"
+        value     = "GET, POST, PUT, DELETE, OPTIONS"
+      }
     }
 
     expression  = "(http.host eq \"ory.developer-friendly.blog\")"
