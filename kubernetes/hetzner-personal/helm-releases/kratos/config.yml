@@ -290,11 +290,11 @@ courier:
     # connection_uri: PLACEHOLDER
   template_override_path: /conf/courier-templates
   templates:
-    # recovery:
-    #   valid:
-    #     email:
-    #       body:
-    #         html: TODO
+    recovery:
+      valid:
+        email:
+          body:
+            html: file:///conf/courier-templates/account-recovery.html.gotmpl
     verification:
       valid:
         email:

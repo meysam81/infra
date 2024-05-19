@@ -19,6 +19,7 @@ configMapGenerator:
   - name: kratos-templates
     files:
       - ./templates/email-verification.html.gotmpl
+      - ./templates/account-recovery.html.gotmpl
     options:
       disableNameSuffixHash: true
 

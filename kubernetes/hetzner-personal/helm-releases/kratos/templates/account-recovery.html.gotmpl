@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Verification - Developer Friendly</title>
+    <title>Account Recovery - Developer Friendly</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -66,13 +66,13 @@
   </head>
   <body>
     <div class="container">
-      <h1>Email Verification</h1>
+      <h1>Account Recovery</h1>
       <h2>Hello {{ .Identity.traits.first_name | default "There" }}!</h2>
       <p>
-        Thank you for registering! Please verify your email address by clicking
-        the button below.
+        Did you forget your login credentials? No worries! Click the button below
+        to recover your account.
       </p>
-      <a href="{{ .VerificationURL }}" class="verify-button">Verify Email</a>
+      <a href="{{ .RecoveryURL }}" class="verify-button">Verify Email</a>
     </div>
   </body>
 </html>
