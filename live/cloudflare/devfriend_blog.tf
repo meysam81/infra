@@ -194,25 +194,20 @@ resource "cloudflare_ruleset" "ory" {
   rules {
     action = "rewrite"
     action_parameters {
-      headers {
-        name      = "access-control-allow-credentials"
-        operation = "set"
-        value     = "true"
-      }
-      headers {
-        name      = "access-control-allow-origin"
-        operation = "set"
-        value     = "https://ory.developer-friendly.blog"
-      }
-      headers {
-        name      = "access-control-allow-headers"
-        operation = "set"
-        value     = "*"
-      }
-      headers {
-        name      = "access-control-allow-methods"
-        operation = "set"
-        value     = "GET, POST, PUT, DELETE, OPTIONS"
+      dynamic "headers" {
+        for_each = {
+          "access-control-allow-credentials" : "true"
+          "access-control-allow-headers" : "*"
+          "access-control-allow-methods" : "GET, PUT, POST, DELETE, OPTIONS"
+          "access-control-expose-headers" : "Content-Type, Origin"
+          "access-control-allow-origin" : "null"
+        }
+
+        content {
+          name      = headers.key
+          operation = "set"
+          value     = headers.value
+        }
       }
     }
 
