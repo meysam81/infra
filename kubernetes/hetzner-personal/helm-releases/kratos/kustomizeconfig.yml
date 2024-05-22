@@ -5,15 +5,7 @@ nameReference:
     fieldSpecs:
       - path: spec/valuesFrom/name
         kind: HelmRelease
-      - path: /spec/values/deployment/extraVolumes/name
-        kind: HelmRelease
       - path: /spec/values/deployment/extraVolumes/configMap/name
         kind: HelmRelease
-      - path: /spec/values/deployment/extraVolumeMounts/name
-        kind: HelmRelease
-      - path: /spec/values/statefulSet/extraVolumes/name
-        kind: HelmRelease
       - path: /spec/values/statefulSet/extraVolumes/configMap/name
-        kind: HelmRelease
-      - path: /spec/values/statefulSet/extraVolumeMounts/name
         kind: HelmRelease

@@ -200,7 +200,6 @@ resource "cloudflare_ruleset" "ory" {
           "access-control-allow-headers" : "*"
           "access-control-allow-methods" : "GET, PUT, POST, DELETE, OPTIONS"
           "access-control-expose-headers" : "Content-Type, Origin"
-          "access-control-allow-origin" : "null"
         }
 
         content {

@@ -3,7 +3,7 @@ identity:
     - id: users
       url: https://gist.githubusercontent.com/developer-friendly-bot/c3ce3c0c1ee6e4e706d3773ad7067132/raw/217a01ef02d78d29dd844461917bc22a616892f4/kratos.identity-schema.json
   default_schema_id: users
-dsn: sqlite:///var/kratos/db.sqlite?_fk=true&mode=rwc
+dsn: PLACEHOLDER
 selfservice:
   default_browser_return_url: https://ory.developer-friendly.blog
   flows:
@@ -312,9 +312,6 @@ serve:
     cors:
       allowed_origins:
         - https://ory.developer-friendly.blog
-      exposed_headers:
-        - content-type
-        - origin
       options_passthrough: true
       max_age: 0
       debug: false
