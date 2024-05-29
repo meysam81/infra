@@ -19,16 +19,6 @@ resource "cloudflare_record" "devfriend_blog_mailserver" {
   value    = each.key
 }
 
-resource "cloudflare_record" "devfriend_blog_cloudflare" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "developer-friendly.blog"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = "v=spf1 include:_spf.mx.cloudflare.net ~all"
-}
-
 resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
   name    = "catch all"
@@ -108,21 +98,6 @@ resource "cloudflare_record" "github_domain_verification" {
   value   = "06e0a79c66"
 }
 
-resource "cloudflare_record" "devfriend_blog_mandrillapp" {
-  for_each = {
-    "mte1._domainkey" = "dkim1.mandrillapp.com",
-    "mte2._domainkey" = "dkim2.mandrillapp.com",
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = each.key
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = each.value
-}
-
 resource "cloudflare_record" "devfriend_blog_mandrillapp_txt" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
@@ -135,9 +110,9 @@ resource "cloudflare_record" "devfriend_blog_mandrillapp_txt" {
 
 resource "cloudflare_record" "devfriend_blog_maileroo_txt" {
   for_each = {
-    "newsletter"                = "v=spf1 include:_spf.maileroo.com ~all",
-    "mta._domainkey.newsletter" = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtwoLlnNHF5QSKVIbZ6PJ0zcF0IyxELjBgoqWz/fl1/jcHnk9hFiaSNz1yMnQaONQQmhUoOVZUWzMEq/EJmCdBa3M8uv+fwECMAktcOCTw91hOPMNGlAFLRbpjJvDvabM9lprM9zmtvnp4MnxPAGB7nhjQRxzyMihLindvp9otclrxwSW949HGsbm1Vtx8lN94N1yxi/L5w0KKn5OXM955OsGsxy4N6YSpF4O6ZFiAR4thHek1I65cwG9AN9UHyjR2PGEvRVjZFDalUcBiXMxJK/URYcriPXLoW9o8DuhIFgKZIMjfF8l0oxeka/aRREuDCKBfNVjJQ3CU31vLNbscwIDAQAB",
-    "_dmarc.newsletter"         = "v=DMARC1; p=reject;",
+    "@"              = "v=spf1 include:_spf.maileroo.com ~all",
+    "mta._domainkey" = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA00B04bAF2E7b1XLYpno/AgcOX27W2imOZ8UvqfQ2K3k057hCb5ISyb2C7AXaicz7JtXupU/D8hGWQH1rqADWLER44PWw87cbp8NKnwWwBy74jNWaS4+d+U8+IODQpeH6jfMlJLridbnr0sR6WEd58LKWsV4U3nBG0q0ULBhWhrmNfRMOnvPvMD5CeqHM/s2SINEDSfG4Nlbll8bEPyuR9Ebug4MJRLU/5EFfTNmvADcEdggDjSHY4RE9EDVoGdKYK1kSpCGT1YtTyBMgHyewZ5H3nbgHE0e1BfWaBDSp5WI8iMGu/nyuMC/TggM07oITdKpsZJH7W2Fw/80PA93EjwIDAQAB",
+    "_dmarc"         = "v=DMARC1; p=reject;",
   }
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
@@ -149,26 +124,10 @@ resource "cloudflare_record" "devfriend_blog_maileroo_txt" {
   value   = each.value
 }
 
-resource "cloudflare_record" "devfriend_blog_maileroo_mx" {
-  for_each = {
-    "mx1" = ["mx1.maileroo.com", 10],
-    "mx2" = ["mx2.maileroo.com", 20],
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name     = "newsletter"
-  priority = each.value[1]
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  value    = each.value[0]
-}
-
 resource "cloudflare_record" "devfriend_blog_maileroo_cname" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "click.newsletter"
+  name    = "click"
   proxied = false
   ttl     = 1
   type    = "CNAME"
@@ -214,4 +173,20 @@ resource "cloudflare_ruleset" "ory" {
     description = "Set CORS headers for ORY"
     enabled     = true
   }
+}
+
+resource "cloudflare_record" "sendgrid_cname" {
+  for_each = {
+    "em8552"        = "u42195761.wl012.sendgrid.net",
+    "s1._domainkey" = "s1.domainkey.u42195761.wl012.sendgrid.net",
+    "s2._domainkey" = "s2.domainkey.u42195761.wl012.sendgrid.net",
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = each.key
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  value   = each.value
 }
