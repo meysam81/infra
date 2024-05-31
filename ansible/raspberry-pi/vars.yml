@@ -9,3 +9,8 @@ loki_remote_write:
   password: "{{ prometheus_remote_write.password }}"
 
 fluxcd_root_dir: raspberry-pi
+
+public_oidc_url: https://meysam81.github.io/k8s-oidc-provider
+
+github_deploy_key: "{{ lookup('amazon.aws.ssm_parameter', '/github/k8s-oidc-provider/deploy-key', profile='personal', region='ap-southeast-1') }}"
+role_arn: "{{ lookup('amazon.aws.ssm_parameter', '/external-secrets/role-arn', profile='personal', region='ap-southeast-1') }}"

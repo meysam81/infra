@@ -29,27 +29,39 @@
     line: "cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory"
     state: present
   notify: Reboot machine
+- name: Download k3s installation script
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /tmp/install-k3s.sh
+    mode: "0755"
+  register: install_k3s_script
 - name: Install k3s
   environment:
-    INSTALL_K3S_VERSION: v1.29.4+k3s1
-    INSTALL_K3S_EXEC: |
+    INSTALL_K3S_VERSION: v1.30.0+k3s1
+    INSTALL_K3S_EXEC: >-
       --disable traefik
       --disable-network-policy
-      --kube-apiserver-arg=service-account-jwks-uri=https://{{ public_oidc_url }}/openid/v1/jwks
-      --kube-apiserver-arg=service-account-issuer=https://{{ public_oidc_url }}
+      --kube-apiserver-arg=service-account-jwks-uri={{ public_oidc_url }}/openid/v1/jwks
+      --kube-apiserver-arg=service-account-issuer={{ public_oidc_url }}
       --kube-apiserver-arg bind-address=0.0.0.0
       --flannel-backend none
-      --write-kubeconfig /home/meysam/.kube/config
       --secrets-encryption
-  ansible.builtin.command:
-    cmd: "{{ lookup('ansible.builtin.url', 'https://get.k3s.io', split_lines=false) }}"
-    # creates: /usr/local/bin/k3s
+  ansible.builtin.command: "{{ install_k3s_script.dest }}"
+  changed_when: false
 - name: Ensure kube config ownership is set
   ansible.builtin.file:
     path: /home/meysam/.kube
     owner: meysam
     group: meysam
     recurse: true
+- name: Copy kubeconfig for user meysam
+  ansible.builtin.copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: /home/meysam/.kube/config
+    owner: meysam
+    group: meysam
+    mode: "0600"
+    remote_src: true
 - name: Ensure bash completion is installed
   ansible.builtin.package:
     name: bash-completion
@@ -79,11 +91,13 @@
   ansible.builtin.lineinfile:
     path: /home/meysam/.bashrc
     line: "alias k=kubectl"
-    create: yes
+    create: true
+    mode: "0640"
     state: present
 - name: Add kubectl completion to bashrc
   ansible.builtin.lineinfile:
     path: /home/meysam/.bashrc
     line: "complete -F __start_kubectl k"
-    create: yes
+    create: true
+    mode: "0640"
     state: present

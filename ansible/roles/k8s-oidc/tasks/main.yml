@@ -1,3 +1,7 @@
+- name: Ensure git is installed
+  ansible.builtin.package:
+    name: git
+    state: present
 - name: Create the group k8s-oidc
   ansible.builtin.group:
     name: k8s-oidc
@@ -24,6 +28,13 @@
     group: k8s-oidc
     mode: "0400"
     remote_src: true
+- name: Ensure /home/k8s-oidc/.ssh exists
+  ansible.builtin.file:
+    path: /home/k8s-oidc/.ssh
+    state: directory
+    owner: k8s-oidc
+    group: k8s-oidc
+    mode: "0700"
 - name: Place the GitHub Deploy Key in /home/k8s-oidc/.ssh/github
   ansible.builtin.copy:
     content: "{{ github_deploy_key }}"

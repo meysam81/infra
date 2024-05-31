@@ -10,6 +10,8 @@ resource "aws_ssm_parameter" "deploy_key" {
 }
 
 resource "github_repository_deploy_key" "this" {
+  provider = github.individual
+
   title      = "K8s OIDC Provider"
   repository = "k8s-oidc-provider"
   key        = tls_private_key.deploy_key.public_key_openssh

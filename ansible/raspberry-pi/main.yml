@@ -2,6 +2,8 @@
   gather_facts: true
   hosts: raspberry
   name: Install k3s
+  vars_files:
+    - ./vars.yml
   roles:
     - k3s
   tags:
@@ -36,5 +38,17 @@
     - fluxcd
   tags:
     - fluxcd
+  vars_files:
+    - ./vars.yml
+- become: true
+  gather_facts: true
+  hosts: raspberry
+  name: Configure K8s OIDC
+  roles:
+    - k8s-oidc
+  tags:
+    - oidc
+  vars:
+    kubeconfig: /home/meysam/.kube/config
   vars_files:
     - ./vars.yml
