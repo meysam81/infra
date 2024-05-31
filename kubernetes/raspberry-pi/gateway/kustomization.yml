@@ -1,4 +1,0 @@
-resources:
-  - gateway.yml
-
-namespace: kube-system
