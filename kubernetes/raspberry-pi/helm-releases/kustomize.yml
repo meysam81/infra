@@ -7,9 +7,6 @@ spec:
   interval: 5m
   path: ./kubernetes/raspberry-pi/helm-releases
   prune: true
-  dependsOn:
-    - name: namespaces
-      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
