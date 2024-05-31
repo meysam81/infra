@@ -3,3 +3,4 @@ audience: sts.amazonaws.com
 cluster_secret_store_name: aws-parameter-store
 aws_region: ap-southeast-1
 role_name: external-secrets
+external_secrets_namespace: flux-system

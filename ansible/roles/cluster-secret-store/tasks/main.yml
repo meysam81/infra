@@ -25,7 +25,7 @@
       kind: ServiceAccount
       metadata:
         name: external-secrets
-        namespace: external-secrets
+        namespace: "{{ external_secrets_namespace }}"
         annotations:
           eks.amazonaws.com/audience: "{{ audience }}"
           eks.amazonaws.com/role-arn: "{{ role_arn }}"
@@ -46,4 +46,4 @@
               jwt:
                 serviceAccountRef:
                   name: external-secrets
-                  namespace: external-secrets
+                  namespace: "{{ external_secrets_namespace }}"

@@ -1,5 +1,6 @@
 locals {
-  k8s_oidc_url = "https://meysam81.github.io/k8s-oidc-provider"
+  k8s_oidc_url  = "https://meysam81.github.io/k8s-oidc-provider"
+  eso_namespace = "flux-system"
 }
 
 data "tls_certificate" "this" {
@@ -41,7 +42,7 @@ data "aws_iam_policy_document" "this" {
     condition {
       test     = "StringEquals"
       variable = "${aws_iam_openid_connect_provider.this.url}:sub"
-      values   = ["system:serviceaccount:external-secrets:external-secrets"]
+      values   = ["system:serviceaccount:${local.eso_namespace}:external-secrets"]
     }
   }
 }
