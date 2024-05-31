@@ -1,0 +1,11 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=./external-secrets/values.yml
+    name: external-secrets-config
+    namespace: flux-system
+
+resources:
+  - external-secrets/helm-release.yml
