@@ -1,2 +1,3 @@
 resources:
   - helm-releases/kustomize.yml
+  - gateway/kustomize.yml
