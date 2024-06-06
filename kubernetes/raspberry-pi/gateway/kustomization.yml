@@ -3,5 +3,6 @@ resources:
   - clusterissuer.yml
   - certificate.yml
   - gateway.yml
+  - https-redirect.yml
 
 namespace: cert-manager
