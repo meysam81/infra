@@ -134,7 +134,6 @@ kratos:
   # -- Enables database migration
   automigration:
     enabled: true
-    type: initContainer
     customArgs:
       - migrate
       - sql
