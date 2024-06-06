@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: oathkeeper
+spec:
+  chart:
+    spec:
+      chart: oathkeeper
+      sourceRef:
+        kind: HelmRepository
+        name: ory
+      version: 0.43.x
+  interval: 30m
+  releaseName: oathkeeper
+  timeout: 5m
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: oathkeeper-config
