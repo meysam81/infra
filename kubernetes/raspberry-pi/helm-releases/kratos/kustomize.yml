@@ -11,5 +11,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  targetNamespace: flux-system
+  targetNamespace: default
   wait: false

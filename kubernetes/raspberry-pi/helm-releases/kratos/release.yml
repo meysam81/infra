@@ -48,7 +48,6 @@ spec:
                   - --expose-metrics-port
                   - "4434"
   releaseName: kratos
-  targetNamespace: default
   test:
     enable: false
   timeout: 5m
