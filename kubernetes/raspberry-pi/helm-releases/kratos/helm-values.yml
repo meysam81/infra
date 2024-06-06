@@ -285,7 +285,7 @@ deployment:
         - sh
         - -c
         - |
-          set -eux
+          set -eu
 
           export POSTGRES_HOST=$(echo $DSN | awk -F/ '{print $3}' | awk -F@ '{print $2}')
           export POSTGRES_USER=$(echo $DSN | awk -F/ '{print $3}' | awk -F: '{print $1}')
