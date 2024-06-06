@@ -283,8 +283,10 @@ deployment:
   extraContainers: |
     - command:
         - sh
-        - '-c'
+        - -c
         - |
+          set -eux
+
           export POSTGRES_HOST=$(echo $DSN | sed -n 's/.*@\(.*\):.*/\1/p')
           export POSTGRES_USER=$(echo $DSN | sed -n 's/.*\/\/\(.*\):.*/\1/p')
           export POSTGRES_PASSWORD=$(echo $DSN | sed -n 's/.*:.*@\(.*\)\/.*/\1/p')

@@ -47,6 +47,8 @@ spec:
                   - /var/lib/kratos/config/config.yml
                   - --expose-metrics-port
                   - "4434"
+              - op: remove
+                path: /spec/template/spec/containers/1
   releaseName: kratos
   test:
     enable: false
