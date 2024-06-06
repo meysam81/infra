@@ -280,10 +280,32 @@ deployment:
   #    image: ...
 
   # -- If you want to add extra sidecar containers.
-  extraContainers: ""
-  # extraContainers: |
-  #  - name: ...
-  #    image: ...
+  extraContainers: |
+    - command:
+        - sh
+        - '-c'
+        - |
+          export POSTGRES_HOST=$(echo $DSN | sed -n 's/.*@\(.*\):.*/\1/p')
+          export POSTGRES_USER=$(echo $DSN | sed -n 's/.*\/\/\(.*\):.*/\1/p')
+          export POSTGRES_PASSWORD=$(echo $DSN | sed -n 's/.*:.*@\(.*\)\/.*/\1/p')
+          export POSTGRES_DB=$(echo $DSN | sed -n 's/.*\/\(.*\)$/\1/p')
+
+          while true; do
+            if pg_isready -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -p 5432; then
+              sleep 30
+            else
+              exit 1
+            fi
+          done
+      envFrom:
+        - secretRef:
+            name: kratos-secrets
+      image: postgres:16-alpine
+      imagePullPolicy: IfNotPresent
+      name: postgres-healthcheck
+      securityContext:
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
 
   # -- Set desired resource parameters
   #  We usually recommend not to specify default resources and to leave this as a conscious
