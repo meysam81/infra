@@ -17,7 +17,7 @@ spec:
             - envFrom:
                 - secretRef:
                     name: check-public-ip
-              image: python:3.12-alpine
+              image: ghcr.io/meysam81/check-public-ip
               name: check-public-ip
               securityContext:
                 readOnlyRootFilesystem: true
