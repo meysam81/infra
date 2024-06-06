@@ -6,6 +6,7 @@ configMapGenerator:
       - values.yaml=./helm-values.yml
       - ./kratos-server-config.yml
     name: kratos-config
+    namespace: default
 
 resources:
   - repository.yml
