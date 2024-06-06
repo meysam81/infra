@@ -287,10 +287,10 @@ deployment:
         - |
           set -eux
 
-          export POSTGRES_HOST=$(echo $DSN | sed -n 's/.*@\(.*\):.*/\1/p')
-          export POSTGRES_USER=$(echo $DSN | sed -n 's/.*\/\/\(.*\):.*/\1/p')
-          export POSTGRES_PASSWORD=$(echo $DSN | sed -n 's/.*:.*@\(.*\)\/.*/\1/p')
-          export POSTGRES_DB=$(echo $DSN | sed -n 's/.*\/\(.*\)$/\1/p')
+          export POSTGRES_HOST=$(echo $DSN | awk -F/ '{print $3}' | awk -F@ '{print $2}')
+          export POSTGRES_USER=$(echo $DSN | awk -F/ '{print $3}' | awk -F: '{print $1}')
+          export POSTGRES_PASSWORD=$(echo $DSN | awk -F: '{print $3}' | awk -F@ '{print $1}')
+          export POSTGRES_DB=$(echo $DSN | awk -F/ '{print $4}' | awk -F? '{print $1}')
 
           while true; do
             if pg_isready -h $POSTGRES_HOST -U $POSTGRES_USER -d $POSTGRES_DB -p 5432; then
