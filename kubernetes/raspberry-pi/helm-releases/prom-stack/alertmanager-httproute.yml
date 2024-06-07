@@ -15,7 +15,7 @@ spec:
     - backendRefs:
         - kind: Service
           name: kube-prometheus-stack-alertmanager
-          port: 80
+          port: 9093
       filters:
         - responseHeaderModifier:
             set:
