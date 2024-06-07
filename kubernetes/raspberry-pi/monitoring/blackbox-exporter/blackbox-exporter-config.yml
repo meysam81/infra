@@ -1,11 +1,13 @@
 modules:
   dns_tcp:
     dns:
+      query_name: example.com
       transport_protocol: tcp
     prober: dns
     timeout: 5s
   dns_udp:
     dns:
+      query_name: example.com
       transport_protocol: udp
     prober: dns
     timeout: 5s
