@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 5m
-  path: ./kubernetes/raspberry-pi/monitoring/blackbox-exporter
+  path: ./kubernetes/raspberry-pi/helm-releases/blackbox-exporter
   prune: true
   sourceRef:
     kind: GitRepository
