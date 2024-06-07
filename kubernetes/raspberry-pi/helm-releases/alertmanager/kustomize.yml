@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: prometheus
+    - name: prom-stack
   force: false
   interval: 5m
   path: ./kubernetes/raspberry-pi/helm-releases/alertmanager
