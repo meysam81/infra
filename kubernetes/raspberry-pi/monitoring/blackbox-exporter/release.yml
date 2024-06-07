@@ -30,11 +30,11 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    configPath: /var/lib/blackbox-exporter/blackbox.yaml
+    configPath: /etc/blackbox-exporter/blackbox.yaml
     extraConfigmapMounts:
       - configMap: blackbox-exporter-override
         defaultMode: 0444
-        mountPath: /var/lib/blackbox-exporter
+        mountPath: /etc/blackbox-exporter
         name: blackbox-exporter-override
         readOnly: true
         subPath: blackbox.yaml
