@@ -1,7 +1,8 @@
 access_rules:
   matching_strategy: regexp
   repositories:
-    - file:///var/lib/oathkeeper/rules/*.json
+    # - file:///etc/rules/*
+    - file:///tmp/rules/*
 authenticators:
   noop:
     enabled: true
@@ -140,7 +141,7 @@ errors:
         realm: ""
       enabled: true
   fallback:
-    - redirect
+    - json
 authorizers:
   deny:
     enabled: true
@@ -206,27 +207,26 @@ mutators:
     enabled: true
 log:
   format: json
-  leak_sensitive_values: false
-  redaction_text: ""
-  level: panic
-tracing:
-  service_name: Ory Hydra
-  providers:
-    zipkin:
-      sampling:
-        sampling_ratio: 0.4
-      server_url: http://localhost:9411/api/v2/spans
-    otlp:
-      insecure: false
-      sampling:
-        sampling_ratio: 0.4
-      server_url: localhost:4318
-    jaeger:
-      sampling:
-        trace_id_ratio: 0.5
-        server_url: http://localhost:5778/sampling
-      local_agent_address: 127.0.0.1:6831
-  provider: jaeger
+  leak_sensitive_values: true
+  level: warn
+# tracing:
+#   service_name: oathkeeper
+#   providers:
+#     zipkin:
+#       sampling:
+#         sampling_ratio: 0.4
+#       server_url: http://localhost:9411/api/v2/spans
+#     otlp:
+#       insecure: false
+#       sampling:
+#         sampling_ratio: 0.4
+#       server_url: localhost:4318
+#     jaeger:
+#       sampling:
+#         trace_id_ratio: 0.5
+#         server_url: http://localhost:5778/sampling
+#       local_agent_address: 127.0.0.1:6831
+#   provider: jaeger
 profiling: cpu
 version: v0.0.0
 serve:
@@ -288,11 +288,4 @@ serve:
       max_age: -100000000
       debug: false
       enabled: false
-    tls:
-      cert:
-        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
-        path: path/to/file.pem
-      key:
-        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
-        path: path/to/file.pem
     port: -100000000

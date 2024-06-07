@@ -11,6 +11,21 @@ spec:
         name: ory
       version: 0.43.x
   interval: 30m
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: remove
+                path: /spec/template/spec/volumes/1/emptyDir
+              - op: add
+                path: /spec/template/spec/volumes/1/configMap
+                value:
+                  name: oathkeeper-rules
+              - op: remove
+                path: /spec/template/spec/initContainers
+            target:
+              kind: Deployment
+              name: oathkeeper
   releaseName: oathkeeper
   timeout: 5m
   upgrade:
