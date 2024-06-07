@@ -59,7 +59,6 @@ spec:
           - name: severity
             value: error
         receiver: slack
-        groupWait: 1m
     matchers:
       - name: severity
         matchType: "=~"
