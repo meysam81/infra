@@ -35,6 +35,7 @@ spec:
       - configMap: blackbox-exporter-override
         defaultMode: 0444
         mountPath: /etc/blackbox-exporter/blackbox.yaml
+        subPath: blackbox.yaml
         name: blackbox-exporter-override
         readOnly: true
     service:
