@@ -6,7 +6,7 @@ metadata:
 spec:
   force: true
   interval: 5m
-  path: ./kubernetes/raspberry-pi/notifications
+  path: ./kubernetes/raspberry-pi/monitoring/notifications
   prune: true
   sourceRef:
     kind: GitRepository

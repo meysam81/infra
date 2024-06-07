@@ -8,7 +8,7 @@ spec:
     - name: prom-stack
   force: false
   interval: 5m
-  path: ./kubernetes/raspberry-pi/helm-releases/alertmanager
+  path: ./kubernetes/raspberry-pi/monitoring/alertmanager
   prune: true
   sourceRef:
     kind: GitRepository
