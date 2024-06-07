@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: alertmanager
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: prometheus
+  force: false
+  interval: 5m
+  path: ./kubernetes/raspberry-pi/helm-releases/alertmanager
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  targetNamespace: monitoring
+  wait: true

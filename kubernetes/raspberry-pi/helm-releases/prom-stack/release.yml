@@ -78,7 +78,10 @@ spec:
     coreDns:
       enabled: false
     grafana:
-      enabled: false
+      enabled: true
+      persistence:
+        enabled: true
+        size: 1Gi
     kubeApiServer:
       enabled: false
     kubeDns:
