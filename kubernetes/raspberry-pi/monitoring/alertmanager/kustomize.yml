@@ -4,8 +4,6 @@ metadata:
   name: alertmanager
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: prom-stack
   force: false
   interval: 5m
   path: ./kubernetes/raspberry-pi/monitoring/alertmanager
