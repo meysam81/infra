@@ -15,3 +15,4 @@ resources:
   - external-secrets/helm-release.yml
   - cert-manager/release.yml
   - ./kratos/kustomize.yml
+  - ./prom-stack/kustomize.yml

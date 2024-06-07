@@ -1,0 +1,6 @@
+resources:
+  - namespace.yml
+  - repository.yml
+  - release.yml
+  - externalsecret.yml
+  - alertmanagerconfig.yml
