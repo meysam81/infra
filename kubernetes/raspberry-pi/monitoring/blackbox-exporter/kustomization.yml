@@ -1,0 +1,7 @@
+configMapGenerator:
+  - name: blackbox-exporter-override
+    files:
+      - blackbox.yaml:./blackbox-exporter-config.yml
+
+resources:
+  - release.yml

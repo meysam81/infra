@@ -1,3 +1,4 @@
 resources:
   - ./alertmanager/kustomize.yml
   - ./notifications/kustomize.yml
+  - ./blackbox-exporter/kustomize.yml

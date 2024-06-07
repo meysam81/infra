@@ -8,6 +8,7 @@ configMapGenerator:
     name: kratos-config
 
 resources:
+  - namespace.yml
   - repository.yml
   - release.yml
   - externalsecret.yml

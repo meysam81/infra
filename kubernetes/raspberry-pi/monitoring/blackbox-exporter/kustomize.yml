@@ -1,15 +1,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: kratos
+  name: blackbox-exporter
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: prom-stack
   force: false
   interval: 5m
-  path: ./kubernetes/raspberry-pi/helm-releases/kratos
+  path: ./kubernetes/raspberry-pi/monitoring/blackbox-exporter
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  targetNamespace: auth
-  wait: false
+  targetNamespace: monitoring
+  wait: true

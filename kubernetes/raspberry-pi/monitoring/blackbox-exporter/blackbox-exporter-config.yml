@@ -1,0 +1,110 @@
+modules:
+  dns_tcp:
+    dns:
+      transport_protocol: tcp
+    prober: dns
+    timeout: 5s
+  dns_udp:
+    dns:
+      transport_protocol: udp
+    prober: dns
+    timeout: 5s
+  http_2xx:
+    http:
+      fail_if_matches_regexp: []
+      fail_if_not_matches_regexp: []
+      fail_if_not_ssl: false
+      fail_if_ssl: false
+      valid_http_methods: ["GET", "POST"]
+      valid_http_statuses: []
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+    prober: http
+    timeout: 5s
+  http_3xx:
+    http:
+      fail_if_matches_regexp: []
+      fail_if_not_matches_regexp: []
+      fail_if_not_ssl: false
+      fail_if_ssl: false
+      valid_http_methods: ["GET", "POST"]
+      valid_http_statuses: []
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+    prober: http
+    timeout: 5s
+  http_4xx:
+    http:
+      fail_if_matches_regexp: []
+      fail_if_not_matches_regexp: []
+      fail_if_not_ssl: false
+      fail_if_ssl: false
+      valid_http_methods: ["GET", "POST"]
+      valid_http_statuses: []
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+    prober: http
+    timeout: 5s
+  http_5xx:
+    http:
+      fail_if_matches_regexp: []
+      fail_if_not_matches_regexp: []
+      fail_if_not_ssl: false
+      fail_if_ssl: false
+      valid_http_methods: ["GET", "POST"]
+      valid_http_statuses: []
+      valid_http_versions: ["HTTP/1.1", "HTTP/2"]
+    prober: http
+    timeout: 5s
+  icmp:
+    icmp:
+      preferred_ip_protocol: ip4
+    prober: icmp
+    timeout: 5s
+  icmp_echo:
+    icmp:
+      preferred_ip_protocol: ip4
+    prober: icmp
+    timeout: 5s
+  icmp_timestamp:
+    icmp:
+      preferred_ip_protocol: ip4
+      query_response:
+        - expect: HTTP/1.0
+          send: "GET / HTTP/1.0\r\n\r\n"
+    prober: icmp
+    timeout: 5s
+  irc_banner:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: PING
+          send: "NICK prober\r\nUSER prober 8 * :prober\r\n"
+    timeout: 5s
+  pop3s_banner:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: +OK
+          send: "HELO world\r\n"
+    timeout: 5s
+  ssh_banner:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: SSH-2.0-
+          send: "SSH-2.0-Go\r\n"
+    timeout: 5s
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+  tcp_receive:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: world
+          send: hello
+    timeout: 5s
+  tcp_send:
+    prober: tcp
+    tcp:
+      query_response:
+        - expect: hello
+    timeout: 5s
