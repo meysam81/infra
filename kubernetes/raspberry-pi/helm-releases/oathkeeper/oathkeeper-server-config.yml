@@ -1,0 +1,298 @@
+access_rules:
+  matching_strategy: regexp
+  repositories:
+    - file:///var/lib/oathkeeper/rules/*.json
+authenticators:
+  noop:
+    enabled: true
+  unauthorized:
+    enabled: true
+  cookie_session:
+    config:
+      check_session_url: https://session-store-host
+      preserve_query: false
+      preserve_path: false
+      preserve_host: false
+      force_method: GET
+      forward_http_headers: []
+      extra_from: ""
+      subject_from: ""
+      only:
+        - ""
+    enabled: true
+  bearer_token:
+    config:
+      check_session_url: https://session-store-host
+      prefix: ""
+      preserve_query: false
+      preserve_path: false
+      preserve_host: false
+      force_method: GET
+      forward_http_headers: []
+      extra_from: ""
+      subject_from: ""
+      token_from: null
+    enabled: true
+  jwt:
+    config:
+      jwks_urls:
+        - https://my-website.com/.well-known/jwks.json
+        - https://my-other-website.com/.well-known/jwks.json
+        - file://path/to/local/jwks.json
+      target_audience:
+        - ""
+      trusted_issuers:
+        - ""
+      allowed_algorithms:
+        - ""
+      jwks_max_wait: 100ms
+      jwks_ttl: 30m
+      scope_strategy: hierarchic
+      token_from: null
+      required_scope:
+        - ""
+    enabled: true
+  oauth2_client_credentials:
+    config:
+      token_url: https://my-website.com/oauth2/token
+      retry:
+        max_delay: 0ns
+        give_up_after: 0ns
+      cache:
+        ttl: 5s
+        max_tokens: -100000000
+        enabled: true
+      required_scope:
+        - ""
+    enabled: true
+  oauth2_introspection:
+    config:
+      introspection_url: https://my-website.com/oauth2/introspection
+      pre_authorization:
+        audience: http://www.example.com
+        scope:
+          - foo
+          - bar
+        enabled: false
+      required_scope:
+        - ""
+      target_audience:
+        - ""
+      trusted_issuers:
+        - ""
+      prefix: ""
+      preserve_host: false
+      token_from: null
+      retry:
+        max_delay: 0ns
+        give_up_after: 0ns
+      cache:
+        ttl: 5s
+        max_cost: -100000000
+        enabled: true
+      scope_strategy: hierarchic
+    enabled: true
+  anonymous:
+    config:
+      subject: guest
+    enabled: true
+errors:
+  handlers:
+    redirect:
+      config:
+        to: http://my-app.com/dashboard
+        return_to_query_param: ""
+        when:
+          - request:
+              header:
+                accept: []
+                content_type: []
+              cidr:
+                - ""
+            error:
+              - unauthorized
+        code: 301
+      enabled: true
+    json:
+      config:
+        when:
+          - request:
+              header:
+                accept: []
+                content_type: []
+              cidr:
+                - ""
+            error:
+              - unauthorized
+        verbose: false
+      enabled: true
+    www_authenticate:
+      config:
+        when:
+          - request:
+              header:
+                accept: []
+                content_type: []
+              cidr:
+                - ""
+            error:
+              - unauthorized
+        realm: ""
+      enabled: true
+  fallback:
+    - redirect
+authorizers:
+  deny:
+    enabled: true
+  keto_engine_acp_ory:
+    config:
+      base_url: http://my-keto/
+      required_action: ""
+      required_resource: ""
+      flavor: ""
+      subject: ""
+    enabled: true
+  remote:
+    config:
+      remote: https://host/path
+      forward_response_headers_to_upstream:
+        - ""
+      retry:
+        max_delay: 0ns
+        give_up_after: 0ns
+    enabled: true
+  remote_json:
+    config:
+      remote: https://host/path
+      payload: '{"subject":"{{ .Subject }}"}'
+      forward_response_headers_to_upstream:
+        - ""
+      retry:
+        max_delay: 0ns
+        give_up_after: 0ns
+    enabled: true
+  allow:
+    enabled: true
+mutators:
+  cookie:
+    config: {}
+    enabled: true
+  header:
+    config: {}
+    enabled: true
+  hydrator:
+    config:
+      api:
+        url: http://a.aaa
+        retry:
+          max_delay: 0ns
+          give_up_after: 0ns
+        auth:
+          basic:
+            username: ""
+            password: ""
+      cache:
+        ttl: 0ns
+        enabled: true
+    enabled: true
+  id_token:
+    config:
+      jwks_url: https://fetch-keys/from/this/location.json
+      issuer_url: ""
+      ttl: 1h
+      claims: ""
+    enabled: true
+  noop:
+    enabled: true
+log:
+  format: json
+  leak_sensitive_values: false
+  redaction_text: ""
+  level: panic
+tracing:
+  service_name: Ory Hydra
+  providers:
+    zipkin:
+      sampling:
+        sampling_ratio: 0.4
+      server_url: http://localhost:9411/api/v2/spans
+    otlp:
+      insecure: false
+      sampling:
+        sampling_ratio: 0.4
+      server_url: localhost:4318
+    jaeger:
+      sampling:
+        trace_id_ratio: 0.5
+        server_url: http://localhost:5778/sampling
+      local_agent_address: 127.0.0.1:6831
+  provider: jaeger
+profiling: cpu
+version: v0.0.0
+serve:
+  proxy:
+    host: localhost
+    trust_forwarded_headers: false
+    timeout:
+      write: 5s
+      idle: 5s
+      read: 5s
+    cors:
+      allowed_origins:
+        - https://example.com
+        - https://*.example.com
+        - https://*.foo.example.com
+      allowed_methods:
+        - GET
+      allowed_headers:
+        - ""
+      exposed_headers:
+        - ""
+      allow_credentials: false
+      max_age: -100000000
+      debug: false
+      enabled: false
+    tls:
+      cert:
+        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
+        path: path/to/file.pem
+      key:
+        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
+        path: path/to/file.pem
+    port: -100000000
+  prometheus:
+    host: localhost
+    metrics_path: ""
+    metric_name_prefix: ""
+    hide_request_paths: false
+    collapse_request_paths: false
+    port: -100000000
+  api:
+    host: localhost
+    timeout:
+      write: 5s
+      idle: 5s
+      read: 5s
+    cors:
+      allowed_origins:
+        - https://example.com
+        - https://*.example.com
+        - https://*.foo.example.com
+      allowed_methods:
+        - GET
+      allowed_headers:
+        - ""
+      exposed_headers:
+        - ""
+      allow_credentials: false
+      max_age: -100000000
+      debug: false
+      enabled: false
+    tls:
+      cert:
+        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
+        path: path/to/file.pem
+      key:
+        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
+        path: path/to/file.pem
+    port: -100000000

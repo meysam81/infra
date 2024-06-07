@@ -16,3 +16,4 @@ resources:
   - cert-manager/release.yml
   - ./kratos/kustomize.yml
   - ./prom-stack/kustomize.yml
+  - ./blackbox-exporter/kustomize.yml
