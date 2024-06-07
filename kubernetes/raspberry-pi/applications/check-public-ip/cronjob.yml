@@ -24,7 +24,7 @@ spec:
                 runAsNonRoot: true
                 runAsUser: 1000
           restartPolicy: OnFailure
-      ttlSecondsAfterFinished: 60
+      ttlSecondsAfterFinished: 86400
   parallelism: 1
   schedule: 0 */12 * * *
   successfulJobsHistoryLimit: 1
