@@ -33,6 +33,3 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
-  valuesFrom:
-    - kind: ConfigMap
-      name: oathkeeper-config
