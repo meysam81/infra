@@ -37,3 +37,18 @@ spec:
     oathkeeper-maester:
       image:
         tag: v0.1.10-arm64
+    deployment:
+      customReadinessProbe:
+        httpGet:
+          path: /health/alive
+          port: http-api
+          httpHeaders:
+            - name: Host
+              value: "127.0.0.1"
+      customStartupProbe:
+        httpGet:
+          path: /health/alive
+          port: http-api
+          httpHeaders:
+            - name: Host
+              value: "127.0.0.1"

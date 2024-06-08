@@ -1,5 +1,7 @@
 access_rules:
   matching_strategy: regexp
+  # repositories:
+  #   - file:///etc/rules/access-rules.json
 authenticators:
   noop:
     enabled: true
@@ -249,7 +251,7 @@ serve:
     host: localhost
     hide_request_paths: false
     collapse_request_paths: false
-    port: 8080
+    port: 9000
   api:
     host: localhost
     timeout:
