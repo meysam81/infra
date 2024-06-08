@@ -23,6 +23,12 @@ spec:
                   name: oathkeeper-rules
               - op: remove
                 path: /spec/template/spec/initContainers
+              - op: replace
+                path: /spec/template/spec/containers/0/args
+                value:
+                  - serve
+                  - --config
+                  - /var/lib/oathkeeper/config.yaml
             target:
               kind: Deployment
               name: oathkeeper
@@ -43,6 +49,14 @@ spec:
         httpGet:
           path: /health/alive
           port: http-api
+      extraVolumeMounts:
+        - name: oathkeeper-config-override
+          mountPath: /var/lib/oathkeeper/
+          readOnly: true
+      extraVolumes:
+        - name: oathkeeper-config-override
+          configMap:
+            name: oathkeeper-config-override
     oathkeeper:
       managedAccessRules: false
     oathkeeper-maester:

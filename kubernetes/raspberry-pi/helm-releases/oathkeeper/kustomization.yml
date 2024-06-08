@@ -1,2 +1,10 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - name: oathkeeper-config-override
+    files:
+      - config.yaml=oathkeeper-server-config.yml
+
 resources:
   - release.yml
