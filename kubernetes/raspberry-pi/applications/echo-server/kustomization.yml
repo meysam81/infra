@@ -1,0 +1,56 @@
+configMapGenerator:
+  - envs:
+      - configs.env
+    name: echo-server
+
+images:
+  - name: ealen/echo-server
+    newTag: 0.9.2
+
+replacements:
+  - source:
+      fieldPath: metadata.namespace
+      kind: Service
+      name: echo-server
+      version: v1
+    targets:
+      - fieldPaths:
+          - spec.upstream.url
+        options:
+          delimiter: .
+          index: 1
+        select:
+          group: oathkeeper.ory.sh
+          kind: Rule
+          name: echo-server
+          version: v1alpha1
+  - source:
+      kind: Deployment
+      name: echo-server
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: echo-server
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
+  - source:
+      kind: ConfigMap
+      name: echo-server
+      fieldPath: data.PORT
+    targets:
+      - select:
+          kind: Deployment
+          name: echo-server
+        fieldPaths:
+          - spec.template.spec.containers.[name=echo-server].ports.[name=http].containerPort
+
+resources:
+  - deployment.yml
+  - service.yml
+  - httproute.yml
+  - rule.yml
+
+namespace: default
