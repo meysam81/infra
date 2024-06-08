@@ -227,7 +227,7 @@ profiling: cpu
 # version: v0.0.0
 serve:
   proxy:
-    host: localhost
+    host: 0.0.0.0
     trust_forwarded_headers: false
     timeout:
       write: 5s
@@ -248,12 +248,12 @@ serve:
       enabled: false
     port: 4455
   prometheus:
-    host: localhost
+    host: 0.0.0.0
     hide_request_paths: false
     collapse_request_paths: false
     port: 9000
   api:
-    host: localhost
+    host: 0.0.0.0
     timeout:
       write: 5s
       idle: 5s
