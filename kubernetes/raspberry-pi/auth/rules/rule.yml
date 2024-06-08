@@ -12,8 +12,14 @@ spec:
   match:
     methods:
       - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - OPTIONS
     url: http<s?>://echo.developer-friendly.blog</?.*>
   mutators:
     - handler: header
   upstream:
     url: http://echo-server.default
+    preserveHost: true
