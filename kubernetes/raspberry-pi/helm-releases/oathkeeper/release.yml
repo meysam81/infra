@@ -11,21 +11,21 @@ spec:
         name: ory
       version: 0.43.x
   interval: 30m
-  # postRenderers:
-  #   - kustomize:
-  #       patches:
-  #         - patch: |
-  #             - op: remove
-  #               path: /spec/template/spec/volumes/1/emptyDir
-  #             - op: add
-  #               path: /spec/template/spec/volumes/1/configMap
-  #               value:
-  #                 name: oathkeeper-rules
-  #             - op: remove
-  #               path: /spec/template/spec/initContainers
-  #           target:
-  #             kind: Deployment
-  #             name: oathkeeper
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: remove
+                path: /spec/template/spec/volumes/1/emptyDir
+              - op: add
+                path: /spec/template/spec/volumes/1/configMap
+                value:
+                  name: oathkeeper-rules
+              - op: remove
+                path: /spec/template/spec/initContainers
+            target:
+              kind: Deployment
+              name: oathkeeper
   releaseName: oathkeeper
   timeout: 5m
   upgrade:
@@ -34,21 +34,17 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    oathkeeper-maester:
-      image:
-        tag: v0.1.10-arm64
     deployment:
       customReadinessProbe:
         httpGet:
           path: /health/alive
           port: http-api
-          httpHeaders:
-            - name: Host
-              value: "127.0.0.1"
       customStartupProbe:
         httpGet:
           path: /health/alive
           port: http-api
-          httpHeaders:
-            - name: Host
-              value: "127.0.0.1"
+    oathkeeper:
+      managedAccessRules: false
+    oathkeeper-maester:
+      image:
+        tag: v0.1.10-arm64
