@@ -16,9 +16,9 @@ spec:
         patches:
           - patch: |
               - op: remove
-                path: /spec/template/spec/volumes/1/emptyDir
+                path: /spec/template/spec/volumes/2/emptyDir
               - op: add
-                path: /spec/template/spec/volumes/1/configMap
+                path: /spec/template/spec/volumes/2/configMap
                 value:
                   name: oathkeeper-rules
               - op: remove
