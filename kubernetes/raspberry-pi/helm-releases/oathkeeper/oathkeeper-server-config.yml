@@ -204,7 +204,7 @@ mutators:
 log:
   format: json
   leak_sensitive_values: true
-  level: warn
+  level: info
 # tracing:
 #   service_name: oathkeeper
 #   providers:
