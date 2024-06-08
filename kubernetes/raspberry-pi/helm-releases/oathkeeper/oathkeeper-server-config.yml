@@ -1,8 +1,5 @@
 access_rules:
   matching_strategy: regexp
-  repositories:
-    # - file:///etc/rules/*
-    - file:///tmp/rules/*
 authenticators:
   noop:
     enabled: true
@@ -10,7 +7,7 @@ authenticators:
     enabled: true
   cookie_session:
     config:
-      check_session_url: https://session-store-host
+      check_session_url: http://example.com
       preserve_query: false
       preserve_path: false
       preserve_host: false
@@ -23,7 +20,7 @@ authenticators:
     enabled: true
   bearer_token:
     config:
-      check_session_url: https://session-store-host
+      check_session_url: http://example.com
       prefix: ""
       preserve_query: false
       preserve_path: false
@@ -37,9 +34,7 @@ authenticators:
   jwt:
     config:
       jwks_urls:
-        - https://my-website.com/.well-known/jwks.json
-        - https://my-other-website.com/.well-known/jwks.json
-        - file://path/to/local/jwks.json
+        - http://example.com/.well-known/jwks.json
       target_audience:
         - ""
       trusted_issuers:
@@ -55,22 +50,22 @@ authenticators:
     enabled: true
   oauth2_client_credentials:
     config:
-      token_url: https://my-website.com/oauth2/token
+      token_url: http://example.com
       retry:
         max_delay: 0ns
         give_up_after: 0ns
       cache:
         ttl: 5s
-        max_tokens: -100000000
+        max_tokens: 128
         enabled: true
       required_scope:
         - ""
     enabled: true
   oauth2_introspection:
     config:
-      introspection_url: https://my-website.com/oauth2/introspection
+      introspection_url: http://example.com
       pre_authorization:
-        audience: http://www.example.com
+        audience: http://example.com
         scope:
           - foo
           - bar
@@ -89,7 +84,7 @@ authenticators:
         give_up_after: 0ns
       cache:
         ttl: 5s
-        max_cost: -100000000
+        max_cost: 8
         enabled: true
       scope_strategy: hierarchic
     enabled: true
@@ -101,7 +96,7 @@ errors:
   handlers:
     redirect:
       config:
-        to: http://my-app.com/dashboard
+        to: http://example.com
         return_to_query_param: ""
         when:
           - request:
@@ -147,7 +142,7 @@ authorizers:
     enabled: true
   keto_engine_acp_ory:
     config:
-      base_url: http://my-keto/
+      base_url: http://example.com
       required_action: ""
       required_resource: ""
       flavor: ""
@@ -155,7 +150,7 @@ authorizers:
     enabled: true
   remote:
     config:
-      remote: https://host/path
+      remote: http://example.com
       forward_response_headers_to_upstream:
         - ""
       retry:
@@ -164,7 +159,7 @@ authorizers:
     enabled: true
   remote_json:
     config:
-      remote: https://host/path
+      remote: http://example.com
       payload: '{"subject":"{{ .Subject }}"}'
       forward_response_headers_to_upstream:
         - ""
@@ -175,16 +170,15 @@ authorizers:
   allow:
     enabled: true
 mutators:
-  cookie:
-    config: {}
-    enabled: true
   header:
-    config: {}
+    config:
+      headers:
+        x-user-id: "{{ print .Subject }}"
     enabled: true
   hydrator:
     config:
       api:
-        url: http://a.aaa
+        url: http://example.com
         retry:
           max_delay: 0ns
           give_up_after: 0ns
@@ -198,7 +192,7 @@ mutators:
     enabled: true
   id_token:
     config:
-      jwks_url: https://fetch-keys/from/this/location.json
+      jwks_url: http://example.com
       issuer_url: ""
       ttl: 1h
       claims: ""
@@ -215,7 +209,7 @@ log:
 #     zipkin:
 #       sampling:
 #         sampling_ratio: 0.4
-#       server_url: http://localhost:9411/api/v2/spans
+#       server_url: http://example.com
 #     otlp:
 #       insecure: false
 #       sampling:
@@ -224,11 +218,11 @@ log:
 #     jaeger:
 #       sampling:
 #         trace_id_ratio: 0.5
-#         server_url: http://localhost:5778/sampling
+#         server_url: http://example.com
 #       local_agent_address: 127.0.0.1:6831
 #   provider: jaeger
 profiling: cpu
-version: v0.0.0
+# version: v0.0.0
 serve:
   proxy:
     host: localhost
@@ -240,8 +234,6 @@ serve:
     cors:
       allowed_origins:
         - https://example.com
-        - https://*.example.com
-        - https://*.foo.example.com
       allowed_methods:
         - GET
       allowed_headers:
@@ -249,24 +241,15 @@ serve:
       exposed_headers:
         - ""
       allow_credentials: false
-      max_age: -100000000
+      max_age: 3600
       debug: false
       enabled: false
-    tls:
-      cert:
-        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
-        path: path/to/file.pem
-      key:
-        base64: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tXG5NSUlEWlRDQ0FrMmdBd0lCQWdJRVY1eE90REFOQmdr...
-        path: path/to/file.pem
-    port: -100000000
+    port: 4455
   prometheus:
     host: localhost
-    metrics_path: ""
-    metric_name_prefix: ""
     hide_request_paths: false
     collapse_request_paths: false
-    port: -100000000
+    port: 8080
   api:
     host: localhost
     timeout:
@@ -276,8 +259,6 @@ serve:
     cors:
       allowed_origins:
         - https://example.com
-        - https://*.example.com
-        - https://*.foo.example.com
       allowed_methods:
         - GET
       allowed_headers:
@@ -285,7 +266,7 @@ serve:
       exposed_headers:
         - ""
       allow_credentials: false
-      max_age: -100000000
+      max_age: 3600
       debug: false
       enabled: false
-    port: -100000000
+    port: 4456

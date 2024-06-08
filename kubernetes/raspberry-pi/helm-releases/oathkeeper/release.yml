@@ -34,6 +34,6 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    maester:
+    oathkeeper-maester:
       image:
         tag: v0.1.10-arm64
