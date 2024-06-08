@@ -9,22 +9,6 @@ images:
 
 replacements:
   - source:
-      fieldPath: metadata.namespace
-      kind: Service
-      name: echo-server
-      version: v1
-    targets:
-      - fieldPaths:
-          - spec.upstream.url
-        options:
-          delimiter: .
-          index: 1
-        select:
-          group: oathkeeper.ory.sh
-          kind: Rule
-          name: echo-server
-          version: v1alpha1
-  - source:
       kind: Deployment
       name: echo-server
       fieldPath: spec.template.metadata.labels
@@ -50,7 +34,5 @@ replacements:
 resources:
   - deployment.yml
   - service.yml
-  - httproute.yml
-  - rule.yml
 
 namespace: default

@@ -16,4 +16,4 @@ spec:
   mutators:
     - handler: header
   upstream:
-    url: http://echo-server.NAMESPACE_PLACEHOLDER
+    url: http://echo-server.default
