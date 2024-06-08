@@ -33,3 +33,7 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  values:
+    maester:
+      image:
+        tag: v0.1.10-arm64
