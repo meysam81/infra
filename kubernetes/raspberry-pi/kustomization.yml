@@ -3,3 +3,4 @@ resources:
   - gateway/kustomize.yml
   - applications/kustomize.yml
   - monitoring/kustomize.yml
+  - auth/kustomize.yml
