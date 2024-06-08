@@ -48,3 +48,8 @@ spec:
     oathkeeper-maester:
       image:
         tag: v0.1.10-arm64
+    service:
+      api:
+        port: 80
+      proxy:
+        port: 80
