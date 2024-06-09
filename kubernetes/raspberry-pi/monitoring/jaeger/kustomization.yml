@@ -8,5 +8,7 @@ images:
     newTag: "1.6"
 
 resources:
+  - externalsecret.yml
   - service.yml
   - deployment.yml
+  - httproute.yml
