@@ -9,7 +9,7 @@ authenticators:
     enabled: true
   cookie_session:
     config:
-      check_session_url: https://developer-friendly.blog
+      check_session_url: http://kratos-public.auth/sessions/whoami
     enabled: true
   bearer_token:
     config:
@@ -36,7 +36,7 @@ errors:
   handlers:
     redirect:
       config:
-        to: https://developer-friendly.blog
+        to: https://ory.developer-friendly.blog/login
         when:
           - error:
               - unauthorized
