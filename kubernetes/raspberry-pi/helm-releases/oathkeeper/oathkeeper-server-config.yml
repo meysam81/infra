@@ -216,7 +216,7 @@ tracing:
       insecure: false
       sampling:
         sampling_ratio: 1.0
-      server_url: otlp-gateway-prod-eu-west-2.grafana.net/otlp
+      server_url: otlp-gateway-prod-eu-west-2.grafana.net:443
 #     jaeger:
 #       sampling:
 #         trace_id_ratio: 0.5
