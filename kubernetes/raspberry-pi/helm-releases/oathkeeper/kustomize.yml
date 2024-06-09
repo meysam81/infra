@@ -5,6 +5,11 @@ metadata:
   namespace: flux-system
 spec:
   force: false
+  healthChecks:
+    - kind: Deployment
+      name: oathkeeper
+    - kind: Deployment
+      name: oathkeeper-maester
   interval: 5m
   path: ./kubernetes/raspberry-pi/helm-releases/oathkeeper
   prune: true
