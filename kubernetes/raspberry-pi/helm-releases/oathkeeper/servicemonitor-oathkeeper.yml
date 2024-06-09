@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: oathkeeper-metrics
+spec:
+  endpoints:
+    - interval: 60s
+      path: /metrics/prometheus
+      port: http
+      scheme: http
+      scrapeTimeout: 30s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: oathkeeper
+      app.kubernetes.io/name: oathkeeper

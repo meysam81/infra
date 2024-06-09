@@ -1,10 +1,51 @@
-configurations:
-  - kustomizeconfig.yml
-
 configMapGenerator:
-  - name: oathkeeper-config-override
+  - name: oathkeeper-config
     files:
-      - config.yaml=oathkeeper-server-config.yml
+      - config.yml=oathkeeper-server-config.yml
+  - name: oathkeeper-envs
+    envs:
+      - configs.env
+
+images:
+  - name: oryd/oathkeeper
+    newTag: v0.40.7
+  - name: oryd/oathkeeper-maester
+    newTag: v0.1.10-arm64
+
+replacements:
+  - source:
+      kind: Deployment
+      name: oathkeeper
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: Deployment
+          name: oathkeeper-maester
+        fieldPaths:
+          - spec.template.spec.containers.[name=oathkeeper-maester].args.3
+        options:
+          delimiter: "="
+          index: 1
+          create: false
+      - select:
+          kind: ClusterRoleBinding
+          name: oathkeeper-maester-role-binding
+        fieldPaths:
+          - subjects.[kind=ServiceAccount].namespace
+        options:
+          create: true
 
 resources:
-  - release.yml
+  - externalsecret.yml
+  - clusterrole.yml
+  - clusterrolebinding.yml
+  - service-oathkeeper-api.yml
+  - service-oathkeeper-metrics.yml
+  - service-oathkeeper-proxy.yml
+  - serviceaccount.yml
+  - deployment-oathkeeper-maester.yml
+  - deployment-oathkeeper.yml
+  - servicemonitor-oathkeeper.yml
+  - servicemonitor-oathkeeper-maester.yml
+
+# namespace: auth

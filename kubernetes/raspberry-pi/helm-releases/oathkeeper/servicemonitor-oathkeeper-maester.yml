@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: oathkeeper-maester-metrics
+spec:
+  endpoints:
+    - interval: 60s
+      path: /metric
+      port: metrics
+      scheme: http
+      scrapeTimeout: 30s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: oathkeeper-maester
+      app.kubernetes.io/name: oathkeeper-maester
