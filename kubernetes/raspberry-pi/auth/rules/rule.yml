@@ -14,6 +14,12 @@ spec:
         preserve_query: true
         subject_from: identity.id
       handler: cookie_session
+    - config:
+        jwks_urls:
+          - https://login.windows.net/common/discovery/keys
+        target_audience:
+          - https://management.azure.com
+      handler: jwt
     - handler: anonymous
   authorizer:
     handler: allow
