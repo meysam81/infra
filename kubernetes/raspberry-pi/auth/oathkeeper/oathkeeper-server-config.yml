@@ -220,8 +220,8 @@ tracing:
     jaeger:
       sampling:
         trace_id_ratio: 1.0
-        server_url: http://jaeger:5778/sampling
-      local_agent_address: jaeger:6831
+        server_url: http://jaeger.monitoring:5778/sampling
+      local_agent_address: jaeger.monitoring:6831
   provider: jaeger
 profiling: cpu
 # version: v0.0.0
