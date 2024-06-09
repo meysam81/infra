@@ -82,6 +82,8 @@ spec:
       persistence:
         enabled: true
         size: 1Gi
+      testFramework:
+        enabled: false
     kubeApiServer:
       enabled: false
     kubeDns:

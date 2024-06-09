@@ -17,4 +17,3 @@ resources:
   - ./kratos/kustomize.yml
   - ./prom-stack/kustomize.yml
   - ./blackbox-exporter/kustomize.yml
-  - ./oathkeeper/kustomize.yml
