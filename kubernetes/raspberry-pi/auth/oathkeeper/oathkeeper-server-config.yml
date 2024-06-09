@@ -10,85 +10,23 @@ authenticators:
   cookie_session:
     config:
       check_session_url: http://example.com
-      preserve_query: false
-      preserve_path: false
-      preserve_host: false
-      force_method: GET
-      forward_http_headers: []
-      extra_from: ""
-      subject_from: ""
-      only:
-        - ""
     enabled: true
   bearer_token:
     config:
       check_session_url: http://example.com
-      prefix: ""
-      preserve_query: false
-      preserve_path: false
-      preserve_host: false
-      force_method: GET
-      forward_http_headers: []
-      extra_from: ""
-      subject_from: ""
-      token_from: null
     enabled: true
   jwt:
     config:
       jwks_urls:
         - http://example.com/.well-known/jwks.json
-      target_audience:
-        - ""
-      trusted_issuers:
-        - ""
-      allowed_algorithms:
-        - ""
-      jwks_max_wait: 100ms
-      jwks_ttl: 30m
-      scope_strategy: hierarchic
-      token_from: null
-      required_scope:
-        - ""
     enabled: true
   oauth2_client_credentials:
     config:
       token_url: http://example.com
-      retry:
-        max_delay: 0ns
-        give_up_after: 0ns
-      cache:
-        ttl: 5s
-        max_tokens: 128
-        enabled: true
-      required_scope:
-        - ""
     enabled: true
   oauth2_introspection:
     config:
       introspection_url: http://example.com
-      pre_authorization:
-        audience: http://example.com
-        scope:
-          - foo
-          - bar
-        enabled: false
-      required_scope:
-        - ""
-      target_audience:
-        - ""
-      trusted_issuers:
-        - ""
-      prefix: ""
-      preserve_host: false
-      token_from: null
-      retry:
-        max_delay: 0ns
-        give_up_after: 0ns
-      cache:
-        ttl: 5s
-        max_cost: 8
-        enabled: true
-      scope_strategy: hierarchic
     enabled: true
   anonymous:
     config:
