@@ -11,7 +11,7 @@ spec:
     - kind: Deployment
       name: oathkeeper-maester
   interval: 5m
-  path: ./kubernetes/raspberry-pi/helm-releases/oathkeeper
+  path: ./kubernetes/raspberry-pi/auth/oathkeeper
   prune: true
   sourceRef:
     kind: GitRepository
