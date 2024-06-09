@@ -1,0 +1,12 @@
+configMapGenerator:
+  - name: jaeger
+    envs:
+      - configs.env
+
+images:
+  - name: jaegertracing/all-in-one
+    newTag: "1.6"
+
+resources:
+  - service.yml
+  - deployment.yml
