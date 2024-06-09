@@ -9,24 +9,24 @@ authenticators:
     enabled: true
   cookie_session:
     config:
-      check_session_url: http://example.com
+      check_session_url: https://developer-friendly.blog
     enabled: true
   bearer_token:
     config:
-      check_session_url: http://example.com
+      check_session_url: https://developer-friendly.blog
     enabled: true
   jwt:
     config:
       jwks_urls:
-        - http://example.com/.well-known/jwks.json
+        - https://developer-friendly.blog/.well-known/jwks.json
     enabled: true
   oauth2_client_credentials:
     config:
-      token_url: http://example.com
+      token_url: https://developer-friendly.blog
     enabled: true
   oauth2_introspection:
     config:
-      introspection_url: http://example.com
+      introspection_url: https://developer-friendly.blog
     enabled: true
   anonymous:
     config:
@@ -36,43 +36,18 @@ errors:
   handlers:
     redirect:
       config:
-        to: http://example.com
-        return_to_query_param: ""
+        to: https://developer-friendly.blog
         when:
-          - request:
-              header:
-                accept: []
-                content_type: []
-              cidr:
-                - ""
-            error:
+          - error:
               - unauthorized
         code: 301
       enabled: true
     json:
       config:
-        when:
-          - request:
-              header:
-                accept: []
-                content_type: []
-              cidr:
-                - ""
-            error:
-              - unauthorized
-        verbose: false
+        verbose: true
       enabled: true
     www_authenticate:
       config:
-        when:
-          - request:
-              header:
-                accept: []
-                content_type: []
-              cidr:
-                - ""
-            error:
-              - unauthorized
         realm: ""
       enabled: true
   fallback:
@@ -82,30 +57,16 @@ authorizers:
     enabled: true
   keto_engine_acp_ory:
     config:
-      base_url: http://example.com
-      required_action: ""
-      required_resource: ""
-      flavor: ""
-      subject: ""
+      base_url: https://developer-friendly.blog
     enabled: true
   remote:
     config:
-      remote: http://example.com
-      forward_response_headers_to_upstream:
-        - ""
-      retry:
-        max_delay: 0ns
-        give_up_after: 0ns
+      remote: https://developer-friendly.blog
     enabled: true
   remote_json:
     config:
-      remote: http://example.com
+      remote: https://developer-friendly.blog
       payload: '{"subject":"{{ .Subject }}"}'
-      forward_response_headers_to_upstream:
-        - ""
-      retry:
-        max_delay: 0ns
-        give_up_after: 0ns
     enabled: true
   allow:
     enabled: true
@@ -118,24 +79,11 @@ mutators:
   hydrator:
     config:
       api:
-        url: http://example.com
-        retry:
-          max_delay: 0ns
-          give_up_after: 0ns
-        auth:
-          basic:
-            username: ""
-            password: ""
-      cache:
-        ttl: 0ns
-        enabled: true
+        url: https://developer-friendly.blog
     enabled: true
   id_token:
     config:
-      jwks_url: http://example.com
-      issuer_url: ""
-      ttl: 1h
-      claims: ""
+      jwks_url: https://developer-friendly.blog
     enabled: true
   noop:
     enabled: true
@@ -146,15 +94,6 @@ log:
 tracing:
   service_name: oathkeeper
   providers:
-    # zipkin:
-    #   sampling:
-    #     sampling_ratio: 0.4
-    #   server_url: http://example.com
-    # otlp:
-    #   insecure: false
-    #   sampling:
-    #     sampling_ratio: 1.0
-    #   server_url: example.com:443
     jaeger:
       sampling:
         trace_id_ratio: 1.0
@@ -162,51 +101,18 @@ tracing:
       local_agent_address: jaeger.monitoring:6831
   provider: jaeger
 profiling: cpu
-# version: v0.0.0
 serve:
   proxy:
     host: 0.0.0.0
-    trust_forwarded_headers: false
-    timeout:
-      write: 5s
-      idle: 5s
-      read: 5s
     cors:
       allowed_origins:
-        - https://example.com
-      allowed_methods:
-        - GET
-      allowed_headers:
-        - ""
-      exposed_headers:
-        - ""
-      allow_credentials: false
-      max_age: 3600
-      debug: false
-      enabled: false
+        - https://*.developer-friendly.blog
+      allow_credentials: true
+      enabled: true
     port: 4455
   prometheus:
     host: 0.0.0.0
-    hide_request_paths: false
-    collapse_request_paths: false
     port: 9000
   api:
     host: 0.0.0.0
-    timeout:
-      write: 5s
-      idle: 5s
-      read: 5s
-    cors:
-      allowed_origins:
-        - https://example.com
-      allowed_methods:
-        - GET
-      allowed_headers:
-        - ""
-      exposed_headers:
-        - ""
-      allow_credentials: false
-      max_age: 3600
-      debug: false
-      enabled: false
     port: 4456
