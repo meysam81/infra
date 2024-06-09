@@ -17,6 +17,15 @@ spec:
       retries: 3
   interval: 30m
   maxHistory: 10
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: jaeger-operator
+            patch: |
+              - op: remove
+                path: /spec/template/spec/containers/0/volumeMounts
   releaseName: jaeger-operator
   targetNamespace: monitoring
   test:
