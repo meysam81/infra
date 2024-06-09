@@ -55,10 +55,6 @@ errors:
 authorizers:
   deny:
     enabled: true
-  keto_engine_acp_ory:
-    config:
-      base_url: https://developer-friendly.blog
-    enabled: true
   remote:
     config:
       remote: https://developer-friendly.blog
@@ -84,6 +80,7 @@ mutators:
   id_token:
     config:
       jwks_url: https://developer-friendly.blog
+      issuer_url: https://developer-friendly.blog
     enabled: true
   noop:
     enabled: true
