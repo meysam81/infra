@@ -17,4 +17,5 @@ spec:
     kind: GitRepository
     name: flux-system
   targetNamespace: auth
+  timeout: 1m
   wait: true
