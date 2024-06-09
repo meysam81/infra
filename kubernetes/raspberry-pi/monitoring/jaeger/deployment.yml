@@ -40,8 +40,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: jaeger
-            - secretRef:
-                name: jaeger
           resources:
             limits:
               cpu: 500m
