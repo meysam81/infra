@@ -47,8 +47,6 @@ errors:
         verbose: true
       enabled: true
     www_authenticate:
-      config:
-        realm: ""
       enabled: true
   fallback:
     - json
