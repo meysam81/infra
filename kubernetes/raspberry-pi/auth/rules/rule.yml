@@ -4,6 +4,16 @@ metadata:
   name: echo-server
 spec:
   authenticators:
+    - config:
+        check_session_url: http://kratos-public.auth/sessions/whoami
+        extra_from: "@this"
+        force_method: GET
+        only:
+          - ory_kratos_session
+        preserve_path: true
+        preserve_query: true
+        subject_from: identity.id
+      handler: cookie_session
     - handler: anonymous
   authorizer:
     handler: allow
@@ -21,5 +31,5 @@ spec:
   mutators:
     - handler: header
   upstream:
-    url: http://echo-server.default
     preserveHost: true
+    url: http://echo-server.default
