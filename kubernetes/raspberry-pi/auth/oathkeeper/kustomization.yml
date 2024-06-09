@@ -36,6 +36,7 @@ replacements:
           create: true
 
 resources:
+  - https://github.com/ory/oathkeeper-maester//config/crd?timeout=30s&ref=v0.1.10
   - externalsecret.yml
   - clusterrole.yml
   - clusterrolebinding.yml
