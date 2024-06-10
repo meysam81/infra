@@ -8,8 +8,8 @@ spec:
         check_session_url: http://kratos-public.auth/sessions/whoami
         extra_from: "@this"
         force_method: GET
-        preserve_path: false
-        preserve_query: false
+        preserve_path: true
+        preserve_query: true
         only:
           - ory_kratos_session
         subject_from: identity.id
