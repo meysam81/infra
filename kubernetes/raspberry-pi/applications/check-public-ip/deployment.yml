@@ -30,3 +30,12 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
+          volumeMounts:
+            - name: check-public-ip
+              mountPath: /app
+              readOnly: true
+      volumes:
+        - name: check-public-ip
+          configMap:
+            name: check-public-ip
+            defaultMode: 0444
