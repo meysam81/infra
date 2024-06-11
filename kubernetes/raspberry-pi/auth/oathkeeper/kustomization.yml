@@ -34,6 +34,46 @@ replacements:
           - subjects.[kind=ServiceAccount].namespace
         options:
           create: true
+  - source:
+      kind: Deployment
+      name: oathkeeper
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: ServiceMonitor
+          name: oathkeeper
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: Service
+          name: oathkeeper
+        fieldPaths:
+          - spec.selector
+          - metadata.labels
+        options:
+          create: true
+  - source:
+      kind: Deployment
+      name: oathkeeper-maester
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: ServiceMonitor
+          name: oathkeeper-maester
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: Service
+          name: oathkeeper-maester
+        fieldPaths:
+          - spec.selector
+          - metadata.labels
+        options:
+          create: true
 
 resources:
   - https://github.com/ory/oathkeeper-maester//config/crd?timeout=30s&ref=v0.1.10

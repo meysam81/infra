@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: check-public-ip
+spec:
+  groups:
+    - name: check-public-ip
+      rules:
+        - alert: IpChanged
+          expr: changes(public_ip[1m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Public IP address changed"
+            description: "The public IP address of instance {{ $labels.instance }} has changed in the last minute."

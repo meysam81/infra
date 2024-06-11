@@ -2,6 +2,7 @@ resources:
   - service.yml
   - deployment.yml
   - servicemonitor.yml
+  - promrule.yml
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
