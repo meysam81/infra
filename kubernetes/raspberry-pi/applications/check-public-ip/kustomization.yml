@@ -27,15 +27,3 @@ replacements:
           - spec.selector
         options:
           create: true
-  - source:
-      kind: Deployment
-      name: check-public-ip
-      fieldPath: metadata.namespace
-    targets:
-      - select:
-          kind: ServiceMonitor
-          name: check-public-ip
-        fieldPaths:
-          - spec.namespaceSelector.matchNames.0
-        options:
-          create: true
