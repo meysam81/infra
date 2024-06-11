@@ -78,7 +78,7 @@ spec:
     coreDns:
       enabled: false
     grafana:
-      enabled: true
+      enabled: false
       persistence:
         enabled: true
         size: 1Gi
@@ -95,7 +95,7 @@ spec:
     kubeScheduler:
       enabled: false
     kubeStateMetrics:
-      enabled: false
+      enabled: true
     kubelet:
       enabled: false
     nodeExporter:
