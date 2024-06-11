@@ -18,3 +18,4 @@ resources:
   - ./prom-stack/kustomize.yml
   - ./blackbox-exporter/kustomize.yml
   - ./promtail/kustomize.yml
+  - ./victoria-metrics-operator/kustomize.yml
