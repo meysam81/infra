@@ -25,5 +25,6 @@ replacements:
           name: check-public-ip
         fieldPaths:
           - spec.selector
+          - metadata.labels
         options:
           create: true
