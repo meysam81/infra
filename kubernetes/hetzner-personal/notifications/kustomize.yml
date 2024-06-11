@@ -4,7 +4,7 @@ metadata:
   name: notifications
   namespace: flux-system
 spec:
-  force: true
+  force: false
   interval: 5m
   path: ./kubernetes/hetzner-personal/notifications
   prune: true

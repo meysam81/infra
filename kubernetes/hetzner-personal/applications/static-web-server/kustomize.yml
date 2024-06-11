@@ -4,7 +4,7 @@ metadata:
   name: static-web-server
   namespace: flux-system
 spec:
-  force: true
+  force: false
   interval: 5m
   path: ./kubernetes/hetzner-personal/applications/static-web-server
   prune: true

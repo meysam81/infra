@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: webhook-sync
+  name: vmagent
   namespace: flux-system
 spec:
   force: false
   interval: 5m
-  path: ./kubernetes/hetzner-personal/webhook-sync
+  path: ./kubernetes/raspberry-pi/monitoring/vmagent
   prune: true
   sourceRef:
     kind: GitRepository

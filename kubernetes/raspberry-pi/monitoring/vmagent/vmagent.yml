@@ -1,0 +1,19 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAgent
+metadata:
+  name: vmagent
+spec:
+  extraArgs:
+    promscrape.maxScrapeSize: 32MiB
+  selectAllByDefault: true
+  remoteWrite:
+    - url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+      basicAuth:
+        password:
+          key: password
+          name: vmagent
+          optional: false
+        username:
+          key: username
+          name: vmagent
+          optional: false
