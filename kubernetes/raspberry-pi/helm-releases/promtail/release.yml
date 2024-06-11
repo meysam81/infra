@@ -16,7 +16,6 @@ spec:
   interval: 30m
   maxHistory: 10
   releaseName: promtail
-  targetNamespace: monitoring
   test:
     enable: true
     ignoreFailures: true
@@ -29,4 +28,4 @@ spec:
       remediateLastFailure: true
   valuesFrom:
     - kind: Secret
-      name: promtail-secret
+      name: promtail-secrets
