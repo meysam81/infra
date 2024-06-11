@@ -16,6 +16,7 @@ spec:
   interval: 30m
   maxHistory: 10
   releaseName: promtail
+  targetNamespace: monitoring
   test:
     enable: true
     ignoreFailures: true
