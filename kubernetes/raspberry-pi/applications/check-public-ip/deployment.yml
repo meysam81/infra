@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: check-public-ip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: check-public-ip
+  template:
+    metadata:
+      labels:
+        app: check-public-ip
+    spec:
+      containers:
+        - image: ghcr.io/meysam81/check-public-ip
+          name: check-public-ip
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+      restartPolicy: OnFailure

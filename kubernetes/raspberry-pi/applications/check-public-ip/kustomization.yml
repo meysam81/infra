@@ -1,6 +1,6 @@
 resources:
   - externalsecret.yml
-  - cronjob.yml
+  - deployment.yml
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
