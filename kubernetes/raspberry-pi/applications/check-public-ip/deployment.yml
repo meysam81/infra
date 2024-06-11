@@ -15,6 +15,10 @@ spec:
       containers:
         - image: ghcr.io/meysam81/check-public-ip
           name: check-public-ip
+          ports:
+            - containerPort: 8000
+              name: metrics
+              protocol: TCP
           resources:
             limits:
               memory: "128Mi"

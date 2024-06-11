@@ -1,6 +1,29 @@
 resources:
+  - service.yml
   - deployment.yml
+  - servicemonitor.yml
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
     newTag: v2
+
+replacements:
+  - source:
+      kind: Deployment
+      name: check-public-ip
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: ServiceMonitor
+          name: check-public-ip
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: Service
+          name: check-public-ip
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true

@@ -1,0 +1,9 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: check-public-ip
+spec:
+  endpoints:
+    - port: http
+      interval: 30s
+      path: /metrics
