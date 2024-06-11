@@ -1,0 +1,4 @@
+resources:
+  - externalsecret.yml
+  - repository.yml
+  - release.yml
