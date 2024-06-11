@@ -4,4 +4,4 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
-    newTag: v1
+    newTag: v2

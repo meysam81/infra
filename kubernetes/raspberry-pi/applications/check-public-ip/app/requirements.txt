@@ -1,3 +1,2 @@
-pymongo[srv]<5
-requests<3
-sendgrid<7
+httpx<1
+prometheus-client<1
