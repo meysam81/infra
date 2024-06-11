@@ -1,4 +1,3 @@
 resources:
-  - https://github.com/VictoriaMetrics/operator//config/rbac?ref=v0.45.0&timeout=30s
   - repository.yml
   - release.yml
