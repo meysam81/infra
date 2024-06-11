@@ -41,14 +41,14 @@ replacements:
     targets:
       - select:
           kind: ServiceMonitor
-          name: oathkeeper
+          name: oathkeeper-metrics
         fieldPaths:
           - spec.selector.matchLabels
         options:
           create: true
       - select:
           kind: Service
-          name: oathkeeper
+          name: oathkeeper-metrics
         fieldPaths:
           - spec.selector
           - metadata.labels
@@ -68,7 +68,7 @@ replacements:
           create: true
       - select:
           kind: Service
-          name: oathkeeper-maester
+          name: oathkeeper-maester-metrics
         fieldPaths:
           - spec.selector
           - metadata.labels
@@ -88,5 +88,3 @@ resources:
   - deployment-oathkeeper.yml
   - servicemonitor-oathkeeper.yml
   - servicemonitor-oathkeeper-maester.yml
-
-# namespace: auth
