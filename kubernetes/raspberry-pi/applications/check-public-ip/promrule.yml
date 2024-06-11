@@ -10,7 +10,7 @@ spec:
           expr: changes(public_ip[1m]) > 0
           for: 1m
           labels:
-            severity: critical
+            severity: warning
           annotations:
             summary: "Public IP address changed"
             description: "The public IP address of instance {{ $labels.instance }} has changed in the last minute."

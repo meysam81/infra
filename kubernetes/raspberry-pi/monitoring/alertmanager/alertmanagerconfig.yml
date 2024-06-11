@@ -44,22 +44,19 @@ spec:
     groupBy:
       - severity
       - revision
-    groupInterval: 10m
-    groupWait: 5m
-    receiver: default-receiver
+    groupInterval: 1m
+    groupWait: 1s
+    matchers:
+      - matchType: '=~'
+        name: severity
+        value: critical|warning|error|info
+    receiver: discord
     repeatInterval: 12h
     routes:
-      - matchers:
-          - name: severity
-            value: info
-        receiver: discord
-        groupWait: 1s
-        groupInterval: 1m
-      - matchers:
-          - name: severity
-            value: error
+      - groupInterval: 10m
+        groupWait: 5m
+        matchers:
+          - matchType: '=~'
+            name: severity
+            value: critical|warning|error
         receiver: slack
-    matchers:
-      - name: severity
-        matchType: "=~"
-        value: "critical|warning|error|info"
