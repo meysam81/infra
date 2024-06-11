@@ -1,5 +1,4 @@
 resources:
-  - externalsecret.yml
   - deployment.yml
 
 images:
