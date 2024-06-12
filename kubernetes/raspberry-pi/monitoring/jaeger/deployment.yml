@@ -47,7 +47,6 @@ spec:
             requests:
               cpu: 250m
               memory: 256Mi
-      initContainers:
         - name: jaeger-postgresql
           image: ghcr.io/robbert229/jaeger-postgresql/jaeger-postgresql
           ports:
@@ -67,4 +66,3 @@ spec:
             requests:
               cpu: 10m
               memory: 16Mi
-          restartPolicy: Always
