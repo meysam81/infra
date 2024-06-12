@@ -11,7 +11,9 @@ images:
   - name: jaegertracing/all-in-one
     newTag: "1.57"
   - name: ghcr.io/robbert229/jaeger-postgresql/jaeger-postgresql
-    newTag: v1.7.0
+    # newTag: v1.7.0
+    newName: ghcr.io/meysam81/jaeger-postgresql
+    newTag: "9479195220"
 
 resources:
   - externalsecret.yml
