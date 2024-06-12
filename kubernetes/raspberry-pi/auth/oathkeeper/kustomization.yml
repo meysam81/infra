@@ -84,7 +84,7 @@ replacements:
       fieldPath: metadata.labels
     targets:
       - select:
-          kind: ServiceMonitor
+          kind: VMServiceScrape
           name: oathkeeper
         fieldPaths:
           - spec.selector.matchLabels
@@ -96,7 +96,7 @@ replacements:
       fieldPath: metadata.labels
     targets:
       - select:
-          kind: ServiceMonitor
+          kind: VMServiceScrape
           name: oathkeeper-maester
         fieldPaths:
           - spec.selector.matchLabels
