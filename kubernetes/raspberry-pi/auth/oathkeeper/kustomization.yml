@@ -15,7 +15,6 @@ images:
 commonLabels:
   app.kubernetes.io/name: oathkeeper
   app.kubernetes.io/managed-by: Kustomize
-  app.kubernetes.io/component: oathkeeper
   app.kubernetes.io/part-of: auth
   app.kubernetes.io/version: 0.40.7
 

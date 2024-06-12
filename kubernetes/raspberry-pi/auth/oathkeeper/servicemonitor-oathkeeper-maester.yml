@@ -4,6 +4,7 @@ metadata:
   name: oathkeeper-maester
   labels:
     app.kubernetes.io/instance: oathkeeper-maester
+    app.kubernetes.io/component: oathkeeper-maester-metrics
 spec:
   endpoints:
     - interval: 60s

@@ -4,6 +4,7 @@ metadata:
   name: oathkeeper-maester-metrics
   labels:
     app.kubernetes.io/instance: oathkeeper-maester
+    app.kubernetes.io/component: oathkeeper-maester-metrics
 spec:
   ports:
   - name: http

@@ -4,13 +4,11 @@ metadata:
   name: oathkeeper-api
   labels:
     app.kubernetes.io/instance: oathkeeper
+    app.kubernetes.io/component: oathkeeper-api
 spec:
   ports:
   - name: http
     port: 80
     protocol: TCP
     targetPort: http-api
-  selector:
-    app.kubernetes.io/instance: oathkeeper
-    app.kubernetes.io/name: oathkeeper
   type: ClusterIP
