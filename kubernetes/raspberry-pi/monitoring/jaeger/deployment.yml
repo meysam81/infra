@@ -47,3 +47,22 @@ spec:
             requests:
               cpu: 250m
               memory: 256Mi
+        - name: jaeger-postgresql
+          image: ghcr.io/robbert229/jaeger-postgresql/jaeger-postgresql
+          ports:
+            - containerPort: 12345
+              name: grpc
+            - containerPort: 12346
+              name: admin
+          envFrom:
+            - configMapRef:
+                name: jaeger-postgresql
+            - secretRef:
+                name: jaeger-postgresql
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 16Mi

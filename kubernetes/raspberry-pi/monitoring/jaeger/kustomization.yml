@@ -2,12 +2,19 @@ configMapGenerator:
   - name: jaeger
     envs:
       - configs.env
+  - name: jaeger-postgresql
+    literals:
+      - JAEGER_POSTGRESQL_GRPC_SERVER_HOST_PORT=0.0.0.0:12345
+      - JAEGER_POSTGRESQL_ADMIN_HTTP_HOST_PORT=0.0.0.0:12346
 
 images:
   - name: jaegertracing/all-in-one
     newTag: "1.57"
+  - name: ghcr.io/robbert229/jaeger-postgresql/jaeger-postgresql
+    newTag: v1.7.0
 
 resources:
+  - externalsecret.yml
   - service.yml
   - deployment.yml
   - httproute.yml
