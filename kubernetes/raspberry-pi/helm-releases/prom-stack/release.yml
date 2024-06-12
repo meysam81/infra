@@ -34,47 +34,48 @@ spec:
       alertmanagerSpec:
         alertmanagerConfigMatcherStrategy:
           type: None
-      enabled: true
       config:
         global:
           resolve_timeout: 5m
         inhibit_rules:
-          - source_matchers:
-              - "severity =~ critical|error"
+          - equal:
+              - namespace
+              - alertname
+            source_matchers:
+              - severity =~ critical|error
             target_matchers:
-              - "severity =~ warning|info"
-            equal:
-              - "namespace"
-              - "alertname"
-          - source_matchers:
-              - "severity = warning"
+              - severity =~ warning|info
+          - equal:
+              - namespace
+              - alertname
+            source_matchers:
+              - severity = warning
             target_matchers:
-              - "severity = info"
-            equal:
-              - "namespace"
-              - "alertname"
-          - source_matchers:
-              - "alertname = InfoInhibitor"
+              - severity = info
+          - equal:
+              - namespace
+            source_matchers:
+              - alertname = InfoInhibitor
             target_matchers:
-              - "severity = info"
-            equal:
-              - "namespace"
+              - severity = info
           - target_matchers:
-              - "alertname = InfoInhibitor"
-        route:
-          group_by: ["namespace"]
-          group_wait: 30s
-          group_interval: 5m
-          repeat_interval: 12h
-          receiver: "null"
-          routes:
-            - receiver: "null"
-              matchers:
-                - alertname =~ "Watchdog|InfoInhibitor"
+              - alertname = InfoInhibitor
         receivers:
           - name: "null"
+        route:
+          group_by:
+            - namespace
+          group_interval: 5m
+          group_wait: 30s
+          receiver: "null"
+          repeat_interval: 12h
+          routes:
+            - matchers:
+                - alertname =~ "Watchdog|InfoInhibitor"
+              receiver: "null"
         templates:
-          - "/etc/alertmanager/config/*.tmpl"
+          - /etc/alertmanager/config/*.tmpl
+      enabled: true
     coreDns:
       enabled: false
     grafana:
@@ -85,6 +86,8 @@ spec:
       testFramework:
         enabled: false
     kubeApiServer:
+      enabled: false
+    kubeControllerManager:
       enabled: false
     kubeDns:
       enabled: false
