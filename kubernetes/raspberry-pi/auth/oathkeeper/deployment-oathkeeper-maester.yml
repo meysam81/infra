@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oathkeeper-maester
+  labels:
+    app.kubernetes.io/instance: oathkeeper-maester
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/instance: oathkeeper-maester
-      app.kubernetes.io/name: oathkeeper-maester
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -16,7 +17,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/instance: oathkeeper-maester
-        app.kubernetes.io/name: oathkeeper-maester
     spec:
       automountServiceAccountToken: true
       containers:

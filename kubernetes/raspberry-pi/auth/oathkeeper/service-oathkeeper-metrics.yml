@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: oathkeeper-metrics
+  labels:
+    app.kubernetes.io/instance: oathkeeper
 spec:
   ports:
   - name: http

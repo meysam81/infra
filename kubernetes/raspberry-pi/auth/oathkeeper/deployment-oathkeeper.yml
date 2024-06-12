@@ -2,11 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oathkeeper
+  metadata:
+    labels:
+      app.kubernetes.io/instance: oathkeeper
 spec:
   selector:
     matchLabels:
       app.kubernetes.io/instance: oathkeeper
-      app.kubernetes.io/name: oathkeeper
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -16,7 +18,6 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/instance: oathkeeper
-        app.kubernetes.io/name: oathkeeper
     spec:
       containers:
         - args:

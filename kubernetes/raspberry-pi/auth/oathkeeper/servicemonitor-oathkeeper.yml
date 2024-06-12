@@ -2,6 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: oathkeeper
+  labels:
+    app.kubernetes.io/instance: oathkeeper
 spec:
   endpoints:
     - interval: 60s
@@ -9,7 +11,3 @@ spec:
       port: http
       scheme: http
       scrapeTimeout: 30s
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: oathkeeper
-      app.kubernetes.io/name: oathkeeper
