@@ -4,7 +4,7 @@ import httpx
 import hashlib
 from prometheus_client import start_http_server, Gauge
 
-public_ip_metric = Gauge("public_ip", "Hash of the Public IP address")
+public_ip_metric = Gauge("public_ip", "Hash of the Public IP address", ["ip_address"])
 
 
 def get_public_ip():
@@ -23,6 +23,6 @@ if __name__ == "__main__":
         public_ip = get_public_ip()
         hashed_ip = hash_ip(public_ip)
 
-        public_ip_metric.set(hashed_ip)
+        public_ip_metric.labels(ip_address=public_ip).set(hashed_ip)
 
         time.sleep(60)
