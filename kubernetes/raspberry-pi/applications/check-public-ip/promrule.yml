@@ -5,12 +5,15 @@ metadata:
 spec:
   groups:
     - name: check-public-ip
+      interval: 1m
       rules:
         - alert: IpChanged
-          expr: changes(public_ip[1m]) > 0
+          expr: count_over_time(public_ip[1m]) > 0
           for: 1m
           labels:
             severity: warning
           annotations:
-            summary: "Public IP address changed"
-            description: "The public IP address of instance {{ $labels.instance }} has changed in the last minute."
+            summary: Public IP address changed
+            description: >-
+              The public IP address of instance {{ $labels.instance }} has
+              changed in the last minute to {{ $labels.ip_address }}
