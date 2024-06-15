@@ -4,7 +4,6 @@ configMapGenerator:
       - ./app/main.py
 
 resources:
-  - namespace.yml
   - service.yml
   - deployment.yml
   - servicemonitor.yml
