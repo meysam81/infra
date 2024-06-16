@@ -14,8 +14,8 @@ spec:
   rules:
     - backendRefs:
         - kind: Service
-          name: vmagent
-          port: 80
+          name: vmagent-vmagent
+          port: 8429
       filters:
         - responseHeaderModifier:
             set:

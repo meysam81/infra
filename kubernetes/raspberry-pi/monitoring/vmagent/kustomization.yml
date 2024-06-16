@@ -1,5 +1,4 @@
 resources:
   - externalsecret.yml
-  - service.yml
   - vmagent.yml
   - httproute.yml
