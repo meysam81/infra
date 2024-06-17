@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atuin
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - args:
+            - server
+            - start
+          envFrom:
+            - secretRef:
+                name: atuin
+            - configMapRef:
+                name: atuin
+          image: ghcr.io/atuinsh/atuin
+          name: atuin
+          ports:
+            - containerPort: 8888
+              name: http
+          volumeMounts:
+            - mountPath: /config
+              name: atuin-claim
+      volumes:
+        - name: atuin-claim
+          emptyDir: {}

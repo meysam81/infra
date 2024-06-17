@@ -1,0 +1,19 @@
+configMapGenerator:
+  - name: atuin
+    envs:
+      - configs.env
+
+resources:
+  - externalsecret.yml
+  - service.yml
+  - deployment.yml
+  - httproute.yml
+
+commonLabels:
+  app: atuin
+  env: dev
+  tier: backend
+
+images:
+  - name: ghcr.io/atuinsh/atuin
+    newTag: v18.3.0
