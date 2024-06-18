@@ -190,3 +190,20 @@ resource "cloudflare_record" "sendgrid_cname" {
   type    = "CNAME"
   value   = each.value
 }
+
+resource "cloudflare_record" "emailoctopus" {
+  for_each = {
+    "eo._domainkey" = "eo._domainkey.4bf5dc1bf4.alecto.eoidentity.com",
+    "eom"           = "eom.4bf5dc1bf4.alecto.eoidentity.com",
+    "eot"           = "eot.4bf5dc1bf4.alecto.eoidentity.com",
+    "45165608"      = "45165608.4bf5dc1bf4.alecto.eoidentity.com",
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = each.key
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  value   = each.value
+}
