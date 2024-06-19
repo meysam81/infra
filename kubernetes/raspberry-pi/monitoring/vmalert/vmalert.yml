@@ -3,4 +3,13 @@ kind: VMAlert
 metadata:
   name: vmalert
 spec:
+  datasource:
+    url: http://vmsingle-vmsingle.monitoring
   selectAllByDefault: true
+  # serviceSpec:
+  #   spec:
+  #     type: ClusterIP
+  #     ports:
+  #       - name: http
+  #         port: 8880
+  #         targetPort: 8880

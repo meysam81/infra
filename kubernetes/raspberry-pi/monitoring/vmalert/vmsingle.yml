@@ -1,0 +1,9 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMSingle
+metadata:
+  name: vmsingle
+spec:
+  retentionPeriod: 1d
+  removePvcAfterDelete: true
+  extraArgs:
+    dedup.minScrapeInterval: 10s
