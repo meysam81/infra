@@ -7,3 +7,10 @@ spec:
   removePvcAfterDelete: true
   extraArgs:
     dedup.minScrapeInterval: 10s
+  serviceSpec:
+    spec:
+      type: ClusterIP
+      ports:
+        - name: http
+          port: 80
+          targetPort: http
