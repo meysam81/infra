@@ -17,8 +17,9 @@ class EvictingDict(OrderedDict):
     def __setitem__(self, key, _):
         if len(self) >= self.max_size:
             self.popitem(last=False)
-        self.counter += 1
-        super().__setitem__(key, self.counter)
+        if not self.get(key):
+            self.counter += 1
+            super().__setitem__(key, self.counter)
 
 
 ip_addresses = EvictingDict(32)
