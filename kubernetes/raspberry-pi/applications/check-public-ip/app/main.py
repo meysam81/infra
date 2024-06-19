@@ -7,19 +7,19 @@ from collections import OrderedDict
 
 
 class EvictingDict(OrderedDict):
-    __slots__ = ("max_size", "counter")
+    __slots__ = ("max_size",)
 
     def __init__(self, max_size, *args, **kwargs):
         self.max_size = max_size
-        self.counter = 0
         super().__init__(*args, **kwargs)
 
-    def __setitem__(self, key, _):
+    def __getitem__(self, key):
         if len(self) >= self.max_size:
             self.popitem(last=False)
         if not self.get(key):
-            self.counter += 1
-            super().__setitem__(key, self.counter)
+            current_timestamp = int(time.time())
+            self[key] = current_timestamp
+        return super().__getitem__(key)
 
 
 ip_addresses = EvictingDict(32)
@@ -38,8 +38,6 @@ if __name__ == "__main__":
 
     while True:
         public_ip = get_public_ip()
-
-        ip_addresses[public_ip] = None
 
         public_ip_metric.labels(ip_address=public_ip).set(ip_addresses[public_ip])
 
