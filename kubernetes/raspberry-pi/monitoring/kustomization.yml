@@ -3,3 +3,4 @@ resources:
   - ./notifications/kustomize.yml
   - ./jaeger/kustomize.yml
   - ./vmagent/kustomize.yml
+  - ./promrules/kustomize.yml
