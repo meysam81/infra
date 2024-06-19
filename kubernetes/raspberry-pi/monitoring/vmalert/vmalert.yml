@@ -5,6 +5,9 @@ metadata:
 spec:
   datasource:
     url: http://vmsingle-vmsingle.monitoring
+  notifiers:
+    # - url: http://kube-prometheus-stack-alertmanager.monitoring:9093/api/v1/alerts
+    - url: http://kube-prometheus-stack-alertmanager.monitoring:9093
   remoteWrite:
     basicAuth:
       password:
