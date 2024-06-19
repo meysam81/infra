@@ -4,3 +4,4 @@ resources:
   - ./jaeger/kustomize.yml
   - ./vmagent/kustomize.yml
   - ./promrules/kustomize.yml
+  - ./vmalert/kustomize.yml
