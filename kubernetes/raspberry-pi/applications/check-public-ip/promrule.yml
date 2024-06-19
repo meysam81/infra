@@ -8,8 +8,8 @@ spec:
       interval: 30s
       rules:
         - alert: IpChanged
-          expr: count by (ip_address) (public_ip) > 1
-          for: 2m
+          expr: changes(ip_address[2m]) > 0
+          for: 0s
           labels:
             severity: warning
           annotations:

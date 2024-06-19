@@ -1,7 +1,28 @@
 # -*- coding: utf-8 -*-
-import time
 import httpx
 from prometheus_client import start_http_server, Gauge
+import time
+
+from collections import OrderedDict
+
+
+class EvictingDict(OrderedDict):
+    __slots__ = ("max_size", "counter")
+
+    def __init__(self, max_size, *args, **kwargs):
+        self.max_size = max_size
+        self.counter = 0
+        super().__init__(*args, **kwargs)
+
+    def __setitem__(self, key, _):
+        if len(self) >= self.max_size:
+            self.popitem(last=False)
+        self.counter += 1
+        super().__setitem__(key, self.counter)
+
+
+ip_addresses = EvictingDict(32)
+
 
 public_ip_metric = Gauge("public_ip", "Hash of the Public IP address", ["ip_address"])
 
@@ -17,6 +38,8 @@ if __name__ == "__main__":
     while True:
         public_ip = get_public_ip()
 
-        public_ip_metric.labels(ip_address=public_ip).set(1)
+        ip_addresses[public_ip] = None
+
+        public_ip_metric.labels(ip_address=public_ip).set(ip_addresses[public_ip])
 
         time.sleep(60)
