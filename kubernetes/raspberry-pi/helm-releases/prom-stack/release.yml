@@ -105,6 +105,7 @@ spec:
       enabled: false
     prometheus:
       enabled: false
-    rules:
-      kubeControllerManager: false
-      kubernetesSystem: false
+    defaultRules:
+      rules:
+        kubeControllerManager: false
+        kubernetesSystem: false
