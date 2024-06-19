@@ -5,11 +5,23 @@ metadata:
 spec:
   datasource:
     url: http://vmsingle-vmsingle.monitoring
+  remoteWrite:
+    basicAuth:
+      password:
+        key: password
+        name: vmagent
+        optional: false
+      username:
+        key: username
+        name: vmagent
+        optional: false
+    url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
   selectAllByDefault: true
   serviceSpec:
     spec:
-      type: ClusterIP
       ports:
         - name: http
           port: 80
           targetPort: http
+      type: ClusterIP
+    useAsDefault: true

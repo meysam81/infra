@@ -3,14 +3,15 @@ kind: VMSingle
 metadata:
   name: vmsingle
 spec:
-  retentionPeriod: 1d
-  removePvcAfterDelete: true
   extraArgs:
     dedup.minScrapeInterval: 10s
+  removePvcAfterDelete: true
+  retentionPeriod: 1d
   serviceSpec:
     spec:
-      type: ClusterIP
       ports:
         - name: http
           port: 80
           targetPort: http
+      type: ClusterIP
+    useAsDefault: true
