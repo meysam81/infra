@@ -14,7 +14,7 @@ spec:
   rules:
     - backendRefs:
         - kind: Service
-          name: vmalert
+          name: vmalert-vmalert
           port: 80
       filters:
         - responseHeaderModifier:
