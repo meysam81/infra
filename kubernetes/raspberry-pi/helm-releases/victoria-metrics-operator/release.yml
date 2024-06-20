@@ -27,3 +27,6 @@ spec:
     crds: CreateReplace
     remediation:
       remediateLastFailure: true
+  values:
+    operator:
+      enable_converter_ownership: true
