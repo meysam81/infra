@@ -8,7 +8,7 @@ spec:
       interval: 30s
       rules:
         - alert: IpChanged
-          expr: changes(ip_address[2m]) > 0
+          expr: count by (public_ip) (count_over_time(public_ip[10m])) > 1
           for: 0s
           labels:
             severity: warning
@@ -16,4 +16,4 @@ spec:
             summary: Public IP address changed
             description: >-
               The public IP address of instance {{ $labels.instance }} has
-              changed in the last minute to {{ $labels.ip_address }}
+              changed, again!
