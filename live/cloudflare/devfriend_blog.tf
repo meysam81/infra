@@ -207,3 +207,35 @@ resource "cloudflare_record" "emailoctopus" {
   type    = "CNAME"
   value   = each.value
 }
+
+resource "cloudflare_record" "convertkit" {
+  for_each = {
+    "ckespa"         = "spf.dm-0m76g26y.sg6.convertkit.com."
+    "cka._domainkey" = "dkim.dm-0m76g26y.sg6.convertkit.com."
+    # "_dmarc"         = "v=DMARC1; p=none;"
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = each.key
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  value   = each.value
+}
+
+resource "cloudflare_record" "convertkit_mailing" {
+  for_each = toset([
+    "3.13.222.255",
+    "3.13.246.91",
+    "3.130.60.26",
+  ])
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "mailing"
+  proxied = false
+  ttl     = 1
+  type    = "A"
+  value   = each.key
+}
