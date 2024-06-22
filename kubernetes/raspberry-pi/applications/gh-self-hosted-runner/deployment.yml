@@ -26,7 +26,6 @@ spec:
               cpu: 10m
               memory: 16Mi
           securityContext:
-            fsGroup: 1001
             readOnlyRootFilesystem: true
             runAsNonRoot: true
           volumeMounts:
@@ -46,12 +45,14 @@ spec:
           image: ghcr.io/actions/actions-runner:2.314.1
           name: configure
           securityContext:
-            fsGroup: 1001
             readOnlyRootFilesystem: true
             runAsNonRoot: true
           volumeMounts:
             - mountPath: /home/runner/_work
               name: work
+      securityContext:
+        runAsUser: 1001
+        fsGroup: 1001
       volumes:
         - emptyDir: {}
           name: work
