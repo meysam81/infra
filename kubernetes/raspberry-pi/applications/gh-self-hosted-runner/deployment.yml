@@ -48,9 +48,6 @@ spec:
             - -c
           image: ghcr.io/actions/actions-runner
           name: workdir
-          securityContext:
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
           volumeMounts:
             - mountPath: /data
               name: runner
