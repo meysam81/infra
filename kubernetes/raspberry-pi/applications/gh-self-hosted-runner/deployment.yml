@@ -55,4 +55,4 @@ spec:
         fsGroup: 1001
       volumes:
         - emptyDir: {}
-          name: work
+          name: runner
