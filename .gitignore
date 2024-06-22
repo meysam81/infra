@@ -63,3 +63,4 @@ provider*.tf
 kubernetes/hetzner-personal/applications/listmonk/secrets.env
 kubernetes/hetzner-personal/applications/listmonk/.envrc
 .envrc
+kubernetes/raspberry-pi/applications/gh-self-hosted-runner/secrets.env
