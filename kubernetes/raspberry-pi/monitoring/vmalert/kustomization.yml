@@ -1,4 +1,5 @@
 resources:
   - vmalert.yml
   - vmsingle.yml
-  - httproute.yml
+  - httproute-vmalert.yml
+  - httproute-vmsingle.yml
