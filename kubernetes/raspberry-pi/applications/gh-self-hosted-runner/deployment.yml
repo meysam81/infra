@@ -17,7 +17,7 @@ spec:
             - configMapRef:
                 name: gh-self-hosted-runner
           image: ghcr.io/actions/actions-runner:2.314.1
-          name: gh-self-hosted-runner
+          name: runner
           resources:
             limits:
               cpu: 1000m
@@ -44,7 +44,7 @@ spec:
             - secretRef:
                 name: gh-self-hosted-runner
           image: ghcr.io/actions/actions-runner:2.314.1
-          name: gh-self-hosted-runner
+          name: configure
           securityContext:
             fsGroup: 1001
             readOnlyRootFilesystem: true
