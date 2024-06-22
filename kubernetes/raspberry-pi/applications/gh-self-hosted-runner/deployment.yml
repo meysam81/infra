@@ -29,8 +29,8 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
           volumeMounts:
-            - mountPath: /home/runner/_work
-              name: work
+            - mountPath: /home/runner
+              name: runner
       initContainers:
         - args:
             - ./config.sh --url $URL --token $TOKEN --unattended || exit 0
@@ -48,8 +48,8 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
           volumeMounts:
-            - mountPath: /home/runner/_work
-              name: work
+            - mountPath: /home/runner
+              name: runner
       securityContext:
         runAsUser: 1001
         fsGroup: 1001
