@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gh-self-hosted-runner
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - args:
+            - ./run.sh
+          command:
+            - sh
+            - -c
+          envFrom:
+            - configMapRef:
+                name: gh-self-hosted-runner
+          image: ghcr.io/actions/actions-runner:2.314.1
+          name: gh-self-hosted-runner
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 16Mi
+          securityContext:
+            fsGroup: 1001
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /home/runner/_work
+              name: work
+      initContainers:
+        - args:
+            - ./config.sh --url $URL --token $TOKEN --unattended || exit 0
+          command:
+            - sh
+            - -c
+          envFrom:
+            - configMapRef:
+                name: gh-self-hosted-runner
+            - secretRef:
+                name: gh-self-hosted-runner
+          image: ghcr.io/actions/actions-runner:2.314.1
+          name: gh-self-hosted-runner
+          securityContext:
+            fsGroup: 1001
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /home/runner/_work
+              name: work
+      volumes:
+        - emptyDir: {}
+          name: work

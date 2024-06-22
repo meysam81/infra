@@ -2,3 +2,4 @@ resources:
   - ./check-public-ip/kustomize.yml
   - ./echo-server/kustomize.yml
   - ./atuin/kustomize.yml
+  - ./gh-self-hosted-runner/kustomize.yml
