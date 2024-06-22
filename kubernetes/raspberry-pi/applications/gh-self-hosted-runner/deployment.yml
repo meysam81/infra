@@ -16,7 +16,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: gh-self-hosted-runner
-          image: ghcr.io/actions/actions-runner:2.314.1
+          image: ghcr.io/actions/actions-runner
           name: runner
           resources:
             limits:
@@ -33,6 +33,24 @@ spec:
               name: runner
       initContainers:
         - args:
+            - |
+              if [ "$(ls -A /data)" ]; then
+                echo "data directory is not empty"
+              else
+                cp -r /home/runner/* /data
+              fi
+          command:
+            - sh
+            - -c
+          image: ghcr.io/actions/actions-runner
+          name: workdir
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          volumeMounts:
+            - mountPath: /data
+              name: runner
+        - args:
             - ./config.sh --url $URL --token $TOKEN --unattended || exit 0
           command:
             - sh
@@ -42,7 +60,7 @@ spec:
                 name: gh-self-hosted-runner
             - secretRef:
                 name: gh-self-hosted-runner
-          image: ghcr.io/actions/actions-runner:2.314.1
+          image: ghcr.io/actions/actions-runner
           name: configure
           securityContext:
             readOnlyRootFilesystem: true
