@@ -34,6 +34,8 @@ spec:
       initContainers:
         - args:
             - |
+              set -eux
+
               if [ "$(ls -A /data)" ]; then
                 echo "data directory is not empty"
               else
