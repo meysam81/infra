@@ -39,7 +39,7 @@ spec:
               if [ "$(ls -A /data)" ]; then
                 echo "data directory is not empty"
               else
-                cp -r /home/runner/* /data
+                cp -r /home/runner /data
               fi
           command:
             - sh
