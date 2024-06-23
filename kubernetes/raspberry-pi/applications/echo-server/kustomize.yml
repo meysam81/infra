@@ -10,7 +10,7 @@ spec:
   postBuild:
     substitute:
       IMAGE_TAG: v0.1.0
-      PR_NUMBER: "14"
+      PR_NUMBER: pr14
   prune: true
   sourceRef:
     kind: GitRepository
