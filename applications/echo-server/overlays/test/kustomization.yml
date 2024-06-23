@@ -4,6 +4,11 @@ images:
 
 resources:
   - ../../base
+  - httproute.yml
+  - service.yml
+
+patches:
+  - path: delete-service.yml
 
 commonLabels:
   app.kubernetes.io/name: echo-server
