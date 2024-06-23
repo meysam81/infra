@@ -17,9 +17,6 @@ spec:
                   fieldPath: metadata.name
           name: echo-server
           image: ghcr.io/developer-friendly/echo-server
-          ports:
-            - containerPort: 8000
-              name: http
           resources:
             limits:
               cpu: 100m
