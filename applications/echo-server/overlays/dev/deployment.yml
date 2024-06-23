@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: echo-server
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       containers:

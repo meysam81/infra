@@ -6,7 +6,11 @@ metadata:
 spec:
   force: false
   interval: 5m
-  path: ./applications/echo-server/overlays/dev
+  path: ./applications/echo-server/overlays/test
+  postBuild:
+    substitute:
+      IMAGE_TAG: v0.1.0
+      PR_NUMBER: "14"
   prune: true
   sourceRef:
     kind: GitRepository
