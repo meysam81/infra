@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 5m
-  path: ./kubernetes/raspberry-pi/applications/echo-server
+  path: ./applications/echo-server/overlays/dev
   prune: true
   sourceRef:
     kind: GitRepository
