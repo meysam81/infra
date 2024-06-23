@@ -5,7 +5,6 @@ configMapGenerator:
 
 images:
   - name: ghcr.io/developer-friendly/echo-server
-    newTag: "9624879503"
 
 resources:
   - service.yml
