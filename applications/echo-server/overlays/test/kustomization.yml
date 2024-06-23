@@ -1,6 +1,6 @@
 images:
   - name: ghcr.io/developer-friendly/echo-server
-    newTag: "${IMAGE_TAG}"
+    newTag: ${IMAGE_TAG}
 
 resources:
   - ../../base
