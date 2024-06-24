@@ -234,7 +234,7 @@ resource "cloudflare_record" "convertkit_mailing" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "mailing"
-  proxied = false
+  proxied = true
   ttl     = 1
   type    = "A"
   value   = each.key
