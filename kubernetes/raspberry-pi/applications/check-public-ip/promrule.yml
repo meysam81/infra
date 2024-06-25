@@ -4,15 +4,12 @@ metadata:
   name: check-public-ip
 spec:
   groups:
-    - name: check-public-ip-recording
+    - name: check-public-ip
       interval: 20s
       rules:
         - record: public_ip_total
           expr: count by (ip_address) (count_over_time(public_ip[10m]))
           debug: true
-    - name: check-public-ip-alerting
-      interval: 30s
-      rules:
         - alert: IpChanged
           expr: public_ip_total > 1
           for: 0s
