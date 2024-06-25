@@ -17,4 +17,4 @@ spec:
           key: username
           name: vmagent
           optional: false
-    - url: http://vmsingle-vmsingle.monitoring
+    - url: http://vmsingle-vmsingle.monitoring/api/v1/write
