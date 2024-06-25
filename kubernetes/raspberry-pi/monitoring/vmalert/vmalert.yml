@@ -8,16 +8,7 @@ spec:
   notifiers:
     - url: http://kube-prometheus-stack-alertmanager.monitoring:9093
   remoteWrite:
-    basicAuth:
-      password:
-        key: password
-        name: vmagent
-        optional: false
-      username:
-        key: username
-        name: vmagent
-        optional: false
-    url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+    url: http://vmsingle-vmsingle.monitoring/api/v1/write
   selectAllByDefault: true
   serviceSpec:
     spec:
