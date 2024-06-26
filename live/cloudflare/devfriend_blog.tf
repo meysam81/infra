@@ -239,3 +239,13 @@ resource "cloudflare_record" "convertkit_mailing" {
   type    = "A"
   value   = each.key
 }
+
+resource "cloudflare_record" "gitlab_pages_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "_gitlab-pages-verification-code"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "gitlab-pages-verification-code=de0a984291ce9bc428e911f114321a42"
+}
