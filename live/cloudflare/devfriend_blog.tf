@@ -40,6 +40,7 @@ resource "cloudflare_record" "a_record" {
     "185.199.109.153",
     "185.199.110.153",
     "185.199.111.153",
+    "35.185.44.232",
   ])
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
