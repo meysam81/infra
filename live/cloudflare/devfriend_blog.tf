@@ -36,10 +36,10 @@ resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
 
 resource "cloudflare_record" "a_record" {
   for_each = toset([
-    "185.199.108.153",
-    "185.199.109.153",
-    "185.199.110.153",
-    "185.199.111.153",
+    # "185.199.108.153",
+    # "185.199.109.153",
+    # "185.199.110.153",
+    # "185.199.111.153",
     "35.185.44.232",
   ])
 
