@@ -7,11 +7,8 @@ spec:
     - name: check-public-ip
       interval: 20s
       rules:
-        - record: public_ip_total
-          expr: count by (ip_address) (count_over_time(public_ip[10m]))
-          debug: true
         - alert: IpChanged
-          expr: public_ip_total > 1
+          expr: changes(public_ip) > 0
           for: 0s
           labels:
             severity: warning

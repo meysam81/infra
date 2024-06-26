@@ -6,8 +6,8 @@ configMapGenerator:
 resources:
   - service.yml
   - deployment.yml
-  - servicemonitor.yml
-  - promrule.yml
+  - vmservicescrape.yml
+  - vmrule.yml
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
