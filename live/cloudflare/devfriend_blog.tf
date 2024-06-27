@@ -46,8 +46,8 @@ resource "cloudflare_record" "a_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = false
-  ttl     = 60
+  proxied = true
+  ttl     = 1
   type    = "A"
   value   = each.key
 }
@@ -63,20 +63,10 @@ resource "cloudflare_record" "aaaa_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = false
-  ttl     = 60
+  proxied = true
+  ttl     = 1
   type    = "AAAA"
   value   = each.key
-}
-
-resource "cloudflare_record" "devfriend_blog_google_site_verification" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "developer-friendly.blog"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
 }
 
 resource "cloudflare_record" "devfriend_blog_www" {
@@ -87,6 +77,16 @@ resource "cloudflare_record" "devfriend_blog_www" {
   ttl     = 60
   type    = "CNAME"
   value   = "developer-friendly.github.io"
+}
+
+resource "cloudflare_record" "devfriend_blog_google_site_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "developer-friendly.blog"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
 }
 
 resource "cloudflare_record" "github_domain_verification" {
