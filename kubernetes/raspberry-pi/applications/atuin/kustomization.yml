@@ -16,4 +16,4 @@ commonLabels:
 
 images:
   - name: ghcr.io/atuinsh/atuin
-    newTag: v18.3.0
+    newTag: 8eab351 # v18.3.0
