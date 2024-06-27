@@ -86,7 +86,7 @@ resource "cloudflare_record" "devfriend_blog_www" {
   proxied = true
   ttl     = 1
   type    = "CNAME"
-  value   = "developer-friendly.blog"
+  value   = "developer-friendly.github.io"
 }
 
 resource "cloudflare_record" "github_domain_verification" {
