@@ -40,14 +40,14 @@ resource "cloudflare_record" "a_record" {
     "185.199.109.153",
     "185.199.110.153",
     "185.199.111.153",
-    # "35.185.44.232",
+    "35.185.44.232",
   ])
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
   proxied = false
-  ttl     = 1
+  ttl     = 60
   type    = "A"
   value   = each.key
 }
@@ -64,7 +64,7 @@ resource "cloudflare_record" "aaaa_record" {
 
   name    = "developer-friendly.blog"
   proxied = false
-  ttl     = 1
+  ttl     = 60
   type    = "AAAA"
   value   = each.key
 }
@@ -84,7 +84,7 @@ resource "cloudflare_record" "devfriend_blog_www" {
 
   name    = "www"
   proxied = false
-  ttl     = 1
+  ttl     = 60
   type    = "CNAME"
   value   = "developer-friendly.github.io"
 }
