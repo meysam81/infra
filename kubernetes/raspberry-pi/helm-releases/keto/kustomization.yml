@@ -1,0 +1,13 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - ./keto-server-config.yml
+    name: keto-config
+
+resources:
+  - externalsecret.yml
+  - release.yml
+  - httproute-read.yml
+  - httproute-write.yml
