@@ -52,6 +52,6 @@ spec:
               path: keto.yaml
       extraVolumeMounts:
         - name: keto-config
-          mountPath: /etc/config/keto.yaml
+          mountPath: /etc/config/
           subPath: keto.yaml
           readOnly: true
