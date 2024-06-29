@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: ory
-      version: 0.43.x
+      version: 0.45.x
   interval: 30m
   postRenderers:
     - kustomize:
