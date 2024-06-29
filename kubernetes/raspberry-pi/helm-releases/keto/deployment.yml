@@ -36,7 +36,7 @@ spec:
               name: keto-write
           volumeMounts:
             - name: keto-config
-              mountPath: /etc/config/
+              mountPath: /etc/config/keto.yaml
               subPath: keto.yaml
               readOnly: true
           resources: {}
@@ -56,7 +56,7 @@ spec:
                 name: keto-secrets
           volumeMounts:
             - name: keto-config
-              mountPath: /etc/config/
+              mountPath: /etc/config/keto.yaml
               subPath: keto.yaml
               readOnly: true
       volumes:
