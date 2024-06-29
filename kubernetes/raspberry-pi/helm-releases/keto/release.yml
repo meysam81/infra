@@ -55,6 +55,3 @@ spec:
           mountPath: /etc/config/keto.yaml
           subPath: keto.yaml
           readOnly: true
-  valuesFrom:
-    - kind: ConfigMap
-      name: keto-config
