@@ -20,6 +20,12 @@ spec:
       containers:
         - image: oryd/keto
           name: keto
+          command:
+            - keto
+          args:
+            - serve
+            - --config
+            - /etc/config/keto.yaml
           envFrom:
             - secretRef:
                 name: keto-secrets
@@ -34,6 +40,25 @@ spec:
               subPath: keto.yaml
               readOnly: true
           resources: {}
+      initContainers:
+        - name: automigrate
+          image: oryd/keto
+          command:
+            - keto
+          args:
+            - migrate
+            - up
+            - --yes
+            - --config
+            - /etc/config/keto.yaml
+          envFrom:
+            - secretRef:
+                name: keto-secrets
+          volumeMounts:
+            - name: keto-config
+              mountPath: /etc/config/
+              subPath: keto.yaml
+              readOnly: true
       volumes:
         - name: keto-config
           configMap:
