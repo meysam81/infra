@@ -1,3 +1,4 @@
 resources:
   - ./echo-server/kustomize.yml
   - ./oathkeeper/kustomize.yml
+  - ./keto/kustomize.yml
