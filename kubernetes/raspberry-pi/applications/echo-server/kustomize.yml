@@ -7,10 +7,10 @@ spec:
   force: false
   interval: 5m
   path: ./applications/echo-server/overlays/dev
-  postBuild:
-    substitute:
-      IMAGE_TAG: v0.1.0
-      PR_NUMBER: pr14
+  images:
+    - name: ghcr.io/developer-friendly/echo-server
+      newName: ealen/echo-server
+      newTag: 0.9.2
   prune: true
   sourceRef:
     kind: GitRepository
