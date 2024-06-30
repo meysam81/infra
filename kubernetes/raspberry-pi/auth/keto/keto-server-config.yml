@@ -6,9 +6,9 @@ log:
   level: info
 namespaces:
   - id: 0
-    name: posts
-  - id: 1
     name: roles
+  - id: 1
+    name: endpoints
 profiling: cpu
 serve:
   metrics:
