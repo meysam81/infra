@@ -61,7 +61,7 @@ authorizers:
     enabled: true
   remote_json:
     config:
-      remote: https://developer-friendly.blog
+      remote: http://keto-read.auth
       payload: '{"subject":"{{ .Subject }}"}'
     enabled: true
   allow:
