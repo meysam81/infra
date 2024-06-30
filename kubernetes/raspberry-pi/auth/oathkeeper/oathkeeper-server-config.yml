@@ -61,7 +61,7 @@ authorizers:
     enabled: true
   remote_json:
     config:
-      remote: http://keto-read.auth
+      remote: http://keto-read.auth/relation-tuples/check
       payload: '{"subject":"{{ .Subject }}"}'
     enabled: true
   allow:
