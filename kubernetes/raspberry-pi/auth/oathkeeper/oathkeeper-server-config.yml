@@ -10,6 +10,11 @@ authenticators:
   cookie_session:
     config:
       check_session_url: http://kratos-public.auth/sessions/whoami
+      extra_from: "@this"
+      force_method: GET
+      only:
+        - ory_kratos_session
+      subject_from: identity.id
       preserve_path: true
       preserve_query: true
     enabled: true
