@@ -118,5 +118,6 @@ resources:
   - deployment-oathkeeper.yml
   - servicemonitor-oathkeeper.yml
   - servicemonitor-oathkeeper-maester.yml
+  - httproute.yml
 
 namespace: auth
