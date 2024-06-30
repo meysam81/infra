@@ -13,4 +13,5 @@ resources:
   - release.yml
   - externalsecret.yml
   - httproute.yml
+  - httproute-admin.yml
   - kratos-cleanup.yml
