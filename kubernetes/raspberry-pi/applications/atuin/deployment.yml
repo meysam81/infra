@@ -35,6 +35,11 @@ spec:
             exec:
               command:
                 - /scripts/pg-healthcheck.sh
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            failureThreshold: 2
+            successThreshold: 1
+            timeoutSeconds: 5
           name: postgres-healthcheck
           securityContext:
             readOnlyRootFilesystem: true
