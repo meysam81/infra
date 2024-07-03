@@ -2,6 +2,9 @@ configMapGenerator:
   - name: atuin
     envs:
       - configs.env
+  - name: atuin-files
+    files:
+      - pg-healthcheck.sh
 
 resources:
   - externalsecret.yml

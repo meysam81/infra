@@ -4,7 +4,7 @@ metadata:
   name: atuin
   namespace: flux-system
 spec:
-  force: false
+  force: true
   interval: 5m
   path: ./kubernetes/raspberry-pi/applications/atuin
   prune: true
