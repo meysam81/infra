@@ -43,7 +43,6 @@ spec:
           name: postgres-healthcheck
           securityContext:
             readOnlyRootFilesystem: true
-            fsGroup: 1000
             runAsUser: 70
           volumeMounts:
             - mountPath: /scripts
@@ -55,3 +54,4 @@ spec:
           configMap:
             name: atuin-files
             defaultMode: 0555
+      terminationGracePeriodSeconds: 10
