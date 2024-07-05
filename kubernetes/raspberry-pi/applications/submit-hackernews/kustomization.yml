@@ -2,7 +2,7 @@ configMapGenerator:
   - name: submit-hackernews
     envs:
       - configs.env
-  - name: submit-hackernews-main
+  - name: submit-hackernews-files
     files:
       - main.sh
 
