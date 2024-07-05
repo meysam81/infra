@@ -12,7 +12,7 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/submit-hackernews
-    newTag: v1.1
+    newTag: "9803461593"
 
 patches:
   - path: cronjob.yml
