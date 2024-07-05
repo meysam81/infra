@@ -4,16 +4,9 @@ metadata:
   name: submit-hackernews
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: submit-hackernews-secret
-      namespace: flux-system
   force: false
   interval: 5m
   path: ./kubernetes/raspberry-pi/applications/submit-hackernews
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: submit-hackernews
   prune: true
   sourceRef:
     kind: GitRepository

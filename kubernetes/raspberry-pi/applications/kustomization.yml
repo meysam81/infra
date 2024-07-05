@@ -2,5 +2,4 @@ resources:
   - ./check-public-ip/kustomize.yml
   - ./echo-server/kustomize.yml
   - ./atuin/kustomize.yml
-  - ./submit-hackernews-secret/kustomize.yml
   - ./submit-hackernews/kustomize.yml
