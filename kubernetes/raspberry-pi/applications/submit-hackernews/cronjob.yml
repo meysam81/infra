@@ -4,6 +4,7 @@ metadata:
   name: submit-hackernews
 spec:
   schedule: "0 14 5 7 *"
+  timezone: UTC
   jobTemplate:
     spec:
       template:
