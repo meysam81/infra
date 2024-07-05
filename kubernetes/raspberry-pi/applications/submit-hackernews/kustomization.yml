@@ -2,6 +2,9 @@ configMapGenerator:
   - name: submit-hackernews
     envs:
       - configs.env
+  - name: submit-hackernews-main
+    files:
+      - main.sh
 
 resources:
   - externalsecret.yml

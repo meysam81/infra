@@ -15,3 +15,15 @@ spec:
                 - secretRef:
                     name: submit-hackernews
               name: submit-hackernews
+              volumeMounts:
+                - name: script
+                  mountPath: /app
+          volumes:
+            - name: script
+              configMap:
+                name: submit-hackernews-files
+                items:
+                  - key: main.sh
+                    path: main.sh
+                optional: false
+                defaultMode: 0555
