@@ -1,0 +1,6 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: submit-hackernews
+spec:
+  schedule: "0 14 5 7 *" # July 5th at 1:30 PM every year

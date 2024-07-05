@@ -1,0 +1,6 @@
+resources:
+  - externalsecret.yml
+  - https://github.com/meysam81/submit-hackernews//kustomize/cronjob?timeout=30s&ref=main
+
+patches:
+  - path: cronjob.yml
