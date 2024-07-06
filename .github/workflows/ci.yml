@@ -163,9 +163,13 @@ jobs:
     if: needs.fetch-hn-submissions.outputs.length > 0
     needs: fetch-hn-submissions
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix: ${{ fromJson(needs.fetch-hn-submissions.outputs.matrix) }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Show submission information
         run: |
           echo "${{ matrix.id }}: ${{ matrix.title }} ${{ matrix.url }}"
@@ -177,3 +181,13 @@ jobs:
       #     title: ${{ matrix.title }}
       #     url: ${{ matrix.url }}
       #     verbose: true
+      - name: Install poetry
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: |
+          pip install 'poetry<2'
+          poetry install
+      - name: Mark story as submitted
+        run: poetry run ./main.py --submit --id "${{ matrix.id }}"
