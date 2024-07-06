@@ -20,7 +20,7 @@ replacements:
       fieldPath: spec.template.metadata.labels
     targets:
       - select:
-          kind: ServiceMonitor
+          kind: VMServiceScrape
           name: check-public-ip
         fieldPaths:
           - spec.selector.matchLabels
