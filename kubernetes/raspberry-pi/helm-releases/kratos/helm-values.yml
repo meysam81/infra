@@ -154,7 +154,6 @@ kratos:
     # eg:
     # - sleep 5;
     #   - kratos
-    customArgs: []
     # -- resource requests and limits for the automigration initcontainer
     resources: {}
 
