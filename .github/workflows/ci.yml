@@ -165,9 +165,9 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.fetch-hn-submissions.outputs.matrix) }}
     steps:
-      - name: Debug
+      - name: Show submission information
         run: |
-          echo ${{ matrix.id }}: ${{ matrix.title }} ${{ matrix.url }}
+          echo "${{ matrix.id }}: ${{ matrix.title }} ${{ matrix.url }}"
       # - name: Submit link to Hacker News
       #   uses: meysam81/submit-hackernews@main
       #   with:
