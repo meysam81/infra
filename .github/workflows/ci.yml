@@ -8,7 +8,7 @@ on:
       - main
   schedule:
     - cron: "0 */12 * * *"
-    - cron: "30 13 * * *" # 8:30 eastern time
+    - cron: "30 13 * * *" # 09:30 eastern time
   workflow_dispatch:
     inputs:
       title:
@@ -132,8 +132,8 @@ jobs:
           sarif_file: results.sarif
 
   submit-hackernews:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    # if: github.event_name == 'schedule' && github.event.schedule == '30 13 * * *'
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'schedule' && github.event.schedule == '30 13 * * *'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -160,15 +160,15 @@ jobs:
         name: Show submission information
         run: |
           echo "${{ steps.db.outputs.id }}: ${{ steps.db.outputs.title }} ${{ steps.db.outputs.url }}"
-      # - if: steps.db.outputs.found
-      #   name: Submit link to Hacker News
-      #   uses: meysam81/submit-hackernews@main
-      #   with:
-      #     username: ${{ secrets.HACKERNEWS_USERNAME }}
-      #     password: ${{ secrets.HACKERNEWS_PASSWORD }}
-      #     title: ${{ steps.db.outputs.title }}
-      #     url: ${{ steps.db.outputs.url }}
-      #     verbose: true
+      - if: steps.db.outputs.found
+        name: Submit link to Hacker News
+        uses: meysam81/submit-hackernews@v1
+        with:
+          username: ${{ secrets.HACKERNEWS_USERNAME }}
+          password: ${{ secrets.HACKERNEWS_PASSWORD }}
+          title: ${{ steps.db.outputs.title }}
+          url: ${{ steps.db.outputs.url }}
+          verbose: true
       - if: steps.db.outputs.found
         name: Mark story as submitted
         run: poetry run ./main.py --submit --id "${{ steps.db.outputs.id }}"
