@@ -11,14 +11,14 @@ on:
   workflow_dispatch:
     inputs:
       title:
-        description: "The title of the link to submit."
+        description: The title of the link to submit.
         required: true
       url:
-        description: "The URL of the link to submit."
+        description: The URL of the link to submit.
         required: true
       verbose:
         type: boolean
-        description: "Whether to output verbose logs."
+        description: Verbose?
         default: true
 
 env:
