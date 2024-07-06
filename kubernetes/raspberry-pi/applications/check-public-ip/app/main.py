@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import httpx
-from prometheus_client import start_http_server, Gauge
 import time
-
 from collections import OrderedDict
+
+import httpx
+from prometheus_client import Gauge, start_http_server
 
 
 class EvictingDict(OrderedDict):

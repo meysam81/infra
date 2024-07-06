@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import json
-import psycopg2
-from datetime import date
-from pydantic import BaseModel
 import logging
+import os
+from datetime import date
 from typing import Optional
+
+import psycopg2
+from pydantic import BaseModel
 
 
 def get_logger(level="INFO"):
@@ -87,14 +88,18 @@ def githubify(submission: Optional[Submission]):
     if submission:
         include.append(submission.model_dump())
 
+    length = len(include)
+
     github_matrix = {"include": include}
     dumped = json.dumps(github_matrix, separators=(",", ":"))
     github_output = f"matrix={dumped}\n"
+    github_output_2 = f"length={length}\n"
 
     with open(os.environ["GITHUB_OUTPUT"], "a") as f:
         rv = f.write(github_output)
+        rv2 = f.write(github_output_2)
 
-    logger.info(f"Written {rv} bytes to {os.environ['GITHUB_OUTPUT']}")
+    logger.info(f"Written {rv + rv2} bytes to {os.environ['GITHUB_OUTPUT']}")
 
 
 if __name__ == "__main__":

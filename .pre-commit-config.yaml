@@ -52,8 +52,10 @@ repos:
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.9
+    rev: v0.5.1
     hooks:
       - id: ruff
-        args: [--fix]
+        args:
+          - --fix
+          - --select=I
       - id: ruff-format

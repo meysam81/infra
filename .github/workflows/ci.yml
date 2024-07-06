@@ -160,6 +160,7 @@ jobs:
         run: poetry run ./main.py
 
   submit-hackernews:
+    if: needs.fetch-hn-submissions.outputs.length > 0
     needs: fetch-hn-submissions
     runs-on: ubuntu-latest
     strategy:
