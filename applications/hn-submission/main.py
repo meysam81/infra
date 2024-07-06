@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import argparse
 import json
 import logging
 import os
@@ -31,6 +32,10 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 IS_GITHUB = os.getenv("CI") and os.getenv("GITHUB_OUTPUT")
 
 logger = get_logger(LOG_LEVEL)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--submit", action="store_true")
+parser.add_argument("-i", "--id", type=int, required=False)
 
 
 class Submission(BaseModel):
@@ -102,16 +107,45 @@ def githubify(submission: Optional[Submission]):
     logger.info(f"Written {rv + rv2} bytes to {os.environ['GITHUB_OUTPUT']}")
 
 
-if __name__ == "__main__":
-    conn = get_connection()
-    ping_database(conn)
-
+def fetch_story(conn):
     latest_story = get_latest_unsubmitted_story(conn)
-
-    conn.close()
 
     if latest_story:
         logger.info(latest_story.model_dump())
 
     if IS_GITHUB:
         githubify(latest_story)
+
+
+def submit_story(conn, story_id):
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE submissions SET is_submitted = true WHERE id = %s",
+        (story_id,),
+    )
+    result = cursor.rowcount
+    conn.commit()
+    logger.info(f"Story {story_id} is submitted. Rows updated: {result}")
+
+
+def verify_args(args):
+    if args.submit:
+        assert args.id, "ID is required for submission"
+
+
+def main(args):
+    conn = get_connection()
+    ping_database(conn)
+
+    if args.submit:
+        submit_story(conn, args.id)
+    else:
+        fetch_story(conn)
+
+    conn.close()
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    verify_args(args)
+    main(args)
