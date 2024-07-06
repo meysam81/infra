@@ -100,6 +100,10 @@ def githubify(submission: Optional[Submission]):
     github_output = f"matrix={dumped}\n"
     github_output_2 = f"length={length}\n"
 
+    logger.info(f"Writing the followins to GitHub output:")
+    logger.info(github_output)
+    logger.info(github_output_2)
+
     with open(os.environ["GITHUB_OUTPUT"], "a") as f:
         rv = f.write(github_output)
         rv2 = f.write(github_output_2)
