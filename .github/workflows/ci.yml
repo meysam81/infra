@@ -144,6 +144,7 @@ jobs:
         working-directory: ./applications/hn-submission
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
+      length: ${{ steps.matrix.outputs.length }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
