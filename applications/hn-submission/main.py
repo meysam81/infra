@@ -89,18 +89,21 @@ def mark_submitted(conn, submission: Submission):
 
 
 def githubify(submission: Optional[Submission]):
-    include = []
+    found = False
     if submission:
-        include.append(submission.model_dump())
+        found = True
 
-    length = len(include)
+    found_jsonify = json.dumps(found)
 
-    github_matrix = {"include": include}
-    dumped = json.dumps(github_matrix, separators=(",", ":"))
-    github_output = f"matrix={dumped}\n"
-    github_output_2 = f"length={length}\n"
+    list_output = []
+    if submission:
+        for key, value in submission.model_dump().items():
+            list_output.append(f"{key}={value}")
 
-    logger.info(f"Writing the followins to GitHub output:")
+    github_output = "\n".join(list_output) + "\n"
+    github_output_2 = f"found={found_jsonify}\n"
+
+    logger.info(f"Writing the following to GitHub output:")
     logger.info(github_output)
     logger.info(github_output_2)
 
