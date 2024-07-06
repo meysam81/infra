@@ -1,0 +1,17 @@
+[build-system]
+requires = ["poetry<2"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "hn-submission"
+version = "0.1.0"
+description = "Read submissions from PostgreSQL and print the unsubmitted one"
+authors = ["Meysam Azad <meysam@developer-friendly.blog>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+alembic = "<1.14"
+psycopg2-binary = "<2.10"
+sqlalchemy = "<2.1"
+pydantic = "<2.9"

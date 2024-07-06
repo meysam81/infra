@@ -1,0 +1,108 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+import psycopg2
+from datetime import date
+from pydantic import BaseModel
+import logging
+from typing import Optional
+
+
+def get_logger(level="INFO"):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(level)
+
+    formatter = logging.Formatter(
+        "[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)d - %(message)s"
+    )
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
+    logger.addHandler(stream_handler)
+
+    return logger
+
+
+DSN = os.environ["HACKERNEWS_DSN"]
+LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
+IS_CI = os.getenv("CI") and os.getenv("GITHUB_OUTPUT")
+
+logger = get_logger(LOG_LEVEL)
+
+
+class Submission(BaseModel):
+    id: int
+    title: str
+    url: str
+
+
+def get_connection():
+    return psycopg2.connect(DSN)
+
+
+def ping_database(conn):
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1")
+        result = cursor.fetchone()
+        if result[0] == 1:
+            logger.info("Database connection successful")
+    except (Exception, psycopg2.Error) as error:
+        logger.error("Error while connecting to PostgreSQL", error)
+
+
+def get_latest_unsubmitted_story(conn) -> Optional[Submission]:
+    cursor = conn.cursor()
+    today = date.today()
+    cursor.execute(
+        """
+      SELECT id, title, url
+      FROM submissions
+      WHERE is_submitted = false
+      AND date = %s
+      ORDER BY date DESC
+      LIMIT 1
+      """,
+        (today,),
+    )
+    row = cursor.fetchone()
+    if row:
+        latest_story = Submission(id=row[0], title=row[1], url=row[2])
+        return latest_story
+
+
+def mark_submitted(conn, submission: Submission):
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE submissions SET is_submitted = true WHERE id = %s",
+        (submission.id,),
+    )
+    conn.commit()
+
+
+def githubify(submission: Submission):
+    github_matrix = {"include": [submission.model_dump()]}
+    dumped = json.dumps(github_matrix, separators=(",", ":"))
+    github_output = f"matrix={dumped}\n"
+
+    with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+        rv = f.write(github_output)
+
+    logger.info(f"Written {rv} bytes to {os.environ['GITHUB_OUTPUT']}")
+
+
+if __name__ == "__main__":
+    conn = get_connection()
+    ping_database(conn)
+
+    latest_story = get_latest_unsubmitted_story(conn)
+
+    conn.close()
+
+    if latest_story:
+        logger.info(latest_story.model_dump())
+
+        if IS_CI:
+            githubify(latest_story)

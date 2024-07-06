@@ -8,6 +8,7 @@ on:
       - main
   schedule:
     - cron: "0 */12 * * *"
+    - cron: "30 13 * * *" # 8:30 eastern time
   workflow_dispatch:
     inputs:
       title:
@@ -25,6 +26,7 @@ env:
   tf_version: "1.5.7"
   tg_version: "0.53.0"
   working_dir: "live"
+  PYTHON_VERSION: 3.12
 
 permissions:
   id-token: write
@@ -129,15 +131,48 @@ jobs:
         with:
           sarif_file: results.sarif
 
-  submit-hackernews:
-    if: github.event_name == 'workflow_dispatch'
+  fetch-hn-submissions:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # if: github.event_name == 'schedule' && github.event.schedule == '30 13 * * *'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      HACKERNEWS_DSN: ${{ secrets.HACKERNEWS_DSN }}
+    defaults:
+      run:
+        working-directory: ./applications/hn-submission
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - name: Submit link to Hacker News
-        uses: meysam81/submit-hackernews@main
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install poetry
+        uses: actions/setup-python@v5
         with:
-          username: ${{ secrets.HACKERNEWS_USERNAME }}
-          password: ${{ secrets.HACKERNEWS_PASSWORD }}
-          title: ${{ github.event.inputs.title }}
-          url: ${{ github.event.inputs.url }}
-          verbose: ${{ github.event.inputs.verbose }}
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: |
+          pip install 'poetry<2'
+          poetry install
+      - id: matrix
+        name: Fetch Hacker News submissions
+        run: poetry run ./main.py
+
+  submit-hackernews:
+    needs: fetch-hn-submissions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.fetch-hn-submissions.outputs.matrix) }}
+    steps:
+      - name: Debug
+        run: |
+          echo ${{ matrix.id }}: ${{ matrix.title }} ${{ matrix.url }}
+      # - name: Submit link to Hacker News
+      #   uses: meysam81/submit-hackernews@main
+      #   with:
+      #     username: ${{ secrets.HACKERNEWS_USERNAME }}
+      #     password: ${{ secrets.HACKERNEWS_PASSWORD }}
+      #     title: ${{ github.event.inputs.title }}
+      #     url: ${{ github.event.inputs.url }}
+      #     verbose: ${{ github.event.inputs.verbose }}
