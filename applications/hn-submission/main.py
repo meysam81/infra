@@ -27,7 +27,7 @@ def get_logger(level="INFO"):
 
 DSN = os.environ["HACKERNEWS_DSN"]
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
-IS_CI = os.getenv("CI") and os.getenv("GITHUB_OUTPUT")
+IS_GITHUB = os.getenv("CI") and os.getenv("GITHUB_OUTPUT")
 
 logger = get_logger(LOG_LEVEL)
 
@@ -82,8 +82,12 @@ def mark_submitted(conn, submission: Submission):
     conn.commit()
 
 
-def githubify(submission: Submission):
-    github_matrix = {"include": [submission.model_dump()]}
+def githubify(submission: Optional[Submission]):
+    include = []
+    if submission:
+        include.append(submission.model_dump())
+
+    github_matrix = {"include": include}
     dumped = json.dumps(github_matrix, separators=(",", ":"))
     github_output = f"matrix={dumped}\n"
 
@@ -104,5 +108,5 @@ if __name__ == "__main__":
     if latest_story:
         logger.info(latest_story.model_dump())
 
-        if IS_CI:
-            githubify(latest_story)
+    if IS_GITHUB:
+        githubify(latest_story)

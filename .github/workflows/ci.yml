@@ -132,7 +132,8 @@ jobs:
           sarif_file: results.sarif
 
   fetch-hn-submissions:
-    if: github.event_name == 'schedule' && github.event.schedule == '30 13 * * *'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # if: github.event_name == 'schedule' && github.event.schedule == '30 13 * * *'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -167,11 +168,11 @@ jobs:
       - name: Show submission information
         run: |
           echo "${{ matrix.id }}: ${{ matrix.title }} ${{ matrix.url }}"
-      - name: Submit link to Hacker News
-        uses: meysam81/submit-hackernews@main
-        with:
-          username: ${{ secrets.HACKERNEWS_USERNAME }}
-          password: ${{ secrets.HACKERNEWS_PASSWORD }}
-          title: ${{ matrix.title }}
-          url: ${{ matrix.url }}
-          verbose: true
+      # - name: Submit link to Hacker News
+      #   uses: meysam81/submit-hackernews@main
+      #   with:
+      #     username: ${{ secrets.HACKERNEWS_USERNAME }}
+      #     password: ${{ secrets.HACKERNEWS_PASSWORD }}
+      #     title: ${{ matrix.title }}
+      #     url: ${{ matrix.url }}
+      #     verbose: true
