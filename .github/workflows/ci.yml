@@ -9,6 +9,17 @@ on:
   schedule:
     - cron: "0 */12 * * *"
   workflow_dispatch:
+    inputs:
+      title:
+        description: "The title of the link to submit."
+        required: true
+      url:
+        description: "The URL of the link to submit."
+        required: true
+      verbose:
+        type: boolean
+        description: "Whether to output verbose logs."
+        default: true
 
 env:
   tf_version: "1.5.7"
@@ -22,6 +33,7 @@ permissions:
 
 jobs:
   lint:
+    if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -67,6 +79,7 @@ jobs:
     secrets: inherit
 
   trivy:
+    if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
     runs-on: ubuntu-latest
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -97,13 +110,15 @@ jobs:
           path: trivy-results.sarif
 
   kubescape:
+    if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
     runs-on: ubuntu-latest
     permissions:
       actions: read
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: kubescape/github-action@main
         continue-on-error: true
         with:
@@ -113,3 +128,16 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
+
+  submit-hackernews:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit link to Hacker News
+        uses: meysam81/submit-hackernews@main
+        with:
+          username: ${{ secrets.HACKERNEWS_USERNAME }}
+          password: ${{ secrets.HACKERNEWS_PASSWORD }}
+          title: ${{ github.event.inputs.title }}
+          url: ${{ github.event.inputs.url }}
+          verbose: ${{ github.event.inputs.verbose }}
