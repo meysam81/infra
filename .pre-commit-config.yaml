@@ -6,10 +6,6 @@ repos:
         args: ["--maxkb=800"]
       - id: check-ast
       - id: check-executables-have-shebangs
-        exclude: |
-          (?x)^(
-            ansible/roles/k8s-oidc/templates/update-jwks.sh.j2
-          )$
       - id: check-json
       - id: check-shebang-scripts-are-executable
       - id: check-yaml
