@@ -6,7 +6,7 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/check-public-ip
-    newTag: v2
+    newTag: "9824721479"
 
 replacements:
   - source:
