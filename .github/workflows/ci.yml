@@ -156,11 +156,11 @@ jobs:
       - id: db
         name: Fetch Hacker News submissions
         run: poetry run ./main.py
-      - if: steps.db.outputs.found
+      - if: fromJson(steps.db.outputs.found)
         name: Show submission information
         run: |
           echo "${{ steps.db.outputs.id }}: ${{ steps.db.outputs.title }} ${{ steps.db.outputs.url }}"
-      - if: steps.db.outputs.found
+      - if: fromJson(steps.db.outputs.found)
         name: Submit link to Hacker News
         uses: meysam81/submit-hackernews@v1
         with:
@@ -169,6 +169,73 @@ jobs:
           title: ${{ steps.db.outputs.title }}
           url: ${{ steps.db.outputs.url }}
           verbose: true
-      - if: steps.db.outputs.found
+      - if: fromJson(steps.db.outputs.found)
         name: Mark story as submitted
         run: poetry run ./main.py --submit --id "${{ steps.db.outputs.id }}"
+
+  prepare-internal-service:
+    if: |
+      ( github.event_name == 'push' && github.ref == 'refs/heads/main' ) ||
+      ( github.event_name == 'schedule' && github.event.schedule == '0 */12 * * *' )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      length: ${{ steps.matrix.outputs.length }}
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+      - name: Install dependencies
+        run: pip install -r ./internal/ci/calculate-changed-services/requirements.txt
+      - env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          REDIS_SSL: ${{ secrets.REDIS_SSL }}
+        id: matrix
+        name: Discover changed services
+        run: ./internal/ci/calculate-changed-services/main.py
+
+  build-internal-service:
+    needs: prepare-internal-service
+    if: ${{ needs.prepare-internal-service.outputs.length > 0 }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare-internal-service.outputs.matrix) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/build-docker.yml
+    with:
+      context: ${{ matrix.directory }}
+      image-name: ghcr.io/${{ github.repository_owner }}/${{ matrix.image-name }}
+      image-extra-tags: |
+        ghcr.io/${{ github.repository_owner }}/${{ matrix.image-name }}:${{ github.run_id }}
+        ghcr.io/${{ github.repository_owner }}/${{ matrix.image-name }}:latest
+      platforms: ${{ matrix.platforms }}
+      push: true
+      scout-cves: true
+      scout-compare: false
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+  finalize-internal-service:
+    needs: build-internal-service
+    if: ${{ needs.prepare-internal-service.outputs.length > 0 }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+      - name: Install dependencies
+        run: pip install -r ./internal/ci/calculate-changed-services/requirements.txt
+      - env:
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          REDIS_SSL: ${{ secrets.REDIS_SSL }}
+        name: Finalize changed services
+        run: ./internal/ci/calculate-changed-services/main.py --action set
