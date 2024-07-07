@@ -5,7 +5,7 @@ FROM --platform=$TARGETPLATFORM python:3.12-alpine
 WORKDIR /app
 
 ARG TARGETARCH
-ADD --chmod=755 https://github.com/krallin/tini/releases/download/v0.19.0/tini-${TARGETARCH} /usr/local/bin/tini
+ADD --chmod=755 https://github.com/krallin/tini/releases/download/v0.19.0/tini-static-${TARGETARCH} /usr/local/bin/tini
 
 RUN apk update && apk upgrade
 
