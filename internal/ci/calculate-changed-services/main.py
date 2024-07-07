@@ -9,6 +9,7 @@ length=2
 """
 
 import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -40,13 +41,10 @@ platforms["applications/check-public-ip"] = ["linux/amd64", "linux/arm64"]
 
 
 def _calculate_service_hash(svc) -> str:
-    return (
-        subprocess.check_output(
-            ["find", svc, "-type", "f", "-exec", "sha256sum", "{}", ";"],
-        )
-        .decode()
-        .split()[0]
+    output = subprocess.check_output(
+        ["find", svc, "-type", "f", "-exec", "sha256sum", "{}", ";"],
     )
+    return hashlib.sha256(output).hexdigest()
 
 
 def _get_all_hashes(only_dockerfile=True) -> dict:
@@ -59,7 +57,7 @@ def _get_all_hashes(only_dockerfile=True) -> dict:
             continue
         services.append(f.path)
 
-    current_hashes = dd(str)
+    current_hashes = {}
 
     for svc in services:
         current_hashes[svc] = _calculate_service_hash(svc)
