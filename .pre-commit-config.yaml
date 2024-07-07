@@ -13,6 +13,8 @@ repos:
           - --allow-multiple-documents
       - id: detect-private-key
       - id: detect-aws-credentials
+        args:
+          - --allow-missing-credentials
       - id: end-of-file-fixer
       - id: name-tests-test
       - id: file-contents-sorter
