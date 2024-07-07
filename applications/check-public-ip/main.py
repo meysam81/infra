@@ -15,7 +15,7 @@ def get_logger(level="INFO"):
     handler.setLevel(level)
 
     formatter = logging.Formatter(
-        "[%(levelname)s] %(asctime)s - %(name)s - %(message)s"
+        "[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)d - %(message)s"
     )
     handler.setFormatter(formatter)
 
