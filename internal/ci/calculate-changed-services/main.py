@@ -51,11 +51,13 @@ def _calculate_service_hash(svc) -> str:
 
 def _get_all_hashes(only_dockerfile=True) -> dict:
     dir_path = root_dir
-    services = [
-        f.path
-        for f in os.scandir(dir_path)
-        if f.is_dir() and os.path.exists(os.path.join(f.path, "Dockerfile"))
-    ]
+    services = []
+    for f in os.scandir(dir_path):
+        if not f.is_dir():
+            continue
+        if only_dockerfile and not os.path.exists(os.path.join(f.path, "Dockerfile")):
+            continue
+        services.append(f.path)
 
     current_hashes = dd(str)
 
