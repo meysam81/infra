@@ -30,3 +30,15 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
+          volumeMounts:
+            - name: scripts
+              mountPath: /app/main.py
+              subPath: main.py
+      volumes:
+        - name: scripts
+          configMap:
+            name: check-public-ip
+            items:
+              - key: main.py
+                path: main.py
+            optional: false

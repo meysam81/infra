@@ -1,3 +1,8 @@
+configMapGenerator:
+  - name: check-public-ip
+    files:
+      - main.py
+
 resources:
   - service.yml
   - deployment.yml
