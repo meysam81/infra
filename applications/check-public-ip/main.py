@@ -50,8 +50,11 @@ logger = get_logger()
 
 
 def get_public_ip():
-    response = httpx.get("https://checkip.amazonaws.com")
-    return response.text.strip()
+    try:
+        response = httpx.get("https://checkip.amazonaws.com")
+        return response.text.strip()
+    except Exception as e:
+        logger.error(e)
 
 
 if __name__ == "__main__":
@@ -61,6 +64,7 @@ if __name__ == "__main__":
     while True:
         public_ip = get_public_ip()
 
-        public_ip_metric.labels(ip_address=public_ip).set(ip_addresses[public_ip])
+        if public_ip:
+            public_ip_metric.labels(ip_address=public_ip).set(ip_addresses[public_ip])
 
         time.sleep(60)
