@@ -8,7 +8,7 @@ on:
       - main
   schedule:
     - cron: "0 */12 * * *"
-    - cron: "0 13 * * *" # 09:00 eastern time
+    - cron: "0 14 * * *" # 10:00 eastern time
   workflow_dispatch:
     inputs:
       title:
@@ -133,7 +133,7 @@ jobs:
 
   submit-hackernews:
     # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    if: github.event_name == 'schedule' && github.event.schedule == '0 13 * * *'
+    if: github.event_name == 'schedule' && github.event.schedule == '0 14 * * *'
     runs-on: ubuntu-latest
     permissions:
       contents: read
