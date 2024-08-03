@@ -2,21 +2,14 @@ data "cloudflare_zone" "devfriend_blog" {
   name = "developer-friendly.blog"
 }
 
-resource "cloudflare_record" "devfriend_blog_mailserver" {
-  for_each = {
-    "route1.mx.cloudflare.net" = 28,
-    "route2.mx.cloudflare.net" = 31,
-    "route3.mx.cloudflare.net" = 9,
-  }
-
+resource "cloudflare_record" "devfriend_blog_mx" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name     = "developer-friendly.blog"
-  priority = each.value
-  proxied  = false
-  ttl      = 1
-  type     = "MX"
-  value    = each.key
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "MX"
+  value   = "1 SMTP.GOOGLE.COM"
 }
 
 resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
