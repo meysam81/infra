@@ -9,7 +9,8 @@ resource "cloudflare_record" "devfriend_blog_mx" {
   proxied = false
   ttl     = 1
   type    = "MX"
-  value   = "1 SMTP.GOOGLE.COM"
+  priority = 1
+  value   = "smtp.google.com"
 }
 
 resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
