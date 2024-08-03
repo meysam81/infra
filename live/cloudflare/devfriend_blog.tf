@@ -250,3 +250,13 @@ resource "cloudflare_record" "gitlab_pages_verification" {
   type    = "TXT"
   value   = "gitlab-pages-verification-code=de0a984291ce9bc428e911f114321a42"
 }
+
+resource "cloudflare_record" "google_workspace_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
+}
