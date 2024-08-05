@@ -146,6 +146,21 @@ resource "cloudflare_record" "dmarc" {
   value   = "v=DMARC1; p=none;"
 }
 
+resource "cloudflare_record" "mailing" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  for_each = toset([
+    "mailing",
+    "newsletter",
+  ])
+
+  name    = each.key
+  proxied = false
+  ttl     = 600
+  type    = "CNAME"
+  value   = "developerfriendly.eo.page"
+}
+
 resource "cloudflare_record" "gitlab_pages_verification" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
