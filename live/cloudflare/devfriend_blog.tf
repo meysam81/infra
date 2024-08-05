@@ -196,7 +196,7 @@ resource "cloudflare_record" "emailoctopus" {
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = each.key
+  name    = "${each.key}.mailing"
   proxied = false
   ttl     = 1
   type    = "CNAME"
