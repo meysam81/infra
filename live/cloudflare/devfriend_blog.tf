@@ -125,7 +125,6 @@ resource "cloudflare_record" "emailoctopus" {
     "eom"           = "eom.45cb31060b.arborescens.eoidentity.com",
     "eot"           = "eot.45cb31060b.arborescens.eoidentity.com",
     "45165608"      = "45165608.45cb31060b.arborescens.eoidentity.com",
-    "_dmarc"        = "v=DMARC1; p=none;"
   }
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
@@ -135,6 +134,16 @@ resource "cloudflare_record" "emailoctopus" {
   ttl     = 1
   type    = "CNAME"
   value   = each.value
+}
+
+resource "cloudflare_record" "dmarc" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "_dmarc.mailing"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  value   = "v=DMARC1; p=none;"
 }
 
 resource "cloudflare_record" "gitlab_pages_verification" {
