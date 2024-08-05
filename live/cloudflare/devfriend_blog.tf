@@ -5,27 +5,12 @@ data "cloudflare_zone" "devfriend_blog" {
 resource "cloudflare_record" "devfriend_blog_mx" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "@"
-  proxied = false
-  ttl     = 1
-  type    = "MX"
+  name     = "@"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
   priority = 1
-  value   = "smtp.google.com"
-}
-
-resource "cloudflare_email_routing_catch_all" "devfriend_blog_email_catch_all" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-  name    = "catch all"
-  enabled = true
-
-  matcher {
-    type = "all"
-  }
-
-  action {
-    type  = "forward"
-    value = [var.target_email_address]
-  }
+  value    = "smtp.google.com"
 }
 
 resource "cloudflare_record" "a_record" {
@@ -93,42 +78,6 @@ resource "cloudflare_record" "github_domain_verification" {
   value   = "06e0a79c66"
 }
 
-resource "cloudflare_record" "devfriend_blog_mandrillapp_txt" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "developer-friendly.blog"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = "mandrill_verify.HpAYL5AwBEAKayRaLLfEtg"
-}
-
-resource "cloudflare_record" "devfriend_blog_maileroo_txt" {
-  for_each = {
-    "@"              = "v=spf1 include:_spf.maileroo.com ~all",
-    "mta._domainkey" = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA00B04bAF2E7b1XLYpno/AgcOX27W2imOZ8UvqfQ2K3k057hCb5ISyb2C7AXaicz7JtXupU/D8hGWQH1rqADWLER44PWw87cbp8NKnwWwBy74jNWaS4+d+U8+IODQpeH6jfMlJLridbnr0sR6WEd58LKWsV4U3nBG0q0ULBhWhrmNfRMOnvPvMD5CeqHM/s2SINEDSfG4Nlbll8bEPyuR9Ebug4MJRLU/5EFfTNmvADcEdggDjSHY4RE9EDVoGdKYK1kSpCGT1YtTyBMgHyewZ5H3nbgHE0e1BfWaBDSp5WI8iMGu/nyuMC/TggM07oITdKpsZJH7W2Fw/80PA93EjwIDAQAB",
-    "_dmarc"         = "v=DMARC1; p=reject;",
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = each.key
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = each.value
-}
-
-resource "cloudflare_record" "devfriend_blog_maileroo_cname" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "click"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = "click.maileroo.net"
-}
-
 resource "cloudflare_record" "ory" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
@@ -170,28 +119,13 @@ resource "cloudflare_ruleset" "ory" {
   }
 }
 
-resource "cloudflare_record" "sendgrid_cname" {
-  for_each = {
-    "em8552"        = "u42195761.wl012.sendgrid.net",
-    "s1._domainkey" = "s1.domainkey.u42195761.wl012.sendgrid.net",
-    "s2._domainkey" = "s2.domainkey.u42195761.wl012.sendgrid.net",
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = each.key
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = each.value
-}
-
 resource "cloudflare_record" "emailoctopus" {
   for_each = {
-    "eo._domainkey" = "eo._domainkey.4bf5dc1bf4.alecto.eoidentity.com",
-    "eom"           = "eom.4bf5dc1bf4.alecto.eoidentity.com",
-    "eot"           = "eot.4bf5dc1bf4.alecto.eoidentity.com",
-    "45165608"      = "45165608.4bf5dc1bf4.alecto.eoidentity.com",
+    "eo._domainkey" = "eo._domainkey.45cb31060b.arborescens.eoidentity.com",
+    "eom"           = "eom.45cb31060b.arborescens.eoidentity.com",
+    "eot"           = "eot.45cb31060b.arborescens.eoidentity.com",
+    "45165608"      = "45165608.45cb31060b.arborescens.eoidentity.com",
+    "_dmarc"        = "v=DMARC1; p=none;"
   }
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
@@ -201,38 +135,6 @@ resource "cloudflare_record" "emailoctopus" {
   ttl     = 1
   type    = "CNAME"
   value   = each.value
-}
-
-resource "cloudflare_record" "convertkit" {
-  for_each = {
-    "ckespa"         = "spf.dm-0m76g26y.sg6.convertkit.com."
-    "cka._domainkey" = "dkim.dm-0m76g26y.sg6.convertkit.com."
-    # "_dmarc"         = "v=DMARC1; p=none;"
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = each.key
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = each.value
-}
-
-resource "cloudflare_record" "convertkit_mailing" {
-  for_each = toset([
-    "3.13.222.255",
-    "3.13.246.91",
-    "3.130.60.26",
-  ])
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "mailing"
-  proxied = false
-  ttl     = 300
-  type    = "A"
-  value   = each.key
 }
 
 resource "cloudflare_record" "gitlab_pages_verification" {
