@@ -180,3 +180,13 @@ resource "cloudflare_record" "google_workspace_verification" {
   type    = "TXT"
   value   = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
 }
+
+resource "cloudflare_record" "contacts" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "contacts"
+  proxied = false
+  ttl     = 600
+  type    = "CNAME"
+  value   = "aplolinks.com"
+}
