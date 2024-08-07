@@ -25,8 +25,8 @@ resource "cloudflare_record" "a_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = true
-  ttl     = 1
+  proxied = false
+  ttl     = 60
   type    = "A"
   value   = each.key
 }
@@ -42,8 +42,8 @@ resource "cloudflare_record" "aaaa_record" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "developer-friendly.blog"
-  proxied = true
-  ttl     = 1
+  proxied = false
+  ttl     = 60
   type    = "AAAA"
   value   = each.key
 }
@@ -179,14 +179,4 @@ resource "cloudflare_record" "google_workspace_verification" {
   ttl     = 1
   type    = "TXT"
   value   = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
-}
-
-resource "cloudflare_record" "contacts" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "contacts"
-  proxied = false
-  ttl     = 600
-  type    = "CNAME"
-  value   = "aplolinks.com"
 }
