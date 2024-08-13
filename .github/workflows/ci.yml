@@ -241,16 +241,16 @@ jobs:
         run: ./internal/ci/calculate-changed-services/main.py --action set
 
   reddit-scheduled-submit:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
-      - env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
-          REDDIT_SUBREDDIT: ${{ github.event.inputs.subreddit }}
-          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
-        name: Post to Reddit
+      - name: Post to Reddit
         uses: meysam81/reddit-scheduled-submit@main
         with:
+          client-id: ${{ secrets.REDDIT_CLIENT_ID }}
+          client-secret: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          username: ${{ secrets.REDDIT_USERNAME }}
+          password: ${{ secrets.REDDIT_PASSWORD }}
+          subreddit: ${{ github.event.inputs.subreddit }}
           message: ${{ github.event.inputs.message }}
           title: ${{ github.event.inputs.title }}
