@@ -1,5 +1,11 @@
-plan:
-  cd {{invocation_directory()}} && terragrunt plan -out tfplan
+[no-cd]
+init:
+  terragrunt init -upgrade
 
+[no-cd]
+plan:
+  terragrunt plan -out tfplan
+
+[no-cd]
 apply:
-  cd {{invocation_directory()}} && terragrunt apply tfplan
+  terragrunt apply tfplan

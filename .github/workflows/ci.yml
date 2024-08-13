@@ -12,15 +12,15 @@ on:
   workflow_dispatch:
     inputs:
       title:
-        description: The title of the link to submit.
+        description: Post title
         required: true
-      url:
-        description: The URL of the link to submit.
+      message:
+        description: Post message
         required: true
-      verbose:
-        type: boolean
-        description: Verbose?
-        default: true
+      subreddit:
+        default: r/test
+        description: Subreddit to post to
+        required: false
 
 env:
   tf_version: "1.5.7"
@@ -239,3 +239,18 @@ jobs:
           REDIS_SSL: ${{ secrets.REDIS_SSL }}
         name: Finalize changed services
         run: ./internal/ci/calculate-changed-services/main.py --action set
+
+  reddit-scheduled-submit:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+          REDDIT_SUBREDDIT: ${{ github.event.inputs.subreddit }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+        name: Post to Reddit
+        uses: meysam81/reddit-scheduled-submit@main
+        with:
+          message: ${{ github.event.inputs.message }}
+          title: ${{ github.event.inputs.title }}
