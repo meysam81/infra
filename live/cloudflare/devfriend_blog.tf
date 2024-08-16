@@ -98,27 +98,27 @@ resource "cloudflare_record" "google_workspace_verification" {
   content = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
 }
 
-resource "cloudflare_record" "devfriend_blog_m1_spf" {
+resource "cloudflare_record" "devfriend_blog_mailing_spf" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "m1"
+  name    = "mailing"
   proxied = false
   ttl     = 1
   type    = "TXT"
   content = "v=spf1 include:_spf.maileroo.com ~all"
 }
 
-resource "cloudflare_record" "devfriend_blog_m1_dkim" {
+resource "cloudflare_record" "devfriend_blog_mailing_dkim" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "mta._domainkey.m1"
+  name    = "mta._domainkey.mailing"
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtVB4nTmD4nq3FjPBMvCXIJFjCz5o0LMO9swtTbh4/9cxibEL8PwPw87pknTzMI3Kl6JLBNk9KBwvFKqkP6GuIRYFxF5KZrcm6TpyIGl0yLQradwGs8h+RoxDlu9k4qYF/PEIHFgl09wg4C0NYzXhCuzNC/VHEFb31YqzFqWKZn1hDhh7zD5uY53RkAXrE4GpazeQd4L50ZDZypGhssdl9ajd3mxibobp8DKg47M/IGvnTDdX+a8pEPl8Acr0KpCh3l5cw7SjzEvzFPYcf9H1VbzILP6DrGrDj41I5A1pc1AbKnhbcuUjLTW3czCh0QUlzLROe0VIGs6g4FG/CdaUKQIDAQAB"
+  content = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxbNNobCcMNriIcS2r5CkdaZ0eMds9tEhtV3pkaWhuX/xIW3rY49auqfe6HEp9JBiYX57w2xSlSf/kJTcb+t2aayQSz1G3jXwXpI5PoU64KkPfJ5YSnNm/xn3yqxVet6sTXpkRgGP6qQ7n/IxQZop92izfO4dfdDcKJxNZwNBYuBJsCMe+Sd+kutYioh1wR0Ybwa/3coF9onqVkc71grneUroNXuNBhMJTiWgMnYtytKp7EGWh3MUu3SDgDYmqDlGimvRGfYI4vvfoXFfq/LsFOF6BKTZNyG4Wh05lVyKT+rtP14OlQVyuRBAKWpQOO55vV2ZmG4H49hQm7shFx3fHQIDAQAB"
 }
 
-resource "cloudflare_record" "devfriend_blog_m1_mx" {
+resource "cloudflare_record" "devfriend_blog_mailing_mx" {
   for_each = {
     "mx1.maileroo.com" = 10
     "mx2.maileroo.com" = 20
@@ -127,7 +127,7 @@ resource "cloudflare_record" "devfriend_blog_m1_mx" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
 
-  name     = "m1"
+  name     = "mailing"
   proxied  = false
   ttl      = 1
   type     = "MX"
@@ -135,10 +135,10 @@ resource "cloudflare_record" "devfriend_blog_m1_mx" {
   content  = each.key
 }
 
-resource "cloudflare_record" "devfriend_blog_m1_dmarc" {
+resource "cloudflare_record" "devfriend_blog_mailing_dmarc" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = "_dmarc.m1"
+  name    = "_dmarc.mailing"
   proxied = false
   ttl     = 1
   type    = "TXT"
