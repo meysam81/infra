@@ -1,4 +1,4 @@
 resources:
   - ./check-public-ip/kustomize.yml
   - ./echo-server/kustomize.yml
-  - ./atuin/kustomize.yml
+  - ./listmonk/kustomize.yml
