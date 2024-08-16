@@ -10,7 +10,7 @@ resource "cloudflare_record" "devfriend_blog_mx" {
   ttl      = 1
   type     = "MX"
   priority = 1
-  value    = "smtp.google.com"
+  content = "smtp.google.com"
 }
 
 resource "cloudflare_record" "a_record" {
@@ -28,7 +28,7 @@ resource "cloudflare_record" "a_record" {
   proxied = false
   ttl     = 60
   type    = "A"
-  value   = each.key
+  content = each.key
 }
 
 resource "cloudflare_record" "aaaa_record" {
@@ -45,7 +45,7 @@ resource "cloudflare_record" "aaaa_record" {
   proxied = false
   ttl     = 60
   type    = "AAAA"
-  value   = each.key
+  content = each.key
 }
 
 resource "cloudflare_record" "devfriend_blog_www" {
@@ -55,7 +55,7 @@ resource "cloudflare_record" "devfriend_blog_www" {
   proxied = false
   ttl     = 60
   type    = "CNAME"
-  value   = "developer-friendly.github.io"
+  content = "developer-friendly.github.io"
 }
 
 resource "cloudflare_record" "devfriend_blog_google_site_verification" {
@@ -65,7 +65,7 @@ resource "cloudflare_record" "devfriend_blog_google_site_verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
+  content = "google-site-verification=15rKHEVUtnjs_0SZ64rH-ezk64KgrK7C5ty9W60NSwE"
 }
 
 resource "cloudflare_record" "github_domain_verification" {
@@ -75,90 +75,7 @@ resource "cloudflare_record" "github_domain_verification" {
   proxied = false
   ttl     = 3600
   type    = "TXT"
-  value   = "06e0a79c66"
-}
-
-resource "cloudflare_record" "ory" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "ory"
-  proxied = true
-  ttl     = 1
-  type    = "CNAME"
-  value   = "developer-friendly.github.io"
-}
-
-resource "cloudflare_ruleset" "ory" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-  name    = "Set CORS header"
-  kind    = "zone"
-  phase   = "http_response_headers_transform"
-
-  rules {
-    action = "rewrite"
-    action_parameters {
-      dynamic "headers" {
-        for_each = {
-          "access-control-allow-credentials" : "true"
-          "access-control-allow-headers" : "*"
-          "access-control-allow-methods" : "GET, PUT, POST, DELETE, OPTIONS"
-          "access-control-expose-headers" : "Content-Type, Origin"
-        }
-
-        content {
-          name      = headers.key
-          operation = "set"
-          value     = headers.value
-        }
-      }
-    }
-
-    expression  = "(http.host eq \"ory.developer-friendly.blog\")"
-    description = "Set CORS headers for ORY"
-    enabled     = true
-  }
-}
-
-resource "cloudflare_record" "emailoctopus" {
-  for_each = {
-    "eo._domainkey" = "eo._domainkey.45cb31060b.arborescens.eoidentity.com",
-    "eom"           = "eom.45cb31060b.arborescens.eoidentity.com",
-    "eot"           = "eot.45cb31060b.arborescens.eoidentity.com",
-    "45165608"      = "45165608.45cb31060b.arborescens.eoidentity.com",
-  }
-
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "${each.key}.mailing"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  value   = each.value
-}
-
-resource "cloudflare_record" "dmarc" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "_dmarc.mailing"
-  proxied = false
-  ttl     = 1
-  type    = "TXT"
-  value   = "v=DMARC1; p=none;"
-}
-
-resource "cloudflare_record" "mailing" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  for_each = toset([
-    "mailing",
-    "newsletter",
-  ])
-
-  name    = each.key
-  proxied = false
-  ttl     = 600
-  type    = "CNAME"
-  value   = "developerfriendly.eo.page"
+  content = "06e0a79c66"
 }
 
 resource "cloudflare_record" "gitlab_pages_verification" {
@@ -168,7 +85,7 @@ resource "cloudflare_record" "gitlab_pages_verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "gitlab-pages-verification-code=de0a984291ce9bc428e911f114321a42"
+  content = "gitlab-pages-verification-code=de0a984291ce9bc428e911f114321a42"
 }
 
 resource "cloudflare_record" "google_workspace_verification" {
@@ -178,5 +95,52 @@ resource "cloudflare_record" "google_workspace_verification" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  value   = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
+  content = "google-site-verification=ldeIYvypI-BWURXxAIDTPkp8WIB51jhZ1THJS0lPIrE"
+}
+
+resource "cloudflare_record" "devfriend_blog_m1_spf" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "m1"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=spf1 include:_spf.maileroo.com ~all"
+}
+
+resource "cloudflare_record" "devfriend_blog_m1_dkim" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "mta._domainkey.m1"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtVB4nTmD4nq3FjPBMvCXIJFjCz5o0LMO9swtTbh4/9cxibEL8PwPw87pknTzMI3Kl6JLBNk9KBwvFKqkP6GuIRYFxF5KZrcm6TpyIGl0yLQradwGs8h+RoxDlu9k4qYF/PEIHFgl09wg4C0NYzXhCuzNC/VHEFb31YqzFqWKZn1hDhh7zD5uY53RkAXrE4GpazeQd4L50ZDZypGhssdl9ajd3mxibobp8DKg47M/IGvnTDdX+a8pEPl8Acr0KpCh3l5cw7SjzEvzFPYcf9H1VbzILP6DrGrDj41I5A1pc1AbKnhbcuUjLTW3czCh0QUlzLROe0VIGs6g4FG/CdaUKQIDAQAB"
+}
+
+resource "cloudflare_record" "devfriend_blog_m1_mx" {
+  for_each = {
+    "mx1.maileroo.com" = 10
+    "mx2.maileroo.com" = 20
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+
+  name     = "m1"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  priority = each.value
+  content    = each.key
+}
+
+resource "cloudflare_record" "devfriend_blog_m1_dmarc" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "_dmarc.m1"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content   = "v=DMARC1; p=reject;"
 }
