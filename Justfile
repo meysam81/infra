@@ -9,3 +9,10 @@ plan:
 [no-cd]
 apply:
   terragrunt apply tfplan
+
+check:
+  pre-commit run -a
+
+fmt:
+  tofu fmt -write -recursive
+  terragrunt run-all hclfmt --terragrunt-non-interactive

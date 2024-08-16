@@ -10,7 +10,7 @@ resource "cloudflare_record" "devfriend_blog_mx" {
   ttl      = 1
   type     = "MX"
   priority = 1
-  content = "smtp.google.com"
+  content  = "smtp.google.com"
 }
 
 resource "cloudflare_record" "a_record" {
@@ -105,7 +105,7 @@ resource "cloudflare_record" "devfriend_blog_m1_spf" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=spf1 include:_spf.maileroo.com ~all"
+  content = "v=spf1 include:_spf.maileroo.com ~all"
 }
 
 resource "cloudflare_record" "devfriend_blog_m1_dkim" {
@@ -115,7 +115,7 @@ resource "cloudflare_record" "devfriend_blog_m1_dkim" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtVB4nTmD4nq3FjPBMvCXIJFjCz5o0LMO9swtTbh4/9cxibEL8PwPw87pknTzMI3Kl6JLBNk9KBwvFKqkP6GuIRYFxF5KZrcm6TpyIGl0yLQradwGs8h+RoxDlu9k4qYF/PEIHFgl09wg4C0NYzXhCuzNC/VHEFb31YqzFqWKZn1hDhh7zD5uY53RkAXrE4GpazeQd4L50ZDZypGhssdl9ajd3mxibobp8DKg47M/IGvnTDdX+a8pEPl8Acr0KpCh3l5cw7SjzEvzFPYcf9H1VbzILP6DrGrDj41I5A1pc1AbKnhbcuUjLTW3czCh0QUlzLROe0VIGs6g4FG/CdaUKQIDAQAB"
+  content = "v=DKIM1;h=sha256;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtVB4nTmD4nq3FjPBMvCXIJFjCz5o0LMO9swtTbh4/9cxibEL8PwPw87pknTzMI3Kl6JLBNk9KBwvFKqkP6GuIRYFxF5KZrcm6TpyIGl0yLQradwGs8h+RoxDlu9k4qYF/PEIHFgl09wg4C0NYzXhCuzNC/VHEFb31YqzFqWKZn1hDhh7zD5uY53RkAXrE4GpazeQd4L50ZDZypGhssdl9ajd3mxibobp8DKg47M/IGvnTDdX+a8pEPl8Acr0KpCh3l5cw7SjzEvzFPYcf9H1VbzILP6DrGrDj41I5A1pc1AbKnhbcuUjLTW3czCh0QUlzLROe0VIGs6g4FG/CdaUKQIDAQAB"
 }
 
 resource "cloudflare_record" "devfriend_blog_m1_mx" {
@@ -132,7 +132,7 @@ resource "cloudflare_record" "devfriend_blog_m1_mx" {
   ttl      = 1
   type     = "MX"
   priority = each.value
-  content    = each.key
+  content  = each.key
 }
 
 resource "cloudflare_record" "devfriend_blog_m1_dmarc" {
@@ -142,5 +142,5 @@ resource "cloudflare_record" "devfriend_blog_m1_dmarc" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content   = "v=DMARC1; p=reject;"
+  content = "v=DMARC1; p=reject;"
 }
