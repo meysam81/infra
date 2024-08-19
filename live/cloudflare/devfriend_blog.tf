@@ -159,7 +159,7 @@ resource "cloudflare_record" "eo_domainkey_email" {
 resource "cloudflare_record" "eom_email" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
-  name    = ".email"
+  name    = "eom.email"
   proxied = false
   ttl     = 1
   type    = "CNAME"
