@@ -16,6 +16,12 @@ repos:
         args:
           - --allow-missing-credentials
       - id: end-of-file-fixer
+        exclude: |
+          (?x)^(
+            kubernetes/raspberry-pi/applications/reddit-submission/submission.md|
+            kubernetes/raspberry-pi/applications/reddit-submission/title.md|
+            kubernetes/raspberry-pi/applications/reddit-submission/subreddit.md
+          )$
       - id: name-tests-test
       - id: file-contents-sorter
       - id: requirements-txt-fixer

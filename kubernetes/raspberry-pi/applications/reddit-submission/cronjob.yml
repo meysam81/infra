@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: reddit-submission
+spec:
+  jobTemplate:
+    metadata:
+      name: reddit-submission
+    spec:
+      template:
+        spec:
+          containers:
+            - image: ghcr.io/meysam81/reddit-scheduled-submit
+              name: reddit-submission
+              envFrom:
+                - secretRef:
+                    name: reddit-submission
+              command:
+                - sh
+                - -c
+              args:
+                - |
+                  /app/main.py \
+                    --title="""$(cat /data/title.md)""" \
+                    --message="""$(cat /data/submission.md)""" \
+                    --subreddit="""$(cat /data/subreddit.md)"""
+              resources: {}
+              volumeMounts:
+                - name: submission
+                  mountPath: /data
+                  readOnly: true
+                - name: tmp
+                  mountPath: /tmp
+              securityContext:
+                runAsUser: 100
+                runAsGroup: 100
+                readOnlyRootFilesystem: true
+          securityContext:
+            fsGroup: 101
+            fsGroupChangePolicy: OnRootMismatch
+          volumes:
+            - name: submission
+              configMap:
+                name: reddit-submission
+            - name: tmp
+              emptyDir: {}
+          restartPolicy: OnFailure
+  schedule: 0 17 19 8 *
+status: {}

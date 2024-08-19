@@ -1,0 +1,1 @@
+Securing Your Cloud with Azure Bastion: A Deep Dive into Best Practices and Implementation

@@ -1,0 +1,16 @@
+resources:
+  - externalsecret.yml
+  - cronjob.yml
+
+configMapGenerator:
+  - name: reddit-submission
+    files:
+      - title.md
+      - submission.md
+      - subreddit.md
+
+images:
+  - name: ghcr.io/meysam81/reddit-scheduled-submit
+    newTag: v1
+
+namespace: default
