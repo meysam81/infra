@@ -176,7 +176,7 @@ resource "cloudflare_record" "eot_email" {
   content = "eot.108bfd47c0.arborescens.eoidentity.com"
 }
 
-resource "cloudflare_record" "45165608_email" {
+resource "cloudflare_record" "eo_email" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name    = "45165608.email"
