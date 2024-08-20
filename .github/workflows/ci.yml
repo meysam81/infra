@@ -162,7 +162,7 @@ jobs:
           echo "${{ steps.db.outputs.id }}: ${{ steps.db.outputs.title }} ${{ steps.db.outputs.url }}"
       - if: fromJson(steps.db.outputs.found)
         name: Submit link to Hacker News
-        uses: meysam81/submit-hackernews@v1
+        uses: meysam81/submit-hackernews@main
         with:
           username: ${{ secrets.HACKERNEWS_USERNAME }}
           password: ${{ secrets.HACKERNEWS_PASSWORD }}
