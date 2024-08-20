@@ -4,13 +4,23 @@ resources:
 
 configMapGenerator:
   - name: reddit-submission
+    envs:
+      - configs.env
+  - name: reddit-submission-data
     files:
       - title.md
       - submission.md
-      - subreddit.md
 
 images:
   - name: ghcr.io/meysam81/reddit-scheduled-submit
     newTag: v1
 
 namespace: default
+
+commonLabels:
+  app.kubernetes.io/name: reddit-submission
+  app.kubernetes.io/instance: reddit-submission
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/component: cronjob
+  app.kubernetes.io/part-of: reddit-submission
+  app.kubernetes.io/version: v1

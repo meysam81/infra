@@ -13,6 +13,8 @@ spec:
             - image: ghcr.io/meysam81/reddit-scheduled-submit
               name: reddit-submission
               envFrom:
+                - configMapRef:
+                    name: reddit-submission
                 - secretRef:
                     name: reddit-submission
               command:
@@ -23,7 +25,6 @@ spec:
                   set -eux
 
                   /app/main.py \
-                    --subreddit="""$(cat /data/subreddit.md)""" \
                     --title="""$(cat /data/title.md)""" \
                     --message="""$(cat /data/submission.md)"""
               resources: {}
@@ -43,7 +44,7 @@ spec:
           volumes:
             - name: submission
               configMap:
-                name: reddit-submission
+                name: reddit-submission-data
             - name: tmp
               emptyDir: {}
           restartPolicy: OnFailure
