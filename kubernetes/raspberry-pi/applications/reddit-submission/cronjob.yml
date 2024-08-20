@@ -49,4 +49,5 @@ spec:
               emptyDir: {}
           restartPolicy: OnFailure
   schedule: 0 17 20 8 *
+  timeZone: UTC
 status: {}
