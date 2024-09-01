@@ -9,18 +9,8 @@ on:
   schedule:
     - cron: "0 */12 * * *"
     - cron: "0 14 * * *" # 10:00 eastern time
-  workflow_dispatch:
-    inputs:
-      title:
-        description: Post title
-        required: true
-      message:
-        description: Post message
-        required: true
-      subreddit:
-        default: r/test
-        description: Subreddit to post to
-        required: false
+    - cron: "0 17 * * *" # 10:00 pacific time
+
 
 env:
   tf_version: "1.5.7"
@@ -35,7 +25,7 @@ permissions:
 
 jobs:
   lint:
-    if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
+    if: contains(fromJson('["push","pull_request"]'), github.event_name)
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
@@ -132,7 +122,6 @@ jobs:
           sarif_file: results.sarif
 
   submit-hackernews:
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     if: github.event_name == 'schedule' && github.event.schedule == '0 14 * * *'
     runs-on: ubuntu-latest
     permissions:
@@ -241,16 +230,46 @@ jobs:
         run: ./internal/ci/calculate-changed-services/main.py --action set
 
   reddit-scheduled-submit:
-    if: github.event_name == 'workflow_dispatch'
+    # if: github.event_name == 'schedule' && github.event.schedule == '0 17 * * *'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      REDDIT_DSN: ${{ secrets.REDDIT_DSN }}
+      REDDIT_SUBREDDIT: ${{ vars.REDDIT_SUBREDDIT }}
+    defaults:
+      run:
+        working-directory: ./applications/reddit-submission
     steps:
-      - name: Post to Reddit
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install poetry
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install dependencies
+        run: |
+          pip install 'poetry<2'
+          poetry install
+      - id: db
+        name: Fetch Hacker News submissions
+        run: poetry run ./main.py
+      - if: fromJson(steps.db.outputs.found)
+        name: Show submission information
+        run: |
+          echo -e "${{ steps.db.outputs.id }}: ${{ steps.db.outputs.title }}\n\n${{ steps.db.outputs.description }}"
+      - if: fromJson(steps.db.outputs.found)
+        name: Post to Reddit
         uses: meysam81/reddit-scheduled-submit@main
         with:
           client-id: ${{ secrets.REDDIT_CLIENT_ID }}
           client-secret: ${{ secrets.REDDIT_CLIENT_SECRET }}
           username: ${{ secrets.REDDIT_USERNAME }}
           password: ${{ secrets.REDDIT_PASSWORD }}
-          subreddit: ${{ github.event.inputs.subreddit }}
-          message: ${{ github.event.inputs.message }}
-          title: ${{ github.event.inputs.title }}
+          subreddit: ${{ env.REDDIT_SUBREDDIT }}
+          message: ${{ steps.db.outputs.description }}
+          title: ${{ steps.db.outputs.title }}
+      - if: fromJson(steps.db.outputs.found)
+        name: Mark story as submitted
+        run: poetry run ./main.py --submit --id "${{ steps.db.outputs.id }}"

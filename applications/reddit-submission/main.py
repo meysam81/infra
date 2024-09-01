@@ -27,7 +27,7 @@ def get_logger(level="INFO"):
     return logger
 
 
-DSN = os.environ["HACKERNEWS_DSN"]
+DSN = os.environ["REDDIT_DSN"]
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 IS_GITHUB = os.getenv("CI") and os.getenv("GITHUB_OUTPUT")
 
@@ -41,7 +41,7 @@ parser.add_argument("-i", "--id", type=int, required=False)
 class Submission(BaseModel):
     id: int
     title: str
-    url: str
+    description: str
 
 
 def get_connection():
@@ -65,7 +65,7 @@ def get_latest_unsubmitted_story(conn) -> Optional[Submission]:
     today = date.today()
     cursor.execute(
         """
-      SELECT id, title, url
+      SELECT id, title, description
       FROM submissions
       WHERE is_submitted = false
       AND date = %s
@@ -76,7 +76,9 @@ def get_latest_unsubmitted_story(conn) -> Optional[Submission]:
     )
     row = cursor.fetchone()
     if row:
-        latest_story = Submission(id=row[0], title=row[1], url=row[2])
+        columns = cursor.description
+        row_dict = dict(zip([column[0] for column in columns], row))
+        latest_story = Submission(**row_dict)
         return latest_story
 
 
