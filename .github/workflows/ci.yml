@@ -230,8 +230,7 @@ jobs:
         run: ./internal/ci/calculate-changed-services/main.py --action set
 
   reddit-scheduled-submit:
-    # if: github.event_name == 'schedule' && github.event.schedule == '0 17 * * *'
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'schedule' && github.event.schedule == '0 17 * * *'
     runs-on: ubuntu-latest
     permissions:
       contents: read
