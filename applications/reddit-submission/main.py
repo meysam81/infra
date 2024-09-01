@@ -101,6 +101,10 @@ def githubify(submission: Optional[Submission]):
     list_output = []
     if submission:
         for key, value in submission.model_dump().items():
+            # multiline string
+            if "\n" in value:
+                value = value.replace("\n", "\\n")
+
             list_output.append(f"{key}={value}")
 
     github_output = "\n".join(list_output) + "\n"
