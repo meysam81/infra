@@ -101,8 +101,7 @@ def githubify(submission: Optional[Submission]):
     list_output = []
     if submission:
         for key, value in submission.model_dump().items():
-            # multiline string
-            if "\n" in value:
+            if isinstance(value, str) and "\n" in value:
                 value = value.replace("\n", "\\n")
 
             list_output.append(f"{key}={value}")
