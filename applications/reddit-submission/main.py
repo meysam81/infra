@@ -66,7 +66,7 @@ def get_latest_unsubmitted_story(conn) -> Optional[Submission]:
     today = date.today()
     cursor.execute(
         """
-      SELECT id, title, description
+      SELECT id, title, description, subreddit
       FROM submissions
       WHERE is_submitted = false
       AND date = %s
