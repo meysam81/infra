@@ -42,6 +42,7 @@ class Submission(BaseModel):
     id: int
     title: str
     description: str
+    subreddit: str
 
 
 def get_connection():
@@ -99,12 +100,13 @@ def githubify(submission: Optional[Submission]):
     found_jsonify = json.dumps(found)
 
     list_output = []
+    multiline_output = []
     if submission:
         for key, value in submission.model_dump().items():
             if isinstance(value, str) and "\n" in value:
-                value = value.replace("\n", "\\n")
-
-            list_output.append(f"{key}={value}")
+                multiline_output.append((key, value))
+            else:
+                list_output.append(f"{key}={value}")
 
     github_output = "\n".join(list_output) + "\n"
     github_output_2 = f"found={found_jsonify}\n"
@@ -112,12 +114,19 @@ def githubify(submission: Optional[Submission]):
     logger.info(f"Writing the following to GitHub output:")
     logger.info(github_output)
     logger.info(github_output_2)
+    logger.info(multiline_output)
 
     with open(os.environ["GITHUB_OUTPUT"], "a") as f:
         rv = f.write(github_output)
         rv2 = f.write(github_output_2)
 
-    logger.info(f"Written {rv + rv2} bytes to {os.environ['GITHUB_OUTPUT']}")
+        rv3 = 0
+        for key, value in multiline_output:
+            rv3 += f.write(f"{key}<<EOF\n")
+            rv3 += f.write(f"{value}\n")
+            rv3 += f.write("EOF\n")
+
+    logger.info(f"Written {rv + rv2 + rv3} bytes to {os.environ['GITHUB_OUTPUT']}")
 
 
 def fetch_story(conn):

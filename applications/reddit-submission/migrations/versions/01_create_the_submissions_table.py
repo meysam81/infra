@@ -24,6 +24,7 @@ def upgrade() -> None:
         sa.Column("date", sa.Date(), nullable=False, default=sa.func.current_date()),
         sa.Column("title", sa.String(length=255), nullable=False),
         sa.Column("description", sa.Text(), nullable=False),
+        sa.Column("subreddit", sa.String(length=50), nullable=False),
         sa.Column("is_submitted", sa.Boolean(), nullable=False, default=False),
         sa.PrimaryKeyConstraint("id"),
     )

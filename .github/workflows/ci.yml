@@ -237,7 +237,6 @@ jobs:
       contents: read
     env:
       REDDIT_DSN: ${{ secrets.REDDIT_DSN }}
-      REDDIT_SUBREDDIT: ${{ vars.REDDIT_SUBREDDIT }}
     defaults:
       run:
         working-directory: ./applications/reddit-submission
@@ -267,7 +266,7 @@ jobs:
           client-secret: ${{ secrets.REDDIT_CLIENT_SECRET }}
           username: ${{ secrets.REDDIT_USERNAME }}
           password: ${{ secrets.REDDIT_PASSWORD }}
-          subreddit: ${{ env.REDDIT_SUBREDDIT }}
+          subreddit: ${{ steps.db.outputs.subreddit }}
           message: ${{ steps.db.outputs.description }}
           title: ${{ steps.db.outputs.title }}
       - if: fromJson(steps.db.outputs.found)
