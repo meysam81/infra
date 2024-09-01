@@ -253,7 +253,7 @@ jobs:
           pip install 'poetry<2'
           poetry install
       - id: db
-        name: Fetch Hacker News submissions
+        name: Fetch submissions
         run: poetry run ./main.py
       - if: fromJson(steps.db.outputs.found)
         name: Show submission information
