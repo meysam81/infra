@@ -3,7 +3,6 @@ resource "hcloud_network" "this" {
   ip_range = "172.16.0.0/16"
 }
 
-
 resource "hcloud_network_subnet" "this" {
   network_id   = hcloud_network.this.id
   type         = "cloud"

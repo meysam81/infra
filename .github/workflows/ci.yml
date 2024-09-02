@@ -43,6 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       working_dir: ${{ matrix.working_dir }}
     strategy:
       fail-fast: false

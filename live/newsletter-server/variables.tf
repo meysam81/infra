@@ -46,3 +46,9 @@ variable "admin_ips" {
     "116.254.97.0/24",
   ]
 }
+
+variable "cloudflare_api_token" {
+  type      = string
+  sensitive = true
+  nullable  = false
+}

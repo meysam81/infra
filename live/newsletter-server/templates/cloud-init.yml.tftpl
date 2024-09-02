@@ -40,6 +40,27 @@ write_files:
     owner: root:root
     permissions: "0600"
     encoding: base64
+  - path: /etc/haproxy/haproxy.cfg
+    content: ${haproxy_cfg}
+    owner: haproxy:haproxy
+    permissions: "0644"
+    encoding: base64
+    defer: true
+  - path: /etc/systemd/system/wellknown-server.service
+    content: ${wellknown_server_service}
+    owner: root:root
+    permissions: "0644"
+    encoding: base64
+  - path: /root/.secrets/cloudflare.ini
+    content: ${cloudflare_credentials_ini}
+    owner: root:root
+    permissions: "0600"
+    encoding: base64
+  - path: /etc/cron.hourly/prepare-haproxy-certs
+    content: ${prepare_haproxy_certs_sh}
+    owner: root:root
+    permissions: "0755"
+    encoding: base64
 apt:
   sources:
     haproxy.list:
@@ -55,8 +76,11 @@ packages:
   - fail2ban
   - python3
   - python3-pip
+  - python3-certbot-dns-cloudflare
   - file
   - haproxy
+  - snap:
+      - certbot
 package_update: true
 package_upgrade: true
 runcmd:
@@ -72,6 +96,9 @@ runcmd:
   - sed -i -e '/^\(#\|\)AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
   - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
   - systemctl enable --now update-jwks.timer
+  - |
+    mkdir -p /var/lib/www
+    systemctl enable --now wellknown-server.service
   - |
     mkdir -p /var/lib/rancher/k3s
     disk_blkid=$(blkid ${disk_device} -s UUID -o value)
@@ -130,4 +157,16 @@ runcmd:
       --set-string operator.tolerations[0].key=controlplane,operator.tolerations[0].operator=Equal,operator.tolerations[0].value=true,operator.tolerations[0].effect=NoSchedule \
       --version=$CILIUM_VERSION \
       --wait || echo "Cilium already installed"
+  - |
+    mkdir -p /etc/haproxy/certs
+    certbot certonly \
+      --dns-cloudflare \
+      --dns-cloudflare-credentials /root/.secrets/cloudflare.ini \
+      --dns-cloudflare-propagation-seconds 60 \
+      --agree-tos \
+      --non-interactive \
+      --email meysam@developer-friendly.blog \
+      -d 'newsletter.developer-friendly.blog'
+    cd /etc/letsencrypt/live/newsletter.developer-friendly.blog
+    cat fullchain.pem privkey.pem > /etc/haproxy/certs/newsletter.developer-friendly.blog.pem
   - reboot

@@ -26,6 +26,16 @@ resource "hcloud_server" "this" {
 
     k3s_token = base64encode(random_password.k3s_token.result)
 
+    wellknown_server_service = base64encode(file("files/wellknown-server.service"))
+
+    cloudflare_credentials_ini = base64encode(templatefile("templates/cloudflare-credentials.ini.tftpl", {
+      cloudflare_api_token = var.cloudflare_api_token
+    }))
+
+    haproxy_cfg = base64encode(file("files/haproxy.cfg"))
+
+    prepare_haproxy_certs_sh = base64encode(file("files/prepare-haproxy-certs.sh"))
+
     server_public_ipv4 = hcloud_primary_ip.this["ipv4"].ip_address
     server_public_ipv6 = hcloud_primary_ip.this["ipv6"].ip_address
 
