@@ -1,0 +1,13 @@
+[Unit]
+Description=Update K8s JWKs
+
+[Service]
+Environment=KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+ExecStart=/usr/local/bin/update-jwks
+Restart=on-failure
+Type=oneshot
+RuntimeDirectory=update-jwks
+WorkingDirectory=/run/update-jwks
+
+[Install]
+WantedBy=multi-user.target

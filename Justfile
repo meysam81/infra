@@ -3,6 +3,10 @@ init:
   terragrunt init -upgrade
 
 [no-cd]
+validate:
+  terragrunt validate
+
+[no-cd]
 plan:
   terragrunt plan -out tfplan
 

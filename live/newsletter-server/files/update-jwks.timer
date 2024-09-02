@@ -1,0 +1,8 @@
+[Unit]
+Description=Update K8s JWKs
+
+[Timer]
+OnCalendar=*:0/5
+
+[Install]
+WantedBy=multi-user.target

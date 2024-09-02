@@ -1,0 +1,133 @@
+#cloud-config
+write_files:
+  - path: /usr/local/bin/update-jwks
+    content: ${update_jwks_sh}
+    owner: "root:root"
+    permissions: "0755"
+    encoding: base64
+  - path: /etc/systemd/system/update-jwks.service
+    content: ${update_jwks_service}
+    owner: "root:root"
+    permissions: "0644"
+    encoding: base64
+  - path: /etc/systemd/system/update-jwks.timer
+    content: ${update_jwks_timer}
+    owner: "root:root"
+    permissions: "0644"
+    encoding: base64
+  - path: /root/.ssh/github
+    content: ${github_private_key}
+    owner: "root:root"
+    permissions: "0600"
+    encoding: base64
+  - path: /root/.ssh/config
+    content: ${ssh_config}
+    owner: "root:root"
+    permissions: "0644"
+    encoding: base64
+  - path: /root/.ssh/known_hosts
+    content: ${ssh_known_hosts}
+    owner: "root:root"
+    permissions: "0644"
+    encoding: base64
+  - path: /root/.gnupg/private.key
+    content: ${gpg_private_key}
+    owner: "root:root"
+    permissions: "0600"
+    encoding: base64
+  - path: /var/lib/k3sadmin/token
+    content: ${k3s_token}
+    owner: root:root
+    permissions: "0600"
+    encoding: base64
+apt:
+  sources:
+    haproxy.list:
+      source: "ppa:vbernat/haproxy-2.9"
+users:
+  - name: meysam
+    groups: users, admin, adm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+packages:
+  - fail2ban
+  - python3
+  - python3-pip
+  - file
+  - haproxy
+package_update: true
+package_upgrade: true
+runcmd:
+  - printf "[sshd]\nenabled = true\nbanaction = iptables-multiport" > /etc/fail2ban/jail.local
+  - systemctl enable fail2ban
+  - sed -i -e '/^\(#\|\)PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)KbdInteractiveAuthentication/s/^.*$/KbdInteractiveAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)ChallengeResponseAuthentication/s/^.*$/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)MaxAuthTries/s/^.*$/MaxAuthTries 2/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)X11Forwarding/s/^.*$/X11Forwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)AllowAgentForwarding/s/^.*$/AllowAgentForwarding no/' /etc/ssh/sshd_config
+  - sed -i -e '/^\(#\|\)AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
+  - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
+  - systemctl enable --now update-jwks.timer
+  - |
+    mkdir -p /var/lib/rancher/k3s
+    disk_blkid=$(blkid ${disk_device} -s UUID -o value)
+    echo "UUID=$disk_blkid /var/lib/rancher/k3s xfs defaults 0 0" | tee -a /etc/fstab
+    mount -a
+  - |
+    curl https://get.k3s.io | \
+      INSTALL_K3S_VERSION="${k3s_version}" \
+      INSTALL_K3S_EXEC="
+        --kube-apiserver-arg=service-account-issuer=${k3s_service_account_issuer}
+        --kube-apiserver-arg=service-account-jwks-uri=${k3s_service_account_jwks_uri}
+        --cluster-cidr=20.0.0.0/8,2001:cafe:42::/56
+        --service-cidr=30.0.0.0/12,2001:cafe:43::/112
+        --disable traefik
+        --token-file /var/lib/k3sadmin/token
+        --tls-san ${server_public_ipv4}
+        --tls-san ${server_public_ipv6}
+        --disable-network-policy
+        --flannel-backend none
+        --secrets-encryption" \
+      sh -
+  - |
+    mkdir -p /home/meysam/.kube
+    cp /etc/rancher/k3s/k3s.yaml /home/meysam/.kube/config
+    echo 'export KUBECONFIG=~/.kube/config' | tee -a /home/meysam/.bashrc
+    chown -R meysam:meysam /home/meysam/
+  - kubectl completion bash | tee /etc/bash_completion.d/kubectl
+  - k3s completion bash | tee /etc/bash_completion.d/k3s
+  - |
+    cat << 'EOF2' >> /home/meysam/.bashrc
+    alias k=kubectl
+    complete -F __start_kubectl k
+    EOF2
+  - |
+    systemctl is-active k3s
+    export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+    kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+    kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/experimental-install.yaml
+  - |
+    CILIUM_CLI_VERSION=v0.16.16
+    CILIUM_VERSION=1.16.1
+    CLI_ARCH=arm64
+    curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/$CILIUM_CLI_VERSION/cilium-linux-$CLI_ARCH.tar.gz{,.sha256sum}
+    sha256sum --check cilium-linux-$CLI_ARCH.tar.gz.sha256sum
+    tar xzvf cilium-linux-$CLI_ARCH.tar.gz -C /usr/local/bin/
+
+    export HOME=/root
+    cilium install \
+      --set kubeProxyReplacement=true \
+      --set gatewayAPI.enabled=true \
+      --set encryption.enabled=true \
+      --set encryption.type=wireguard \
+      --set hubble.enabled=true \
+      --set hubble.ui.enabled=true \
+      --set hubble.relay.enabled=true \
+      --set-string operator.tolerations[0].key=controlplane,operator.tolerations[0].operator=Equal,operator.tolerations[0].value=true,operator.tolerations[0].effect=NoSchedule \
+      --version=$CILIUM_VERSION \
+      --wait || echo "Cilium already installed"
+  - reboot
