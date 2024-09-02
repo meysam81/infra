@@ -12,7 +12,7 @@ generate "remote_state" {
       required_version = "~> 1.5"
 
       backend "remote" {
-        hostname = "${local.tfc_hostname}"
+        hostname     = "${local.tfc_hostname}"
         organization = "${local.tfc_organization}"
         workspaces {
           name = "${local.workspace}"
