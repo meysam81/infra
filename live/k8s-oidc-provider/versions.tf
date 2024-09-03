@@ -15,5 +15,4 @@ terraform {
   }
 
   required_version = "<2"
-
 }

@@ -59,6 +59,7 @@ jobs:
       matrix:
         working_dir:
           - live/newsletter-server
+          - live/cloudflare
     environment: prod
     steps:
       - name: Checkout
