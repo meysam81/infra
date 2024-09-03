@@ -33,17 +33,25 @@ jobs:
       - name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
         with:
-          tf_version: ${{ env.tf_version }}
+          tofu_version: ${{ env.tofu_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: "hclfmt --terragrunt-check --terragrunt-diff"
 
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: |
+      (
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main'
+      ) || (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '0 */12 * * *'
+      )
     runs-on: ubuntu-latest
     env:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       working_dir: ${{ matrix.working_dir }}
     strategy:

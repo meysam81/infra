@@ -46,21 +46,22 @@ write_files:
     permissions: "0644"
     encoding: base64
     defer: true
-  - path: /etc/systemd/system/wellknown-server.service
-    content: ${wellknown_server_service}
-    owner: root:root
-    permissions: "0644"
-    encoding: base64
   - path: /root/.secrets/cloudflare.ini
     content: ${cloudflare_credentials_ini}
     owner: root:root
     permissions: "0600"
     encoding: base64
-  - path: /etc/cron.hourly/prepare-haproxy-certs
+  - path: /etc/cron.weekly/prepare-haproxy-certs
     content: ${prepare_haproxy_certs_sh}
     owner: root:root
     permissions: "0755"
     encoding: base64
+  - path: /etc/haproxy/errors/404.html
+    content: ${not_found_404_html}
+    owner: haproxy:haproxy
+    permissions: "0644"
+    encoding: base64
+    defer: true
 apt:
   sources:
     haproxy.list:
@@ -96,9 +97,6 @@ runcmd:
   - sed -i -e '/^\(#\|\)AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
   - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
   - systemctl enable --now update-jwks.timer
-  - |
-    mkdir -p /var/lib/www
-    systemctl enable --now wellknown-server.service
   - |
     mkdir -p /var/lib/rancher/k3s
     disk_blkid=$(blkid ${disk_device} -s UUID -o value)

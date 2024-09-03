@@ -5,6 +5,8 @@ resource "hcloud_server" "this" {
   server_type = "cax11"
   location    = "nbg1"
 
+  keep_disk = true
+
   user_data = templatefile("templates/cloud-init.yml.tftpl", {
     ssh_public_key               = tls_private_key.this.public_key_openssh,
     k3s_service_account_issuer   = var.github_pages_url
@@ -26,13 +28,12 @@ resource "hcloud_server" "this" {
 
     k3s_token = base64encode(random_password.k3s_token.result)
 
-    wellknown_server_service = base64encode(file("files/wellknown-server.service"))
-
     cloudflare_credentials_ini = base64encode(templatefile("templates/cloudflare-credentials.ini.tftpl", {
       cloudflare_api_token = var.cloudflare_api_token
     }))
 
-    haproxy_cfg = base64encode(file("files/haproxy.cfg"))
+    haproxy_cfg        = base64encode(file("files/haproxy.cfg"))
+    not_found_404_html = base64encode(file("files/404.html"))
 
     prepare_haproxy_certs_sh = base64encode(file("files/prepare-haproxy-certs.sh"))
 

@@ -1,10 +1,20 @@
 #!/bin/bash
 set -e
 
-certbot renew || echo "Certbot not renewed!"
+certbot renew -q || echo "Certbot not renewed!"
 
 cd /etc/letsencrypt/live/newsletter.developer-friendly.blog
 
-cat fullchain.pem privkey.pem > /etc/haproxy/certs/newsletter.developer-friendly.blog.pem
+temp_cert=$(mktemp)
 
-systemctl reload haproxy
+cat fullchain.pem privkey.pem > "$temp_cert"
+
+if ! cmp -s "$temp_cert" /etc/haproxy/certs/newsletter.developer-friendly.blog.pem; then
+    mv "$temp_cert" /etc/haproxy/certs/newsletter.developer-friendly.blog.pem
+    systemctl reload haproxy
+    echo "Certificate updated and HAProxy reloaded."
+else
+    echo "Certificate unchanged. No reload necessary."
+fi
+
+rm -f "$temp_cert"
