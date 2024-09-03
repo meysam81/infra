@@ -100,7 +100,7 @@ runcmd:
   - |
     mkdir -p /var/lib/rancher/k3s
     disk_blkid=$(blkid ${disk_device} -s UUID -o value)
-    echo "UUID=$disk_blkid /var/lib/rancher/k3s xfs defaults 0 0" | tee -a /etc/fstab
+    echo "UUID=$disk_blkid /var/lib/rancher/k3s xfs discard,defaults 0 0" | tee -a /etc/fstab
     mount -a
   - |
     curl https://get.k3s.io | \
@@ -136,6 +136,8 @@ runcmd:
     kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
     kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/experimental-install.yaml
   - |
+    cd $(mktemp -d)
+
     CILIUM_CLI_VERSION=v0.16.16
     CILIUM_VERSION=1.16.1
     CLI_ARCH=arm64

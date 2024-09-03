@@ -1,5 +1,5 @@
 output "ssh_private_key" {
-  value     = tls_private_key.this.private_key_pem
+  value     = tls_private_key.this.private_key_openssh
   sensitive = true
 }
 
