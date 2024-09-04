@@ -32,6 +32,9 @@ git add .
 
 git config user.name "${commit_name}"
 git config user.email "${commit_email}"
+git config commit.gpgSign
+GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep 'sec' | awk '{print $2}' | cut -d'/' -f2)
+git config user.signingKey "$GPG_KEY_ID"
 
 date_isoformat=$(date -Iseconds)
 git commit -m "Update JWKS at $date_isoformat"

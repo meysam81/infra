@@ -10,7 +10,7 @@ variable "gpg_email" {
 
 variable "gpg_name" {
   type    = string
-  default = "K3s Issuer GPG Key"
+  default = "Kubernetes Cluster"
 }
 
 variable "gpg_passphrase" {
