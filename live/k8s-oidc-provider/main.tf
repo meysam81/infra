@@ -20,35 +20,29 @@ resource "aws_iam_openid_connect_provider" "this" {
 }
 
 data "aws_iam_policy_document" "this" {
-  statement {
-    actions = [
-      "sts:AssumeRoleWithWebIdentity"
-    ]
+  dynamic "statement" {
+    for_each = aws_iam_openid_connect_provider.this
+    content {
+      actions = [
+        "sts:AssumeRoleWithWebIdentity"
+      ]
 
-    effect = "Allow"
+      effect = "Allow"
 
-    dynamic "principals" {
-      for_each = aws_iam_openid_connect_provider.this
-      content {
+      principals {
         type        = "Federated"
-        identifiers = [principals.value.arn]
+        identifiers = [statement.value.arn]
       }
-    }
 
-    dynamic "condition" {
-      for_each = aws_iam_openid_connect_provider.this
-      content {
+      condition {
         test     = "StringEquals"
-        variable = "${condition.value.url}:aud"
+        variable = "${statement.value.url}:aud"
         values   = ["sts.amazonaws.com"]
       }
-    }
 
-    dynamic "condition" {
-      for_each = aws_iam_openid_connect_provider.this
-      content {
+      condition {
         test     = "StringEquals"
-        variable = "${condition.value.url}:sub"
+        variable = "${statement.value.url}:sub"
         values   = ["system:serviceaccount:external-secrets:external-secrets"]
       }
     }
