@@ -30,17 +30,25 @@ data "aws_iam_policy_document" "assume_role" {
 
 data "aws_iam_policy_document" "iam_policy" {
   statement {
-    actions   = ["iam:*"]
-    effect    = "Allow"
+    effect = "Allow"
+    actions = [
+      "iam:CreateRole",
+      "iam:PutRolePolicy",
+      "iam:AttachRolePolicy",
+      "iam:CreateOpenIDConnectProvider",
+      "iam:TagRole"
+    ]
     resources = ["*"]
   }
+
   statement {
-    actions   = ["iam:Delete*"]
-    effect    = "Deny"
-    resources = ["*"]
+    effect = "Allow"
+    actions = [
+      "ssm:PutParameter"
+    ]
+    resources = ["arn:aws:ssm:*:*:parameter/*"]
   }
 }
-
 
 resource "aws_iam_openid_connect_provider" "github_actions" {
   url            = "https://token.actions.githubusercontent.com"
@@ -55,7 +63,7 @@ resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
+    "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",
   ]
 
   inline_policy {
