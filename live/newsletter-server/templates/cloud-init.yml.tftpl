@@ -57,7 +57,13 @@ write_files:
     permissions: "0755"
     encoding: base64
   - path: /etc/haproxy/errors/404.html
-    content: ${not_found_404_html}
+    content: ${file_404_html}
+    owner: haproxy:haproxy
+    permissions: "0644"
+    encoding: base64
+    defer: true
+  - path: /etc/haproxy/errors/429.html
+    content: ${file_429_html}
     owner: haproxy:haproxy
     permissions: "0644"
     encoding: base64

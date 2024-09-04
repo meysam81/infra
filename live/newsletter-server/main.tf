@@ -32,8 +32,9 @@ resource "hcloud_server" "this" {
       cloudflare_api_token = var.cloudflare_api_token
     }))
 
-    haproxy_cfg        = base64encode(file("files/haproxy.cfg"))
-    not_found_404_html = base64encode(file("files/404.html"))
+    haproxy_cfg   = base64encode(file("files/haproxy.cfg"))
+    file_404_html = base64encode(file("files/404.html"))
+    file_429_html = base64encode(file("files/429.html"))
 
     prepare_haproxy_certs_sh = base64encode(file("files/prepare-haproxy-certs.sh"))
 
