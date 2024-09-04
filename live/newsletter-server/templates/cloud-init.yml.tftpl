@@ -167,7 +167,6 @@ runcmd:
       --set hubble.enabled=true \
       --set hubble.ui.enabled=true \
       --set hubble.relay.enabled=true \
-      --set-string operator.tolerations[0].key=controlplane,operator.tolerations[0].operator=Equal,operator.tolerations[0].value=true,operator.tolerations[0].effect=NoSchedule \
       --version=$CILIUM_VERSION \
       --wait || echo "Cilium already installed"
   - |
