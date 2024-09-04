@@ -132,6 +132,11 @@ runcmd:
         --secrets-encryption" \
       sh -
   - |
+    mkdir -p /etc/letsencrypt/live/developer-friendly.blog
+    export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+    kubectl get secret developer-friendly-blog-tls -o jsonpath='{.data.tls\.crt}' | base64 -d > /etc/letsencrypt/live/developer-friendly.blog/fullchain.pem
+    kubectl get secret developer-friendly-blog-tls -o jsonpath='{.data.tls\.key}' | base64 -d > /etc/letsencrypt/live/developer-friendly.blog/privkey.pem
+  - |
     mkdir -p /home/meysam/.kube
     cp /etc/rancher/k3s/k3s.yaml /home/meysam/.kube/config
     echo 'export KUBECONFIG=~/.kube/config' | tee -a /home/meysam/.bashrc
@@ -171,14 +176,21 @@ runcmd:
       --wait || echo "Cilium already installed"
   - |
     mkdir -p /etc/haproxy/certs
-    certbot certonly \
-      --dns-cloudflare \
-      --dns-cloudflare-credentials /root/.secrets/cloudflare.ini \
-      --dns-cloudflare-propagation-seconds 60 \
-      --agree-tos \
-      --non-interactive \
-      --email meysam@developer-friendly.blog \
-      --dry-run \
-      -d 'newsletter.developer-friendly.blog'
-    #cd /etc/letsencrypt/live/newsletter.developer-friendly.blog
-    #cat fullchain.pem privkey.pem > /etc/haproxy/certs/newsletter.developer-friendly.blog.pem
+    mkdir -p /etc/letsencrypt/live/developer-friendly.blog
+    cd /etc/letsencrypt/live/developer-friendly.blog
+
+    perform_tls_challenge() {
+      certbot certonly \
+        --dns-cloudflare \
+        --dns-cloudflare-credentials /root/.secrets/cloudflare.ini \
+        --dns-cloudflare-propagation-seconds 60 \
+        --agree-tos \
+        --non-interactive \
+        --email meysam@developer-friendly.blog \
+        -d '*.developer-friendly.blog'
+      cat fullchain.pem privkey.pem > /etc/haproxy/certs/developer-friendly.blog
+    }
+
+    if [ ! -f fullchain.pem ] || [ ! -f privkey.pem ]; then
+      perform_tls_challenge
+    fi

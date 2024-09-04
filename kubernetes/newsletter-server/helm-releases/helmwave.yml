@@ -1,0 +1,21 @@
+project: newsletter-server
+version: 0.45.5
+
+# helm upgrade -i external-secrets external-secrets/external-secrets -n external-secrets --create-namespace --version=0.10.x --set=crds.createClusterSecretStore=true
+repositories:
+  - url: https://charts.external-secrets.io
+    name: external-secrets
+
+.options: &options
+  create_namespace: true
+  wait: true
+  timeout: 5m
+  max_history: 10
+
+releases:
+  - name: external-secrets
+    namespace: external-secrets
+    chart:
+      name: external-secrets/external-secrets
+      version: 0.10.x
+    <<: *options
