@@ -84,6 +84,10 @@ packages:
       - certbot
 package_update: true
 package_upgrade: true
+power_state:
+  delay: 30
+  mode: reboot
+  message: Rebooting machine
 runcmd:
   - printf "[sshd]\nenabled = true\nbanaction = iptables-multiport" > /etc/fail2ban/jail.local
   - systemctl enable fail2ban
@@ -98,10 +102,17 @@ runcmd:
   - sed -i '$a AllowUsers meysam' /etc/ssh/sshd_config
   - systemctl enable --now update-jwks.timer
   - |
-    mkdir -p /var/lib/rancher/k3s
-    disk_blkid=$(blkid ${disk_device} -s UUID -o value)
-    echo "UUID=$disk_blkid /var/lib/rancher/k3s xfs discard,defaults 0 0" | tee -a /etc/fstab
-    mount -a
+    mount ${varlib_device} /mnt
+    rsync -azuvb /var/lib/ /mnt/
+    umount /mnt
+    disk_blkid=$(blkid ${varlib_device} -s UUID -o value)
+    echo "UUID=$disk_blkid /var/lib xfs discard,defaults,nofail 0 0" | tee -a /etc/fstab
+  - |
+    mount ${root_device} /mnt
+    rsync -azuvb --exclude=/var/lib/ / /mnt/
+    umount /mnt
+    disk_blkid=$(blkid ${root_device} -s UUID -o value)
+    echo "UUID=$disk_blkid / xfs discard,defaults,nofail 0 0" | tee -a /etc/fstab
   - |
     curl https://get.k3s.io | \
       INSTALL_K3S_VERSION="${k3s_version}" \
@@ -166,7 +177,7 @@ runcmd:
       --agree-tos \
       --non-interactive \
       --email meysam@developer-friendly.blog \
+      --dry-run \
       -d 'newsletter.developer-friendly.blog'
-    cd /etc/letsencrypt/live/newsletter.developer-friendly.blog
-    cat fullchain.pem privkey.pem > /etc/haproxy/certs/newsletter.developer-friendly.blog.pem
-  - reboot
+    #cd /etc/letsencrypt/live/newsletter.developer-friendly.blog
+    #cat fullchain.pem privkey.pem > /etc/haproxy/certs/newsletter.developer-friendly.blog.pem

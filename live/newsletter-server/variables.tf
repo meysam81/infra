@@ -44,6 +44,7 @@ variable "admin_ips" {
   type = list(string)
   default = [
     "116.254.97.0/24",
+    "202.125.100.0/24",
   ]
 }
 
