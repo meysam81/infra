@@ -35,7 +35,7 @@ write_files:
     owner: "root:root"
     permissions: "0600"
     encoding: base64
-  - path: /var/lib/k3sadmin/token
+  - path: /etc/k3s/token
     content: ${k3s_token}
     owner: root:root
     permissions: "0600"
@@ -124,7 +124,7 @@ runcmd:
         --cluster-cidr=20.0.0.0/8,2001:cafe:42::/56
         --service-cidr=30.0.0.0/12,2001:cafe:43::/112
         --disable traefik
-        --token-file /var/lib/k3sadmin/token
+        --token-file /etc/k3s/token
         --tls-san ${server_public_ipv4}
         --tls-san ${server_public_ipv6}
         --disable-network-policy

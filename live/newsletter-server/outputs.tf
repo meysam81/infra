@@ -19,3 +19,8 @@ output "cloudinit_config" {
   value     = hcloud_server.this.user_data
   sensitive = true
 }
+
+output "k3s_token" {
+  value     = random_password.k3s_token.result
+  sensitive = true
+}
