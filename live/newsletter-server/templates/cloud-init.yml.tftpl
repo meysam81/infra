@@ -113,12 +113,8 @@ runcmd:
     umount /mnt
     disk_blkid=$(blkid ${varlib_device} -s UUID -o value)
     echo "UUID=$disk_blkid /var/lib xfs discard,defaults,nofail 0 0" | tee -a /etc/fstab
-  - |
-    mount ${root_device} /mnt
-    rsync -azuvb --exclude=/var/lib/ / /mnt/
-    umount /mnt
-    disk_blkid=$(blkid ${root_device} -s UUID -o value)
-    echo "UUID=$disk_blkid / xfs discard,defaults,nofail 0 0" | tee -a /etc/fstab
+
+    mount -a
   - |
     curl https://get.k3s.io | \
       INSTALL_K3S_VERSION="${k3s_version}" \

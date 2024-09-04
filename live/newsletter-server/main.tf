@@ -45,7 +45,6 @@ resource "hcloud_server" "this" {
     update_jwks_timer   = base64encode(file("files/update-jwks.timer"))
 
     varlib_device = hcloud_volume.varlib.linux_device
-    root_device   = hcloud_volume.root.linux_device
   })
 
   public_net {
@@ -63,34 +62,8 @@ resource "hcloud_volume" "varlib" {
   format   = "xfs"
 }
 
-
 resource "hcloud_volume_attachment" "varlib" {
   volume_id = hcloud_volume.varlib.id
-  server_id = hcloud_server.this.id
-  automount = true
-}
-
-moved {
-  from = hcloud_volume.this
-  to   = hcloud_volume.varlib
-}
-
-moved {
-  from = hcloud_volume_attachment.this
-  to   = hcloud_volume_attachment.varlib
-}
-
-
-resource "hcloud_volume" "root" {
-  name     = "personal-root"
-  size     = 40
-  location = "nbg1"
-  format   = "xfs"
-}
-
-
-resource "hcloud_volume_attachment" "root" {
-  volume_id = hcloud_volume.root.id
   server_id = hcloud_server.this.id
   automount = true
 }
