@@ -28,6 +28,20 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+data "aws_iam_policy_document" "iam_policy" {
+  statement {
+    actions   = ["iam:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+  statement {
+    actions   = ["iam:Delete*"]
+    effect    = "Deny"
+    resources = ["*"]
+  }
+}
+
+
 resource "aws_iam_openid_connect_provider" "github_actions" {
   url            = "https://token.actions.githubusercontent.com"
   client_id_list = ["sts.amazonaws.com"]
@@ -41,6 +55,11 @@ resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
   ]
+
+  inline_policy {
+    name   = "meysam81-infra"
+    policy = data.aws_iam_policy_document.iam_policy.json
+  }
 }

@@ -1,14 +1,13 @@
-locals {
-  k8s_oidc_url  = "https://meysam81.github.io/k8s-oidc-provider"
-  eso_namespace = "flux-system"
-}
-
 data "tls_certificate" "this" {
-  url = local.k8s_oidc_url
+  for_each = var.oidc_issuer_urls
+
+  url = each.value
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
-  url = local.k8s_oidc_url
+  for_each = data.tls_certificate.this
+
+  url = each.value.url
 
   # JWT token audience (aud)
   client_id_list = [
@@ -16,7 +15,7 @@ resource "aws_iam_openid_connect_provider" "this" {
   ]
 
   thumbprint_list = [
-    data.tls_certificate.this.certificates[0].sha1_fingerprint
+    each.value.certificates[0].sha1_fingerprint
   ]
 }
 
@@ -28,21 +27,30 @@ data "aws_iam_policy_document" "this" {
 
     effect = "Allow"
 
-    principals {
-      type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.this.arn]
+    dynamic "principals" {
+      for_each = aws_iam_openid_connect_provider.this
+      content {
+        type        = "Federated"
+        identifiers = [principals.value.arn]
+      }
     }
 
-    condition {
-      test     = "StringEquals"
-      variable = "${aws_iam_openid_connect_provider.this.url}:aud"
-      values   = ["sts.amazonaws.com"]
+    dynamic "condition" {
+      for_each = aws_iam_openid_connect_provider.this
+      content {
+        test     = "StringEquals"
+        variable = "${condition.value.url}:aud"
+        values   = ["sts.amazonaws.com"]
+      }
     }
 
-    condition {
-      test     = "StringEquals"
-      variable = "${aws_iam_openid_connect_provider.this.url}:sub"
-      values   = ["system:serviceaccount:${local.eso_namespace}:external-secrets"]
+    dynamic "condition" {
+      for_each = aws_iam_openid_connect_provider.this
+      content {
+        test     = "StringEquals"
+        variable = "${condition.value.url}:sub"
+        values   = ["system:serviceaccount:external-secrets:external-secrets"]
+      }
     }
   }
 }
@@ -51,7 +59,7 @@ resource "aws_iam_role" "this" {
   name               = "external-secrets"
   assume_role_policy = data.aws_iam_policy_document.this.json
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
+    "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess",
   ]
 }
 
