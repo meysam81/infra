@@ -60,6 +60,7 @@ jobs:
         working_dir:
           - live/newsletter-server
           - live/cloudflare
+          - live/k8s-oidc-provider
     environment: prod
     steps:
       - name: Checkout
