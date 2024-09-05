@@ -101,6 +101,8 @@ jobs:
     env:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      ANSIBLE_FORCE_COLOR: "1"
+      PY_COLORS: "1"
     permissions:
       contents: read
     defaults:
