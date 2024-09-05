@@ -121,7 +121,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install requirements
         run: |
-          pip install -U -r requirements.txt
+          pip install -U pip -r requirements.txt
           ansible-galaxy install -r requirements.yml
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
