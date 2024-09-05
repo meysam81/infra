@@ -89,6 +89,14 @@ jobs:
           tg_command: apply
 
   ansible-playbook:
+    if: |
+      (
+        github.event_name == 'push' &&
+        github.ref == 'refs/heads/main'
+      ) || (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '0 */12 * * *'
+      )
     runs-on: ubuntu-latest
     env:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
@@ -104,9 +112,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Install requirements
         run: ansible-galaxy install -r requirements.yml
-      - uses: opentofu/setup-opentofu@v1
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: ${{ env.tofu_version }}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
         run: |
