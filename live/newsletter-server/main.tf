@@ -33,8 +33,9 @@ resource "hcloud_server" "this" {
     }))
 
     haproxy_cfg   = base64encode(file("files/haproxy.cfg"))
-    file_404_html = base64encode(file("files/404.html"))
-    file_429_html = base64encode(file("files/429.html"))
+    file_404_http = base64encode(file("files/404.http"))
+    file_429_http = base64encode(file("files/429.http"))
+    file_503_http = base64encode(file("files/503.http"))
 
     prepare_haproxy_certs_sh = base64encode(file("files/prepare-haproxy-certs.sh"))
 

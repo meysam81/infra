@@ -56,14 +56,20 @@ write_files:
     owner: root:root
     permissions: "0755"
     encoding: base64
-  - path: /etc/haproxy/errors/404.html
-    content: ${file_404_html}
+  - path: /etc/haproxy/errors/404.http
+    content: ${file_404_http}
     owner: haproxy:haproxy
     permissions: "0644"
     encoding: base64
     defer: true
-  - path: /etc/haproxy/errors/429.html
-    content: ${file_429_html}
+  - path: /etc/haproxy/errors/429.http
+    content: ${file_429_http}
+    owner: haproxy:haproxy
+    permissions: "0644"
+    encoding: base64
+    defer: true
+  - path: /etc/haproxy/errors/503.http
+    content: ${file_503_http}
     owner: haproxy:haproxy
     permissions: "0644"
     encoding: base64

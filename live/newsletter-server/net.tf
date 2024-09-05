@@ -57,7 +57,7 @@ resource "hcloud_firewall" "this" {
     protocol  = "tcp"
     source_ips = [
       "0.0.0.0/0",
-      "::/0"
+      "::/0",
     ]
     port = "443"
   }
