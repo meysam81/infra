@@ -101,7 +101,6 @@ jobs:
     env:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     permissions:
       contents: read
     defaults:
@@ -123,6 +122,11 @@ jobs:
         run: |
           pip install -U pip -r requirements.txt
           ansible-galaxy install -r requirements.yml
+      - name: Terraform Plugin Cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
+          key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
         run: |
@@ -133,7 +137,9 @@ jobs:
       - name: Run Ansible playbook
         env:
           ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
-        run: ansible-playbook newsletter-server/main.yml
+        run: |
+          ansible-inventory --list
+          ansible-playbook newsletter-server/main.yml
 
   trivy:
     if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
