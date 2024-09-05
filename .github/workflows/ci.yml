@@ -104,6 +104,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Install requirements
         run: ansible-galaxy install -r requirements.yml
+      - uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: ${{ env.tofu_version }}
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
         run: |
