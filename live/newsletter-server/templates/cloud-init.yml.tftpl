@@ -194,9 +194,9 @@ runcmd:
         --non-interactive \
         --email meysam@developer-friendly.blog \
         -d '*.developer-friendly.blog'
-      cat fullchain.pem privkey.pem > /etc/haproxy/certs/developer-friendly.blog
     }
 
     if [ ! -f fullchain.pem ] || [ ! -f privkey.pem ]; then
       perform_tls_challenge
     fi
+    cat fullchain.pem privkey.pem > /etc/haproxy/certs/developer-friendly.blog
