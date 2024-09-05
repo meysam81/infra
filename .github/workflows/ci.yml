@@ -119,7 +119,9 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install requirements
-        run: ansible-galaxy install -r requirements.yml
+        run: |
+          pip install -U -r requirements.txt
+          ansible-galaxy install -r requirements.yml
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
         run: |
