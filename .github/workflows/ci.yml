@@ -110,8 +110,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install requirements
-        run: ansible-galaxy install -r requirements.yml
       - name: Setup OpenTofu
         uses: opentofu/setup-opentofu@v1
         with:
@@ -120,6 +118,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install requirements
+        run: ansible-galaxy install -r requirements.yml
       - name: Fetch the ssh private key from TF stack
         working-directory: ./live/newsletter-server
         run: |
