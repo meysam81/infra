@@ -114,7 +114,8 @@ jobs:
         uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: ${{ env.tofu_version }}
-      - name: Setup Python
+      - id: python
+        name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -130,6 +131,8 @@ jobs:
           tofu output -raw ssh_private_key > ~/.ssh/newsletter-server
           chmod 600 ~/.ssh/newsletter-server
       - name: Run Ansible playbook
+        env:
+          ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
         run: ansible-playbook newsletter-server/main.yml
 
   trivy:
