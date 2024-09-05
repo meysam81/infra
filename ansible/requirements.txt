@@ -1,2 +1,3 @@
 ansible<11
+python-dateutil<3
 requests<3
