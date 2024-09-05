@@ -1,0 +1,3 @@
+collections:
+  - name: hetzner.hcloud
+    version: 3.1.1
