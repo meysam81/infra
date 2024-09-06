@@ -80,10 +80,12 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: |
-            run-all apply \
+            run-all \
               --terragrunt-include-dir newsletter-server \
               --terragrunt-include-dir cloudflare \
-              --terragrunt-include-dir k8s-oidc-provider
+              --terragrunt-include-dir k8s-oidc-provider \
+              --terragrunt-non-interactive \
+              apply -auto-approve
 
   ansible-playbook:
     if: |
