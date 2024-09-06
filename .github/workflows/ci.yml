@@ -53,7 +53,7 @@ jobs:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      working_dir: ./live
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
     environment: prod
     steps:
       - name: Checkout
@@ -73,12 +73,10 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Deploy
         uses: gruntwork-io/terragrunt-action@v2
-        env:
-          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
         with:
           tofu_version: ${{ env.tofu_version }}
           tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
+          tg_dir: ./live
           tg_command: >-
             run-all
               --terragrunt-strict-include
@@ -101,10 +99,12 @@ jobs:
     env:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
       ANSIBLE_FORCE_COLOR: "1"
       PY_COLORS: "1"
     permissions:
       contents: read
+    environment: prod
     defaults:
       run:
         working-directory: ./ansible
@@ -127,8 +127,6 @@ jobs:
           key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
       - name: Fetch the ssh private key from TF stack
         uses: gruntwork-io/terragrunt-action@v2
-        env:
-          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
         with:
           tofu_version: ${{ env.tofu_version }}
           tg_version: ${{ env.tg_version }}
@@ -138,6 +136,7 @@ jobs:
         env:
           ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
         run: |
+          ssh-keygen -l -f ~/.ssh/newsletter-server
           ansible-inventory --list
           ansible-playbook newsletter-server/main.yml
 
