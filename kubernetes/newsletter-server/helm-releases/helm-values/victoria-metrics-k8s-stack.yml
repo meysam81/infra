@@ -1,0 +1,50 @@
+alertmanager:
+  spec:
+    externalURL: https://alertmanager.developer-friendly.blog
+defaultRules:
+  groups:
+    kubeScheduler:
+      create: false
+    kubernetesSystemControllerManager:
+      create: false
+grafana:
+  enabled: false
+  forceDeployDatasource: true
+  grafana.ini:
+    server:
+      root_url: https://grafana.developer-friendly.blog
+  persistence:
+    enabled: false
+  sidecar:
+    datasources:
+      enabled: false
+      label: grafana_datasource
+  useStatefulSet: true
+grafanaOperatorDashboardsFormat:
+  enabled: true
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+vmagent:
+  spec:
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+vmalert:
+  externalLabels:
+    environment: production
+  extraArgs:
+    external.url: https://alertmanager.developer-friendly.blog
+vmsingle:
+  enabled: false
+  retentionPeriod: 2d
+  spec:
+    storage:
+      resources:
+        requests:
+          storage: 4Gi

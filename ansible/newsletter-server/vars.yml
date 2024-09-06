@@ -9,3 +9,5 @@ loki_remote_write:
   password: "{{ prometheus_remote_write.password }}"
 
 fail2ban_exporter_enabled: true
+
+node_exporter_enabled: false

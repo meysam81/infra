@@ -8,6 +8,7 @@
   ansible.builtin.import_tasks: prerequisites.yml
 - name: Install node-exporter
   ansible.builtin.import_tasks: node-exporter.yml
+  when: node_exporter_enabled
 - name: Install vmagent
   ansible.builtin.import_tasks: victoria-metrics.yml
   tags:

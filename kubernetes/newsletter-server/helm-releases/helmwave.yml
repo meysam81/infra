@@ -1,9 +1,14 @@
 project: newsletter-server
-version: 0.45.5
+version: 0.40.5
 
 repositories:
   - url: https://charts.external-secrets.io
     name: external-secrets
+  - url: https://victoriametrics.github.io/helm-charts/
+    name: victoria-metrics
+
+registries:
+  - host: ghcr.io
 
 .options: &options
   create_namespace: true
@@ -17,4 +22,22 @@ releases:
     chart:
       name: external-secrets/external-secrets
       version: 0.10.x
+    values:
+      - ./helm-values/external-secrets.yml
+    <<: *options
+  - name: grafana-operator
+    namespace: grafana
+    chart:
+      name: oci://ghcr.io/grafana/helm-charts/grafana-operator
+      version: v5.12.0
+    <<: *options
+  - name: victoria-metrics-k8s-stack
+    namespace: victoria-metrics
+    chart:
+      name: victoria-metrics/victoria-metrics-k8s-stack
+      version: 0.25.x
+    values:
+      - ./helm-values/victoria-metrics-k8s-stack.yml
+    depends_on:
+      - grafana-operator@grafana
     <<: *options
