@@ -134,10 +134,10 @@ jobs:
           chmod 600 ~/.ssh/newsletter-server
           ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
-        env:
-          ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
+        # env:
+        #   ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
         run: |
-          ansible-playbook newsletter-server/main.yml
+          ansible-playbook newsletter-server/main.yml -vvv
 
   trivy:
     if: contains(fromJson('["push","pull_request","schedule"]'), github.event_name)
