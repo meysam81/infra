@@ -81,6 +81,7 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: >-
             run-all
+              --terragrunt-strict-include
               --terragrunt-include-dir newsletter-server
               --terragrunt-include-dir cloudflare
               --terragrunt-include-dir k8s-oidc-provider
@@ -135,6 +136,8 @@ jobs:
           tofu init
           tofu output -raw ssh_private_key > ~/.ssh/newsletter-server
           chmod 600 ~/.ssh/newsletter-server
+          head -1 ~/.ssh/newsletter-server
+          tail -1 ~/.ssh/newsletter-server
           ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         env:
