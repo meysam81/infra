@@ -16,7 +16,7 @@ env:
   tofu_version: 1.8.1
   tg_version: 0.67.0
   TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
-  PYTHON_VERSION: 3.12
+  PYTHON_VERSION: 3.x
 
 permissions:
   id-token: write
