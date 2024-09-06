@@ -134,8 +134,6 @@ jobs:
           chmod 600 ~/.ssh/newsletter-server
           ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
-        # env:
-        #   ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
         run: |
           ansible-playbook newsletter-server/main.yml -vvv
 

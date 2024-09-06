@@ -1,3 +1,5 @@
 ansible<11
+boto3<2
+botocore<2
 python-dateutil<3
 requests<3
