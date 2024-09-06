@@ -127,7 +127,9 @@ jobs:
       - name: Get the SSH private key rom AWS SSM
         run: |
           mkdir -p ~/.ssh
-          aws ssm get-parameter --name /newsletter-server/ssh-private-key --with-decryption --query Parameter.Value --output text > ~/.ssh/newsletter-server
+          aws ssm get-parameter --name /newsletter-server/ssh-private-key \
+            --with-decryption --query Parameter.Value --output text \
+            | sed '${/^$/d}'  > ~/.ssh/newsletter-server
           chmod 600 ~/.ssh/newsletter-server
           ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
