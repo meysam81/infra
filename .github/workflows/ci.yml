@@ -111,10 +111,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup OpenTofu
-        uses: opentofu/setup-opentofu@v1
-        with:
-          tofu_version: ${{ env.tofu_version }}
       - id: python
         name: Setup Python
         uses: actions/setup-python@v5
@@ -130,15 +126,14 @@ jobs:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
           key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
       - name: Fetch the ssh private key from TF stack
-        working-directory: ./live/newsletter-server
-        run: |
-          mkdir -p ~/.ssh
-          tofu init
-          tofu output -raw ssh_private_key > ~/.ssh/newsletter-server
-          chmod 600 ~/.ssh/newsletter-server
-          head -1 ~/.ssh/newsletter-server
-          tail -1 ~/.ssh/newsletter-server
-          ssh-keygen -l -f ~/.ssh/newsletter-server
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
+        with:
+          tofu_version: ${{ env.tofu_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ./live/newsletter-server
+          tg_command: output -raw ssh_private_key > ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         env:
           ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
