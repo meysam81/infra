@@ -53,14 +53,7 @@ jobs:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      working_dir: ${{ matrix.working_dir }}
-    strategy:
-      fail-fast: false
-      matrix:
-        working_dir:
-          - live/newsletter-server
-          - live/cloudflare
-          - live/k8s-oidc-provider
+      working_dir: ./live
     environment: prod
     steps:
       - name: Checkout
@@ -86,7 +79,11 @@ jobs:
           tofu_version: ${{ env.tofu_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: apply
+          tg_command: |
+            run-all apply \
+              --terragrunt-include-dir newsletter-server \
+              --terragrunt-include-dir cloudflare \
+              --terragrunt-include-dir k8s-oidc-provider
 
   ansible-playbook:
     if: |
