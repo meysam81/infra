@@ -128,6 +128,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           aws ssm get-parameter --name /newsletter-server/ssh-private-key --with-decryption --query Parameter.Value --output text > ~/.ssh/newsletter-server
+          chmod 600 ~/.ssh/newsletter-server
           ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         env:
