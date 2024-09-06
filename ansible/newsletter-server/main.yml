@@ -2,6 +2,8 @@
   hosts: hcloud
   gather_facts: false
   become: true
+  vars_files:
+    - vars.yml
   tasks:
     - name: Update HAProxy config
       ansible.builtin.copy:
@@ -11,6 +13,9 @@
         group: haproxy
         mode: "0644"
       notify: Reload haproxy
+  roles:
+    - name: monitoring
+      tags: monitoring
   handlers:
     - name: Reload haproxy
       ansible.builtin.systemd:

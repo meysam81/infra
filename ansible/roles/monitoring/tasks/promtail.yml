@@ -6,6 +6,7 @@
     mode: "0444"
     owner: "{{ ansible_env.SUDO_USER }}"
     group: "{{ ansible_env.SUDO_USER }}"
+    checksum: "sha256:{{ promtail_checksum }}"
   register: promtail_download
 - name: Extract promtail
   ansible.builtin.unarchive:
