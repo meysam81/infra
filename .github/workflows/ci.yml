@@ -87,6 +87,7 @@ jobs:
               apply -auto-approve
 
   ansible-playbook:
+    needs: opentofu
     if: |
       (
         github.event_name == 'push' &&

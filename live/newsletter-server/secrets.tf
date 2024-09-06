@@ -15,5 +15,5 @@ resource "hcloud_ssh_key" "this" {
 resource "aws_ssm_parameter" "ssh_private_key" {
   name  = "/newsletter-server/ssh-private-key"
   type  = "SecureString"
-  value = tls_private_key.this.private_key_pem
+  value = tls_private_key.this.private_key_openssh
 }
