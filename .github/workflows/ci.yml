@@ -120,23 +120,21 @@ jobs:
         run: |
           pip install -U pip -r requirements.txt
           ansible-galaxy install -r requirements.yml
-      - name: Terraform Plugin Cache
-        uses: actions/cache@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
-          key: ${{ runner.os }}-terraform-plugin-cache-${{ hashFiles('**/.terraform.lock.hcl') }}
-      - name: Fetch the ssh private key from TF stack
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tofu_version: ${{ env.tofu_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ./live/newsletter-server
-          tg_command: output -raw ssh_private_key > ~/.ssh/newsletter-server
+          role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
+          role-session-name: ci-${{ github.ref_name }}-${{ github.run_id }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Get the SSH private key rom AWS SSM
+        run: |
+          mkdir -p ~/.ssh
+          aws ssm get-parameter --name /newsletter-server/ssh-private-key --with-decryption --query Parameter.Value --output text > ~/.ssh/newsletter-server
+          ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         env:
           ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
         run: |
-          ssh-keygen -l -f ~/.ssh/newsletter-server
           ansible-inventory --list
           ansible-playbook newsletter-server/main.yml
 
