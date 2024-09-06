@@ -38,7 +38,7 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: "hclfmt --terragrunt-check --terragrunt-diff"
 
-  deploy:
+  opentofu:
     if: |
       (
         github.event_name == 'push' &&
@@ -102,8 +102,6 @@ jobs:
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
       ANSIBLE_FORCE_COLOR: "1"
       PY_COLORS: "1"
-    permissions:
-      contents: read
     environment: prod
     defaults:
       run:
