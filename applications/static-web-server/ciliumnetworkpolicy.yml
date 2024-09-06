@@ -1,0 +1,31 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: static-web-server
+spec:
+  endpointSelector:
+    matchLabels:
+      app: service
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
+          rules:
+            http: []
+  egress:
+    - toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
+          rules:
+            http: []

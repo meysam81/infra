@@ -145,6 +145,16 @@ resource "cloudflare_record" "devfriend_blog_mailing_dmarc" {
   content = "v=DMARC1; p=reject;"
 }
 
+resource "cloudflare_record" "click_mailing" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "click.mailing"
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = "click.maileroo.net"
+}
+
 # email octopus
 resource "cloudflare_record" "eo_domainkey_email" {
   zone_id = data.cloudflare_zone.devfriend_blog.id

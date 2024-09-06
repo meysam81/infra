@@ -8,9 +8,9 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: developer-friendly-blog
-      namespace: cert-manager
-      sectionName: https
+      name: global
+      namespace: default
+      sectionName: http
   rules:
     - backendRefs:
         - kind: Service

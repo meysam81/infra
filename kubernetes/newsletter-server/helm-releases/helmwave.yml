@@ -1,7 +1,6 @@
 project: newsletter-server
 version: 0.45.5
 
-# helm upgrade -i external-secrets external-secrets/external-secrets -n external-secrets --create-namespace --version=0.10.x --set=crds.createClusterSecretStore=true
 repositories:
   - url: https://charts.external-secrets.io
     name: external-secrets

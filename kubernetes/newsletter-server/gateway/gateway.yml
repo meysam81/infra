@@ -9,5 +9,5 @@ spec:
         namespaces:
           from: All
       name: http
-      port: 30080
+      port: 81
       protocol: HTTP

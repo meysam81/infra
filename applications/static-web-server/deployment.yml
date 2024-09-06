@@ -4,13 +4,7 @@ metadata:
   name: static-web-server
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: static-web-server
   template:
-    metadata:
-      labels:
-        app: static-web-server
     spec:
       containers:
         - envFrom:
@@ -25,7 +19,7 @@ spec:
             periodSeconds: 10
           name: static-web-server
           ports:
-            - containerPort: 80
+            - containerPort: 8000
               name: http
           readinessProbe:
             httpGet:
@@ -33,6 +27,10 @@ spec:
               port: http
             initialDelaySeconds: 1
             periodSeconds: 10
+          resources: {}
+            # limits:
+              # cpu: 100m
+              # memory: 64Mi
           securityContext:
             capabilities:
               add:
@@ -59,7 +57,7 @@ spec:
               curl -Lo logo.webp $LOGO_URL
           command:
             - sh
-            - "-c"
+            - '-c'
           envFrom:
             - configMapRef:
                 name: static-web-server

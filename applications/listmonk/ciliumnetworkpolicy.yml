@@ -1,0 +1,33 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: listmonk
+spec:
+  endpointSelector:
+    matchLabels:
+      app: service
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "9000"
+              protocol: TCP
+          rules:
+            http: []
+      fromEntities:
+        - all
+  egress:
+    - toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+            - port: "587"
+              protocol: ANY
+            - port: "2525"
+              protocol: ANY
+    - toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"

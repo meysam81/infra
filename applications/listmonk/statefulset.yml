@@ -4,14 +4,8 @@ metadata:
   name: listmonk
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: listmonk
   serviceName: listmonk
   template:
-    metadata:
-      labels:
-        app: listmonk
     spec:
       containers:
         - command:

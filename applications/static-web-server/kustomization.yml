@@ -2,6 +2,7 @@ resources:
   - service.yml
   - deployment.yml
   - httproute.yml
+  - ciliumnetworkpolicy.yml
 
 images:
   - name: joseluisq/static-web-server
@@ -17,6 +18,14 @@ configMapGenerator:
     files:
       - config.toml
 
+commonLabels:
+  app.kubernetes.io/name: static-web-server
+  app.kubernetes.io/instance: static-web-server
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/component: static-web-server
+  app.kubernetes.io/part-of: static-web-server
+  app.kubernetes.io/version: 2-alpine
+
 replacements:
   - source:
       kind: Deployment
@@ -30,5 +39,12 @@ replacements:
           - spec.selector
         options:
           create: true
+      - select:
+          kind: CiliumNetworkPolicy
+          name: static-web-server
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: false
 
 namespace: default

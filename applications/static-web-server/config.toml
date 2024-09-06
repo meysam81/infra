@@ -1,6 +1,6 @@
 [general]
 host = "::"
-port = 80
+port = 8000
 log-level = "info"
 cache-control-headers = true
 compression = true

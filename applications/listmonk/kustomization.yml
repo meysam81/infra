@@ -1,0 +1,48 @@
+resources:
+  - externalsecret.yml
+  - service.yml
+  - statefulset.yml
+  - httproute.yml
+  - ciliumnetworkpolicy.yml
+
+configMapGenerator:
+  - name: listmonk
+    envs:
+      - configs.env
+
+images:
+  - name: listmonk/listmonk
+    newTag: v3.0.0
+  - name: postgres
+    newTag: 16-alpine
+
+commonLabels:
+  app.kubernetes.io/name: listmonk
+  app.kubernetes.io/instance: listmonk
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/component: listmonk
+  app.kubernetes.io/part-of: listmonk
+  app.kubernetes.io/version: v3.0.0
+
+replacements:
+  - source:
+      kind: StatefulSet
+      name: listmonk
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+          name: listmonk
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true
+      - select:
+          kind: CiliumNetworkPolicy
+          name: listmonk
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: false
+
+namespace: default
