@@ -158,10 +158,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: helmwave/setup-action@v0.3.0
-        name: Install helmwave
-        with:
-          version: "0.40.5"
       - name: Plan
         run: helmwave build
       - name: Deploy
