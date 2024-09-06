@@ -135,6 +135,9 @@ jobs:
           tofu init
           tofu output -raw ssh_private_key > ~/.ssh/newsletter-server
           chmod 600 ~/.ssh/newsletter-server
+          # TODO: remove the following after troubleshooting
+          ls -lh ~/.ssh
+          head -c16 ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         env:
           ANSIBLE_PYTHON_INTERPRETER: ${{ steps.python.outputs.python-path }}
