@@ -1,9 +1,10 @@
 config:
   clients:
-    - url: todo
+    - url: https://logs-prod-012.grafana.net/loki/api/v1/push
       basic_auth:
-        username: ${GRAFANA_CLOUD_USERNAME}
+        username: 596709
         password: ${GRAFANA_CLOUD_PASSWORD}
+  enableTracing: true
 
 extraArgs:
   - -config.expand-env=true

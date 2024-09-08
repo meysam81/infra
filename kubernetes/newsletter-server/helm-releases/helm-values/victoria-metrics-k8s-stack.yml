@@ -1,5 +1,6 @@
 ---
 alertmanager:
+  enabled: true
   spec:
     externalURL: https://alertmanager.developer-friendly.blog
 defaultRules:
@@ -104,16 +105,13 @@ vmagent:
         cpu: 100m
         memory: 64Mi
 vmalert:
-  enabled: false
+  enabled: true
   externalLabels:
     environment: production
   extraArgs:
     external.url: https://alertmanager.developer-friendly.blog
 vmsingle:
-  enabled: false
-  retentionPeriod: 2d
+  enabled: true
+  retentionPeriod: 1h
   spec:
-    storage:
-      resources:
-        requests:
-          storage: 4Gi
+    storage: null

@@ -11,3 +11,5 @@ loki_remote_write:
 fail2ban_exporter_enabled: true
 
 node_exporter_enabled: false
+
+promtail_enabled: true

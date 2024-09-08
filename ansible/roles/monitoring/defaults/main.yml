@@ -6,3 +6,5 @@ fail2ban_exporter_enabled: false
 loki_remote_write_password_file: /etc/promtail/loki-password
 
 node_exporter_enabled: true
+
+promtail_enabled: true

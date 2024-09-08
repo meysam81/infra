@@ -52,3 +52,4 @@ releases:
       - ./helm-values/promtail.yml
     depends_on:
       - victoria-metrics-k8s-stack
+    <<: *options
