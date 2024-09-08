@@ -13,6 +13,8 @@
         group: haproxy
         mode: "0644"
       notify: Reload haproxy
+      tags:
+        - haproxy
   roles:
     - name: monitoring
       tags: monitoring

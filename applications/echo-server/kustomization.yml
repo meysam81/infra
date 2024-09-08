@@ -1,0 +1,18 @@
+configMapGenerator:
+  - name: echo-server
+    envs:
+      - configs.env
+
+resources:
+  - service.yml
+  - deployment.yml
+
+images:
+  - name: ealen/echo-server
+    newTag: 0.9.2
+
+commonLabels:
+  app.kubernetes.io/instance: echo-server
+  app.kubernetes.io/managed-by: Kustomize
+  app.kubernetes.io/name: echo-server
+  app.kubernetes.io/version: 0.9.2
