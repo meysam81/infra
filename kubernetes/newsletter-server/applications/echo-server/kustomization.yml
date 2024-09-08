@@ -1,2 +1,4 @@
 resources:
   - ../../../../applications/echo-server
+
+namespace: default
