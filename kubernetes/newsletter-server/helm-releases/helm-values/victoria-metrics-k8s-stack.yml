@@ -51,7 +51,7 @@ extraObjects:
           kind: Gateway
           name: global
           namespace: default
-          sectionName: https
+          sectionName: http
       rules:
         - backendRefs:
             - kind: Service
