@@ -152,6 +152,8 @@ jobs:
         github.event.schedule == '0 */12 * * *'
       )
     environment: prod
+    env:
+      HELMWAVE_KUBEDOG_ENABLED: "true"
     defaults:
       run:
         working-directory: kubernetes/newsletter-server/helm-releases
