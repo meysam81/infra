@@ -2,7 +2,7 @@ data "cloudflare_zone" "this" {
   name = "developer-friendly.blog"
 }
 
-resource "cloudflare_record" "this" {
+resource "cloudflare_record" "newsletter" {
   for_each = {
     A    = hcloud_primary_ip.this["ipv4"].ip_address
     AAAA = hcloud_primary_ip.this["ipv6"].ip_address
@@ -11,6 +11,21 @@ resource "cloudflare_record" "this" {
   zone_id = data.cloudflare_zone.this.id
 
   name    = "newsletter"
+  proxied = true
+  ttl     = 1
+  type    = each.key
+  content = each.value
+}
+
+resource "cloudflare_record" "alertmanager" {
+  for_each = {
+    A    = hcloud_primary_ip.this["ipv4"].ip_address
+    AAAA = hcloud_primary_ip.this["ipv6"].ip_address
+  }
+
+  zone_id = data.cloudflare_zone.this.id
+
+  name    = "alertmanager"
   proxied = true
   ttl     = 1
   type    = each.key
