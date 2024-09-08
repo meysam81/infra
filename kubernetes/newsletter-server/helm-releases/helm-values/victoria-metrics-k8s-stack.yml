@@ -75,6 +75,82 @@ extraObjects:
             - path:
                 type: PathPrefix
                 value: /
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: alertmanager
+    spec:
+      data:
+        - remoteRef:
+            key: /slack/developer-friendly/webhooks/alerts
+          secretKey: slackWebhook
+        - remoteRef:
+            key: /discord/developer-friendly/webhooks/info
+          secretKey: discordWebhook
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Delete
+        immutable: false
+  - apiVersion: operator.victoriametrics.com/v1beta1
+    kind: VMAlertmanagerConfig
+    metadata:
+      name: alertmanager-microlinkpc
+      namespace: monitoring
+    spec:
+      receivers:
+        - name: slack
+          slack_configs:
+            - api_url:
+                key: slackWebhook
+                name: alertmanager
+                optional: false
+              channel: "#alerts"
+              send_resolved: true
+        - name: discord
+          discordConfigs:
+            - api_url:
+                key: discordWebhook
+                name: alertmanager
+                optional: false
+              send_resolved: false
+      route:
+        active_time_intervals:
+          - workdays
+        matchers:
+          - severity != none
+        receiver: discord
+        repeat_interval: 4h
+        routes:
+          - active_time_intervals:
+              - everyday
+            matchers:
+              - severity = error
+              - severity = critical
+            receiver: slack
+            repeat_interval: 1h
+      time_intervals:
+        - name: workdays
+          time_intervals:
+            - weekdays:
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+        - name: everyday
+          time_intervals:
+            - weekdays:
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+                - sunday
 grafana:
   enabled: false
   forceDeployDatasource: true
