@@ -1,0 +1,13 @@
+config:
+  clients:
+    - url: todo
+      basic_auth:
+        username: ${GRAFANA_CLOUD_USERNAME}
+        password: ${GRAFANA_CLOUD_PASSWORD}
+
+extraArgs:
+  - -config.expand-env=true
+
+extraEnvFrom:
+  - secretRef:
+      name: grafana-cloud

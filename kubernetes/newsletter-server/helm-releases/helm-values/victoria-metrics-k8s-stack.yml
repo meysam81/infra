@@ -12,12 +12,33 @@ externalVM:
   write:
     basicAuth:
       password:
-        key: password
+        key: GRAFANA_CLOUD_PASSWORD
         name: grafana-cloud
       username:
-        key: username
+        key: GRAFANA_CLOUD_USERNAME
         name: grafana-cloud
     url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: grafana-cloud
+    spec:
+      data:
+        - remoteRef:
+            key: /grafana_cloud/remote_write/username
+          secretKey: GRAFANA_CLOUD_USERNAME
+        - remoteRef:
+            key: /grafana_cloud/remote_write/password
+          secretKey: GRAFANA_CLOUD_PASSWORD
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Delete
+        immutable: false
 grafana:
   enabled: false
   forceDeployDatasource: true

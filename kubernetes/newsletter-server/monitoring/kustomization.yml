@@ -1,4 +1,0 @@
-resources:
-  - externalsecret.yml
-
-namespace: victoria-metrics

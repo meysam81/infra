@@ -6,6 +6,8 @@ repositories:
     name: external-secrets
   - url: https://victoriametrics.github.io/helm-charts/
     name: victoria-metrics
+  - url: https://grafana.github.io/helm-charts
+    name: grafana
 
 registries:
   - host: ghcr.io
@@ -41,3 +43,12 @@ releases:
     depends_on:
       - grafana-operator
     <<: *options
+  - name: promtail
+    namespace: monitoring
+    chart:
+      name: grafana/promtail
+      version: 6.16.x
+    values:
+      - ./helm-values/promtail.yml
+    depends_on:
+      - victoria-metrics-k8s-stack
