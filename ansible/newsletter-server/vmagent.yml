@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 10s
+
+scrape_configs:
+  # - job_name: haproxy
+  #   file_sd_configs:
+  #     - files:
+  #         - /etc/prometheus/targets/haproxy/*.yml
+
+  - job_name: node-exporter
+    static_configs:
+      - targets:
+          - localhost:9100
+        labels:
+          instance: personal
+
+  - job_name: fail2ban-exporter
+    static_configs:
+      - targets:
+          - localhost:9191
+        labels:
+          instance: personal
+
+  - job_name: haproxy-exporter
+    static_configs:
+      - targets:
+          - localhost:8404
+        labels:
+          instance: personal
