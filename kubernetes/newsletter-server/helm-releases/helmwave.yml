@@ -17,6 +17,7 @@ registries:
   wait: true
   timeout: 5m
   max_history: 10
+  pending_release_strategy: rollback
 
 releases:
   - name: external-secrets
