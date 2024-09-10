@@ -98,7 +98,7 @@ extraObjects:
   - apiVersion: operator.victoriametrics.com/v1beta1
     kind: VMAlertmanagerConfig
     metadata:
-      name: alertmanager-microlinkpc
+      name: alertmanager
       namespace: monitoring
     spec:
       receivers:
@@ -128,8 +128,7 @@ extraObjects:
           - active_time_intervals:
               - everyday
             matchers:
-              - severity = error
-              - severity = critical
+              - severity ~= error|critical
             receiver: slack
             repeat_interval: 1h
       time_intervals:

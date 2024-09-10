@@ -1,0 +1,45 @@
+configMapGenerator:
+  - name: listmonk-exporter
+    envs:
+      - configs.env
+
+resources:
+  - externalsecret.yml
+  - deployment.yml
+  - service.yml
+  - vmservicescrape.yml
+  - vmrule.yml
+
+images:
+  - name: ghcr.io/meysam81/listmonk-exporter
+    newTag: "10786248655"
+
+commonLabels:
+  app.kubernetes.io/name: listmonk-exporter
+  app.kubernetes.io/instance: listmonk-exporter
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/component: listmonk-exporter
+  app.kubernetes.io/part-of: listmonk-exporter
+  app.kubernetes.io/version: "10786248655"
+
+replacements:
+  - source:
+      kind: Deployment
+      name: listmonk-exporter
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: VMServiceScrape
+          name: listmonk-exporter
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: Service
+          name: listmonk-exporter
+        fieldPaths:
+          - spec.selector
+          - metadata.labels
+        options:
+          create: true

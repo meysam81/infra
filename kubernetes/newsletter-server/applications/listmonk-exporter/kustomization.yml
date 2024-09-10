@@ -1,0 +1,4 @@
+resources:
+  - ../../../../applications/listmonk-exporter/kustomization
+
+namespace: default

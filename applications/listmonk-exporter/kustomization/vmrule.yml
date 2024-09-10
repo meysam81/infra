@@ -1,0 +1,14 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: listmonk-exporter
+spec:
+  groups:
+    - name: listmonk-exporter
+      interval: 20s
+      rules:
+        - alert: NewSubscriber
+          expr: changes(listmonk_current_subscribers) > 0
+          for: 0s
+          labels:
+            severity: info
