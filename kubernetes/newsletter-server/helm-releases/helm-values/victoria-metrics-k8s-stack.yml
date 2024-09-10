@@ -110,32 +110,31 @@ extraObjects:
                 optional: false
               channel: "#alerts"
               text: |-
-                {{ range .Alerts }}
-                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
                 *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
-                {{ end }}
-              title: "{{` {{ .CommonAnnotations.summary }} `}}"
-              title_link: "{{` {{ .CommonAnnotations.runbook_url }} `}}"
+                {{ end }}`}}
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
               send_resolved: true
         - name: discord
-          discordConfigs:
-            - api_url:
+          discord_configs:
+            - webhook_url_secret:
                 key: discordWebhook
                 name: alertmanager
                 optional: false
-              text: |-
-                {{ range .Alerts }}
-                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+              message: |-
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
                 *Details:*
-                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
-                {{ end }}
-              title: "{{` {{ .CommonAnnotations.summary }} `}}"
-              title_link: "{{` {{ .CommonAnnotations.runbook_url }} `}}"
+                {{ end }}`}}
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
               send_resolved: false
       route:
         active_time_intervals:
@@ -197,7 +196,7 @@ vmagent:
     resources:
       limits:
         cpu: 200m
-        memory: 128Mi
+        memory: 512Mi
       requests:
         cpu: 100m
         memory: 64Mi
