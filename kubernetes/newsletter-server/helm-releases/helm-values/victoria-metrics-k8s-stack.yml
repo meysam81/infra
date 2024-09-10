@@ -120,6 +120,8 @@ extraObjects:
       route:
         active_time_intervals:
           - workdays
+        group_by:
+          - namespace
         matchers:
           - severity != none
         receiver: discord
