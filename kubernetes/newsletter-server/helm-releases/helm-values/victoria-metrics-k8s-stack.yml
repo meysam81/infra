@@ -40,41 +40,41 @@ extraObjects:
         creationPolicy: Owner
         deletionPolicy: Delete
         immutable: false
-  - apiVersion: gateway.networking.k8s.io/v1
-    kind: HTTPRoute
-    metadata:
-      name: alertmanager
-    spec:
-      hostnames:
-        - alertmanager.developer-friendly.blog
-      parentRefs:
-        - group: gateway.networking.k8s.io
-          kind: Gateway
-          name: global
-          namespace: default
-          sectionName: http
-      rules:
-        - backendRefs:
-            - kind: Service
-              name: vmalertmanager-victoria-metrics-k8s-stack
-              port: 9093
-          filters:
-            - responseHeaderModifier:
-                set:
-                  - name: Strict-Transport-Security
-                    value: max-age=31536000; includeSubDomains; preload
-              type: ResponseHeaderModifier
-            - requestMirror:
-                backendRef:
-                  kind: Service
-                  name: echo-server
-                  namespace: default
-                  port: 80
-              type: RequestMirror
-          matches:
-            - path:
-                type: PathPrefix
-                value: /
+  # - apiVersion: gateway.networking.k8s.io/v1
+  #   kind: HTTPRoute
+  #   metadata:
+  #     name: alertmanager
+  #   spec:
+  #     hostnames:
+  #       - alertmanager.developer-friendly.blog
+  #     parentRefs:
+  #       - group: gateway.networking.k8s.io
+  #         kind: Gateway
+  #         name: global
+  #         namespace: default
+  #         sectionName: http
+  #     rules:
+  #       - backendRefs:
+  #           - kind: Service
+  #             name: vmalertmanager-victoria-metrics-k8s-stack
+  #             port: 9093
+  #         filters:
+  #           - responseHeaderModifier:
+  #               set:
+  #                 - name: Strict-Transport-Security
+  #                   value: max-age=31536000; includeSubDomains; preload
+  #             type: ResponseHeaderModifier
+  #           - requestMirror:
+  #               backendRef:
+  #                 kind: Service
+  #                 name: echo-server
+  #                 namespace: default
+  #                 port: 80
+  #             type: RequestMirror
+  #         matches:
+  #           - path:
+  #               type: PathPrefix
+  #               value: /
   - apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
