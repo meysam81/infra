@@ -50,7 +50,9 @@ releases:
       name: grafana/promtail
       version: 6.16.x
     values:
-      - ./helm-values/promtail.yml
+      - src: ./helm-values/promtail.yml
+        delimiter_left: "[["
+        delimiter_right: "]]"
     depends_on:
       - victoria-metrics-k8s-stack
     <<: *options
