@@ -109,6 +109,16 @@ extraObjects:
                 name: alertmanager
                 optional: false
               channel: "#alerts"
+              text: |-
+                {{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+                {{ end }}
+              title: "{{ .CommonAnnotations.summary }}"
+              title_link: "{{ .CommonAnnotations.runbook_url }}"
               send_resolved: true
         - name: discord
           discordConfigs:
@@ -116,6 +126,16 @@ extraObjects:
                 key: discordWebhook
                 name: alertmanager
                 optional: false
+              text: |-
+                {{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+                {{ end }}
+              title: "{{ .CommonAnnotations.summary }}"
+              title_link: "{{ .CommonAnnotations.runbook_url }}"
               send_resolved: false
       route:
         active_time_intervals:
@@ -125,7 +145,7 @@ extraObjects:
         matchers:
           - severity != none
         receiver: discord
-        repeat_interval: 4h
+        repeat_interval: 12h
         routes:
           - active_time_intervals:
               - everyday

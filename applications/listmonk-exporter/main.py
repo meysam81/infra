@@ -16,6 +16,7 @@ LISTMONK_HOST = os.environ["LISTMONK_HOST"]
 LISTMONK_AUTHORIZATION = os.getenv("LISTMONK_AUTHORIZATION")
 LISTMONK_ADMIN_USERNAME = os.getenv("LISTMONK_ADMIN_USERNAME")
 LISTMONK_ADMIN_PASSWORD = os.getenv("LISTMONK_ADMIN_PASSWORD")
+SCRAPE_INTERVAL = int(os.getenv("SCRAPE_INTERVAL", 60))
 PORT = int(os.getenv("PORT", 8000))
 
 # either auth header or the user-pass must be specified
@@ -84,7 +85,7 @@ def background_task():
                 value = hashify_labels(**labels)
                 current_subscribers.labels(**labels).set(value)
 
-        shutdown_event.wait(60)
+        shutdown_event.wait(SCRAPE_INTERVAL)
 
 
 background_thread = threading.Thread(target=background_task, daemon=True)
