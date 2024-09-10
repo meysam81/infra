@@ -117,8 +117,8 @@ extraObjects:
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                 {{ end }}
                 {{ end }}
-              title: "{{ .CommonAnnotations.summary }}"
-              title_link: "{{ .CommonAnnotations.runbook_url }}"
+              title: "{{` {{ .CommonAnnotations.summary }} `}}"
+              title_link: "{{` {{ .CommonAnnotations.runbook_url }} `}}"
               send_resolved: true
         - name: discord
           discordConfigs:
@@ -134,8 +134,8 @@ extraObjects:
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                 {{ end }}
                 {{ end }}
-              title: "{{ .CommonAnnotations.summary }}"
-              title_link: "{{ .CommonAnnotations.runbook_url }}"
+              title: "{{` {{ .CommonAnnotations.summary }} `}}"
+              title_link: "{{` {{ .CommonAnnotations.runbook_url }} `}}"
               send_resolved: false
       route:
         active_time_intervals:

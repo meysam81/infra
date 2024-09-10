@@ -40,7 +40,10 @@ releases:
       name: victoria-metrics/victoria-metrics-k8s-stack
       version: 0.25.x
     values:
-      - ./helm-values/victoria-metrics-k8s-stack.yml
+      - src: ./helm-values/victoria-metrics-k8s-stack.yml
+        renderer: copy
+        delimiter_left: "[[=="
+        delimiter_right: "==]]"
     depends_on:
       - grafana-operator
     <<: *options
@@ -50,9 +53,7 @@ releases:
       name: grafana/promtail
       version: 6.16.x
     values:
-      - src: ./helm-values/promtail.yml
-        delimiter_left: "[["
-        delimiter_right: "]]"
+      - ./helm-values/promtail.yml
     depends_on:
       - victoria-metrics-k8s-stack
     <<: *options
