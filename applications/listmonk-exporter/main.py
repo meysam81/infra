@@ -3,6 +3,7 @@
 import logging
 import os
 import threading
+from base64 import b64encode
 
 import httpx
 from prometheus_client import Gauge, start_http_server
@@ -12,8 +13,22 @@ shutdown_event = threading.Event()
 
 current_subscribers = None
 LISTMONK_HOST = os.environ["LISTMONK_HOST"]
-LISTMONK_AUTHORIZATION = os.environ["LISTMONK_AUTHORIZATION"]
+LISTMONK_AUTHORIZATION = os.getenv("LISTMONK_AUTHORIZATION")
+LISTMONK_ADMIN_USERNAME = os.getenv("LISTMONK_ADMIN_USERNAME")
+LISTMONK_ADMIN_PASSWORD = os.getenv("LISTMONK_ADMIN_PASSWORD")
 PORT = int(os.getenv("PORT", 8000))
+
+# either auth header or the user-pass must be specified
+assert (
+    LISTMONK_AUTHORIZATION or (LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD)
+), "Either LISTMONK_AUTHORIZATION or LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD must be provided"
+
+if LISTMONK_AUTHORIZATION:
+    AUTH_HEADER = LISTMONK_AUTHORIZATION
+else:
+    AUTH_HEADER = b64encode(
+        f"{LISTMONK_ADMIN_USERNAME}:{LISTMONK_ADMIN_PASSWORD}".encode()
+    ).decode()
 
 
 def init_metrics():
@@ -56,7 +71,7 @@ def background_task():
                 "order": "ASC",
                 "per_page": "all",
             },
-            headers={"authorization": "Basic " + LISTMONK_AUTHORIZATION},
+            headers={"authorization": "Basic " + AUTH_HEADER},
         ) as client:
             json = client.get("/api/subscribers").json()
 
