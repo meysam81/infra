@@ -39,6 +39,7 @@ root_dir = "applications"
 platforms = dd(lambda: ["linux/amd64"])
 platforms["applications/check-public-ip"] = ["linux/amd64", "linux/arm64"]
 platforms["applications/self-hosted-runner"] = ["linux/amd64", "linux/arm64"]
+platforms["applications/listmonk-exporter"] = ["linux/amd64", "linux/arm64"]
 
 
 def _calculate_service_hash(svc) -> str:
