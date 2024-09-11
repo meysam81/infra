@@ -146,6 +146,7 @@ jobs:
     environment: prod
     env:
       HELMWAVE_KUBEDOG_ENABLED: "true"
+      HELMWAVE_LOG_LEVEL: fatal
     defaults:
       run:
         working-directory: kubernetes/newsletter-server/helm-releases
