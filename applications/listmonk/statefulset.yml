@@ -26,6 +26,8 @@ spec:
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
+            - mountPath: /tmp
+              name: tmp
         - args:
             - |
               set -eu
@@ -77,6 +79,9 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      volumes:
+        - emptyDir: {}
+          name: tmp
   volumeClaimTemplates:
     - metadata:
         name: uploads

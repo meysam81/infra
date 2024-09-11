@@ -215,6 +215,6 @@ vmalert:
       external.url: https://alertmanager.developer-friendly.blog
 vmsingle:
   enabled: true
-  retentionPeriod: 3d
   spec:
+    retentionPeriod: 3d
     storage: null
