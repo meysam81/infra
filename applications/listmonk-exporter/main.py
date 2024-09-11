@@ -62,28 +62,35 @@ def get_logger(level="INFO"):
     return logger
 
 
+def upgrade_metrics():
+    with httpx.Client(
+        base_url=LISTMONK_HOST,
+        params={
+            "list_id": 3,
+            "order_by": "created_at",
+            "order": "ASC",
+            "per_page": "all",
+        },
+        headers={"authorization": "Basic " + AUTH_HEADER},
+    ) as client:
+        json = client.get("/api/subscribers").json()
+
+        for subscriber in json["data"]["results"]:
+            subscription_status = subscriber["lists"][0]["subscription_status"]
+            labels = {
+                "email": subscriber["email"],
+                "subscription_status": subscription_status,
+            }
+            value = hashify_labels(**labels)
+            current_subscribers.labels(**labels).set(value)
+
+
 def background_task():
     while not shutdown_event.is_set():
-        with httpx.Client(
-            base_url=LISTMONK_HOST,
-            params={
-                "list_id": 3,
-                "order_by": "created_at",
-                "order": "ASC",
-                "per_page": "all",
-            },
-            headers={"authorization": "Basic " + AUTH_HEADER},
-        ) as client:
-            json = client.get("/api/subscribers").json()
-
-            for subscriber in json["data"]["results"]:
-                subscription_status = subscriber["lists"][0]["subscription_status"]
-                labels = {
-                    "email": subscriber["email"],
-                    "subscription_status": subscription_status,
-                }
-                value = hashify_labels(**labels)
-                current_subscribers.labels(**labels).set(value)
+        try:
+            upgrade_metrics()
+        except Exception as e:
+            logger.error(f"Failed to scrape metrics: {e}")
 
         shutdown_event.wait(SCRAPE_INTERVAL)
 
