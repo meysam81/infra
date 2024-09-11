@@ -2,7 +2,11 @@
 alertmanager:
   enabled: true
   spec:
+    disableNamespaceMatcher: true
     externalURL: https://alertmanager.developer-friendly.blog
+    image:
+      tag: v0.27.0
+    retention: 96h
 defaultRules:
   groups:
     kubeApiserver:
@@ -89,6 +93,9 @@ extraObjects:
             key: /slack/developer-friendly/webhooks/alerts
           secretKey: slackWebhook
         - remoteRef:
+            key: /slack/developer-friendly/webhooks/notify
+          secretKey: slackWebhookInfo
+        - remoteRef:
             key: /discord/developer-friendly/webhooks/info
           secretKey: discordWebhook
       refreshInterval: 24h
@@ -114,6 +121,24 @@ extraObjects:
                 optional: false
               channel: "#alerts"
               send_resolved: true
+              text: |-
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
+                {{ end }}
+                {{ end }}`}}
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
+        - name: slack-info
+          slack_configs:
+            - api_url:
+                key: slackWebhookInfo
+                name: alertmanager
+                optional: false
+              channel: "#notify"
+              send_resolved: false
               text: |-
                 {{`{{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
@@ -151,6 +176,13 @@ extraObjects:
         receiver: discord
         repeat_interval: 12h
         routes:
+          - group_by:
+            - email
+            - subscription_status
+            matchers:
+              - severity = info
+            receiver: slack-info
+            repeat_interval: 100h
           - active_time_intervals:
               - everyday
             matchers:
