@@ -141,6 +141,7 @@ extraObjects:
           - workdays
         group_by:
           - namespace
+          - severity
         matchers:
           - severity != none
         receiver: discord

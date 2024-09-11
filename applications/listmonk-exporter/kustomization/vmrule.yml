@@ -5,15 +5,13 @@ metadata:
 spec:
   groups:
     - name: listmonk-exporter
-      interval: 2m
+      interval: 1m
       rules:
-        - expr: changes(listmonk_current_subscribers[1d])
-          record: changes_listmonk_current_subscribers
         - alert: NewSubscriber
-          expr: changes_listmonk_current_subscribers > 0
+          expr: changes(listmonk_current_subscribers[1d]) > 0
           for: 0s
           labels:
             severity: info
           annotations:
             summary: New subscriber added
-            description: New subscriber with email {{ $labels.email }} added
+            description: New/updated subscriber with email {{ $labels.email }}
