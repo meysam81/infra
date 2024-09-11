@@ -5,7 +5,11 @@ alertmanager:
     externalURL: https://alertmanager.developer-friendly.blog
 defaultRules:
   groups:
+    kubeApiserver:
+      create: false
     kubeScheduler:
+      create: false
+    kubelet:
       create: false
     kubernetesSystemControllerManager:
       create: false
@@ -109,6 +113,7 @@ extraObjects:
                 name: alertmanager
                 optional: false
               channel: "#alerts"
+              send_resolved: true
               text: |-
                 {{`{{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
@@ -119,14 +124,8 @@ extraObjects:
                 {{ end }}`}}
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
               title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
-              send_resolved: true
-        - name: discord
-          discord_configs:
-            - webhook_url_secret:
-                key: discordWebhook
-                name: alertmanager
-                optional: false
-              message: |-
+        - discord_configs:
+            - message: |-
                 {{`{{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
@@ -134,8 +133,13 @@ extraObjects:
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
                 {{ end }}`}}
-              title: "{{`{{ .CommonAnnotations.summary }}`}}"
               send_resolved: false
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              webhook_url_secret:
+                key: discordWebhook
+                name: alertmanager
+                optional: false
+          name: discord
       route:
         active_time_intervals:
           - workdays
@@ -196,7 +200,7 @@ vmagent:
   spec:
     resources:
       limits:
-        cpu: 200m
+        cpu: 1000m
         memory: 512Mi
       requests:
         cpu: 100m
@@ -205,12 +209,12 @@ vmalert:
   enabled: true
   externalLabels:
     environment: production
-  remoteWriteVMAgent: true
+  remoteWriteVMAgent: false
   spec:
     extraArgs:
       external.url: https://alertmanager.developer-friendly.blog
 vmsingle:
   enabled: true
-  retentionPeriod: 1h
+  retentionPeriod: 3d
   spec:
     storage: null
