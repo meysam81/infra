@@ -205,8 +205,10 @@ vmalert:
   enabled: true
   externalLabels:
     environment: production
-  extraArgs:
-    external.url: https://alertmanager.developer-friendly.blog
+  remoteWriteVMAgent: true
+  spec:
+    extraArgs:
+      external.url: https://alertmanager.developer-friendly.blog
 vmsingle:
   enabled: true
   retentionPeriod: 1h

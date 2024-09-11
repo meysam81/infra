@@ -2,7 +2,7 @@
 resource "hcloud_server" "this" {
   name        = "personal"
   image       = "ubuntu-24.04"
-  server_type = "cax11"
+  server_type = "cax21"
   location    = "nbg1"
 
   keep_disk = true

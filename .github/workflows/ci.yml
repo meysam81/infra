@@ -129,17 +129,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE }}
           role-session-name: ci-${{ github.ref_name }}-${{ github.run_id }}
           aws-region: ${{ vars.AWS_REGION }}
-      - name: Get the SSH private key from AWS SSM
-        run: |
-          mkdir -p ~/.ssh
-          aws ssm get-parameter --name /newsletter-server/ssh-private-key \
-            --with-decryption --query Parameter.Value --output text \
-            | sed '${/^$/d}'  > ~/.ssh/newsletter-server
-          chmod 600 ~/.ssh/newsletter-server
-          ssh-keygen -l -f ~/.ssh/newsletter-server
       - name: Run Ansible playbook
         run: |
-          ansible-playbook newsletter-server/main.yml -vvv
+          ansible-playbook newsletter-server/main.yml -vv
 
   helmwave:
     runs-on: self-hosted
