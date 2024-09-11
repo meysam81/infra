@@ -138,6 +138,7 @@ extraObjects:
                 name: alertmanager
                 optional: false
               channel: "#notify"
+              color: good
               send_resolved: false
               text: |-
                 {{`{{ range .Alerts }}
@@ -177,8 +178,8 @@ extraObjects:
         repeat_interval: 12h
         routes:
           - group_by:
-            - email
-            - subscription_status
+              - email
+              - subscription_status
             matchers:
               - severity = info
             receiver: slack-info
