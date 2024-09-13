@@ -180,6 +180,7 @@ extraObjects:
           - group_by:
               - email
               - subscription_status
+            group_interval: 30s
             matchers:
               - severity = info
             receiver: slack-info
