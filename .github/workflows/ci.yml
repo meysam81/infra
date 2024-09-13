@@ -131,7 +131,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: Run Ansible playbook
         run: |
-          ansible-playbook newsletter-server/main.yml -vv
+          ansible-playbook newsletter-server/main.yml
 
   helmwave:
     runs-on: self-hosted

@@ -12,6 +12,8 @@
         owner: haproxy
         group: haproxy
         mode: "0644"
+      tags:
+        - haproxy
     - name: Update HAProxy config
       ansible.builtin.copy:
         src: haproxy.cfg
