@@ -5,12 +5,29 @@
   vars_files:
     - vars.yml
   tasks:
+    - name: Copy HAProxy blocked subnets
+      ansible.builtin.copy:
+        src: blocked_subnets.lst
+        dest: /etc/haproxy/blocked_subnets.lst
+        owner: haproxy
+        group: haproxy
+        mode: "0644"
     - name: Update HAProxy config
       ansible.builtin.copy:
         src: haproxy.cfg
         dest: /etc/haproxy/haproxy.cfg
         owner: haproxy
         group: haproxy
+        mode: "0644"
+      notify: Reload haproxy
+      tags:
+        - haproxy
+    - name: Update HAProxy systemd service file
+      ansible.builtin.copy:
+        src: haproxy.service
+        dest: /etc/systemd/system/haproxy.service
+        owner: root
+        group: root
         mode: "0644"
       notify: Reload haproxy
       tags:
