@@ -17,10 +17,10 @@ images:
     newTag: 16-alpine
 
 commonLabels:
-  app.kubernetes.io/name: listmonk
+  app.kubernetes.io/component: listmonk
   app.kubernetes.io/instance: listmonk
   app.kubernetes.io/managed-by: kustomize
-  app.kubernetes.io/component: listmonk
+  app.kubernetes.io/name: listmonk
   app.kubernetes.io/part-of: listmonk
   app.kubernetes.io/version: v3.0.0
 

@@ -13,5 +13,5 @@ spec:
           labels:
             severity: info
           annotations:
-            summary: New subscriber added
-            description: New/updated subscriber with email {{ $labels.email }}
+            summary: "New subscriber added: {{ $labels.name }}"
+            description: "{{ $labels.subscription_status }} subscriber with email {{ $labels.email }}"

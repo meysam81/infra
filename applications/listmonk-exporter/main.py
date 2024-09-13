@@ -37,7 +37,7 @@ def init_metrics():
     current_subscribers = Gauge(
         "listmonk_current_subscribers",
         "Total new subscriptions",
-        ["email", "subscription_status"],
+        ["email", "name", "subscription_status"],
     )
 
 
@@ -79,6 +79,7 @@ def upgrade_metrics():
             subscription_status = subscriber["lists"][0]["subscription_status"]
             labels = {
                 "email": subscriber["email"],
+                "name": subscriber["name"],
                 "subscription_status": subscription_status,
             }
             value = hashify_labels(**labels)
