@@ -1,0 +1,128 @@
+configMapGenerator:
+  - name: kratos-config
+    files:
+      - config.yml=kratos-server-config.yml
+  - name: kratos-jsonnet
+    files:
+      - jsonnet-mappers/debug.jsonnet
+      - jsonnet-mappers/google.jsonnet
+  - name: kratos-schemas
+    files:
+      - ./schemas/users.schema.json
+
+resources:
+  - ../../base
+  - externalsecret.yml
+  - vmservicescrape.yml
+  - httproute.yml
+
+images:
+  - name: oryd/kratos
+    newTag: v1.1.0
+
+commonLabels:
+  app.kubernetes.io/component: kratos
+  app.kubernetes.io/instance: kratos
+  app.kubernetes.io/managed-by: Kustomize
+  app.kubernetes.io/name: kratos
+  app.kubernetes.io/part-of: kratos
+  app.kubernetes.io/version: v1.1.0
+
+patches:
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          - mountPath: /etc/kratos
+            name: kratos-config
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+      - op: replace
+        path: /spec/template/spec/containers/1/volumeMounts
+        value:
+          - mountPath: /etc/kratos
+            name: kratos-config
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+      - op: replace
+        path: /spec/template/spec/initContainers/0/volumeMounts
+        value:
+          - mountPath: /etc/kratos
+            name: kratos-config
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+      - op: replace
+        path: /spec/template/spec/volumes
+        value:
+          - configMap:
+              defaultMode: 0444
+              items:
+                - key: config.yml
+                  path: config.yml
+              name: kratos-config
+              optional: false
+            name: kratos-config
+          - configMap:
+              defaultMode: 0444
+              items:
+                - key: users.schema.json
+                  path: users.schema.json
+              name: kratos-schemas
+              optional: false
+            name: kratos-schemas
+          - configMap:
+              defaultMode: 0444
+              items:
+                - key: debug.jsonnet
+                  path: debug.jsonnet
+                - key: google.jsonnet
+                  path: google.jsonnet
+              name: kratos-jsonnet
+              optional: false
+            name: kratos-jsonnet
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom
+        value:
+          - secretRef:
+              name: kratos
+      - op: add
+        path: /spec/template/spec/containers/1/envFrom
+        value:
+          - secretRef:
+              name: kratos
+      - op: add
+        path: /spec/template/spec/initContainers/0/envFrom
+        value:
+          - secretRef:
+              name: kratos
+    target:
+      kind: Deployment
+      name: kratos
+
+replacements:
+  - source:
+      kind: Deployment
+      name: kratos
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true

@@ -1,0 +1,10 @@
+resources:
+  - service-admin.yml
+  - service-courier.yml
+  - service-public.yml
+  - serviceaccount.yml
+  - deployment.yml
+
+images:
+  - name: oryd/kratos
+    newTag: v1.1.0

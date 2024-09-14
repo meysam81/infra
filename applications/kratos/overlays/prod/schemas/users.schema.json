@@ -1,0 +1,45 @@
+{
+  "$id": "default",
+  "properties": {
+    "traits": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "format": "email",
+          "maxLength": 320,
+          "ory.sh/kratos": {
+            "credentials": {
+              "code": {
+                "identifier": true,
+                "via": "email"
+              },
+              "password": {
+                "identifier": true
+              },
+              "totp": {
+                "account_name": true
+              },
+              "webauthn": {
+                "identifier": true
+              }
+            },
+            "recovery": {
+              "via": "email"
+            },
+            "verification": {
+              "via": "email"
+            }
+          },
+          "title": "E-Mail",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ],
+      "type": "object"
+    }
+  },
+  "title": "User",
+  "type": "object"
+}

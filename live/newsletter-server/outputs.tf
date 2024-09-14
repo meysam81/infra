@@ -4,7 +4,7 @@ output "ssh_private_key" {
 }
 
 output "ssh_public_key" {
-  value = tls_private_key.this.public_key_openssh
+  value = trimspace(tls_private_key.this.public_key_openssh)
 }
 
 output "public_ip" {

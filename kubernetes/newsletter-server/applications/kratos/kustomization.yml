@@ -1,0 +1,4 @@
+resources:
+  - ../../../../applications/kratos/overlays/prod
+
+namespace: auth
