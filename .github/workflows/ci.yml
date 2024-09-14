@@ -44,13 +44,8 @@ jobs:
 
   opentofu:
     if: |
-      (
-        github.event_name == 'push' &&
-        github.ref == 'refs/heads/main'
-      ) || (
-        github.event_name == 'schedule' &&
-        github.event.schedule == '0 */12 * * *'
-      )
+      github.event_name == 'schedule' &&
+      github.event.schedule == '0 */12 * * *'
     runs-on: ubuntu-latest
     env:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -92,14 +87,6 @@ jobs:
 
   ansible-playbook:
     needs: opentofu
-    if: |
-      (
-        github.event_name == 'push' &&
-        github.ref == 'refs/heads/main'
-      ) || (
-        github.event_name == 'schedule' &&
-        github.event.schedule == '0 */12 * * *'
-      )
     runs-on: self-hosted
     env:
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
@@ -136,13 +123,8 @@ jobs:
   helmwave:
     runs-on: self-hosted
     if: |
-      (
-        github.event_name == 'push' &&
-        github.ref == 'refs/heads/main'
-      ) || (
-        github.event_name == 'schedule' &&
-        github.event.schedule == '0 */12 * * *'
-      )
+      github.event_name == 'schedule' &&
+      github.event.schedule == '0 */12 * * *'
     environment: prod
     env:
       HELMWAVE_KUBEDOG_ENABLED: "true"
