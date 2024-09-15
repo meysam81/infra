@@ -5,13 +5,16 @@
   vars_files:
     - vars.yml
   tasks:
-    - name: Copy HAProxy blocked subnets
+    - name: Copy HAProxy suspicious bot lists
       ansible.builtin.copy:
-        src: blocked_subnets.lst
-        dest: /etc/haproxy/blocked_subnets.lst
+        src: "{{ item }}"
+        dest: /etc/haproxy/{{ item }}
         owner: haproxy
         group: haproxy
         mode: "0644"
+      with_items:
+        - blocked_subnets.lst
+        - shady_user_agents.lst
       tags:
         - haproxy
     - name: Update HAProxy config
