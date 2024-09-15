@@ -31,7 +31,8 @@ ciphers:
   algorithm: xchacha20-poly1305
 selfservice:
   allowed_return_urls:
-    - https://*.developer-friendly.blog
+    - https://*.developer-friendly.blog/
+    - http://*.developer-friendly.blog/
   default_browser_return_url: https://auth.developer-friendly.blog
   flows:
     error:
