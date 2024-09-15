@@ -107,7 +107,7 @@ selfservice:
         # password:
         #   hooks:
         #     - hook: show_verification_ui
-      enabled: true
+      enabled: false
       lifespan: 1h
       ui_url: https://auth.developer-friendly.blog/registration
     settings:
@@ -179,22 +179,23 @@ selfservice:
     #   enabled: false
     password:
       enabled: false
-    # webauthn:
-    #   config:
-    #     rp:
-    #       id: auth.developer-friendly.blog
-    #       display_name: Developer Friendly Blg
-    #       # icon: https//github.com/developer-friendly.png
-    #     passwordless: true
-    #   enabled: false
-    # passkey:
-    #   config:
-    #     rp:
-    #       display_name: Developer Friendly Blg
-    #       id: developer-friendly.blog
-    #       # origins:
-    #       #   - https://www.ory.sh
-    #   enabled: true
+    webauthn:
+      config:
+        rp:
+          id: developer-friendly.blog
+          display_name: Developer Friendly Blog
+          origins:
+            - https://auth.developer-friendly.blog
+        passwordless: true
+      enabled: true
+    passkey:
+      config:
+        rp:
+          display_name: Developer Friendly Blog
+          id: auth.developer-friendly.blog
+          origins:
+            - https://auth.developer-friendly.blog
+      enabled: true
     totp:
       enabled: true
 serve:
@@ -218,6 +219,8 @@ serve:
       disable_for_health: false
 session:
   lifespan: 48h
+  whoami:
+    required_aal: highest_available
 # tracing:
 #   provider: jaeger
 #   providers:
