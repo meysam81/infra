@@ -18,7 +18,6 @@ spec:
         - args:
             - serve
             - all
-            - --dev
             - --config
             - /etc/kratos/config.yml
           command:

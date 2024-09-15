@@ -1,0 +1,37 @@
+configMapGenerator:
+  - name: kratos-selfservice-ui-node
+    envs:
+      - configs.env
+
+resources:
+  - externalsecret.yml
+  - service.yml
+  - serviceaccount.yml
+  - deployment.yml
+  - httproute.yml
+
+commonLabels:
+  app.kubernetes.io/component: kratos-selfservice-ui-node
+  app.kubernetes.io/instance: kratos-selfservice-ui-node
+  app.kubernetes.io/managed-by: Kustomize
+  app.kubernetes.io/name: kratos-selfservice-ui-node
+  app.kubernetes.io/part-of: kratos-selfservice-ui-node
+  app.kubernetes.io/version: v0.14.1
+
+images:
+  - name: oryd/kratos-selfservice-ui-node
+    newName: meysam81/kratos-selfservice-ui-node
+    newTag: v0.14.1
+
+replacements:
+  - source:
+      kind: Deployment
+      name: kratos-selfservice-ui-node
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Service
+        fieldPaths:
+          - spec.selector
+        options:
+          create: true

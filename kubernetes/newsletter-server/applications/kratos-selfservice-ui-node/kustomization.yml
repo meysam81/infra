@@ -1,0 +1,4 @@
+resources:
+  - ../../../../applications/kratos-selfservice-ui-node
+
+namespace: auth

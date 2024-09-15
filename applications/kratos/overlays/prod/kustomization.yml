@@ -8,7 +8,7 @@ configMapGenerator:
       - jsonnet-mappers/google.jsonnet
   - name: kratos-schemas
     files:
-      - ./schemas/users.schema.json
+      - ./schemas/admin.schema.json
 
 resources:
   - ../../base
@@ -80,8 +80,8 @@ patches:
           - configMap:
               defaultMode: 0444
               items:
-                - key: users.schema.json
-                  path: users.schema.json
+                - key: admin.schema.json
+                  path: admin.schema.json
               name: kratos-schemas
               optional: false
             name: kratos-schemas

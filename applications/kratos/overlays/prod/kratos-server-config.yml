@@ -4,29 +4,31 @@ cookies:
   same_site: None
 courier:
   smtp:
-    connection_uri: REPLACED_BY_SECRETS
+    connection_uri: OVERRIDDEN_BY_ENVS
     from_address: auth@mailing.developer-friendly.blog
     from_name: Developer Friendly Blog
   template_override_path: /conf/courier-templates
-dsn: REPLACED_BY_SECRETS
+dsn: OVERRIDDEN_BY_ENVS
 hashers:
   algorithm: bcrypt
   bcrypt:
     cost: 16
 identity:
-  default_schema_id: default
+  default_schema_id: admin
   schemas:
-    - id: default
-      url: file:///etc/kratos-schemas/users.schema.json
+    - id: admin
+      url: file:///etc/kratos-schemas/admin.schema.json
 log:
   format: json
   leak_sensitive_values: true
   level: debug
 secrets:
   cipher:
-    - REPLACED_BY_SECRETS
+    - OVERRIDDEN_BY_ENVS
   cookie:
-    - REPLACED_BY_SECRETS
+    - OVERRIDDEN_BY_ENVS
+ciphers:
+  algorithm: xchacha20-poly1305
 selfservice:
   allowed_return_urls:
     - https://*.developer-friendly.blog
@@ -89,7 +91,7 @@ selfservice:
               url: http://echo-server.default/registration/before
             hook: web_hook
       after:
-        default_browser_return_url: https://auth.developer-friendly.blog/verification
+        default_browser_return_url: https://auth.developer-friendly.blog/sessions
         hooks:
           - config:
               body: file:///etc/kratos-jsonnet/debug.jsonnet
@@ -159,10 +161,9 @@ selfservice:
         providers:
           - id: google
             provider: google
-            client_id: REPLACED_BY_SECRETS
-            client_secret: REPLACED_BY_SECRETS
+            client_id: OVERRIDDEN_BY_ENVS
+            client_secret: OVERRIDDEN_BY_ENVS
             mapper_url: file:///etc/kratos-jsonnet/google.jsonnet
-            subject_source: me
             scope:
               - email
               - profile
