@@ -11,6 +11,8 @@ images:
     newTag: v0.40.7
   - name: oryd/oathkeeper-maester
     newTag: v0.1.10-arm64
+  - name: bitnami/kubectl
+    newTag: 1.31.1
 
 commonLabels:
   app.kubernetes.io/name: oathkeeper
