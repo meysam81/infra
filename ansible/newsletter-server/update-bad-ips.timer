@@ -1,0 +1,8 @@
+[Unit]
+Description=Update bad reputation IP addresses for HAProxy to block
+
+[Timer]
+OnCalendar=1:00
+
+[Install]
+WantedBy=multi-user.target

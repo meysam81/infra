@@ -1,0 +1,12 @@
+[Unit]
+Description=Update bad reputation IP addresses for HAProxy to block
+
+[Service]
+ExecStart=/usr/local/bin/update-bad-ips
+Restart=on-failure
+Type=oneshot
+ReadOnlyPaths=/
+ReadWritePaths=/etc/haproxy/bad_reputation_ips.lst
+
+[Install]
+WantedBy=multi-user.target

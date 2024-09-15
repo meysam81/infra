@@ -17,6 +17,45 @@
         - shady_user_agents.lst
       tags:
         - haproxy
+    - name: Create bad IP service
+      tags:
+        - bad-ip
+      block:
+        - name: Create the systemd files
+          ansible.builtin.copy:
+            src: "{{ item }}"
+            dest: /etc/systemd/system/{{ item }}
+            owner: root
+            group: root
+            mode: "0644"
+          with_items:
+            - update-bad-ips.service
+            - update-bad-ips.timer
+          notify: Restart bad IP service
+        - name: Ensure /etc/haproxy/bad_reputation_ips.lst exists
+          ansible.builtin.file:
+            path: /etc/haproxy/bad_reputation_ips.lst
+            state: touch
+            owner: haproxy
+            group: haproxy
+            mode: "0644"
+        - name: Create the bad-ip shell script
+          ansible.builtin.copy:
+            src: update-bad-ips.sh
+            dest: /usr/local/bin/update-bad-ips
+            owner: root
+            group: root
+            mode: "0755"
+        - name: Start the bad IP service
+          ansible.builtin.systemd:
+            name: update-bad-ips.service
+            state: started
+            daemon_reload: true
+        - name: Enable the bad IP timer
+          ansible.builtin.systemd:
+            name: update-bad-ips.timer
+            enabled: true
+            daemon_reload: true
     - name: Update HAProxy config
       ansible.builtin.copy:
         src: haproxy.cfg
@@ -35,6 +74,14 @@
         group: root
         mode: "0644"
       notify: Reload haproxy
+      tags:
+        - haproxy
+    - name: Grant /etc/haproxy/ to the haproxy user
+      ansible.builtin.file:
+        path: /etc/haproxy/
+        owner: haproxy
+        group: haproxy
+        recurse: true
       tags:
         - haproxy
     - name: Copy VMAgent config
@@ -59,5 +106,10 @@
     - name: Reload vmagent
       ansible.builtin.systemd:
         name: vmagent
+        state: restarted
+        daemon_reload: true
+    - name: Restart bad IP service
+      ansible.builtin.systemd:
+        name: update-bad-ips.service
         state: restarted
         daemon_reload: true
