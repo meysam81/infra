@@ -1,17 +1,14 @@
 abuse.xmco.fr
 ALittle Client
 badbot
-Chrome
 curl
 Custom-AsyncHttpClient
-Go-http-client/1.1
-Go-http-client/2.0
-Googlebot-Image/1.0
+Go-http-client
+Googlebot-Image
 Googlebot-News
-GuzzleHttp/7
+GuzzleHttp
 More Firefox 1.0 user agents strings -->>
 python-httpx
-python-requests
 python-requests
 scrapy
 wget
