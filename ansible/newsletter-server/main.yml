@@ -5,6 +5,12 @@
   vars_files:
     - vars.yml
   tasks:
+    - name: Remove legacy blocked_subnets.lst
+      ansible.builtin.file:
+        path: /etc/haproxy/blocked_subnets.lst
+        state: absent
+      tags:
+        - haproxy
     - name: Copy HAProxy suspicious bot lists
       ansible.builtin.copy:
         src: "{{ item }}"
@@ -13,7 +19,7 @@
         group: haproxy
         mode: "0644"
       with_items:
-        - blocked_subnets.lst
+        - blocklist_ips.lst
         - shady_user_agents.lst
       tags:
         - haproxy
