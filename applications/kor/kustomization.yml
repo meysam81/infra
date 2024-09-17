@@ -1,0 +1,44 @@
+resources:
+  - clusterrole.yml
+  - clusterrolebinding.yml
+  - cronjob.yml
+  - exporter-deployment.yml
+  - exporter-service.yml
+  - role.yml
+  - rolebinding.yml
+  - serviceaccount.yml
+
+images:
+  - name: yonahdissen/kor
+    newTag: v0.5.5
+
+commonLabels:
+  app.kubernetes.io/component: kor
+  app.kubernetes.io/instance: kor
+  app.kubernetes.io/managed-by: kustomize
+  app.kubernetes.io/name: kor
+  app.kubernetes.io/part-of: kor
+  app.kubernetes.io/version: v0.5.5
+
+replacements:
+  - source:
+      kind: CronJob
+      name: kor
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: ClusterRoleBinding
+          name: kor
+        fieldPaths:
+          - subjects.0.namespace
+        options:
+          create: true
+      - select:
+          kind: RoleBinding
+          name: kor
+        fieldPaths:
+          - subjects.0.namespace
+        options:
+          create: true
+
+namespace: kube-system

@@ -1,0 +1,45 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kor
+spec:
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          name: kor
+        spec:
+          automountServiceAccountToken: true
+          containers:
+            - args:
+                - all
+                - "--delete"
+                - "--no-interactive"
+              command:
+                - kor
+              image: yonahdissen/kor
+              name: kor-container
+              resources: {}
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 65534
+                runAsNonRoot: true
+                runAsUser: 65534
+                seccompProfile:
+                  type: RuntimeDefault
+          restartPolicy: OnFailure
+          securityContext:
+            fsGroup: 65534
+            fsGroupChangePolicy: OnRootMismatch
+            runAsNonRoot: true
+          serviceAccountName: kor
+      ttlSecondsAfterFinished: 86400
+  schedule: 0 1 * * *
+  successfulJobsHistoryLimit: 1

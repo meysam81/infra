@@ -8,8 +8,6 @@ repositories:
     name: victoria-metrics
   - url: https://grafana.github.io/helm-charts
     name: grafana
-  - url: https://yonahd.github.io/kor
-    name: kor
 
 registries:
   - host: ghcr.io
@@ -56,12 +54,4 @@ releases:
       - ./helm-values/promtail.yml
     depends_on:
       - victoria-metrics-k8s-stack
-    <<: *options
-  - name: kor
-    namespace: kube-system
-    chart:
-      name: kor/kor
-      version: 0.1.x
-    values:
-      - ./helm-values/kor.yml
     <<: *options

@@ -61,3 +61,33 @@ resource "cloudflare_record" "auth" {
   type    = each.key
   content = each.value
 }
+
+resource "cloudflare_record" "vmsingle" {
+  for_each = {
+    A    = hcloud_primary_ip.this["ipv4"].ip_address
+    AAAA = hcloud_primary_ip.this["ipv6"].ip_address
+  }
+
+  zone_id = data.cloudflare_zone.this.id
+
+  name    = "vmsingle"
+  proxied = true
+  ttl     = 1
+  type    = each.key
+  content = each.value
+}
+
+resource "cloudflare_record" "vmagent" {
+  for_each = {
+    A    = hcloud_primary_ip.this["ipv4"].ip_address
+    AAAA = hcloud_primary_ip.this["ipv6"].ip_address
+  }
+
+  zone_id = data.cloudflare_zone.this.id
+
+  name    = "vmagent"
+  proxied = true
+  ttl     = 1
+  type    = each.key
+  content = each.value
+}

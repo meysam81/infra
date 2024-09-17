@@ -1,7 +1,0 @@
-cronJob:
-  enabled: true
-  schedule: "0 1 * * *"
-  args:
-    - all
-    - --delete
-    - --non-interactive

@@ -1,0 +1,44 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: kor
+rules:
+  - apiGroups: ["*"]
+    resources:
+      - clusterrolebindings
+      - clusterroles
+      - configmaps
+      - customresourcedefinitions
+      - daemonsets
+      - deployments
+      - endpoints
+      - horizontalpodautoscalers
+      - ingresses
+      - jobs
+      - namespaces
+      - networkpolicies
+      - persistentvolumeclaims
+      - persistentvolumes
+      - poddisruptionbudgets
+      - pods
+      - replicasets
+      - rolebindings
+      - roles
+      - secrets
+      - serviceaccounts
+      - services
+      - statefulsets
+      - storageclasses
+    verbs:
+      - delete
+      - get
+      - list
+      - watch
+  - apiGroups: ["external-secrets.io"]
+    resources:
+      - acraccesstokens
+    verbs:
+      - get
+      - list
+      - watch
