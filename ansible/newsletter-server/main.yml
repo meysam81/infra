@@ -13,6 +13,7 @@
         group: haproxy
         mode: "0644"
       with_items:
+        - blocklist_hosts.lst
         - blocklist_ips.lst
         - shady_user_agents.lst
       tags:

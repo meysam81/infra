@@ -20,3 +20,6 @@ check:
 fmt:
   tofu fmt -write -recursive
   terragrunt run-all hclfmt --terragrunt-non-interactive
+
+sort-blocklist-ips:
+  sort -u ansible/newsletter-server/blocklist_ips.lst -o ansible/newsletter-server/blocklist_ips.lst
