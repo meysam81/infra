@@ -27,6 +27,8 @@ releases:
       version: 0.10.x
     values:
       - ./helm-values/external-secrets.yml
+    tags:
+      - external-secrets
     <<: *options
   - name: grafana-operator
     namespace: monitoring
@@ -44,6 +46,7 @@ releases:
         renderer: copy
     depends_on:
       - grafana-operator
+      - external-secrets@external-secrets
     <<: *options
   - name: promtail
     namespace: monitoring
