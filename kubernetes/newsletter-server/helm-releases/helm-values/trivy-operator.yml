@@ -1,5 +1,7 @@
 ---
 operator:
   scanJobsConcurrentLimit: 1
+  webhookBroadcastURL: http://echo-server.default/trivy
 trivy:
   ignoreUnfixed: true
+  severity: HIGH,CRITICAL

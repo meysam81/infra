@@ -67,4 +67,6 @@ releases:
       version: 0.24.x
     values:
       - ./helm-values/trivy-operator.yml
+    tags:
+      - trivy-operator
     <<: *options
