@@ -3,24 +3,52 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: kor
+  labels:
+    app.kubernetes.io/component: kor
+    app.kubernetes.io/instance: kor
 spec:
   failedJobsHistoryLimit: 1
   jobTemplate:
+    metadata:
+      labels:
+        app.kubernetes.io/component: kor
+        app.kubernetes.io/instance: kor
     spec:
       backoffLimit: 1
       template:
         metadata:
           name: kor
+          labels:
+            app.kubernetes.io/component: kor
+            app.kubernetes.io/instance: kor
         spec:
           automountServiceAccountToken: true
           containers:
-            - args:
-                - all
-                - "--delete"
-                - "--no-interactive"
-              command:
-                - kor
-              image: yonahdissen/kor
+            - command:
+                - sh
+                - -c
+              args:
+                - |
+                  set -eux
+
+                  cpu_architecture=$(uname -m)
+
+                  if [ "$cpu_architecture" = "x86_64" ]; then
+                    url=$KOR_AMD64
+                  else
+                    url=$KOR_ARM64
+                  fi
+
+                  wget -O kor.tar.gz $url
+                  tar xf kor.tar.gz
+
+                  for r in $RESOURCES; do
+                    ./kor $r --delete --no-interactive
+                  done
+              envFrom:
+                - configMapRef:
+                    name: kor
+              image: busybox
               name: kor-container
               resources: {}
               securityContext:
@@ -34,12 +62,19 @@ spec:
                 runAsUser: 65534
                 seccompProfile:
                   type: RuntimeDefault
+              volumeMounts:
+                - mountPath: /tmp
+                  name: tmp
+              workingDir: /tmp
           restartPolicy: OnFailure
           securityContext:
             fsGroup: 65534
             fsGroupChangePolicy: OnRootMismatch
             runAsNonRoot: true
           serviceAccountName: kor
+          volumes:
+            - emptyDir: {}
+              name: tmp
       ttlSecondsAfterFinished: 86400
   schedule: 0 1 * * *
   successfulJobsHistoryLimit: 1

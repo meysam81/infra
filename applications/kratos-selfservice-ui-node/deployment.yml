@@ -52,6 +52,7 @@ spec:
           volumeMounts:
             - name: home
               mountPath: /home/ory
+      serviceAccountName: kratos-selfservice-ui-node
       securityContext:
         fsGroup: 10000
         fsGroupChangePolicy: OnRootMismatch

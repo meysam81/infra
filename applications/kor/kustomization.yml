@@ -1,3 +1,8 @@
+configMapGenerator:
+  - name: kor
+    envs:
+      - configs.env
+
 resources:
   - clusterrole.yml
   - clusterrolebinding.yml
@@ -11,10 +16,10 @@ resources:
 images:
   - name: yonahdissen/kor
     newTag: v0.5.5
+  - name: busybox
+    newTag: "1"
 
 commonLabels:
-  app.kubernetes.io/component: kor
-  app.kubernetes.io/instance: kor
   app.kubernetes.io/managed-by: kustomize
   app.kubernetes.io/name: kor
   app.kubernetes.io/part-of: kor

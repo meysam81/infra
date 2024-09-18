@@ -3,9 +3,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kor-exporter
+  labels:
+    app.kubernetes.io/component: kor-exporter
+    app.kubernetes.io/instance: kor-exporter
 spec:
   ports:
     - name: metrics
       port: 8080
       targetPort: http
+  selector:
+    app.kubernetes.io/component: kor-exporter
+    app.kubernetes.io/instance: kor-exporter
   type: ClusterIP
