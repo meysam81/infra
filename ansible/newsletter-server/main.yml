@@ -18,6 +18,7 @@
         - shady_user_agents.lst
       tags:
         - haproxy
+      notify: Reload haproxy
     - name: Create bad IP service
       tags:
         - bad-ip
