@@ -8,6 +8,8 @@ repositories:
     name: victoria-metrics
   - url: https://grafana.github.io/helm-charts
     name: grafana
+  - url: https://aquasecurity.github.io/helm-charts/
+    name: aquasecurity
 
 registries:
   - host: ghcr.io
@@ -57,4 +59,12 @@ releases:
       - ./helm-values/promtail.yml
     depends_on:
       - victoria-metrics-k8s-stack
+    <<: *options
+  - name: trivy-operator
+    namespace: kube-system
+    chart:
+      name: aquasecurity/trivy-operator
+      version: 0.24.x
+    values:
+      - ./helm-values/trivy-operator.yml
     <<: *options

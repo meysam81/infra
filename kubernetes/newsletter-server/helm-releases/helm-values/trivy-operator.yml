@@ -1,0 +1,5 @@
+---
+operator:
+  scanJobsConcurrentLimit: 1
+trivy:
+  ignoreUnfixed: true
