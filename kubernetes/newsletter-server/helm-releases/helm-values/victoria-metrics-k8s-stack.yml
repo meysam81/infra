@@ -153,7 +153,7 @@ extraObjects:
           - active_time_intervals:
               - everyday
             matchers:
-              - severity =~ error|critical
+              - severity =~ warning|error|critical
             receiver: slack
             repeat_interval: 1h
       time_intervals:
