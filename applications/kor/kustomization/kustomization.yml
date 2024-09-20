@@ -15,7 +15,8 @@ resources:
 
 images:
   - name: yonahdissen/kor
-    newTag: v0.5.5
+    newName: ghcr.io/meysam81/kor
+    newTag: "10955100844"
   - name: busybox
     newTag: "1"
 

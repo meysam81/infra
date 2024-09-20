@@ -31,24 +31,13 @@ spec:
                 - |
                   set -eux
 
-                  cpu_architecture=$(uname -m)
-
-                  if [ "$cpu_architecture" = "x86_64" ]; then
-                    url=$KOR_AMD64
-                  else
-                    url=$KOR_ARM64
-                  fi
-
-                  wget -O kor.tar.gz $url
-                  tar xf kor.tar.gz
-
                   for r in $RESOURCES; do
                     ./kor $r --delete --no-interactive $KOR_EXTRA_ARGS
                   done
               envFrom:
                 - configMapRef:
                     name: kor
-              image: busybox
+              image: ghcr.io/meysam81/kor
               name: kor-container
               resources: {}
               securityContext:
