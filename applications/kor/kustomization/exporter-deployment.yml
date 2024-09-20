@@ -29,7 +29,7 @@ spec:
             - exporter
           command:
             - kor
-          image: yonahdissen/kor
+          image: ghcr.io/meysam81/kor
           livenessProbe:
             failureThreshold: 3
             httpGet:

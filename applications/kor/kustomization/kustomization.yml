@@ -17,8 +17,6 @@ images:
   - name: yonahdissen/kor
     newName: ghcr.io/meysam81/kor
     newTag: "10955100844"
-  - name: busybox
-    newTag: "1"
 
 commonLabels:
   app.kubernetes.io/managed-by: kustomize
