@@ -15,6 +15,7 @@ on:
     - cron: "0 */12 * * *"
     - cron: "0 14 * * *" # 10:00 eastern time
     - cron: "0 17 * * *" # 10:00 pacific time
+  workflow_dispatch:
 
 env:
   tofu_version: 1.8.1
@@ -86,6 +87,12 @@ jobs:
               apply -auto-approve
 
   ansible-playbook:
+    if: |
+      (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '0 */12 * * *'
+      ) ||
+      github.event_name == 'workflow_dispatch'
     needs: opentofu
     runs-on: self-hosted
     env:
