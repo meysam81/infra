@@ -45,8 +45,11 @@ jobs:
 
   opentofu:
     if: |
-      github.event_name == 'schedule' &&
-      github.event.schedule == '0 */12 * * *'
+      (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '0 */12 * * *'
+      ) ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     env:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
@@ -87,12 +90,6 @@ jobs:
               apply -auto-approve
 
   ansible-playbook:
-    if: |
-      (
-        github.event_name == 'schedule' &&
-        github.event.schedule == '0 */12 * * *'
-      ) ||
-      github.event_name == 'workflow_dispatch'
     needs: opentofu
     runs-on: self-hosted
     env:
