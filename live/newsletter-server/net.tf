@@ -36,13 +36,6 @@ resource "hcloud_firewall" "this" {
   }
 
   rule {
-    direction  = "in"
-    protocol   = "tcp"
-    source_ips = var.admin_ips
-    port       = "6443"
-  }
-
-  rule {
     direction = "in"
     protocol  = "tcp"
     source_ips = [
@@ -69,7 +62,7 @@ resource "hcloud_firewall" "this" {
       "0.0.0.0/0",
       "::/0",
     ]
-    port = "8443"
+    port = "10113"
   }
 }
 
