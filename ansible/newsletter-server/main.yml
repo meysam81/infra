@@ -68,6 +68,12 @@
       notify: Reload haproxy
       tags:
         - haproxy
+    - name: Verify HAProxy config
+      ansible.builtin.command:
+        cmd: haproxy -c -f /etc/haproxy/haproxy.cfg
+      changed_when: false
+      tags:
+        - haproxy
     - name: Update HAProxy systemd service file
       ansible.builtin.copy:
         src: haproxy.service
