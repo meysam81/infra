@@ -93,7 +93,8 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
-                {{ end }}`}}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
               title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
         - name: slack-info
@@ -112,7 +113,8 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
-                {{ end }}`}}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
               title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
         - discord_configs:
@@ -123,7 +125,8 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
-                {{ end }}`}}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
               send_resolved: false
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
               webhook_url_secret:

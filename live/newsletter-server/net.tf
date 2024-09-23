@@ -35,6 +35,14 @@ resource "hcloud_firewall" "this" {
     port       = "22"
   }
 
+  # TODO: remove when migration is finished
+  rule {
+    direction  = "in"
+    protocol   = "tcp"
+    source_ips = var.admin_ips
+    port       = "6443"
+  }
+
   rule {
     direction = "in"
     protocol  = "tcp"

@@ -49,6 +49,9 @@ releases:
     depends_on:
       - grafana-operator
       - external-secrets@external-secrets
+    tags:
+      - victoria-metrics-k8s-stack
+      - vm
     <<: *options
   - name: promtail
     namespace: monitoring
