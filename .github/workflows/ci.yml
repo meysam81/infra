@@ -127,8 +127,11 @@ jobs:
   helmwave:
     runs-on: self-hosted
     if: |
-      github.event_name == 'schedule' &&
-      github.event.schedule == '0 */12 * * *'
+      (
+        github.event_name == 'schedule' &&
+        github.event.schedule == '0 */12 * * *'
+      ) ||
+      github.event_name == 'workflow_dispatch'
     environment: prod
     env:
       HELMWAVE_KUBEDOG_ENABLED: "true"
