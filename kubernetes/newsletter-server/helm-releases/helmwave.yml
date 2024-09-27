@@ -10,6 +10,8 @@ repositories:
     name: grafana
   - url: https://aquasecurity.github.io/helm-charts/
     name: aquasecurity
+  - url: https://charts.jetstack.io
+    name: cert-manager
 
 registries:
   - host: ghcr.io
@@ -72,4 +74,14 @@ releases:
       - ./helm-values/trivy-operator.yml
     tags:
       - trivy-operator
+    <<: *options
+  - name: cert-manager
+    namespace: cert-manager
+    chart:
+      name: cert-manager/cert-manager
+      version: 1.15.x
+    values:
+      - ./helm-values/cert-manager.yml
+    tags:
+      - cert-manager
     <<: *options

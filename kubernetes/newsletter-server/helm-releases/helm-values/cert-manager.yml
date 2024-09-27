@@ -1,0 +1,4 @@
+---
+cainjector:
+  enabled: false
+installCRDs: true
