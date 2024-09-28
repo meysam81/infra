@@ -32,7 +32,7 @@ spec:
                   set -eux
 
                   for r in $RESOURCES; do
-                    ./kor $r --delete --no-interactive $KOR_EXTRA_ARGS
+                    kor $r --delete --no-interactive $KOR_EXTRA_ARGS
                   done
               envFrom:
                 - configMapRef:
