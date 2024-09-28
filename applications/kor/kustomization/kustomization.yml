@@ -4,7 +4,7 @@ configMapGenerator:
       - configs.env
 
 resources:
-  - clusterrole.yml
+  # - clusterrole.yml
   - clusterrolebinding.yml
   - cronjob.yml
   - exporter-deployment.yml
