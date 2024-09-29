@@ -38,7 +38,7 @@ spec:
                 - configMapRef:
                     name: kor
               image: ghcr.io/meysam81/kor
-              name: kor-container
+              name: kor
               resources: {}
               securityContext:
                 allowPrivilegeEscalation: false
