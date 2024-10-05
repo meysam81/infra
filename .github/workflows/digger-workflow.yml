@@ -22,9 +22,12 @@ jobs:
       statuses: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: ${{ fromJSON(github.event.inputs.spec).job_id }}
         run: echo "job id ${{ fromJSON(github.event.inputs.spec).job_id }}"
+      - name: Install terragrunt
+        run: brew install terragrunt
       - uses: diggerhq/digger@vLatest
         with:
           digger-spec: ${{ inputs.spec }}
