@@ -1,0 +1,9 @@
+projects:
+  - name: tf
+    dir: live
+    terragrunt: true
+    workflow: prod
+    include_patterns:
+      - newsletter-server
+      - cloudflare
+      - k8s-oidc-provider
