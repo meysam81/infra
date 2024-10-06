@@ -92,29 +92,26 @@
         recurse: true
       tags:
         - haproxy
-    - name: Copy VMAgent config
-      ansible.builtin.copy:
-        src: vmagent.yml
-        dest: /etc/victoria-metrics/vmagent.yml
-        owner: victoria-metrics
-        group: victoria-metrics
-        mode: "0644"
-      notify: Reload vmagent
-      tags:
-        - vmagent-config
   roles:
     - name: monitoring
       tags: monitoring
+    - name: meysam81.general.vmagent
+      vars:
+        vmagent_fail2ban_enabled: true
+        vmagent_haproxy_exporter_enabled: true
+        vmagent_node_exporter_enabled: true
+        vmagent_remote_write_password: "{{ lookup('amazon.aws.ssm_parameter', '/grafana_cloud/remote_write/password') }}"
+        vmagent_remote_write_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+        vmagent_remote_write_username: 988203
+        vmagent_scrape_interval: 10s
+        # vmagent_arch: arm64
+      tags:
+        - vmagent
   handlers:
     - name: Reload haproxy
       ansible.builtin.systemd:
         name: haproxy
         state: reloaded
-        daemon_reload: true
-    - name: Reload vmagent
-      ansible.builtin.systemd:
-        name: vmagent
-        state: restarted
         daemon_reload: true
     - name: Restart bad IP service
       ansible.builtin.systemd:
