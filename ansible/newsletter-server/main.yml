@@ -93,8 +93,8 @@
       tags:
         - haproxy
   roles:
-    - name: monitoring
-      tags: monitoring
+    - name: meysam81.general.node_exporter
+      tags: node-exporter
     - name: meysam81.general.vmagent
       vars:
         vmagent_basic_auth_password: "{{ lookup('amazon.aws.ssm_parameter', '/grafana_cloud/remote_write/password') }}"
@@ -105,9 +105,7 @@
         vmagent_node_exporter_enabled: true
         vmagent_remote_write_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
         vmagent_scrape_interval: 10s
-        # vmagent_arch: arm64
-      tags:
-        - vmagent
+      tags: vmagent
   handlers:
     - name: Reload haproxy
       ansible.builtin.systemd:
