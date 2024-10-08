@@ -8,7 +8,7 @@ images:
   - name: joseluisq/static-web-server
     newTag: 2-alpine
   - name: curlimages/curl
-    newTag: 8.7.1
+    newTag: 8.10.1
 
 configMapGenerator:
   - name: static-web-server
