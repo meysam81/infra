@@ -3,11 +3,9 @@ kind: HelmRelease
 metadata:
   name: grafana-operator
 spec:
-  chart:
-    spec:
-      chartRef:
-        kind: OCIRepository
-        name: grafana-operator
+  chartRef:
+    kind: OCIRepository
+    name: grafana-operator
   install:
     createNamespace: true
   interval: 1h0m0s
