@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS deps
+FROM python:3.13-alpine AS deps
 
 WORKDIR /wheel
 
@@ -7,7 +7,7 @@ COPY requirements.txt /
 RUN pip install -U pip && \
     pip wheel -r /requirements.txt --no-cache-dir --wheel-dir /wheel
 
-FROM python:3.12-alpine AS app
+FROM python:3.13-alpine AS app
 
 WORKDIR /app
 ENV PORT=8000
