@@ -16,7 +16,7 @@ resources:
 images:
   - name: yonahdissen/kor
     newName: ghcr.io/meysam81/kor
-    newTag: "10955100844"
+    newTag: "11094199738"
 
 commonLabels:
   app.kubernetes.io/managed-by: kustomize
