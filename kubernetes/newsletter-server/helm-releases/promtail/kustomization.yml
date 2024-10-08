@@ -1,0 +1,12 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: promtail
+
+resources:
+  - helmrelease.yml
+
+namespace: flux-system
