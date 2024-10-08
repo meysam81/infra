@@ -11,8 +11,8 @@ spec:
         name: victoria-metrics
       version: 0.25.x
   install:
-    createNamespace: true
     crds: CreateReplace
+    createNamespace: true
     remediation:
       ignoreTestFailures: true
       remediateLastFailure: true
@@ -23,12 +23,14 @@ spec:
   test:
     enabled: false
   upgrade:
-    cleanupOnFail: false
-    disableHooks: true
+    cleanupOnFail: true
+    crds: CreateReplace
+    disableHooks: false
+    disableWait: true
     force: true
     remediation:
       ignoreTestFailures: true
-      remediateLastFailure: false
+      remediateLastFailure: true
       retries: 5
       strategy: uninstall
   valuesFrom:
