@@ -307,6 +307,14 @@ jobs:
           exclusions: |
             .git
             .github
+            echo-server
+            hn-submission
+            kratos
+            kratos-selfservice-ui-node
+            listmonk
+            oathkeeper
+            reddit-submission
+            static-web-server
 
   build:
     needs: prepare
@@ -374,6 +382,14 @@ jobs:
           exclusions: |
             .git
             .github
+            echo-server
+            hn-submission
+            kratos
+            kratos-selfservice-ui-node
+            listmonk
+            oathkeeper
+            reddit-submission
+            static-web-server
 
   labeler:
     runs-on: ubuntu-latest
