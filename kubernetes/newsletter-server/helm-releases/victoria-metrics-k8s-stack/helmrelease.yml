@@ -12,9 +12,22 @@ spec:
       version: 0.25.x
   install:
     createNamespace: true
+    remediation:
+      ignoreTestFailures: true
+      remediateLastFailure: false
+      retries: 5
   interval: 1h0m0s
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
+  upgrade:
+    cleanupOnFail: false
+    disableHooks: true
+    force: true
+    remediation:
+      ignoreTestFailures: true
+      remediateLastFailure: false
+      retries: 5
+      strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
       name: victoria-metrics-k8s-stack
