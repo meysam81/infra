@@ -20,7 +20,7 @@ commonLabels:
 
 images:
   - name: oryd/kratos-selfservice-ui-node
-    newTag: v0.13.0
+    newTag: v0.14.1
 
 replacements:
   - source:
