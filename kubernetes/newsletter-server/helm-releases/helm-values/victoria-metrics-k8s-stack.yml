@@ -220,3 +220,6 @@ vmsingle:
   spec:
     retentionPeriod: 3d
     storage: null
+victoria-metrics-operator:
+  service:
+    webhookPort: 443
