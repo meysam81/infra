@@ -21,7 +21,7 @@ commonLabels:
 images:
   - name: oryd/kratos-selfservice-ui-node
     newName: meysam81/kratos-selfservice-ui-node
-    newTag: v0.14.1
+    newTag: v0.14.4
 
 replacements:
   - source:
