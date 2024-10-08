@@ -5,7 +5,7 @@ configMapGenerator:
 
 images:
   - name: jaegertracing/all-in-one
-    newTag: "1.57"
+    newTag: "1.60"
 
 resources:
   - service.yml
