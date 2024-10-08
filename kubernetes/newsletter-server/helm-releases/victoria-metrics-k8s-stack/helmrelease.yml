@@ -12,13 +12,16 @@ spec:
       version: 0.25.x
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       ignoreTestFailures: true
-      remediateLastFailure: false
+      remediateLastFailure: true
       retries: 5
   interval: 1h0m0s
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
+  test:
+    enabled: false
   upgrade:
     cleanupOnFail: false
     disableHooks: true
