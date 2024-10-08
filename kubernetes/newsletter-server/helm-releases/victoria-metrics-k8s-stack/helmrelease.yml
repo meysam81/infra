@@ -21,7 +21,7 @@ spec:
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
   test:
-    enabled: false
+    enable: false
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
