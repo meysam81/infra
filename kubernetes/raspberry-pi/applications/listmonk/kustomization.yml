@@ -13,7 +13,7 @@ images:
   - name: listmonk/listmonk
     newTag: v3.0.0
   - name: postgres
-    newTag: 16-alpine
+    newTag: 17-alpine
 
 replacements:
   - source:
