@@ -7,4 +7,4 @@ resources:
 
 images:
   - name: oryd/kratos
-    newTag: v1.1.0
+    newTag: v1.3.0
