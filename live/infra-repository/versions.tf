@@ -12,10 +12,6 @@ terraform {
       source  = "hashicorp/tls"
       version = "~> 4.0"
     }
-    null = {
-      source  = "hashicorp/null"
-      version = "< 4"
-    }
   }
   required_version = "< 2"
 }
