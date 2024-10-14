@@ -190,25 +190,27 @@ config: ""
 # -- Use Server Side Repo Config,
 # ref: https://www.runatlantis.io/docs/server-side-repo-config.html.
 # Check values.yaml for examples.
-repoConfig: ""
-# Example with default configuration:
-# repoConfig: |
-#   ---
-#   repos:
-#   - id: /.*/
-#     apply_requirements: []
-#     workflow: default
-#     allowed_overrides: []
-#     allow_custom_workflows: false
-#   workflows:
-#     default:
-#       plan:
-#         steps: [init, plan]
-#       apply:
-#         steps: [apply]
-#   metrics:
-#     prometheus:
-#       endpoint: /metrics
+repoConfig: |
+  ---
+  repos:
+  - id: /.*/
+    apply_requirements: []
+    workflow: default
+    allowed_overrides: []
+    allow_custom_workflows: false
+  - id: meysam81/infra
+    workflow: default
+    pre_workflow_hooks:
+      - run: terragrunt-atlantis-config generate --output atlantis.yaml --autoplan --parallel --create-workspace
+  workflows:
+    default:
+      plan:
+        steps: [init, plan]
+      apply:
+        steps: [apply]
+  metrics:
+    prometheus:
+      endpoint: /metrics
 
 # -- Enables atlantis to run on a fork Pull Requests.
 allowForkPRs: false
@@ -742,7 +744,7 @@ servicemonitor:
   # -- To enable a Prometheus servicemonitor, set enabled to true,
   #   and enable the metrics in this file's repoConfig
   #   by setting a value for metrics.prometheus.endpoint.
-  enabled: false
+  enabled: true
   interval: "30s"
   path: /metrics
   # -- Prometheus ServiceMonitor labels.
