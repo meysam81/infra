@@ -634,7 +634,7 @@ extraManifests:
             key: /atlantis/cloudflare-token
           secretKey: TF_VAR_cloudflare_api_token
         - remoteRef:
-            key: /external-secrets/role-arn
+            key: /atlantis/aws-role-arn
           secretKey: AWS_ROLE_ARN
       refreshInterval: 24h
       secretStoreRef:

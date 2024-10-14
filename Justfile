@@ -1,14 +1,14 @@
 [no-cd]
-init:
-  terragrunt init -upgrade
+init *args:
+  terragrunt init -upgrade {{args}}
 
 [no-cd]
 validate:
   terragrunt validate
 
 [no-cd]
-plan:
-  terragrunt plan -out tfplan
+plan *args:
+  terragrunt plan -out tfplan {{args}}
 
 [no-cd]
 apply:

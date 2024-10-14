@@ -1,5 +1,5 @@
-data "tls_certificate" "oidc_thumbprint" {
-  url = "https://token.actions.githubusercontent.com"
+data "aws_iam_openid_connect_provider" "this" {
+  url = var.oidc_issuer_url
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -11,18 +11,18 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github_actions.arn]
+      identifiers = [data.aws_iam_openid_connect_provider.this.arn]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:meysam81/infra:environment:${var.environment_name}"]
+      variable = "${data.aws_iam_openid_connect_provider.this.arn}:sub"
+      values   = ["system:serviceaccount:atlantis:atlantis"]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "token.actions.githubusercontent.com:aud"
+      variable = "${data.aws_iam_openid_connect_provider.this.arn}:aud"
       values   = ["sts.amazonaws.com"]
     }
   }
@@ -50,16 +50,8 @@ data "aws_iam_policy_document" "iam_policy" {
   }
 }
 
-resource "aws_iam_openid_connect_provider" "github_actions" {
-  url            = "https://token.actions.githubusercontent.com"
-  client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = [
-    data.tls_certificate.oidc_thumbprint.certificates[0].sha1_fingerprint,
-  ]
-}
-
 resource "aws_iam_role" "this" {
-  name               = "meysam81-infra"
+  name               = "atlantis"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 
   managed_policy_arns = [
@@ -68,7 +60,13 @@ resource "aws_iam_role" "this" {
   ]
 
   inline_policy {
-    name   = "meysam81-infra"
+    name   = "atlantis"
     policy = data.aws_iam_policy_document.iam_policy.json
   }
+}
+
+resource "aws_ssm_parameter" "this" {
+  name  = "/atlantis/aws-role-arn"
+  type  = "String"
+  value = aws_iam_role.this.arn
 }
