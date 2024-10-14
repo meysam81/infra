@@ -577,17 +577,20 @@ googleServiceAccountSecrets: []
 
 # -- Optionally specify additional volumes for the pod.
 # Check values.yaml for examples.
-extraVolumes: []
-# extraVolumes:
-#   - name: some-volume-name
-#     emptyDir: {}
+extraVolumes:
+  - name: sa-token
+    projected:
+      sources:
+        - serviceAccountToken:
+            path: token
+            audience: sts.amazonaws.com
 
 # -- Optionally specify additional volume mounts for the container.
 # Check values.yaml for examples.
-extraVolumeMounts: []
-# extraVolumeMounts:
-#   - name: some-volume-name
-#     mountPath: /path/in/container
+extraVolumeMounts:
+  - name: sa-token
+    mountPath: /var/run/secrets/sts.amazonaws.com
+    readOnly: true
 
 # -- Optionally specify additional manifests to be created.
 # Check values.yaml for examples.
@@ -674,9 +677,10 @@ extraManifests:
     metadata:
       name: atlantis-envs-config
     data:
-      AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/kubernetes.io/serviceaccount/token
-      AWS_ROLE_SESSION_NAME: atlantis
+      ATLANTIS_ENABLE_DIFF_MARKDOWN_FORMAT: "true"
       AWS_REGION: ap-southeast-1
+      AWS_ROLE_SESSION_NAME: atlantis
+      AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/sts.amazonaws.com/serviceaccount/token
 
 # -- Optionally specify init containers manifests to be added to the Atlantis pod.
 # Check values.yaml for examples.
