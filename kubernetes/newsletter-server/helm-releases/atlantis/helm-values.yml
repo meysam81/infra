@@ -195,10 +195,10 @@ repoConfig: |
   repos:
   - allow_custom_workflows: false
     allowed_overrides: []
-    apply_requirements: [approved]
+    apply_requirements: [mergeable, approved]
     id: /.*/
-    import_requirements: [approved]
-    plan_requirements: [approved]
+    import_requirements: [mergeable, approved]
+    plan_requirements: [mergeable]
     workflow: default
   - apply_requirements: [approved, mergeable]
     id: github.com/meysam81/infra
