@@ -595,7 +595,7 @@ initConfig:
     TG_VERSION="v0.67.5"
     TG_SHA256_SUM="4e5ae67854a774be6419f7215733990b481662375dc0bd5f2eda05211a692cf0"
     TG_FILE="${INIT_SHARED_DIR}/terragrunt"
-    wget https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_amd64 -O "${TG_FILE}"
+    wget https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_arm64 -O "${TG_FILE}"
     echo "${TG_SHA256_SUM}  ${TG_FILE}" | sha256sum -c
     chmod 755 "${TG_FILE}"
     terragrunt -v
@@ -604,9 +604,9 @@ initConfig:
     TAC_VERSION="1.18.0" # without v
     TAC_SHA256_SUM="59178dcd3e426abf4b5d8fcb1ac8dbdea548a04aa64eaf39be200484a5e6f2ca"
     TAC_FILE="${INIT_SHARED_DIR}/terragrunt-atlantis-config"
-    wget "https://github.com/transcend-io/terragrunt-atlantis-config/releases/download/v${TAC_VERSION}/terragrunt-atlantis-config_${TAC_VERSION}_linux_amd64"
-    echo "${TAC_SHA256_SUM}  terragrunt-atlantis-config_${TAC_VERSION}_linux_amd64" | sha256sum -c
-    cp -fv "terragrunt-atlantis-config_${TAC_VERSION}_linux_amd64" "${TAC_FILE}"
+    wget "https://github.com/transcend-io/terragrunt-atlantis-config/releases/download/v${TAC_VERSION}/terragrunt-atlantis-config_${TAC_VERSION}_linux_arm64"
+    echo "${TAC_SHA256_SUM}  terragrunt-atlantis-config_${TAC_VERSION}_linux_arm64" | sha256sum -c
+    cp -fv "terragrunt-atlantis-config_${TAC_VERSION}_linux_arm64" "${TAC_FILE}"
     chmod 755 "${TAC_FILE}"
     terragrunt-atlantis-config version
 
