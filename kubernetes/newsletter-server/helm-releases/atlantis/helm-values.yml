@@ -11,7 +11,7 @@ nameOverride: ""
 # -- An option to override the atlantis url,
 # if not using an ingress, set it to the external IP.
 # Check values.yaml for examples.
-atlantisUrl: ""
+atlantisUrl: https://atlantis.developer-friendly.blog
 # Example:  http://10.0.0.0
 
 # -- Replace this with your own repo allowlist.
@@ -29,9 +29,9 @@ logLevel: info
 # The 'hostname' key is exclusive to GitHub Enterprise installations.
 # Check values.yaml for examples.
 github:
-  user: developer-friendly-bot
-  token: bar
-  secret: baz
+  user: meysam81
+  # token: bar
+  # secret: baz
 #   hostname: github.your.org
 
 # -- If using a GitHub App, please enter your values as follows.
