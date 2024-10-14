@@ -48,3 +48,5 @@ resource "github_actions_environment_secret" "aws_account_id" {
   secret_name     = "AWS_ACCOUNT_ID"
   plaintext_value = data.aws_caller_identity.current.account_id
 }
+
+resource "null_resource" "example" {}
