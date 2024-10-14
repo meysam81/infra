@@ -9,32 +9,14 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: victoria-metrics
-      version: 0.25.x
-  install:
-    crds: CreateReplace
-    createNamespace: true
-    remediation:
-      ignoreTestFailures: true
-      remediateLastFailure: true
-      retries: 5
+      version: 0.x
   interval: 1h0m0s
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
-  test:
-    enable: false
   rollback:
     force: true
   upgrade:
-    cleanupOnFail: true
-    crds: CreateReplace
-    disableHooks: false
-    disableWait: true
     force: true
-    remediation:
-      ignoreTestFailures: true
-      remediateLastFailure: true
-      retries: 5
-      strategy: uninstall
   valuesFrom:
     - kind: ConfigMap
       name: victoria-metrics-k8s-stack
