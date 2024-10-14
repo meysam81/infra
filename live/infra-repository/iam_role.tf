@@ -16,13 +16,13 @@ data "aws_iam_policy_document" "assume_role" {
 
     condition {
       test     = "StringEquals"
-      variable = "${data.aws_iam_openid_connect_provider.this.arn}:sub"
+      variable = "${data.aws_iam_openid_connect_provider.this.url}:sub"
       values   = ["system:serviceaccount:atlantis:atlantis"]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "${data.aws_iam_openid_connect_provider.this.arn}:aud"
+      variable = "${data.aws_iam_openid_connect_provider.this.url}:aud"
       values   = ["sts.amazonaws.com"]
     }
   }
