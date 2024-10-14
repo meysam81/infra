@@ -744,7 +744,7 @@ servicemonitor:
   # -- To enable a Prometheus servicemonitor, set enabled to true,
   #   and enable the metrics in this file's repoConfig
   #   by setting a value for metrics.prometheus.endpoint.
-  enabled: true
+  enabled: false
   interval: "30s"
   path: /metrics
   # -- Prometheus ServiceMonitor labels.
