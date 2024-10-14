@@ -202,7 +202,14 @@ repoConfig: |
     workflow: default
   - id: github.com/meysam81/infra
     pre_workflow_hooks:
-      - run: terragrunt-atlantis-config generate --output atlantis.yaml --autoplan --parallel --create-workspace
+      - run: >-
+          terragrunt-atlantis-config generate
+            --output atlantis.yaml
+            --autoplan
+            --parallel
+            --ignore-dependency-blocks=false
+            --create-project-name
+            --create-workspace
     workflow: default
   workflows:
     default:
