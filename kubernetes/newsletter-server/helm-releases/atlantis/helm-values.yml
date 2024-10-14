@@ -680,7 +680,7 @@ extraManifests:
       ATLANTIS_ENABLE_DIFF_MARKDOWN_FORMAT: "true"
       AWS_REGION: ap-southeast-1
       AWS_ROLE_SESSION_NAME: atlantis
-      AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/sts.amazonaws.com/serviceaccount/token
+      AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/sts.amazonaws.com/token
 
 # -- Optionally specify init containers manifests to be added to the Atlantis pod.
 # Check values.yaml for examples.
