@@ -592,8 +592,8 @@ initConfig:
     set -eoux pipefail
 
     # example for terragrunt
-    TG_VERSION="v0.67.5"
-    TG_SHA256_SUM="4e5ae67854a774be6419f7215733990b481662375dc0bd5f2eda05211a692cf0"
+    TG_VERSION="v0.68.1"
+    TG_SHA256_SUM="ae9a1172f32cf69a7db4762376acb2264a1dd4712e38c53fbc050854acc377b0"
     TG_FILE="${INIT_SHARED_DIR}/terragrunt"
     wget https://github.com/gruntwork-io/terragrunt/releases/download/${TG_VERSION}/terragrunt_linux_arm64 -O "${TG_FILE}"
     echo "${TG_SHA256_SUM}  ${TG_FILE}" | sha256sum -c
@@ -601,8 +601,8 @@ initConfig:
     terragrunt -v
 
     # example for terragrunt-atlantis-config
-    TAC_VERSION="1.18.0" # without v
-    TAC_SHA256_SUM="59178dcd3e426abf4b5d8fcb1ac8dbdea548a04aa64eaf39be200484a5e6f2ca"
+    TAC_VERSION="1.19.0" # without v
+    TAC_SHA256_SUM="5891bd8fe40fd41c9a14bc8d82ea60ebfb75ebe91680f84b74f9538af52f78b0"
     TAC_FILE="${INIT_SHARED_DIR}/terragrunt-atlantis-config"
     wget "https://github.com/transcend-io/terragrunt-atlantis-config/releases/download/v${TAC_VERSION}/terragrunt-atlantis-config_${TAC_VERSION}_linux_arm64"
     echo "${TAC_SHA256_SUM}  terragrunt-atlantis-config_${TAC_VERSION}_linux_arm64" | sha256sum -c
