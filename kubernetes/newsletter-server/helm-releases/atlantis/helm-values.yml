@@ -285,7 +285,7 @@ readinessProbe:
   scheme: HTTP
 
 service:
-  type: NodePort
+  type: ClusterIP
   annotations: {}
   port: 80
   portName: atlantis
