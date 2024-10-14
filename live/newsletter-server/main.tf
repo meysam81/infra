@@ -68,3 +68,5 @@ resource "hcloud_volume_attachment" "varlib" {
   server_id = hcloud_server.this.id
   automount = true
 }
+
+resource "null_resource" "example" {}
