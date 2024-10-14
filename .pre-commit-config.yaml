@@ -14,7 +14,7 @@ repos:
       - id: detect-private-key
         exclude: |
           (?x)^(
-              kubernetes/newsletter-server/helm-releases/atlantis/helm-values.yaml
+              kubernetes/newsletter-server/helm-releases/atlantis/helm-values.yml
           )$
       - id: detect-aws-credentials
         args:
