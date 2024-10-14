@@ -309,8 +309,8 @@ commonLabels: {}
 livenessProbe:
   enabled: true
   # -- We only need to check every 60s since Atlantis is not a high-throughput service.
-  periodSeconds: 60
-  initialDelaySeconds: 5
+  periodSeconds: 10
+  initialDelaySeconds: 1
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 5
@@ -318,8 +318,8 @@ livenessProbe:
 
 readinessProbe:
   enabled: true
-  periodSeconds: 60
-  initialDelaySeconds: 5
+  periodSeconds: 10
+  initialDelaySeconds: 1
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 5
