@@ -192,34 +192,64 @@ config: ""
 # Check values.yaml for examples.
 repoConfig: |
   ---
-  repos:
-  - allow_custom_workflows: false
-    allowed_overrides: []
-    apply_requirements: [mergeable, approved]
-    id: /.*/
-    import_requirements: [mergeable, approved]
-    plan_requirements: [mergeable, undiverged]
-    workflow: default
-  - id: github.com/meysam81/infra
-    pre_workflow_hooks:
-      - run: >-
-          terragrunt-atlantis-config generate \
-            --output atlantis.yaml \
-            --autoplan \
-            --parallel \
-            --ignore-dependency-blocks=false \
-            --create-project-name \
-            --create-workspace
-    workflow: default
-  workflows:
-    default:
-      plan:
-        steps: [init, plan]
-      apply:
-        steps: [apply]
   metrics:
     prometheus:
       endpoint: /metrics
+  repos:
+    - allow_custom_workflows: false
+      allowed_overrides:
+        - apply_requirements
+        - import_requirements
+        - plan_requirements
+        - workflow
+      apply_requirements:
+        - mergeable
+        - approved
+      id: /.*/
+      import_requirements:
+        - mergeable
+        - approved
+      plan_requirements: []
+      workflow: terragrunt
+  workflows:
+    terragrunt:
+      apply:
+        steps:
+          - env:
+              command: echo "tofu${ATLANTIS_TERRAFORM_VERSION}"
+              name: TERRAGRUNT_TFPATH
+          - env:
+              name: TF_IN_AUTOMATION
+              value: "true"
+          - run: terragrunt apply -input=false $PLANFILE
+      import:
+        steps:
+          - env:
+              command: echo "tofu${DEFAULT_TERRAFORM_VERSION}"
+              name: TERRAGRUNT_TFPATH
+          - env:
+              command: git show -s --format="%ae" $HEAD_COMMIT
+              name: TF_VAR_author
+          - run: terragrunt import -input=false $(printf '%s' $COMMENT_ARGS | sed 's/,/ /' | tr -d '\\')
+      plan:
+        steps:
+          - env:
+              command: echo "tofu${ATLANTIS_TERRAFORM_VERSION}"
+              name: TERRAGRUNT_TFPATH
+          - env:
+              name: TF_IN_AUTOMATION
+              value: "true"
+          - run:
+              command: terragrunt plan -input=false $(printf '%s' $COMMENT_ARGS | sed 's/,/ /g' | tr -d '\\') -no-color -out $PLANFILE
+              output: hide
+          - run: |
+              terragrunt show $PLANFILE
+      state_rm:
+        steps:
+          - env:
+              command: echo "tofu${DEFAULT_TERRAFORM_VERSION}"
+              name: TERRAGRUNT_TFPATH
+          - run: terragrunt state rm $(printf '%s' $COMMENT_ARGS | sed 's/,/ /' | tr -d '\\')
 
 # -- Enables atlantis to run on a fork Pull Requests.
 allowForkPRs: false
@@ -279,8 +309,8 @@ commonLabels: {}
 livenessProbe:
   enabled: true
   # -- We only need to check every 60s since Atlantis is not a high-throughput service.
-  periodSeconds: 60
-  initialDelaySeconds: 5
+  periodSeconds: 10
+  initialDelaySeconds: 1
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 5
@@ -288,8 +318,8 @@ livenessProbe:
 
 readinessProbe:
   enabled: true
-  periodSeconds: 60
-  initialDelaySeconds: 5
+  periodSeconds: 10
+  initialDelaySeconds: 1
   timeoutSeconds: 5
   successThreshold: 1
   failureThreshold: 5
@@ -528,17 +558,15 @@ environmentRaw: []
 # For example, providing ATLANTIS_GH_USER here and defining a value for github.user will result in the github.user value being used.
 # Check values.yaml for examples.
 loadEnvFromSecrets:
-  - atlantis-envs
+  - atlantis-envs-secret
 
 # -- Optionally specify additional Kubernetes ConfigMaps to load environment variables from.
 # All key-value pairs within these ConfigMaps will be set as environment variables.
 # Note that any variables set here will be ignored if also defined in the env block of the atlantis statefulset.
 # For example, providing ATLANTIS_ALLOW_FORK_PRS here and defining a value for allowForkPRs will result in the allowForkPRs value being used.
 # Check values.yaml for examples.
-loadEnvFromConfigMaps: []
-# loadEnvFromConfigMaps:
-#   - config_one
-#   - config_two
+loadEnvFromConfigMaps:
+  - atlantis-envs-config
 
 # -- Optionally specify google service account credentials as Kubernetes secrets. If you are using the terraform google provider you can specify the credentials as "${file("/var/secrets/some-secret-name/key.json")}".
 # Check values.yaml for examples.
@@ -549,17 +577,20 @@ googleServiceAccountSecrets: []
 
 # -- Optionally specify additional volumes for the pod.
 # Check values.yaml for examples.
-extraVolumes: []
-# extraVolumes:
-#   - name: some-volume-name
-#     emptyDir: {}
+extraVolumes:
+  - name: sa-token
+    projected:
+      sources:
+        - serviceAccountToken:
+            path: token
+            audience: sts.amazonaws.com
 
 # -- Optionally specify additional volume mounts for the container.
 # Check values.yaml for examples.
-extraVolumeMounts: []
-# extraVolumeMounts:
-#   - name: some-volume-name
-#     mountPath: /path/in/container
+extraVolumeMounts:
+  - name: sa-token
+    mountPath: /var/run/secrets/sts.amazonaws.com
+    readOnly: true
 
 # -- Optionally specify additional manifests to be created.
 # Check values.yaml for examples.
@@ -587,7 +618,7 @@ extraManifests:
   - apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
     metadata:
-      name: atlantis-envs
+      name: atlantis-envs-secret
     spec:
       data:
         - remoteRef:
@@ -602,6 +633,9 @@ extraManifests:
         - remoteRef:
             key: /atlantis/cloudflare-token
           secretKey: TF_VAR_cloudflare_api_token
+        - remoteRef:
+            key: /atlantis/aws-role-arn
+          secretKey: AWS_ROLE_ARN
       refreshInterval: 24h
       secretStoreRef:
         kind: ClusterSecretStore
@@ -638,6 +672,15 @@ extraManifests:
             - path:
                 type: PathPrefix
                 value: /
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: atlantis-envs-config
+    data:
+      ATLANTIS_ENABLE_DIFF_MARKDOWN_FORMAT: "true"
+      AWS_REGION: ap-southeast-1
+      AWS_ROLE_SESSION_NAME: atlantis
+      AWS_WEB_IDENTITY_TOKEN_FILE: /var/run/secrets/sts.amazonaws.com/token
 
 # -- Optionally specify init containers manifests to be added to the Atlantis pod.
 # Check values.yaml for examples.

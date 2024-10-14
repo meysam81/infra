@@ -9,7 +9,7 @@ variable "repository_name" {
 
 }
 
-variable "terraform_cloud_token" {
-  type      = string
-  sensitive = true
+variable "oidc_issuer_url" {
+  type     = string
+  nullable = false
 }

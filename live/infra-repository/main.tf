@@ -33,14 +33,6 @@ resource "github_actions_environment_secret" "iam_role" {
   plaintext_value = aws_iam_role.this.arn
 }
 
-resource "github_actions_environment_secret" "terraform_cloud_token" {
-  repository = var.repository_name
-
-  environment     = github_repository_environment.this.environment
-  secret_name     = "TF_TOKEN_app_terraform_io"
-  plaintext_value = var.terraform_cloud_token
-}
-
 resource "github_actions_environment_variable" "aws_region" {
   repository  = var.repository_name
   environment = var.environment_name
