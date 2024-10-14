@@ -709,7 +709,6 @@ initConfig:
     #!/bin/sh
     set -eoux pipefail
 
-    # example for terragrunt
     TG_VERSION="v0.68.1"
     TG_SHA256_SUM="ae9a1172f32cf69a7db4762376acb2264a1dd4712e38c53fbc050854acc377b0"
     TG_FILE="${INIT_SHARED_DIR}/terragrunt"
@@ -718,7 +717,6 @@ initConfig:
     chmod 755 "${TG_FILE}"
     terragrunt -v
 
-    # example for terragrunt-atlantis-config
     TAC_VERSION="1.19.0" # without v
     TAC_SHA256_SUM="5891bd8fe40fd41c9a14bc8d82ea60ebfb75ebe91680f84b74f9538af52f78b0"
     TAC_FILE="${INIT_SHARED_DIR}/terragrunt-atlantis-config"
