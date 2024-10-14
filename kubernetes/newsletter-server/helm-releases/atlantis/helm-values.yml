@@ -554,15 +554,55 @@ extraVolumeMounts: []
 
 # -- Optionally specify additional manifests to be created.
 # Check values.yaml for examples.
-extraManifests: []
-# extraManifests:
-#  - apiVersion: cloud.google.com/v1beta1
-#    kind: BackendConfig
-#    metadata:
-#      name: "{{ .Release.Name }}-test"
-#    spec:
-#      securityPolicy:
-#        name: "gcp-cloud-armor-policy-test"
+extraManifests:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: atlantis
+    spec:
+      data:
+        - remoteRef:
+            key: /atlants/webhook-secret
+          secretKey: github_secret
+        - remoteRef:
+            key: /atlants/user-pat
+          secretKey: github_token
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Delete
+        immutable: false
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: atlantis
+    spec:
+      hostnames:
+        - atlantis.developer-friendly.blog
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: global
+          namespace: default
+          sectionName: http
+      rules:
+        - backendRefs:
+            - kind: Service
+              name: atlantis
+              port: 80
+          filters:
+            - responseHeaderModifier:
+                set:
+                  - name: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains; preload
+              type: ResponseHeaderModifier
+          matches:
+            - path:
+                type: PathPrefix
+                value: /
 
 # -- Optionally specify init containers manifests to be added to the Atlantis pod.
 # Check values.yaml for examples.
