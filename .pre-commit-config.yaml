@@ -12,6 +12,10 @@ repos:
         args:
           - --allow-multiple-documents
       - id: detect-private-key
+        exclude: |
+          (?x)^(
+              kubernetes/newsletter-server/helm-releases/atlantis/helm-values.yaml
+          )$
       - id: detect-aws-credentials
         args:
           - --allow-missing-credentials

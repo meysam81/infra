@@ -1,0 +1,13 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: atlantis
+
+resources:
+  - externalsecret.yml
+  - helmrelease.yml
+
+namespace: flux-system

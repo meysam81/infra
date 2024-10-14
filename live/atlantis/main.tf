@@ -7,7 +7,7 @@ resource "github_repository_webhook" "this" {
   repository = "infra"
 
   configuration {
-    url          = "https://atlantis.developer-friendly.blog"
+    url          = "https://atlantis.developer-friendly.blog/events"
     content_type = "json"
     insecure_ssl = false
     secret       = random_password.this.result
