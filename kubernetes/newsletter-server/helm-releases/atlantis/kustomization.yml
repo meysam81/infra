@@ -9,5 +9,6 @@ configMapGenerator:
 resources:
   - externalsecret.yml
   - helmrelease.yml
+  - httproute.yml
 
 namespace: flux-system
