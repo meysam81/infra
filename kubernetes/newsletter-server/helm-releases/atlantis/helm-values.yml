@@ -192,34 +192,45 @@ config: ""
 # Check values.yaml for examples.
 repoConfig: |
   ---
-  repos:
-  - allow_custom_workflows: false
-    allowed_overrides: []
-    apply_requirements: [mergeable, approved]
-    id: /.*/
-    import_requirements: [mergeable, approved]
-    plan_requirements: [mergeable, undiverged]
-    workflow: default
-  - id: github.com/meysam81/infra
-    pre_workflow_hooks:
-      - run: >-
-          terragrunt-atlantis-config generate \
-            --output atlantis.yaml \
-            --autoplan \
-            --parallel \
-            --ignore-dependency-blocks=false \
-            --create-project-name \
-            --create-workspace
-    workflow: default
-  workflows:
-    default:
-      plan:
-        steps: [init, plan]
-      apply:
-        steps: [apply]
   metrics:
     prometheus:
       endpoint: /metrics
+  repos:
+    - allow_custom_workflows: false
+      allowed_overrides:
+        - apply_requirements
+        - import_requirements
+        - plan_requirements
+        - workflow
+      apply_requirements:
+        - mergeable
+        - approved
+      id: /.*/
+      import_requirements:
+        - mergeable
+        - approved
+      plan_requirements:
+        - mergeable
+        - undiverged
+      workflow: default
+    - id: github.com/meysam81/infra
+      pre_workflow_hooks:
+        - run: |
+            echo "generating atlantis.yaml"
+            terragrunt-atlantis-config generate --output atlantis.yaml --autoplan --parallel
+          description: Generating atlantis.yaml
+          shell: bash
+          shellArgs: -cv
+      workflow: default
+  workflows:
+    default:
+      apply:
+        steps:
+          - apply
+      plan:
+        steps:
+          - init
+          - plan
 
 # -- Enables atlantis to run on a fork Pull Requests.
 allowForkPRs: false
