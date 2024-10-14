@@ -198,10 +198,9 @@ repoConfig: |
     apply_requirements: [mergeable, approved]
     id: /.*/
     import_requirements: [mergeable, approved]
-    plan_requirements: [mergeable]
+    plan_requirements: [mergeable, undiverged]
     workflow: default
-  - apply_requirements: [approved, mergeable]
-    id: github.com/meysam81/infra
+  - id: github.com/meysam81/infra
     pre_workflow_hooks:
       - run: terragrunt-atlantis-config generate --output atlantis.yaml --autoplan --parallel --create-workspace
     workflow: default
