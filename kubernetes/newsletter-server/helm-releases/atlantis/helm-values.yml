@@ -209,9 +209,7 @@ repoConfig: |
       import_requirements:
         - mergeable
         - approved
-      plan_requirements:
-        - mergeable
-        - undiverged
+      plan_requirements: []
       workflow: terragrunt
   workflows:
     terragrunt:
