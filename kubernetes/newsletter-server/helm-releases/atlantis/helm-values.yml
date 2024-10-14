@@ -562,10 +562,10 @@ extraManifests:
     spec:
       data:
         - remoteRef:
-            key: /atlants/webhook-secret
+            key: /atlantis/webhook-secret
           secretKey: github_secret
         - remoteRef:
-            key: /atlants/user-pat
+            key: /atlantis/user-pat
           secretKey: github_token
       refreshInterval: 24h
       secretStoreRef:
