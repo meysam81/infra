@@ -516,10 +516,8 @@ environmentRaw: []
 # Note that any variables set here will be ignored if also defined in the env block of the atlantis statefulset.
 # For example, providing ATLANTIS_GH_USER here and defining a value for github.user will result in the github.user value being used.
 # Check values.yaml for examples.
-loadEnvFromSecrets: []
-# loadEnvFromSecrets:
-#   - secret_one
-#   - secret_two
+loadEnvFromSecrets:
+  - atlantis-envs
 
 # -- Optionally specify additional Kubernetes ConfigMaps to load environment variables from.
 # All key-value pairs within these ConfigMaps will be set as environment variables.
@@ -567,6 +565,32 @@ extraManifests:
         - remoteRef:
             key: /atlantis/user-pat
           secretKey: github_token
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+      target:
+        creationPolicy: Owner
+        deletionPolicy: Delete
+        immutable: false
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: atlantis-envs
+    spec:
+      data:
+        - remoteRef:
+            key: /atlantis/tfe-token
+          secretKey: ATLANTIS_TFE_TOKEN
+        - remoteRef:
+            key: /atlantis/hetzner-token
+          secretKey: HCLOUD_TOKEN
+        - remoteRef:
+            key: /atlantis/cloudflare-token
+          secretKey: CLOUDFLARE_API_TOKEN
+        - remoteRef:
+            key: /atlantis/cloudflare-token
+          secretKey: TF_VAR_cloudflare_api_token
       refreshInterval: 24h
       secretStoreRef:
         kind: ClusterSecretStore
