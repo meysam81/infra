@@ -10,16 +10,16 @@ inputs:
     default: .
     description: Context of the Dockerfile
     required: false
-  dockerhub-username:
-    description: Docker Hub username
-    required: false
   dockerhub-password:
     description: Docker Hub password
     required: false
+  dockerhub-username:
+    description: Docker Hub username
+    required: false
   github-token:
+    default: ${{ github.token }}
     description: GitHub token
     required: true
-    default: ${{ github.token }}
   image-extra-tags:
     default: ""
     description: Image tags
@@ -30,6 +30,14 @@ inputs:
   image-target:
     default: ""
     description: Target stage of the Dockerfile
+    required: false
+  kubescape:
+    default: "false"
+    description: Whether or not to run Kubescape
+    required: false
+  kubescape-upload-sarif:
+    default: "false"
+    description: Whether or not to upload Kubescape SARIF results
     required: false
   platforms:
     default: linux/amd64,linux/arm64
@@ -162,3 +170,18 @@ runs:
         if-no-files-found: warn
         name: scout-results-${{ steps.job-id.outputs.job-id }}
         path: sarif.output.json
+
+    - if: inputs.kubescape == 'true'
+      uses: kubescape/github-action@main
+      continue-on-error: true
+      with:
+        image: ${{ inputs.image-name }}@${{ steps.build-push.outputs.digest }}
+        format: sarif
+        outputFile: results.sarif
+        severityThreshold: Medium
+
+    - if: inputs.kubescape-upload-sarif == 'true'
+      name: Upload Kubescape scan results to Github Code Scanning
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: results.sarif
