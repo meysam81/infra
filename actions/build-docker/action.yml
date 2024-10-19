@@ -105,8 +105,6 @@ runs:
       with:
         images: |
           ${{ inputs.image-name }}
-        tags: |
-          type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
 
     - name: Build and push
       id: build-push
