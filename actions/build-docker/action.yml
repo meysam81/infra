@@ -56,7 +56,7 @@ inputs:
     description: Whether or not to run scout compare
     required: false
   scout-cves:
-    default: "true"
+    default: "false"
     description: Whether or not to run scout CVEs
     required: false
 
