@@ -1,3 +1,4 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -10,11 +11,12 @@ spec:
         kind: HelmRepository
         name: victoria-metrics
       version: 0.x
-  # driftDetection:
-  #   mode: enabled
   interval: 1h0m0s
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
+  upgrade:
+    crds: CreateReplace
+    force: true
   valuesFrom:
     - kind: ConfigMap
       name: victoria-metrics-k8s-stack
