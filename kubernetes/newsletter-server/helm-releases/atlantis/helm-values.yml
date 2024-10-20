@@ -362,7 +362,7 @@ statefulSet:
 terminationGracePeriodSeconds:
 
 ingress:
-  enabled: true
+  enabled: false
   ingressClassName:
   apiVersion: ""
   labels: {}

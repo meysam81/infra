@@ -13,10 +13,6 @@ spec:
   interval: 1h0m0s
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
-  rollback:
-    force: true
-  upgrade:
-    force: true
   valuesFrom:
     - kind: ConfigMap
       name: victoria-metrics-k8s-stack
