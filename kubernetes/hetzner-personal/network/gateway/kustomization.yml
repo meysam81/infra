@@ -1,5 +1,0 @@
-resources:
-  - gateway.yml
-  - https-redirect.yml
-
-namespace: cert-manager

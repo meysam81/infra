@@ -1,9 +1,0 @@
-apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMServiceScrape
-metadata:
-  name: check-public-ip
-spec:
-  endpoints:
-    - port: http
-      interval: 30s
-      path: /metrics

@@ -1,3 +1,0 @@
-resources:
-  - externalsecret.yml
-  - alertmanagerconfig.yml

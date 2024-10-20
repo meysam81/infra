@@ -1,6 +1,0 @@
-resources:
-  - namespace.yml
-  - repository.yml
-  - release.yml
-  - grafana-httproute.yml
-  - alertmanager-httproute.yml

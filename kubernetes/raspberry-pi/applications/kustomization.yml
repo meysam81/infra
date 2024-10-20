@@ -1,4 +1,0 @@
-resources:
-  - ./check-public-ip/kustomize.yml
-  - ./echo-server/kustomize.yml
-  - ./reddit-submission/kustomize.yml

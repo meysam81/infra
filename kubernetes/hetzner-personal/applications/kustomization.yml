@@ -1,3 +1,0 @@
-resources:
-  - ./listmonk/kustomize.yml
-  - ./static-web-server/kustomize.yml

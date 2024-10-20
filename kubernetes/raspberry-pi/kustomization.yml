@@ -1,6 +1,0 @@
-resources:
-  - helm-releases/kustomize.yml
-  - gateway/kustomize.yml
-  - applications/kustomize.yml
-  - monitoring/kustomize.yml
-  - auth/kustomize.yml

@@ -1,7 +1,0 @@
-resources:
-  - ./namespaces/gotk-sync.yml
-  - ./helm-releases/gotk-sync.yml
-  - ./network/kustomize.yml
-  - ./applications/kustomize.yml
-  - ./notifications/kustomize.yml
-  - ./webhook-sync/kustomize.yml

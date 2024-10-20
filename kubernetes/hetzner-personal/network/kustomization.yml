@@ -1,4 +1,0 @@
-resources:
-  - ./cluster-issuer/kustomize.yml
-  - ./certificate/kustomize.yml
-  - ./gateway/kustomize.yml
