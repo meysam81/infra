@@ -1,4 +1,10 @@
+configMapGenerator:
+  - name: oathkeeper-config
+    files:
+      - config.yml=oathkeeper-server-config.yml
+    behavior: replace
+
 resources:
-  - ../../../../applications/oathkeeper
+  - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v1.0.2&timeout=5m
 
 namespace: auth
