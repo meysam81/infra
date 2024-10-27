@@ -240,17 +240,6 @@ jobs:
           redis-port: ${{ secrets.REDIS_PORT }}
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: true
-          exclusions: |
-            .git
-            .github
-            echo-server
-            hn-submission
-            kratos
-            kratos-selfservice-ui-node
-            listmonk
-            oathkeeper
-            reddit-submission
-            static-web-server
 
   build:
     needs: prepare
@@ -262,40 +251,19 @@ jobs:
     permissions:
       contents: read
       packages: write
+      security-events: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          username: ${{ github.actor }}
       - name: Pre-process image name
         id: image-name
         run: |
           name=$(echo ${{ matrix.directory }} | sed 's/.*\///')
           echo "name=$name" >> $GITHUB_OUTPUT
-      - id: meta
-        name: Docker metadata
-        uses: docker/metadata-action@v5
+      - name: Build docker
+        uses: meysam81/build-docker@v1
         with:
-          images: ghcr.io/${{ github.repository }}/${{ steps.image-name.outputs.name }}
-      - id: build-push
-        name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          context: ${{ matrix.directory }}
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          image-name: ghcr.io/${{ github.repository }}/${{ steps.image-name.outputs.name }}
+          kubescape: true
+          kubescape-upload-sarif: true
 
   finalize:
     runs-on: ubuntu-latest
@@ -315,17 +283,6 @@ jobs:
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: ${{ secrets.REDIS_SSL }}
           mode: submit
-          exclusions: |
-            .git
-            .github
-            echo-server
-            hn-submission
-            kratos
-            kratos-selfservice-ui-node
-            listmonk
-            oathkeeper
-            reddit-submission
-            static-web-server
 
   labeler:
     runs-on: ubuntu-latest

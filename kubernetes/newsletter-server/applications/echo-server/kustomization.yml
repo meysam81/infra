@@ -1,4 +1,4 @@
 resources:
-  - ../../../../applications/echo-server
+  - ../../../../blueprints/echo-server
 
 namespace: default

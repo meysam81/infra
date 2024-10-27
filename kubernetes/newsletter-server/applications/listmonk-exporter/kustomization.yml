@@ -1,4 +1,4 @@
 resources:
-  - ../../../../applications/listmonk-exporter/kustomization
+  - ../../../../blueprints/listmonk-exporter
 
 namespace: default

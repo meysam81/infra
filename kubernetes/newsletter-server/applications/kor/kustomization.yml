@@ -1,2 +1,4 @@
 resources:
-  - ../../../../applications/kor/kustomization
+  - ../../../../blueprints/kor
+
+namespace: kube-system

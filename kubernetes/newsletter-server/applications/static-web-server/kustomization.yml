@@ -1,2 +1,2 @@
 resources:
-  - ../../../../applications/static-web-server
+  - ../../../../blueprints/static-web-server
