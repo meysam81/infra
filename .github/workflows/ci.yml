@@ -261,6 +261,7 @@ jobs:
       - name: Build docker
         uses: meysam81/build-docker@v1
         with:
+          context: ${{ matrix.directory }}
           image-name: ghcr.io/${{ github.repository }}/${{ steps.image-name.outputs.name }}
           kubescape: true
           kubescape-upload-sarif: true
