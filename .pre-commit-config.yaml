@@ -60,7 +60,7 @@ repos:
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
+    rev: v0.7.1
     hooks:
       - id: ruff
         args:
@@ -68,7 +68,7 @@ repos:
           - --select=I
       - id: ruff-format
   - repo: https://github.com/tofuutils/pre-commit-opentofu
-    rev: v2.0.0
+    rev: v2.1.0
     hooks:
       - id: tofu_fmt
       - id: tofu_tflint
