@@ -20,9 +20,3 @@ resource "aws_iam_role" "this" {
     policy = data.aws_iam_policy_document.iam_policy.json
   }
 }
-
-resource "aws_ssm_parameter" "this" {
-  name  = "/atlantis/aws-role-arn"
-  type  = "String"
-  value = aws_iam_role.this.arn
-}
