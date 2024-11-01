@@ -23,7 +23,7 @@ resource "github_repository_webhook" "this" {
   ]
 }
 
-resource "aws_ssm_parameter" "this" {
+resource "aws_ssm_parameter" "webhook_secret" {
   name  = "/atlantis/webhook-secret"
   type  = "SecureString"
   value = random_password.this.result

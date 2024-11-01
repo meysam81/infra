@@ -2,8 +2,10 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/aws" {
-  version = "5.71.0"
+  version     = "5.71.0"
+  constraints = "< 6.0.0"
   hashes = [
+    "h1:GRLQ7f+6mucYFvY2YULcADANKtdMtGCuSXsG3/izE2E=",
     "h1:P+q38D8CcLrB0wBFOeuq13KLBvyFBkgdSm7JUzB5P9I=",
     "zh:2923fb57939ad643df9872c752a0d5fddcc03ca543c2659cb752acb997b6553e",
     "zh:412112a568587e86381ad7b81347433753c4ab4144439d6b8da199f668f84227",
@@ -22,6 +24,7 @@ provider "registry.opentofu.org/hashicorp/random" {
   version     = "3.6.3"
   constraints = "< 4.0.0"
   hashes = [
+    "h1:Ry0Lr0zaoicslZlcUR4rAySPpl/a7QupfMfuAxhW3fw=",
     "h1:ohM08k4QVd81oVSJnFI53wJjPcH23XlYG4WslS9og2Q=",
     "zh:1bfd2e54b4eee8c761a40b6d99d45880b3a71abc18a9a7a5319204da9c8363b2",
     "zh:21a15ac74adb8ba499aab989a4248321b51946e5431219b56fc827e565776714",
@@ -41,6 +44,7 @@ provider "registry.opentofu.org/integrations/github" {
   constraints = "< 7.0.0"
   hashes = [
     "h1:fMctJXbbaQU4sBAxAayAVa9wDyIIdSBZX8KzFphKFC0=",
+    "h1:kNCbU7jr9j09hqWwyXGFDN95Un28gWO2kY2yImv1MDY=",
     "zh:25ae1cb97ec528e6b7e9330489f4a33acc0fa80b909c113a8445656bc524c5b9",
     "zh:3e1f6300dc10e52a54f13352770ed79f25ff4ba9ac49b776c52a655a3488a20b",
     "zh:4aaf2877ec22e63358d7c9cd48c7d7947d1a1dc4d03231f0af193d8975d5918a",

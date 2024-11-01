@@ -23,3 +23,7 @@ fmt:
 
 sort-blocklist-ips:
   sort -u ansible/newsletter-server/blocklist_ips.lst -o ansible/newsletter-server/blocklist_ips.lst
+
+[no-cd]
+tflint-fix:
+  tflint --fix --chdir=.

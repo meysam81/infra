@@ -1,6 +1,3 @@
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
-
 resource "github_branch_protection" "this" {
   repository_id = var.repository_name
 
