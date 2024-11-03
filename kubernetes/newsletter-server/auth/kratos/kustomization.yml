@@ -1,4 +1,3 @@
-# kustomization.yml
 configMapGenerator:
   - name: kratos-config
     files:
@@ -39,53 +38,69 @@ patches:
       name: kratos
   - patch: |
       - op: add
-        path: /spec/template/spec/initContainers/0/volumeMounts
+        path: /spec/template/spec/initContainers/0/volumeMounts/-
         value:
-          - mountPath: /etc/kratos-schemas
-            name: kratos-schemas
-            readOnly: true
-          - mountPath: /etc/kratos-jsonnet
-            name: kratos-jsonnet
-            readOnly: true
+          mountPath: /etc/kratos-schemas
+          name: kratos-schemas
+          readOnly: true
       - op: add
-        path: /spec/template/spec/containers/0/volumeMounts
+        path: /spec/template/spec/containers/0/volumeMounts/-
         value:
-          - mountPath: /etc/kratos-schemas
-            name: kratos-schemas
-            readOnly: true
-          - mountPath: /etc/kratos-jsonnet
-            name: kratos-jsonnet
-            readOnly: true
+          mountPath: /etc/kratos-schemas
+          name: kratos-schemas
+          readOnly: true
       - op: add
-        path: /spec/template/spec/containers/1/volumeMounts
+        path: /spec/template/spec/containers/1/volumeMounts/-
         value:
-          - mountPath: /etc/kratos-schemas
-            name: kratos-schemas
-            readOnly: true
-          - mountPath: /etc/kratos-jsonnet
-            name: kratos-jsonnet
-            readOnly: true
+          mountPath: /etc/kratos-schemas
+          name: kratos-schemas
+          readOnly: true
       - op: add
-        path: /spec/template/spec/volumes
+        path: /spec/template/spec/volumes/-
         value:
-          - configMap:
-              defaultMode: 0444
-              items:
-                - key: admin.schema.json
-                  path: admin.schema.json
-              name: kratos-schemas
-              optional: false
+          configMap:
+            defaultMode: 0444
+            items:
+              - key: admin.schema.json
+                path: admin.schema.json
             name: kratos-schemas
-          - configMap:
-              defaultMode: 0444
-              items:
-                - key: debug.jsonnet
-                  path: debug.jsonnet
-                - key: google.jsonnet
-                  path: google.jsonnet
-              name: kratos-jsonnet
-              optional: false
+            optional: false
+          name: kratos-schemas
+    target:
+      kind: Deployment
+      name: kratos
+  - patch: |
+      - op: add
+        path: /spec/template/spec/initContainers/0/volumeMounts/-
+        value:
+          mountPath: /etc/kratos-jsonnet
+          name: kratos-jsonnet
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          mountPath: /etc/kratos-jsonnet
+          name: kratos-jsonnet
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/containers/1/volumeMounts/-
+        value:
+          mountPath: /etc/kratos-jsonnet
+          name: kratos-jsonnet
+          readOnly: true
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          configMap:
+            defaultMode: 0444
+            items:
+              - key: debug.jsonnet
+                path: debug.jsonnet
+              - key: google.jsonnet
+                path: google.jsonnet
             name: kratos-jsonnet
+            optional: false
+          name: kratos-jsonnet
     target:
       kind: Deployment
       name: kratos
