@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kor
+  namespace: flux-system
+spec:
+  force: false
+  interval: 10m
+  path: ./kubernetes/newsletter-server/applications/kor
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: kube-system
+  timeout: 5m
+  wait: true
