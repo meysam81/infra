@@ -19,19 +19,19 @@ resources:
 patches:
   - patch: |
       - op: add
-        path: /spec/template/spec/initContainers/0/envFrom
+        path: /spec/template/spec/initContainers/0/envFrom/-
         value:
-          - secretRef:
+            secretRef:
               name: kratos
       - op: add
-        path: /spec/template/spec/containers/0/envFrom
+        path: /spec/template/spec/containers/0/envFrom/-
         value:
-          - secretRef:
+            secretRef:
               name: kratos
       - op: add
-        path: /spec/template/spec/containers/1/envFrom
+        path: /spec/template/spec/containers/1/envFrom/-
         value:
-          - secretRef:
+            secretRef:
               name: kratos
     target:
       kind: Deployment
