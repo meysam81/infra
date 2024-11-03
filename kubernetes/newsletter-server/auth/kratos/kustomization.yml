@@ -21,18 +21,18 @@ patches:
       - op: add
         path: /spec/template/spec/initContainers/0/envFrom/-
         value:
-            secretRef:
-              name: kratos
+          secretRef:
+            name: kratos
       - op: add
         path: /spec/template/spec/containers/0/envFrom/-
         value:
-            secretRef:
-              name: kratos
+          secretRef:
+            name: kratos
       - op: add
         path: /spec/template/spec/containers/1/envFrom/-
         value:
-            secretRef:
-              name: kratos
+          secretRef:
+            name: kratos
     target:
       kind: Deployment
       name: kratos
