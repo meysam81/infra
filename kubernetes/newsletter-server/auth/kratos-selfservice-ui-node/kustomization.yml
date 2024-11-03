@@ -1,4 +1,24 @@
+configMapGenerator:
+  - name: kratos-selfservice-ui-node
+    envs:
+      - configs.env
+    behavior: replace
+
 resources:
-  - ../../../../blueprints/kratos-selfservice-ui-node
+  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.2.0
+  - externalsecret.yml
+  - httproute.yml
+
+patches:
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom/-
+        value:
+          secretRef:
+            name: kratos-selfservice-ui-node
+    target:
+      kind: Deployment
+      name: kratos-selfservice-ui-node
+
 
 namespace: auth
