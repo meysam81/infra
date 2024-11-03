@@ -1,9 +1,3 @@
-configMapGenerator:
-  - name: oathkeeper-config
-    files:
-      - config.yml=oathkeeper-server-config.yml
-    behavior: replace
-
 resources:
   - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v1.3.0
 
