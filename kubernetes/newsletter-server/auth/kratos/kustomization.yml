@@ -1,4 +1,93 @@
+# kustomization.yml
+configMapGenerator:
+  - name: kratos-config
+    files:
+      - config.yml=kratos-server-config.yml
+    behavior: replace
+  - name: kratos-schemas
+    files:
+      - schemas/admin.schema.json
+  - name: kratos-jsonnet
+    files:
+      - jsonnet-mappers/debug.jsonnet
+      - jsonnet-mappers/google.jsonnet
+
 resources:
-  - ../../../../blueprints/kratos/overlays/prod
+  - https://github.com/meysam81/kustomizations//kratos/overlays/vm/?ref=main
+  - httproute.yml
+  - externalsecret.yml
+
+patches:
+  - patch: |
+      - op: add
+        path: /spec/template/spec/initContainers/0/envFrom
+        value:
+          - secretRef:
+              name: kratos
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom
+        value:
+          - secretRef:
+              name: kratos
+      - op: add
+        path: /spec/template/spec/containers/1/envFrom
+        value:
+          - secretRef:
+              name: kratos
+    target:
+      kind: Deployment
+      name: kratos
+  - patch: |
+      - op: add
+        path: /spec/template/spec/initContainers/0/volumeMounts
+        value:
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts
+        value:
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+      - op: add
+        path: /spec/template/spec/containers/1/volumeMounts
+        value:
+          - mountPath: /etc/kratos-schemas
+            name: kratos-schemas
+            readOnly: true
+          - mountPath: /etc/kratos-jsonnet
+            name: kratos-jsonnet
+            readOnly: true
+      - op: add
+        path: /spec/template/spec/volumes
+        value:
+          - configMap:
+              defaultMode: 0444
+              items:
+                - key: admin.schema.json
+                  path: admin.schema.json
+              name: kratos-schemas
+              optional: false
+            name: kratos-schemas
+          - configMap:
+              defaultMode: 0444
+              items:
+                - key: debug.jsonnet
+                  path: debug.jsonnet
+                - key: google.jsonnet
+                  path: google.jsonnet
+              name: kratos-jsonnet
+              optional: false
+            name: kratos-jsonnet
+    target:
+      kind: Deployment
+      name: kratos
 
 namespace: auth

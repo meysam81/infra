@@ -53,6 +53,7 @@
             name: update-bad-ips.service
             state: started
             daemon_reload: true
+          changed_when: false
         - name: Enable the bad IP timer
           ansible.builtin.systemd:
             name: update-bad-ips.timer
