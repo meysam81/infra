@@ -5,7 +5,7 @@ configMapGenerator:
     behavior: replace
 
 resources:
-  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.2.0
+  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.3.0
   - externalsecret.yml
   - httproute.yml
 
