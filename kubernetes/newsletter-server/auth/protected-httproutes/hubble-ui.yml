@@ -13,9 +13,9 @@ items:
       parentRefs:
         - group: gateway.networking.k8s.io
           kind: Gateway
-          name: microlinkpc
-          namespace: cert-manager
-          sectionName: hubble
+          name: global
+          namespace: default
+          sectionName: http
       rules:
         - backendRefs:
             - group: ""
