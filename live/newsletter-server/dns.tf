@@ -106,3 +106,18 @@ resource "cloudflare_record" "atlantis" {
   type    = each.key
   content = each.value
 }
+
+resource "cloudflare_record" "hubble" {
+  for_each = {
+    A    = hcloud_primary_ip.this["ipv4"].ip_address
+    AAAA = hcloud_primary_ip.this["ipv6"].ip_address
+  }
+
+  zone_id = data.cloudflare_zone.this.id
+
+  name    = "hubble"
+  proxied = true
+  ttl     = 1
+  type    = each.key
+  content = each.value
+}
