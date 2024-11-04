@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: static-web-server
+  name: listmonk-statics
 spec:
   replicas: 1
   template:
@@ -9,7 +9,7 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-                name: static-web-server
+                name: listmonk-statics
           image: joseluisq/static-web-server
           livenessProbe:
             httpGet:
@@ -17,7 +17,7 @@ spec:
               port: http
             initialDelaySeconds: 1
             periodSeconds: 10
-          name: static-web-server
+          name: listmonk-statics
           ports:
             - containerPort: 8000
               name: http
@@ -60,7 +60,7 @@ spec:
             - '-c'
           envFrom:
             - configMapRef:
-                name: static-web-server
+                name: listmonk-statics
           image: curlimages/curl
           name: init
           securityContext:
@@ -78,5 +78,5 @@ spec:
         - emptyDir: {}
           name: public-volume
         - configMap:
-            name: static-web-server-config
+            name: listmonk-statics-config
           name: config-volume

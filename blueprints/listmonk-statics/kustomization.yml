@@ -11,37 +11,37 @@ images:
     newTag: 8.10.1
 
 configMapGenerator:
-  - name: static-web-server
+  - name: listmonk-statics
     envs:
       - configs.env
-  - name: static-web-server-config
+  - name: listmonk-statics-config
     files:
       - config.toml
 
 commonLabels:
-  app.kubernetes.io/name: static-web-server
-  app.kubernetes.io/instance: static-web-server
+  app.kubernetes.io/name: listmonk-statics
+  app.kubernetes.io/instance: listmonk-statics
   app.kubernetes.io/managed-by: kustomize
-  app.kubernetes.io/component: static-web-server
-  app.kubernetes.io/part-of: static-web-server
+  app.kubernetes.io/component: listmonk-statics
+  app.kubernetes.io/part-of: listmonk-statics
   app.kubernetes.io/version: 2-alpine
 
 replacements:
   - source:
       kind: Deployment
-      name: static-web-server
+      name: listmonk-statics
       fieldPath: spec.template.metadata.labels
     targets:
       - select:
           kind: Service
-          name: static-web-server
+          name: listmonk-statics
         fieldPaths:
           - spec.selector
         options:
           create: true
       - select:
           kind: CiliumNetworkPolicy
-          name: static-web-server
+          name: listmonk-statics
         fieldPaths:
           - spec.endpointSelector.matchLabels
         options:

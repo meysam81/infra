@@ -1,7 +1,7 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: static-web-server
+  name: listmonk-statics
 spec:
   endpointSelector:
     matchLabels:
