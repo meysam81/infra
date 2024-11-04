@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   force: false
-  interval: 5m0s
+  interval: 10m
   path: ./kubernetes/newsletter-server/auth/protected-httproutes
   prune: true
   sourceRef:

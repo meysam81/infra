@@ -4,8 +4,8 @@ metadata:
   name: listmonk
   namespace: flux-system
 spec:
-  force: false
-  interval: 5m0s
+  force: true
+  interval: 10m
   path: ./kubernetes/newsletter-server/applications/listmonk
   prune: true
   sourceRef:

@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   force: true
-  interval: 5m0s
+  interval: 10m
   path: ./kubernetes/newsletter-server/auth/oathkeeper
   prune: true
   sourceRef:

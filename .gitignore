@@ -66,3 +66,4 @@ kubernetes/raspberry-pi/applications/gh-self-hosted-runner/secrets.env
 **/__pycache__
 *.py[cod]
 .helmwave
+backup/

@@ -4,8 +4,8 @@ metadata:
   name: listmonk-statics
   namespace: flux-system
 spec:
-  force: true
-  interval: 5m0s
+  force: false
+  interval: 10m
   path: ./kubernetes/newsletter-server/applications/listmonk-statics
   prune: true
   sourceRef:

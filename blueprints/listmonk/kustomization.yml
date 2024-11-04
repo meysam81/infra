@@ -12,7 +12,7 @@ configMapGenerator:
 
 images:
   - name: listmonk/listmonk
-    newTag: v3.0.0
+    newTag: v4.0.1
   - name: postgres
     newTag: 17-alpine
 
@@ -22,7 +22,7 @@ commonLabels:
   app.kubernetes.io/managed-by: kustomize
   app.kubernetes.io/name: listmonk
   app.kubernetes.io/part-of: listmonk
-  app.kubernetes.io/version: v3.0.0
+  app.kubernetes.io/version: v1.0.0
 
 replacements:
   - source:
