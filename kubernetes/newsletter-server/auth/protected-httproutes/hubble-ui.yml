@@ -1,0 +1,84 @@
+---
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: hubble-ui
+      namespace: auth
+    spec:
+      hostnames:
+        - hubble.developer-friendly.blog
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: microlinkpc
+          namespace: cert-manager
+          sectionName: hubble
+      rules:
+        - backendRefs:
+            - group: ""
+              kind: Service
+              name: oathkeeper-proxy
+              port: 80
+              weight: 1
+          filters:
+            - responseHeaderModifier:
+                set:
+                  - name: Access-Control-Allow-Credentials
+                    value: "true"
+                  - name: Access-Control-Allow-Headers
+                    value: "*"
+                  - name: Access-Control-Allow-Methods
+                    value: GET, PUT, POST, DELETE, OPTIONS
+                  - name: Access-Control-Allow-Origin
+                    value: "*"
+                  - name: Cache-Control
+                    value: no-cache, no-store
+                  - name: Cross-Origin-Embedder-Policy
+                    value: unsafe-none
+                  - name: Cross-Origin-Opener-Policy
+                    value: unsafe-none
+                  - name: Cross-Origin-Resource-Policy
+                    value: cross-origin
+                  - name: Referrer-Policy
+                    value: unsafe-url
+                  - name: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains; preload
+                  - name: X-Content-Type-Options
+                    value: nosniff
+                  - name: X-Permitted-Cross-Domain-Policies
+                    value: none
+                  - name: X-XSS-Protection
+                    value: "0"
+              type: ResponseHeaderModifier
+          matches:
+            - path:
+                type: PathPrefix
+                value: /
+  - apiVersion: oathkeeper.ory.sh/v1alpha1
+    kind: Rule
+    metadata:
+      name: hubble
+      namespace: auth
+    spec:
+      authenticators:
+        - handler: cookie_session
+      authorizer:
+        handler: allow
+      errors:
+        - handler: redirect
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+        url: http<s?>://hubble.developer-friendly.blog</?.*>
+      mutators:
+        - handler: noop
+      upstream:
+        preserveHost: true
+        url: http://hubble-ui.kube-system.svc:80
