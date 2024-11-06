@@ -209,6 +209,9 @@ jobs:
           redis-port: ${{ secrets.REDIS_PORT }}
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: true
+          exclusions: |
+            hn-submission
+            reddit-submission
 
   build:
     needs: prepare
@@ -253,6 +256,9 @@ jobs:
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: ${{ secrets.REDIS_SSL }}
           mode: submit
+          exclusions: |
+            hn-submission
+            reddit-submission
 
   labeler:
     runs-on: ubuntu-latest
