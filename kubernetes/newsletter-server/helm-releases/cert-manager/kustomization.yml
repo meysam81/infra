@@ -5,9 +5,10 @@ configMapGenerator:
   - files:
       - values.yaml=helm-values.yml
     name: cert-manager
-    namespace: flux-system
 
 resources:
   - helmrelease.yml
   - externalsecret.yml
   - clusterissuer.yml
+
+namespace: flux-system
