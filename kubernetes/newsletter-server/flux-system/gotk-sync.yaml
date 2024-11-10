@@ -19,7 +19,8 @@ metadata:
 spec:
   interval: 10m0s
   path: ./kubernetes/newsletter-server/flux-system
-  prune: true
+  # TODO: turn it on when migrated
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
