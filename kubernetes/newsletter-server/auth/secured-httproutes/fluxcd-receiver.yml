@@ -31,6 +31,19 @@ items:
         - apiVersion: source.toolkit.fluxcd.io/v1
           kind: GitRepository
           name: flux-system
+  - apiVersion: gateway.networking.k8s.io/v1beta1
+    kind: ReferenceGrant
+    metadata:
+      name: fluxcd-receiver
+      namespace: auth
+    spec:
+      from:
+      - group: gateway.networking.k8s.io
+        kind: HTTPRoute
+        namespace: fluxcd-receiver
+      to:
+      - group: ""
+        kind: Service
   - apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
