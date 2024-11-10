@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: victoria-metrics
       version: 0.x
-  interval: 1h0m0s
+  interval: 1h
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
   upgrade:

@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: notification.toolkit.fluxcd.io/v1
+    kind: Receiver
+    metadata:
+      name: github-receiver
+      namespace: flux-system
+    spec:
+      type: github
+      events:
+        - "ping"
+        - "push"
+      secretRef:
+        name: receiver-token
+      resources:
+        - apiVersion: source.toolkit.fluxcd.io/v1
+          kind: GitRepository
+          name: flux-system
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: fluxcd-receiver
+      namespace: flux-system
+    spec:
+      hostnames:
+        - fluxcd.developer-friendly.blog
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: global
+          namespace: default
+          sectionName: http
+      rules:
+        - backendRefs:
+            - kind: Service
+              name: notification-controller
+              port: 80
+          filters:
+            - responseHeaderModifier:
+                set:
+                  - name: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains; preload
+              type: ResponseHeaderModifier
+            - requestMirror:
+                backendRef:
+                  kind: Service
+                  name: echo-server
+                  namespace: auth
+                  port: 80
+              type: RequestMirror
+          matches:
+            - path:
+                type: PathPrefix
+                value: /
