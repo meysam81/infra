@@ -7,7 +7,7 @@ resource "github_repository_webhook" "this" {
   repository = "infra"
 
   configuration {
-    url          = "https://fluxcd.developer-friendly.blog/events"
+    url          = "https://fluxcd.developer-friendly.blog"
     content_type = "json"
     insecure_ssl = false
     secret       = random_password.this.result
