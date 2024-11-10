@@ -8,7 +8,5 @@ configMapGenerator:
 
 resources:
   - helmrelease.yml
-  - externalsecret.yml
-  - clusterissuer.yml
 
 namespace: flux-system
