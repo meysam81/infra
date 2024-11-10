@@ -56,4 +56,4 @@ items:
         - handler: noop
       upstream:
         preserveHost: true
-        url: http://capacitor-victoria-metrics-k8s-stack.monitoring:8429
+        url: http://capacitor.flux-system:9000
