@@ -8,9 +8,9 @@ items:
       namespace: flux-system
     spec:
       data:
-      - remoteRef:
-          key: /fluxcd/webhook-secret
-        secretKey: token
+        - remoteRef:
+            key: /fluxcd/webhook-secret
+          secretKey: token
       refreshInterval: 24h
       secretStoreRef:
         kind: ClusterSecretStore
@@ -38,12 +38,25 @@ items:
       namespace: auth
     spec:
       from:
-      - group: gateway.networking.k8s.io
-        kind: HTTPRoute
-        namespace: fluxcd-receiver
+        - group: gateway.networking.k8s.io
+          kind: HTTPRoute
+          namespace: fluxcd-receiver
       to:
-      - group: ""
-        kind: Service
+        - group: ""
+          kind: Service
+  - apiVersion: gateway.networking.k8s.io/v1beta1
+    kind: ReferenceGrant
+    metadata:
+      name: fluxcd-receiver
+      namespace: flux-system
+    spec:
+      from:
+        - group: gateway.networking.k8s.io
+          kind: HTTPRoute
+          namespace: fluxcd-receiver
+      to:
+        - group: ""
+          kind: Service
   - apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
     metadata:
