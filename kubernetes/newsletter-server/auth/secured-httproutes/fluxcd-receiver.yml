@@ -15,6 +15,27 @@ items:
       secretStoreRef:
         kind: ClusterSecretStore
         name: aws-parameter-store
+  - apiVersion: cilium.io/v2
+    kind: CiliumNetworkPolicy
+    metadata:
+      name: fluxcd-receiver
+      namespace: flux-system
+    spec:
+      description: Allow HTTP POST /hook from ingress
+      endpointSelector:
+        matchLabels:
+          app: notification-controller
+      ingress:
+        - fromEntities:
+            - ingress
+          toPorts:
+            - ports:
+                - port: "9090"
+                  protocol: TCP
+              rules:
+                http:
+                  - method: POST
+                    path: /
   - apiVersion: notification.toolkit.fluxcd.io/v1
     kind: Receiver
     metadata:
