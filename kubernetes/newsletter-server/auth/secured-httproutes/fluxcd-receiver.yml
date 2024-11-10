@@ -1,6 +1,20 @@
 apiVersion: v1
 kind: List
 items:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: fluxcd-receiver-token
+      namespace: flux-system
+    spec:
+      data:
+      - remoteRef:
+          key: /fluxcd/webhook-secret
+        secretKey: token
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
   - apiVersion: notification.toolkit.fluxcd.io/v1
     kind: Receiver
     metadata:
@@ -12,7 +26,7 @@ items:
         - "ping"
         - "push"
       secretRef:
-        name: receiver-token
+        name: fluxcd-receiver-token
       resources:
         - apiVersion: source.toolkit.fluxcd.io/v1
           kind: GitRepository
