@@ -16,6 +16,7 @@ LISTMONK_HOST = os.environ["LISTMONK_HOST"]
 LISTMONK_AUTHORIZATION = os.getenv("LISTMONK_AUTHORIZATION")
 LISTMONK_ADMIN_USERNAME = os.getenv("LISTMONK_ADMIN_USERNAME")
 LISTMONK_ADMIN_PASSWORD = os.getenv("LISTMONK_ADMIN_PASSWORD")
+LIST_NAME = os.getenv("LIST_NAME", "Developer Friendly Blog")
 SCRAPE_INTERVAL = int(os.getenv("SCRAPE_INTERVAL", 60))
 PORT = int(os.getenv("PORT", 8000))
 
@@ -37,12 +38,12 @@ def init_metrics():
     current_subscribers = Gauge(
         "listmonk_current_subscribers",
         "Total new subscriptions",
-        ["email", "name", "subscription_status"],
+        ["email", "name", "subscription_status", "subscription_updated_at"],
     )
 
 
 def hashify_labels(**labels) -> int:
-    return hash(frozenset(labels.items()))
+    return abs(hash(frozenset(labels.items())))
 
 
 def get_logger(level="INFO"):
@@ -76,11 +77,18 @@ def upgrade_metrics():
         json = client.get("/api/subscribers").json()
 
         for subscriber in json["data"]["results"]:
-            subscription_status = subscriber["lists"][0]["subscription_status"]
+            list = filter(lambda list_: list_["name"] == LIST_NAME, subscriber["lists"])
+            try:
+                subscriber_list = next(list)
+            except StopIteration:
+                subscriber_list = None
+            subscription_status = subscriber_list["subscription_status"]
+            subscription_updated_at = subscriber_list["updated_at"]
             labels = {
                 "email": subscriber["email"],
                 "name": subscriber["name"],
                 "subscription_status": subscription_status,
+                "subscription_updated_at": subscription_updated_at,
             }
             value = hashify_labels(**labels)
             current_subscribers.labels(**labels).set(value)
