@@ -11,8 +11,8 @@ resource "cloudflare_record" "wildcard" {
   zone_id = data.cloudflare_zone.this.id
 
   name    = "*"
-  proxied = true
-  ttl     = 1
+  proxied = false
+  ttl     = 60
   type    = each.key
   content = each.value
 }
