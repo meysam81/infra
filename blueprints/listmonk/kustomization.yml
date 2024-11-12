@@ -12,7 +12,7 @@ configMapGenerator:
 
 images:
   - name: listmonk/listmonk
-    newTag: v4.0.1
+    newTag: v4.1.0
   - name: postgres
     newTag: 17-alpine
 
