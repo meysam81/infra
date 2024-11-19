@@ -40,15 +40,6 @@ variable "gpg_private_key" {
   sensitive = true
 }
 
-variable "admin_ips" {
-  type = list(string)
-  default = [
-    "116.254.97.0/24",
-    "202.125.100.0/24",
-    "103.228.242.0/24",
-  ]
-}
-
 variable "cloudflare_api_token" {
   type      = string
   sensitive = true
