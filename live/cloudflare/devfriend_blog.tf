@@ -205,3 +205,13 @@ resource "cloudflare_record" "dmarc_email" {
   type    = "TXT"
   content = "v=DMARC1; p=none;"
 }
+
+resource "cloudflare_record" "caa" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "CAA"
+  content = "0 issuewild \"letsencrypt.org\""
+}
