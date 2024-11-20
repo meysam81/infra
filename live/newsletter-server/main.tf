@@ -54,6 +54,12 @@ resource "hcloud_server" "this" {
     ipv6_enabled = true
     ipv6         = hcloud_primary_ip.this["ipv6"].id
   }
+
+  lifecycle {
+    ignore_changes = [
+      user_data,
+    ]
+  }
 }
 
 resource "hcloud_volume" "varlib" {

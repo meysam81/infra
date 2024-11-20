@@ -18,8 +18,8 @@ on:
   workflow_dispatch:
 
 env:
-  tofu_version: 1.8.1
-  tg_version: 0.67.0
+  tofu_version: 1.8.5
+  tg_version: 0.69.0
   TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
   PYTHON_VERSION: 3.x
 
@@ -86,6 +86,7 @@ jobs:
             run-all
               --terragrunt-strict-include
               --terragrunt-include-dir cloudflare
+              --terragrunt-include-dir newsletter-server
               --terragrunt-include-dir k8s-oidc-provider
               --terragrunt-non-interactive
               apply -auto-approve
