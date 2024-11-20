@@ -1,1 +1,3 @@
 plugin: hetzner.hcloud.hcloud
+groups:
+  newsletter_server: "'personal' in name"

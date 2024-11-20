@@ -85,7 +85,6 @@ jobs:
           tg_command: >-
             run-all
               --terragrunt-strict-include
-              --terragrunt-include-dir newsletter-server
               --terragrunt-include-dir cloudflare
               --terragrunt-include-dir k8s-oidc-provider
               --terragrunt-non-interactive
