@@ -1,6 +1,6 @@
 variable "environment_name" {
   type    = string
-  default = "ansible"
+  default = "prod"
 }
 variable "repository_name" {
   type    = string

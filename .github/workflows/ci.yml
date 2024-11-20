@@ -104,7 +104,7 @@ jobs:
       TF_TOKEN_app_terraform_io: ${{ secrets.TF_TOKEN_app_terraform_io }}
       ANSIBLE_FORCE_COLOR: "1"
       PY_COLORS: "1"
-    environment: ansible
+    environment: prod
     defaults:
       run:
         working-directory: ./ansible
