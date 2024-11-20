@@ -213,5 +213,10 @@ resource "cloudflare_record" "caa" {
   proxied = false
   ttl     = 1
   type    = "CAA"
-  content = "0 issuewild \"letsencrypt.org\""
+
+  data {
+    flags = 0
+    tag   = "issuewild"
+    value = "letsencrypt.org"
+  }
 }
