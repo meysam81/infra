@@ -5,7 +5,7 @@ configMapGenerator:
     behavior: replace
 
 resources:
-  - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v1.3.1
+  - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v1.4.9
 
 patches:
   - patch: |
