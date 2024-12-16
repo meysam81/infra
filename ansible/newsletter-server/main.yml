@@ -96,6 +96,10 @@
   roles:
     - name: meysam81.general.node_exporter
       tags: node-exporter
+    - name: meysam81.general.haproxy
+      tags: haproxy
+      vars:
+        haproxy_version: 3.1
     - name: meysam81.general.vmagent
       vars:
         vmagent_fail2ban_enabled: true
