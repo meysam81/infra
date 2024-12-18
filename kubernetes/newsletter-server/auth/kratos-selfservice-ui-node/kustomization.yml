@@ -1,7 +1,8 @@
 configMapGenerator:
-  - name: kratos-selfservice-ui-node
+  - name: kratos-selfservice-ui-node-envs
     envs:
       - configs.env
+    behavior: merge
 
 resources:
   - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.5.2

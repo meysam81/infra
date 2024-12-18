@@ -34,8 +34,7 @@ items:
                 - port: "9292"
                   protocol: TCP
               rules:
-                http:
-                  - method: POST
+                http: [{}]
   - apiVersion: notification.toolkit.fluxcd.io/v1
     kind: Receiver
     metadata:
@@ -66,7 +65,7 @@ items:
       rules:
         - backendRefs:
             - kind: Service
-              name: notification-controller
+              name: webhook-receiver
               port: 80
           filters:
             - responseHeaderModifier:
