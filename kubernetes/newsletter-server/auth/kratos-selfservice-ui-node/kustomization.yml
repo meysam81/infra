@@ -2,10 +2,9 @@ configMapGenerator:
   - name: kratos-selfservice-ui-node
     envs:
       - configs.env
-    behavior: replace
 
 resources:
-  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.5.1
+  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v1.5.2
   - externalsecret.yml
   - httproute.yml
 
