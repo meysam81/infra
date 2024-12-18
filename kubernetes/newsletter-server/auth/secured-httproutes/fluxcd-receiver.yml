@@ -31,21 +31,17 @@ items:
             - ingress
           toPorts:
             - ports:
-                - port: "9090"
+                - port: "9292"
                   protocol: TCP
               rules:
                 http:
                   - method: POST
-                    path: /
   - apiVersion: notification.toolkit.fluxcd.io/v1
     kind: Receiver
     metadata:
       name: github-receiver
       namespace: flux-system
     spec:
-      events:
-        - ping
-        - push
       resources:
         - apiVersion: source.toolkit.fluxcd.io/v1
           kind: GitRepository
@@ -81,5 +77,5 @@ items:
           matches:
             - method: POST
               path:
-                type: Exact
-                value: /
+                type: PathPrefix
+                value: /hook/

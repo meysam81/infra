@@ -7,7 +7,7 @@ resource "github_repository_webhook" "this" {
   repository = "infra"
 
   configuration {
-    url          = "https://fluxcd.developer-friendly.blog"
+    url          = "https://fluxcd.developer-friendly.blog/hook/89d98a981541042cbf152c0718d0be57537f5a25afdf624609cdd91f2f48c07b"
     content_type = "json"
     insecure_ssl = false
     secret       = random_password.this.result
@@ -17,6 +17,7 @@ resource "github_repository_webhook" "this" {
 
   events = [
     "push",
+    "ping",
   ]
 }
 
