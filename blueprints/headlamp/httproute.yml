@@ -15,6 +15,7 @@ spec:
     - backendRefs:
         - kind: Service
           name: oathkeeper-proxy
+          namespace: auth
           port: 80
       filters:
         - responseHeaderModifier:
