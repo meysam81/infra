@@ -1,7 +1,7 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: capacitor
+  name: headlamp
 spec:
   description: Allow all internet traffic
   endpointSelector:
