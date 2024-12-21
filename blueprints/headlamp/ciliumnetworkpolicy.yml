@@ -1,19 +1,19 @@
+---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: headlamp
 spec:
-  description: Allow all internet traffic
   endpointSelector:
     matchLabels:
       k8s:app.kubernetes.io/instance: headlamp
       k8s:app.kubernetes.io/name: headlamp
-      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/instance: fluxsystem
-      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/partof: flux
-      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: fluxsystem
-      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/name: fluxsystem
-      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/namespace: fluxsystem
-      k8s:io.kubernetes.pod.namespace: fluxsystem
+      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/instance: flux-system
+      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/part-of: flux
+      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: flux-system
+      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/name: flux-system
+      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/namespace: flux-system
+      k8s:io.kubernetes.pod.namespace: flux-system
   ingress:
     - fromEndpoints:
         - matchExpressions:
