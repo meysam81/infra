@@ -8,7 +8,6 @@ configMapGenerator:
 
 resources:
   - ciliumnetworkpolicy.yml
-  - externalsecret.yml
   - helmrelease.yml
   - helmrepository.yml
   - httproute.yml
