@@ -42,7 +42,7 @@ config:
     #       name: oidc
     secret:
       # -- Generate OIDC secret. If true, will generate a secret using .config.oidc.
-      create: false
+      create: true
       # -- Name of the OIDC secret.
       name: oidc
 
