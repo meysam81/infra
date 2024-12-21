@@ -6,6 +6,7 @@ configMapGenerator:
 
 resources:
   - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v1.6.0
+  - ciliumnetworkpolicy.yml
 
 patches:
   - patch: |
@@ -28,5 +29,28 @@ patches:
     target:
       kind: Deployment
       name: oathkeeper
+
+replacements:
+  - source:
+      kind: Service
+      name: oathkeeper-proxy
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels.[k8s:app.kubernetes.io/name]
+        options:
+          create: true
+  - source:
+      kind: Deployment
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels.[k8s:io.kubernetes.pod.namespace]
+        options:
+          create: true
 
 namespace: auth
