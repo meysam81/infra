@@ -57,33 +57,3 @@ items:
       upstream:
         preserveHost: true
         url: http://capacitor.flux-system:9000
-  - apiVersion: cilium.io/v2
-    kind: CiliumNetworkPolicy
-    metadata:
-      name: capacitor
-      namespace: flux-system
-    spec:
-      description: Allow all internet traffic
-      endpointSelector:
-        matchLabels: {}
-      ingress:
-        - fromEntities:
-            - ingress
-          toPorts:
-            - ports:
-                - port: "9000"
-                  protocol: TCP
-              rules:
-                http: [{}]
-        - fromEndpoints:
-            - matchExpressions:
-                - key: k8s:io.kubernetes.pod.namespace
-                  operator: In
-                  values:
-                    - auth
-          toPorts:
-            - ports:
-                - port: "9000"
-                  protocol: TCP
-              rules:
-                http: [{}]
