@@ -15,14 +15,6 @@ spec:
       k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/namespace: flux-system
       k8s:io.kubernetes.pod.namespace: flux-system
   ingress:
-    # - fromEntities:
-    #     - ingress
-    #   toPorts:
-    #     - ports:
-    #         - port: "9000"
-    #           protocol: TCP
-    #       rules:
-    #         http: [{}]
     - fromEndpoints:
         - matchExpressions:
             - key: k8s:io.kubernetes.pod.namespace
