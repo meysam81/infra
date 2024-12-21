@@ -187,15 +187,15 @@ selfservice:
           origins:
             - https://auth.developer-friendly.blog
         passwordless: true
-      enabled: false
+      enabled: true
     passkey:
       config:
         rp:
           display_name: Developer Friendly Blog
-          id: auth.developer-friendly.blog
+          id: developer-friendly.blog
           origins:
             - https://auth.developer-friendly.blog
-      enabled: false
+      enabled: true
     totp:
       enabled: true
 serve:
