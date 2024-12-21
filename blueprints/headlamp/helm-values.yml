@@ -80,7 +80,7 @@ config:
     #       name: oidc
     externalSecret:
       enabled: true
-      name: headlamp-oidc
+      name: headlamp
   # -- directory to look for plugins
   pluginsDir: "/headlamp/plugins"
   # Extra arguments that can be given to the container. See charts/headlamp/README.md for more information.
