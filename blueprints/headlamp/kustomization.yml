@@ -7,7 +7,10 @@ configMapGenerator:
     name: headlamp
 
 resources:
-  - helmrepository.yml
+  - ciliumnetworkpolicy.yml
   - helmrelease.yml
+  - helmrepository.yml
+  - httproute.yml
+  - rule.yml
 
 namespace: flux-system
