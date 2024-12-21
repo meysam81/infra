@@ -32,8 +32,7 @@ patches:
 
 replacements:
   - source:
-      kind: Service
-      name: oathkeeper-proxy
+      kind: Deployment
       fieldPath: metadata.name
     targets:
       - select:
