@@ -38,42 +38,17 @@ selfservice:
     error:
       ui_url: https://auth.developer-friendly.blog/error
     login:
-      before:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/login/before
-            hook: web_hook
       after:
         default_browser_return_url: https://auth.developer-friendly.blog/sessions
         hooks:
           - hook: revoke_active_sessions
           - hook: require_verified_address
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/login/after
-            hook: web_hook
       lifespan: 1h
       ui_url: https://auth.developer-friendly.blog/login
     logout:
       after:
         default_browser_return_url: https://auth.developer-friendly.blog
     recovery:
-      before:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/recovery/before
-            hook: web_hook
       after:
         default_browser_return_url: https://auth.developer-friendly.blog/login
         hooks:
@@ -82,25 +57,8 @@ selfservice:
       ui_url: https://auth.developer-friendly.blog/recovery
       use: link
     registration:
-      before:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/registration/before
-            hook: web_hook
       after:
         default_browser_return_url: https://auth.developer-friendly.blog/sessions
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/registration/after
-            hook: web_hook
         oidc:
           hooks:
             - hook: session
@@ -111,37 +69,10 @@ selfservice:
       lifespan: 1h
       ui_url: https://auth.developer-friendly.blog/registration
     settings:
-      before:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/settings/before
-            hook: web_hook
-      after:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: false
-              url: http://echo-server.default/settings/after
-            hook: web_hook
       privileged_session_max_age: 15m
       required_aal: highest_available
       ui_url: https://auth.developer-friendly.blog/settings
     verification:
-      before:
-        hooks:
-          - config:
-              body: file:///etc/kratos-jsonnet/debug.jsonnet
-              method: POST
-              response:
-                ignore: true
-              url: http://echo-server.default/login
-            hook: web_hook
       after:
         default_browser_return_url: https://auth.developer-friendly.blog/login
       enabled: true
