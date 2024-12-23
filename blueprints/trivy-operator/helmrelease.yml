@@ -9,7 +9,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: aquasecurity
-      version: 0.24.x
+      version: 0.x
   install:
     createNamespace: true
   interval: 1h
