@@ -2,11 +2,12 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: kor
   labels:
     app.kubernetes.io/component: kor
     app.kubernetes.io/instance: kor
+  name: kor
 spec:
+  concurrencyPolicy: Replace
   failedJobsHistoryLimit: 1
   jobTemplate:
     metadata:
@@ -17,23 +18,23 @@ spec:
       backoffLimit: 1
       template:
         metadata:
-          name: kor
           labels:
             app.kubernetes.io/component: kor
             app.kubernetes.io/instance: kor
+          name: kor
         spec:
           automountServiceAccountToken: true
           containers:
-            - command:
-                - sh
-                - -c
-              args:
+            - args:
                 - |
                   set -eux
 
                   for r in $RESOURCES; do
                     kor $r --delete --no-interactive $KOR_EXTRA_ARGS
                   done
+              command:
+                - sh
+                - "-c"
               envFrom:
                 - configMapRef:
                     name: kor
