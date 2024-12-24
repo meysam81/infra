@@ -1,0 +1,4 @@
+resources:
+  - kustomize.yml
+  - httproute.yml
+  - rule.yml

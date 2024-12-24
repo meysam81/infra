@@ -1,0 +1,9 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: kustomizations
+spec:
+  interval: 12h
+  url: oci://ghcr.io/meysam81/kustomizations
+  ref:
+    semver: ">=0.1.0"
