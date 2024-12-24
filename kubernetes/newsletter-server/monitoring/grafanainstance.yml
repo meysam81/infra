@@ -97,7 +97,7 @@ items:
         security:
           admin_user: admin
         server:
-          root_url: https://grafana.odoo.microlinkpc.com
+          root_url: https://grafana.developer-friendly.blog
         smtp:
           enable_tracing: "true"
           enabled: "true"
@@ -199,7 +199,7 @@ items:
               volumes:
                 - name: grafana-data
                   persistentVolumeClaim:
-                    claimName: grafana-microlinkpc-pvc
+                    claimName: grafana-pvc
                 - emptyDir: {}
                   name: dashboards
                 - configMap:
@@ -214,5 +214,61 @@ items:
               storage: 1Gi
           storageClassName: local-path
       version: 11.4.0
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: grafana
+      namespace: monitoring
+    spec:
+      hostnames:
+        - grafana.developer-friendly.blog
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: global
+          namespace: cert-manager
+          sectionName: http
+      rules:
+        - backendRefs:
+            - group: ""
+              kind: Service
+              name: grafana-service
+              port: 3000
+              weight: 1
+          filters:
+            - responseHeaderModifier:
+                set:
+                  - name: Access-Control-Allow-Credentials
+                    value: "true"
+                  - name: Access-Control-Allow-Headers
+                    value: "*"
+                  - name: Access-Control-Allow-Methods
+                    value: GET, PUT, POST, DELETE, OPTIONS
+                  - name: Access-Control-Allow-Origin
+                    value: "*"
+                  - name: Cache-Control
+                    value: no-cache, no-store
+                  - name: Cross-Origin-Embedder-Policy
+                    value: unsafe-none
+                  - name: Cross-Origin-Opener-Policy
+                    value: unsafe-none
+                  - name: Cross-Origin-Resource-Policy
+                    value: cross-origin
+                  - name: Referrer-Policy
+                    value: unsafe-url
+                  - name: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains; preload
+                  - name: X-Content-Type-Options
+                    value: nosniff
+                  - name: X-Permitted-Cross-Domain-Policies
+                    value: none
+                  - name: X-XSS-Protection
+                    value: "0"
+              type: ResponseHeaderModifier
+          matches:
+            - path:
+                type: PathPrefix
+                value: /
+
 kind: List
 metadata: {}
