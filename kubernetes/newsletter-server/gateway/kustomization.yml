@@ -1,0 +1,13 @@
+resources:
+  - https://github.com/meysam81/kustomizations//default-backend/overlays/default/?ref=v1.6.2
+  - certificate.yml
+  - clusterissuer.yml
+  - externalsecret.yml
+  - gateway.yml
+  - httproute.yml
+
+images:
+  - name: ghcr.io/meysam81/default-backend
+    newTag: "12413629118"
+
+namespace: cert-manager
