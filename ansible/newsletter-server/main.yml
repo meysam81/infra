@@ -59,6 +59,56 @@
             name: update-bad-ips.timer
             enabled: true
             daemon_reload: true
+    - name: Create TLS certificate
+      tags: tls
+      block:
+        - name: Create the tls issuance script
+          ansible.builtin.copy:
+            content: |
+              #!/usr/bin/env sh
+              set -eux
+
+              certbot certonly \
+                --dns-cloudflare \
+                --dns-cloudflare-credentials /root/.cloudflare-secrets.ini \
+                --dns-cloudflare-propagation-seconds 120 \
+                --agree-tos \
+                --non-interactive \
+                --email meysam@developer-friendly.blog \
+                -d 'developer-friendly.blog' \
+                -d '*.developer-friendly.blog'
+
+              mkdir -p /etc/haproxy/certs
+              cat /etc/letsencrypt/live/developer-friendly.blog/fullchain.pem \
+                  /etc/letsencrypt/live/developer-friendly.blog/privkey.pem > \
+                  /etc/haproxy/certs/developer-friendly.blog.pem
+            dest: /usr/local/bin/issue-tls-certificate.sh
+            owner: root
+            group: root
+            mode: "0755"
+        - name: Place the cloudflare api token
+          ansible.builtin.copy:
+            content: |
+              dns_cloudflare_api_token = {{ lookup('amazon.aws.ssm_parameter', '/cloudflare/api-token', profile='personal', region='ap-southeast-1') }}
+            dest: /root/.cloudflare-secrets.ini
+            owner: root
+            group: root
+            mode: "0600"
+          no_log: true
+        - name: Issue the TLS certificate
+          ansible.builtin.shell:
+            cmd: /usr/local/bin/issue-tls-certificate.sh
+          tags:
+            - issue-tls
+          changed_when: false
+          failed_when: false
+        - name: Frequently update the TLS certificate
+          ansible.builtin.copy:
+            src: files/prepare-haproxy-certs.sh
+            dest: /etc/cron.weekly/prepare-haproxy-certs
+            owner: root
+            group: root
+            mode: "0755"
     - name: Update HAProxy config
       ansible.builtin.copy:
         src: haproxy.cfg
@@ -69,6 +119,18 @@
       notify: Reload haproxy
       tags:
         - haproxy
+    - name: Copy the static HTTP response files
+      ansible.builtin.uri:
+        url: "{{ item }}"
+        dest: /etc/haproxy/errors/{{ item | basename }}
+        owner: haproxy
+        group: haproxy
+        mode: "0644"
+      with_items:
+        - https://gist.githubusercontent.com/meysam81/85af1ff71d28d0c3350beb7910bcf288/raw/9a05d89ec7d80d09c78e6a0a4484ff1ad300f517/404.http
+        - https://gist.githubusercontent.com/meysam81/85af1ff71d28d0c3350beb7910bcf288/raw/9a05d89ec7d80d09c78e6a0a4484ff1ad300f517/429.http
+        - https://gist.githubusercontent.com/meysam81/85af1ff71d28d0c3350beb7910bcf288/raw/9a05d89ec7d80d09c78e6a0a4484ff1ad300f517/503.http
+      tags: haproxy
     - name: Verify HAProxy config
       ansible.builtin.command:
         cmd: haproxy -c -f /etc/haproxy/haproxy.cfg
