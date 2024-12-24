@@ -13,3 +13,4 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: kustomizations
+    namespace: flux-system
