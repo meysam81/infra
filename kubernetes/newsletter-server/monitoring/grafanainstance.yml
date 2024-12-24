@@ -23,7 +23,7 @@ items:
       name: sidecar-role
     subjects:
       - kind: ServiceAccount
-        name: grafana-grafana-sa
+        name: grafana-sa
         namespace: monitoring
   - apiVersion: external-secrets.io/v1beta1
     kind: ExternalSecret
