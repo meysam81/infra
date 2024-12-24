@@ -9,7 +9,7 @@ spec:
   timeout: 1m
   wait: true
   prune: true
-  path: "./"
+  path: ./kratos-admin-ui/overlays/default
   sourceRef:
     kind: OCIRepository
     name: kustomizations
