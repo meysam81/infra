@@ -15,6 +15,7 @@ resources:
   - https://github.com/meysam81/kustomizations//kratos/overlays/vm/?ref=v1.6.2
   - httproute.yml
   - externalsecret.yml
+  - rule.yml
 
 patches:
   - patch: |

@@ -6,7 +6,7 @@ metadata:
 spec:
   force: false
   interval: 1h
-  path: ./kubernetes/newsletter-server/auth/kratos
+  path: ./blueprints/kratos
   prune: true
   sourceRef:
     kind: GitRepository
