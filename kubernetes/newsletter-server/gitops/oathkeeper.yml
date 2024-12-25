@@ -6,7 +6,7 @@ metadata:
 spec:
   force: true
   interval: 1h
-  path: ./kubernetes/newsletter-server/auth/oathkeeper
+  path: ./blueprints/oathkeeper
   prune: true
   sourceRef:
     kind: GitRepository
