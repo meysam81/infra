@@ -1,0 +1,5 @@
+{
+  "kratosAdminURL": "http://kratos-admin",
+  "kratosPublicURL": "http://kratos-public",
+  "reverseProxy": false
+}
