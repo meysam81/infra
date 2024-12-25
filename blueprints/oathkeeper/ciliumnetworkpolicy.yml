@@ -3,7 +3,6 @@ kind: CiliumNetworkPolicy
 metadata:
   name: oathkeeper-proxy
 spec:
-  description: Allow all internet traffic
   endpointSelector:
     matchLabels: {}
   ingress:

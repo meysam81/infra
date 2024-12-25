@@ -1,0 +1,40 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: capacitor
+spec:
+  description: Allow all internet traffic
+  endpointSelector:
+    matchLabels:
+      k8s:app.kubernetes.io/component: kratos
+      k8s:app.kubernetes.io/instance: kratos
+      k8s:app.kubernetes.io/managed-by: Kustomize
+      k8s:app.kubernetes.io/name: kratos
+      k8s:app.kubernetes.io/part-of: kratos
+      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: auth
+      k8s:io.kubernetes.pod.namespace: auth
+  ingress:
+    - fromEndpoints:
+        - matchExpressions:
+            - key: k8s:io.kubernetes.pod.namespace
+              operator: In
+              values:
+                - auth
+            - key: k8s:app.kubernetes.io/name
+              operator: In
+              values:
+                - oathkeeper
+      toPorts:
+        - ports:
+            - port: "4434"
+              protocol: TCP
+          rules:
+            http: [{}]
+    - fromEntities:
+        - all
+      toPorts:
+        - ports:
+            - port: "4433"
+              protocol: TCP
+          rules:
+            http: [{}]

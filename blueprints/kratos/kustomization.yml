@@ -16,6 +16,7 @@ resources:
   - httproute.yml
   - externalsecret.yml
   - rule.yml
+  - ciliumnetworkpolicy.yml
 
 patches:
   - patch: |
