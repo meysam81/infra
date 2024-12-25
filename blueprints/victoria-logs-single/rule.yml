@@ -23,4 +23,4 @@ spec:
     - handler: noop
   upstream:
     preserveHost: true
-    url: http://victoria-logs-single-server.monitoring:9428
+    url: http://monitoring-victoria-logs-single-server.monitoring:9428
