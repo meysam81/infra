@@ -7,7 +7,7 @@ spec:
   force: false
   interval: 1h
   path: ./kubernetes/newsletter-server/helm-releases
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
