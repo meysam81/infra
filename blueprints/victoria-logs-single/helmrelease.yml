@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-logs-single
+spec:
+  chart:
+    spec:
+      chart: victoria-logs-single
+      sourceRef:
+        kind: HelmRepository
+        name: victoria-metrics
+      version: 0.x
+  interval: 1h
+  releaseName: victoria-logs-single
+  targetNamespace: monitoring
+  upgrade:
+    crds: CreateReplace
+    force: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: victoria-logs-single
