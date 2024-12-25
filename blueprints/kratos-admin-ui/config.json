@@ -1,5 +1,5 @@
 {
-  "kratosAdminURL": "http://kratos-admin",
-  "kratosPublicURL": "http://kratos-public",
+  "kratosAdminURL": "https://kratos-admin.developer-friendly.blog",
+  "kratosPublicURL": "https://auth-server.developer-friendly.blog",
   "reverseProxy": false
 }
