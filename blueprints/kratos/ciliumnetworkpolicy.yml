@@ -38,3 +38,20 @@ spec:
               protocol: TCP
           rules:
             http: [{}]
+    - fromEndpoints:
+        - matchExpressions:
+            - key: k8s:io.kubernetes.pod.namespace
+              operator: In
+              values:
+                - monitoring
+      toPorts:
+        - ports:
+            - port: "4434"
+              protocol: TCP
+          rules:
+            http: [{}]
+        - ports:
+            - port: "4435"
+              protocol: TCP
+          rules:
+            http: [{}]
