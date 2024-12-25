@@ -12,11 +12,8 @@ spec:
         name: victoria-metrics
       version: 0.x
   interval: 1h
-  releaseName: victoria-logs-single
   targetNamespace: monitoring
-  upgrade:
-    crds: CreateReplace
-    force: true
+  timeout: 1m
   valuesFrom:
     - kind: ConfigMap
       name: victoria-logs-single
