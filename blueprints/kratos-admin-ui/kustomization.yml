@@ -11,6 +11,6 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/kratos-admin-ui
-    newTag: "12488636064"
+    newTag: "12489298795"
 
 namespace: auth
