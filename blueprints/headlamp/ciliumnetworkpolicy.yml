@@ -21,6 +21,10 @@ spec:
               operator: In
               values:
                 - auth
+            - key: k8s:app.kubernetes.io/name
+              operator: In
+              values:
+                - oathkeeper
       toPorts:
         - ports:
             - port: "4466"

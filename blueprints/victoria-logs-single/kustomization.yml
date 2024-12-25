@@ -10,5 +10,6 @@ resources:
   - helmrelease.yml
   - httproute.yml
   - rule.yml
+  - ciliumnetworkpolicy.yml
 
 namespace: flux-system

@@ -1,29 +1,27 @@
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
-  name: kratos-admin-ui
+  name: oathkeeper-proxy
 spec:
   endpointSelector:
     matchLabels:
-      k8s:app.kubernetes.io/instance: kratos-admin-ui
-      k8s:app.kubernetes.io/name: kratos-admin-ui
-      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/instance: kratos-admin-ui
-      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: kratos-admin-ui
-      k8s:io.kubernetes.pod.namespace: kratos-admin-ui
+      app: server
+      app.kubernetes.io/instance: monitoring-victoria-logs-single
+      app.kubernetes.io/name: victoria-logs-single
   ingress:
     - fromEndpoints:
         - matchExpressions:
             - key: k8s:io.kubernetes.pod.namespace
               operator: In
               values:
-                - auth
+                - monitoring
             - key: k8s:app.kubernetes.io/name
               operator: In
               values:
                 - oathkeeper
       toPorts:
         - ports:
-            - port: "8080"
+            - port: "9428"
               protocol: TCP
           rules:
             http: [{}]
