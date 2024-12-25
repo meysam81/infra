@@ -11,4 +11,4 @@ resources:
   - httproute.yml
   - rule.yml
 
-namespace: monitoring
+namespace: flux-system
