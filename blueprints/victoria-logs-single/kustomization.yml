@@ -8,5 +8,7 @@ configMapGenerator:
 
 resources:
   - helmrelease.yml
+  - httproute.yml
+  - rule.yml
 
 namespace: flux-system
