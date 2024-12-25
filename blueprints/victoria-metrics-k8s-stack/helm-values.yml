@@ -12,9 +12,9 @@ global:
     # -- K8s cluster domain suffix, uses for building storage pods' FQDN. Details are [here](https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/)
     dnsDomain: cluster.local.
 
-# -- Resource full name suffix override
+# -- Override chart name
 nameOverride: ""
-# -- Resource full name prefix override
+# -- Resource full name override
 fullnameOverride: ""
 # -- Tenant to use for Grafana datasources and remote write
 tenant: "0"
@@ -27,10 +27,9 @@ argocdReleaseOverride: ""
 victoria-metrics-operator:
   enabled: true
   crds:
-    # -- added temporary, till new operator version released
     plain: true
     cleanup:
-      enabled: false
+      enabled: true
       image:
         repository: bitnami/kubectl
         pullPolicy: IfNotPresent
@@ -49,19 +48,19 @@ defaultDashboards:
   labels: {}
   annotations: {}
   grafanaOperator:
-    # -- Create dashboards as CRDs (reuqires grafana-operator to be installed)
+    # -- Create dashboards as CRDs (requires grafana-operator to be installed)
     enabled: false
     spec:
       instanceSelector:
         matchLabels:
-          dashboards: "grafana"
+          dashboards: grafana
       allowCrossNamespaceImport: false
   # -- Create dashboards as ConfigMap despite dependency it requires is not installed
   dashboards:
     victoriametrics-vmalert:
-      enabled: false
+      enabled: true
     victoriametrics-operator:
-      enabled: false
+      enabled: true
     # -- In ArgoCD using client-side apply this dashboard reaches annotations size limit and causes k8s issues without server side apply
     # See [this issue](https://github.com/VictoriaMetrics/helm-charts/tree/disable-node-exporter-dashboard-by-default/charts/victoria-metrics-k8s-stack#metadataannotations-too-long-must-have-at-most-262144-bytes-on-dashboards)
     node-exporter-full:
@@ -122,19 +121,25 @@ defaultRules:
     general:
       create: true
       rules: {}
-    k8sContainerMemoryRss:
+    k8sContainerCpuLimits:
       create: true
       rules: {}
-    k8sContainerMemoryCache:
+    k8sContainerCpuRequests:
       create: true
       rules: {}
     k8sContainerCpuUsageSecondsTotal:
       create: true
       rules: {}
-    k8sPodOwner:
+    k8sContainerMemoryLimits:
       create: true
       rules: {}
-    k8sContainerResource:
+    k8sContainerMemoryRequests:
+      create: true
+      rules: {}
+    k8sContainerMemoryRss:
+      create: true
+      rules: {}
+    k8sContainerMemoryCache:
       create: true
       rules: {}
     k8sContainerMemoryWorkingSetBytes:
@@ -143,8 +148,14 @@ defaultRules:
     k8sContainerMemorySwap:
       create: true
       rules: {}
+    k8sPodOwner:
+      create: true
+      rules: {}
+    k8sContainerResource:
+      create: true
+      rules: {}
     kubeApiserver:
-      create: false
+      create: true
       rules: {}
     kubeApiserverAvailability:
       create: true
@@ -243,19 +254,6 @@ additionalVictoriaMetricsMap:
 
 # -- External VM read and write URLs
 externalVM:
-  # -- Custom VMAuth config, url_prefix requires only path, which will be appended to a read and write base URL.
-  # To disable auth for read or write empty list for component config `externalVM.vmauth.<component>: []`
-  vmauth:
-    read:
-      - src_paths:
-          - /select/.*
-        url_prefix:
-          - /
-    write:
-      - src_paths:
-          - /insert/.*
-        url_prefix:
-          - /
   read:
     url: ""
     # bearerTokenSecret:
@@ -270,6 +268,9 @@ externalVM:
         key: GRAFANA_CLOUD_USERNAME
         name: grafana-cloud
     url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+    # bearerTokenSecret:
+    #   name: dbaas-read-access-token
+    #   key: bearerToken
 
 # Configures vmsingle params
 vmsingle:
@@ -331,19 +332,6 @@ vmcluster:
   enabled: false
   # -- VMCluster annotations
   annotations: {}
-  # -- Custom VMAuth config, url_prefix requires only path, which will be appended to a select and insert base URL.
-  # To disable auth for vmselect or vminsert empty list for component config `vmcluster.vmauth.<component>: []`
-  vmauth:
-    vmselect:
-      - src_paths:
-          - /select/.*
-        url_prefix:
-          - /
-    vminsert:
-      - src_paths:
-          - /insert/.*
-        url_prefix:
-          - /
   # -- Full spec for VMCluster CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api#vmclusterspec)
   spec:
     # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/single-server-victoriametrics/#retention)
@@ -351,7 +339,7 @@ vmcluster:
     replicationFactor: 2
     vmstorage:
       replicaCount: 2
-      storageDataPath: "/vm-data"
+      storageDataPath: /vm-data
       storage:
         volumeClaimTemplate:
           spec:
@@ -366,7 +354,7 @@ vmcluster:
     vmselect:
       port: "8481"
       replicaCount: 2
-      cacheMountPath: "/select-cache"
+      cacheMountPath: /select-cache
       extraArgs: {}
       storage:
         volumeClaimTemplate:
@@ -526,14 +514,13 @@ alertmanager:
   # -- (object) Full spec for VMAlertmanager CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api#vmalertmanagerspec)
   spec:
     disableNamespaceMatcher: true
-    externalURL: https://alertmanager.developer-friendly.blog
+    replicaCount: 1
+    port: "9093"
+    selectAllByDefault: true
     image:
       tag: v0.27.0
-    port: "9093"
-    replicaCount: 1
-    retention: 96h
+    externalURL: https://alertmanager.developer-friendly.blog
     routePrefix: /
-    selectAllByDefault: true
 
     # -- (string) If this one defined, it will be used for alertmanager configuration and config parameter will be ignored
     configSecret: ""
@@ -760,9 +747,18 @@ vmauth:
   # -- VMAuth annotations
   annotations: {}
   # -- (object) Full spec for VMAuth CRD. Allowed values described [here](https://docs.victoriametrics.com/operator/api#vmauthspec)
+  # It's possible to use given below predefined variables in spec:
+  # * `{{ .vm.read }}` - parsed vmselect, vmsingle or externalVM.read URL
+  # * `{{ .vm.write }}` - parsed vminsert, vmsingle or externalVM.write URL
   spec:
-    discover_backend_ips: true
     port: "8427"
+    unauthorizedUserAccessSpec:
+      discover_backend_ips: true
+      url_map:
+        - src_paths:
+            - "{{ .vm.read.path }}/.*"
+          url_prefix:
+            - '{{ urlJoin (omit .vm.read "path") }}/'
 
 vmagent:
   # -- Create VMAgent CR
@@ -860,12 +856,13 @@ defaultDatasources:
 
 # -- Grafana dependency chart configuration. For possible values refer [here](https://github.com/grafana/helm-charts/tree/main/charts/grafana#configuration)
 grafana:
-  enabled: true
+  enabled: false
   # all values for grafana helm chart can be specified here
   sidecar:
     datasources:
-      enabled: false
+      enabled: true
       initDatasources: true
+      label: grafana_datasource
     dashboards:
       provider:
         name: default
@@ -876,9 +873,7 @@ grafana:
       multicluster: false
 
   # -- Create datasource configmap even if grafana deployment has been disabled
-  forceDeployDatasource: true
-
-  useStatefulSet: true
+  forceDeployDatasource: false
 
   # Enabling VictoriaMetrics Datasource in Grafana. See more details here: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#victoriametrics-datasource-for-grafana
   # Note that Grafana will need internet access to install the datasource plugin.
@@ -891,9 +886,6 @@ grafana:
   #  plugins:
   #    # Why VictoriaMetrics datasource is unsigned: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#why-victoriametrics-datasource-is-unsigned
   #    allow_loading_unsigned_plugins: victoriametrics-datasource
-
-  persistence:
-    enabled: false
 
   ingress:
     enabled: false
@@ -1001,6 +993,11 @@ kubelet:
       enabled: true
       spec:
         path: /metrics/probes
+    # -- Enabled scraping /metrics/resource from kubelet's service
+    resources:
+      enabled: true
+      spec:
+        path: /metrics/resource
     kubelet:
       spec: {}
   # -- Spec for VMNodeScrape CRD is [here](https://docs.victoriametrics.com/operator/api.html#vmnodescrapespec)
@@ -1013,8 +1010,8 @@ kubelet:
       scrapeTimeout: "5s"
       tlsConfig:
         insecureSkipVerify: true
-        caFile: "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-      bearerTokenFile: "/var/run/secrets/kubernetes.io/serviceaccount/token"
+        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
       # drop high cardinality label and useless metrics for cadvisor and kubelet
       metricRelabelConfigs:
         - action: labeldrop
@@ -1029,8 +1026,8 @@ kubelet:
           regex: __meta_kubernetes_node_label_(.+)
         - sourceLabels: [__metrics_path__]
           targetLabel: metrics_path
-        - targetLabel: "job"
-          replacement: "kubelet"
+        - targetLabel: job
+          replacement: kubelet
       # ignore timestamps of cadvisor's metrics by default
       # more info here https://github.com/VictoriaMetrics/VictoriaMetrics/issues/4697#issuecomment-1656540535
       honorTimestamps: false
@@ -1088,7 +1085,7 @@ kubeControllerManager:
       jobLabel: jobLabel
       namespaceSelector:
         matchNames:
-          - "kube-system"
+          - kube-system
       endpoints:
         - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
           # bearerTokenSecret:
