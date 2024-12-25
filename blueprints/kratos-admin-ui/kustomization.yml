@@ -1,5 +1,11 @@
+configMapGenerator:
+  - name: kratos-admin-ui-statics
+    files:
+      - config.json
+    behavior: replace
+
 resources:
-  - kustomize.yml
+  - github.com/meysam81/kustomizations//kratos-admin-ui/overlays/default?ref=v1.7.1&timeout=5m
   - httproute.yml
   - rule.yml
 
