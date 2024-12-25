@@ -9,4 +9,8 @@ resources:
   - httproute.yml
   - rule.yml
 
+images:
+  - name: ghcr.io/meysam81/kratos-admin-ui
+    newTag: "12488636064"
+
 namespace: auth
