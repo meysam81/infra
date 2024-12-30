@@ -105,7 +105,7 @@ resource "cloudflare_record" "devfriend_blog_mailing_spf" {
   proxied = false
   ttl     = 1
   type    = "TXT"
-  content = "v=spf1 include:_spf.maileroo.com ~all"
+  content = "\"v=spf1 include:_spf.maileroo.com include:_spf.mx.cloudflare.net ~all\""
 }
 
 resource "cloudflare_record" "devfriend_blog_mailing_dkim" {
@@ -120,8 +120,9 @@ resource "cloudflare_record" "devfriend_blog_mailing_dkim" {
 
 resource "cloudflare_record" "devfriend_blog_mailing_mx" {
   for_each = {
-    "mx1.maileroo.com" = 10
-    "mx2.maileroo.com" = 20
+    "route1.mx.cloudflare.net" = 28,
+    "route2.mx.cloudflare.net" = 31,
+    "route3.mx.cloudflare.net" = 9,
   }
 
   zone_id = data.cloudflare_zone.devfriend_blog.id
