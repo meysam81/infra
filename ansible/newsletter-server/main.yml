@@ -94,7 +94,6 @@
             owner: root
             group: root
             mode: "0600"
-          no_log: true
         - name: Issue the TLS certificate
           ansible.builtin.shell:
             cmd: /usr/local/bin/issue-tls-certificate.sh
