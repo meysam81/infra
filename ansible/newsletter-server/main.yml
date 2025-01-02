@@ -89,7 +89,7 @@
         - name: Place the cloudflare api token
           ansible.builtin.copy:
             content: |
-              dns_cloudflare_api_token = {{ lookup('amazon.aws.ssm_parameter', '/cloudflare/api-token', profile='personal', region='ap-southeast-1') }}
+              dns_cloudflare_api_token = {{ lookup('amazon.aws.ssm_parameter', '/cloudflare/api-token', region='ap-southeast-1') }}
             dest: /root/.cloudflare-secrets.ini
             owner: root
             group: root
