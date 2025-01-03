@@ -1,6 +1,5 @@
 resources:
   - https://github.com/meysam81/kustomizations//default-backend/overlays/default/?ref=v1.7.2
-  - certificate.yml
   - clusterissuer.yml
   - externalsecret.yml
   - gateway.yml

@@ -3,7 +3,6 @@ kind: CiliumNetworkPolicy
 metadata:
   name: capacitor
 spec:
-  description: Allow all internet traffic
   endpointSelector:
     matchLabels:
       k8s:app.kubernetes.io/instance: capacitor
