@@ -16,7 +16,7 @@ spec:
             - configMapRef:
                 name: listmonk-envs
             - secretRef:
-                name: listmonk
+                name: listmonk-secrets
           image: listmonk/listmonk
           livenessProbe:
             failureThreshold: 3
