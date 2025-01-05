@@ -26,6 +26,12 @@ spec:
               protocol: ANY
     - toPorts:
         - ports:
+            - port: "443"
+              protocol: TCP
+          rules:
+            http: [{}]
+    - toPorts:
+        - ports:
             - port: "53"
               protocol: ANY
           rules:
