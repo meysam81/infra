@@ -1,0 +1,12 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: hcloud-csi-driver-values
+
+resources:
+  - helmrelease.yml
+
+namespace: flux-system

@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hcloud-csi-driver
+spec:
+  chart:
+    spec:
+      chart: hcloud-csi
+      sourceRef:
+        kind: HelmRepository
+        name: hcloud
+        namespace: flux-system
+      version: 2.x
+  install:
+    createNamespace: true
+  interval: 1h
+  releaseName: hcloud-csi-driver
+  targetNamespace: kube-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: hcloud-csi-driver-values
