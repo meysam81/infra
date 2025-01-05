@@ -159,7 +159,7 @@ monitoring:
   podMonitorAdditionalLabels: {}
 
   grafanaDashboard:
-    create: false
+    create: true
     # -- Allows overriding the namespace where the ConfigMap will be created, defaulting to the same one as the Release.
     namespace: ""
     # -- The name of the ConfigMap containing the dashboard.
@@ -169,7 +169,8 @@ monitoring:
     # -- Label value that ConfigMaps should have to be loaded as dashboards.  DEPRECATED: Use labels instead.
     sidecarLabelValue: "1"
     # -- Labels that ConfigMaps should have to get configured in Grafana.
-    labels: {}
+    labels:
+      grafana_dashboard: "1"
     # -- Annotations that ConfigMaps can have to get configured in Grafana.
     annotations: {}
 
