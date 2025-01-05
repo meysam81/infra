@@ -1,0 +1,11 @@
+[app]
+address = "0.0.0.0:9000"
+root_url = "https://newsletter.developer-friendly.blog"
+site_name = "Developer Friendly Newsletter"
+
+[db]
+max_open = 25
+max_idle = 25
+max_lifetime = "300s"
+
+params = "application_name=listmonk"

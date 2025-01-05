@@ -14,7 +14,7 @@ plan *args:
 apply:
   terragrunt apply tfplan
 
-check:
+lint:
   pre-commit run -a
 
 fmt:
@@ -27,3 +27,6 @@ sort-blocklist-ips:
 [no-cd]
 tflint-fix:
   tflint --fix --chdir=.
+
+checkov:
+  checkov --config-file .checkov_config.yaml -d .

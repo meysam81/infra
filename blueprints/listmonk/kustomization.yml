@@ -6,9 +6,12 @@ resources:
   - ciliumnetworkpolicy.yml
 
 configMapGenerator:
-  - name: listmonk
+  - name: listmonk-envs
     envs:
       - configs.env
+  - name: listmonk-config
+    files:
+      - config.toml
 
 images:
   - name: listmonk/listmonk

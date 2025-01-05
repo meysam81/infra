@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -10,78 +11,134 @@ spec:
       containers:
         - command:
             - ./listmonk
-            - --idempotent
+            - "--idempotent"
           envFrom:
             - configMapRef:
-                name: listmonk
+                name: listmonk-envs
             - secretRef:
                 name: listmonk
           image: listmonk/listmonk
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
           name: listmonk
           ports:
             - containerPort: 9000
               name: http
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 5
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             readOnlyRootFilesystem: true
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
+            - mountPath: /listmonk/config.toml
+              name: listmonk-config
+              subPath: config.toml
             - mountPath: /tmp
               name: tmp
+      initContainers:
         - args:
             - |
-              set -eu
+              set -eux
 
-              interval=$POSTGRES_HEALTHCHECK_INTERVAL_SECONDS
-
-              export PGPASSWORD=$LISTMONK_db__password
-
-              alias check="pg_isready \
-                --host=$LISTMONK_db__host \
-                --username=$LISTMONK_db__user \
-                --dbname=$LISTMONK_db__database"
-
-              while sleep $interval; do
-                check
+              while sleep $INTERVAL; do
+                pg_isready \
+                  --host=$LISTMONK_db__host \
+                  --username=$LISTMONK_db__user \
+                  --dbname=$LISTMONK_db__database
               done
           command:
             - sh
-            - -c
+            - "-c"
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: LISTMONK_db__password
+                  name: listmonk-secrets
+            - name: INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_HEALTHCHECK_INTERVAL_SECONDS
+                  name: listmonk-secrets
           envFrom:
             - configMapRef:
-                name: listmonk
-            - secretRef:
-                name: listmonk
+                name: listmonk-envs
           image: postgres
           name: postgres
+          restartPolicy: Always
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             readOnlyRootFilesystem: true
-      initContainers:
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
         - command:
             - ./listmonk
-            - --idempotent
-            - --upgrade
-            - --yes
+            - "--idempotent"
+            - "--upgrade"
+            - "--yes"
           envFrom:
             - configMapRef:
-                name: listmonk
+                name: listmonk-envs
             - secretRef:
-                name: listmonk
+                name: listmonk-secrets
           image: listmonk/listmonk
           name: migrations
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
             readOnlyRootFilesystem: true
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
           volumeMounts:
             - mountPath: /listmonk/uploads
               name: uploads
+            - mountPath: /listmonk/config.toml
+              name: listmonk-config
+              subPath: config.toml
       securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
+        fsGroup: 65534
+        fsGroupChangePolicy: Always
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups: []
+        sysctls: []
       volumes:
         - emptyDir: {}
           name: tmp
+        - configMap:
+            defaultMode: 0400
+            name: listmonk-config
+            optional: false
+          name: listmonk-config
   volumeClaimTemplates:
     - metadata:
         name: uploads
