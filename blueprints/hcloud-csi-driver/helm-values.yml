@@ -745,5 +745,5 @@ metrics:
 ##
 storageClasses:
   - name: hcloud-volumes
-    defaultStorageClass: true
+    defaultStorageClass: false
     reclaimPolicy: Delete
