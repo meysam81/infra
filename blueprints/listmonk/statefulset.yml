@@ -85,6 +85,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: listmonk-envs
+            - secretRef:
+                name: listmonk-secrets
           image: postgres
           name: postgres
           restartPolicy: Always
