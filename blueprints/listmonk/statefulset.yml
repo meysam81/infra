@@ -81,7 +81,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_HEALTHCHECK_INTERVAL_SECONDS
-                  name: listmonk-secrets
+                  name: listmonk-envs
           envFrom:
             - configMapRef:
                 name: listmonk-envs
