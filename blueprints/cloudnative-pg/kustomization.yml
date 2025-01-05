@@ -1,0 +1,13 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: cloudnative-pg-values
+
+resources:
+  - helmrelease.yml
+  - externalsecret.yml
+
+namespace: flux-system
