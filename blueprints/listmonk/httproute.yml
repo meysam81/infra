@@ -15,7 +15,8 @@ spec:
   rules:
     - backendRefs:
         - kind: Service
-          name: listmonk
+          name: oathkeeper-proxy
+          namespace: auth
           port: 80
       filters:
         - responseHeaderModifier:

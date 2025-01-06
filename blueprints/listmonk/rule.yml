@@ -1,0 +1,26 @@
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: listmonk
+spec:
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  errors:
+    - config:
+        to: https://auth.developer-friendly.blog/login
+      handler: redirect
+  match:
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+    url: http<s?>://newsletter.developer-friendly.blog</?.*>
+  mutators:
+    - handler: header
+  upstream:
+    preserveHost: true
+    url: http://listmonk.default:80

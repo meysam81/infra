@@ -126,6 +126,7 @@ serve:
         - DELETE
         - PATCH
       allowed_origins:
+        - https://developer-friendly.blog
         - https://*.developer-friendly.blog
       allow_credentials: true
       debug: false

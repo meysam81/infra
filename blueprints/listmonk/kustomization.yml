@@ -4,6 +4,7 @@ resources:
   - statefulset.yml
   - httproute.yml
   - ciliumnetworkpolicy.yml
+  - rule.yml
 
 configMapGenerator:
   - name: listmonk-envs
