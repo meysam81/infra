@@ -1,0 +1,22 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: echo-server
+spec:
+  ingress:
+    - toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+          rules:
+            http: [{}]
+      fromEntities:
+        - all
+  egress:
+    - toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"

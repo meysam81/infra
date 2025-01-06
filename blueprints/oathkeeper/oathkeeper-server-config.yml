@@ -93,7 +93,8 @@ log:
 mutators:
   header:
     config:
-      headers: {}
+      headers:
+        x-user-id: "{{ print .Subject }}"
     enabled: true
   noop:
     enabled: true
