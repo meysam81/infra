@@ -161,7 +161,7 @@ defaultRules:
       create: true
       rules: {}
     kubeApiserverBurnrate:
-      create: true
+      create: false
       rules: {}
     kubeApiserverHistogram:
       create: true
