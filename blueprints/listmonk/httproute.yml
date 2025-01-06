@@ -1,3 +1,4 @@
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -22,6 +23,12 @@ spec:
               - name: Strict-Transport-Security
                 value: max-age=31536000; includeSubDomains; preload
           type: ResponseHeaderModifier
+        - requestMirror:
+            backendRef:
+              name: echo-server
+              namespace: auth
+              port: 80
+          type: RequestMirror
       matches:
         - path:
             type: PathPrefix
