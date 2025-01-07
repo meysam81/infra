@@ -7,15 +7,14 @@ resources:
   - clusterrole.yml
   - clusterrolebinding.yml
   - cronjob.yml
-  - exporter-deployment.yml
-  - exporter-service.yml
+  - deployment.yml
+  - service.yml
   - role.yml
   - rolebinding.yml
   - serviceaccount.yml
 
 images:
-  - name: yonahdissen/kor
-    newName: ghcr.io/meysam81/kor
+  - name: ghcr.io/meysam81/kor
     newTag: "11233813135"
 
 commonLabels:
