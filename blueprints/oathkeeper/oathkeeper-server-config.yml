@@ -118,6 +118,7 @@ serve:
       enabled: true
       allowed_headers:
         - accept
+        - authorization
         - content-type
       allowed_methods:
         - GET
