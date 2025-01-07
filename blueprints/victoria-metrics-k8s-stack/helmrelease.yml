@@ -17,6 +17,8 @@ spec:
   targetNamespace: monitoring
   upgrade:
     crds: CreateReplace
+    disableOpenAPIValidation: true
+    disableSchemaValidation: true
     force: true
   valuesFrom:
     - kind: ConfigMap
