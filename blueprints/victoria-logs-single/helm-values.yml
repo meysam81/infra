@@ -50,7 +50,7 @@ server:
   # -- Name of Priority Class
   priorityClassName: ""
   # -- Data retention period. Possible units character: h(ours), d(ays), w(eeks), y(ears), if no unit character specified - month. The minimum retention period is 24h. See these [docs](https://docs.victoriametrics.com/victorialogs/#retention)
-  retentionPeriod: 30d
+  retentionPeriod: 365d
   # -- Data retention max capacity. Default unit is GiB. See these [docs](https://docs.victoriametrics.com/victorialogs/#retention-by-disk-space-usage)
   retentionDiskSpaceUsage: ""
   # -- Extra command line arguments for container of component
@@ -139,7 +139,7 @@ server:
     annotations: {}
 
     # -- StorageClass to use for persistent volume. Requires server.persistentVolume.enabled: true. If defined, PVC created automatically
-    storageClassName: local-path
+    storageClassName: hcloud-volume
 
     # -- Existing Claim name. If defined, PVC must be created manually before volume will be bound
     existingClaim: ""
@@ -152,7 +152,7 @@ server:
     # -- Mount subpath
     subPath: ""
     # -- Size of the volume. Should be calculated based on the logs you send and retention policy you set.
-    size: 4Gi
+    size: 64Gi
 
   # -- StatefulSet/Deployment additional labels
   extraLabels: {}
