@@ -9,5 +9,20 @@ configMapGenerator:
 resources:
   - helmrelease.yml
   - externalsecret.yml
+  - externalsecret-encryption-passphrase.yml
+  - storageclass.yml
+
+replacements:
+  - source:
+      kind: ExternalSecret
+      name: hcloud-csi-driver-encryption-passphrase
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: StorageClass
+        fieldPaths:
+          - parameters.[csi.storage.k8s.io/node-publish-secret-namespace]
+        options:
+          create: true
 
 namespace: flux-system

@@ -1,0 +1,14 @@
+---
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: hcloud-volumes-encrypted
+parameters:
+  csi.storage.k8s.io/fstype: xfs
+  csi.storage.k8s.io/node-publish-secret-name: hcloud-csi-driver-encryption-passphrase
+  # csi.storage.k8s.io/node-publish-secret-namespace: kube-system
+  fsFormatOptions: "-i nrext64=1"
+provisioner: csi.hetzner.cloud
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
