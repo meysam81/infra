@@ -50,6 +50,11 @@ items:
           name: "*"
           matchLabels:
             kustomize.toolkit.fluxcd.io/namespace: flux-system
+        - apiVersion: helm.toolkit.fluxcd.io/v2
+          kind: HelmRelease
+          name: "*"
+          matchLabels:
+            kustomize.toolkit.fluxcd.io/namespace: flux-system
       secretRef:
         name: fluxcd-receiver-token
       type: github
