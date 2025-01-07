@@ -17,6 +17,7 @@ spec:
   targetNamespace: monitoring
   upgrade:
     crds: CreateReplace
+    disableHooks: true
     disableOpenAPIValidation: true
     disableSchemaValidation: true
     force: true
