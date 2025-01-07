@@ -1,0 +1,20 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: grafana
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s:app: grafana
+      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: monitoring
+      k8s:io.cilium.k8s.policy.serviceaccount: grafana-sa
+      k8s:io.kubernetes.pod.namespace: monitoring
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+          rules:
+            http: [{}]

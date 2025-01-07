@@ -1,0 +1,125 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  labels:
+    dashboards: grafana
+  name: grafana
+spec:
+  deployment:
+    spec:
+      template:
+        spec:
+          containers:
+            - env:
+                - name: GF_SMTP_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: smtp-username
+                      name: grafana
+                      optional: false
+                - name: GF_SMTP_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: smtp-password
+                      name: grafana
+                      optional: false
+                - name: GF_AUTH_GOOGLE_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: grafana
+                      optional: false
+                - name: GF_AUTH_GOOGLE_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: grafana
+                      optional: false
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-user
+                      name: grafana
+                      optional: false
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-password
+                      name: grafana
+                      optional: false
+              livenessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /api/health
+                  port: grafana-http
+                initialDelaySeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 5
+              name: grafana
+              readinessProbe:
+                failureThreshold: 3
+                httpGet:
+                  path: /api/health
+                  port: grafana-http
+                initialDelaySeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 5
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsGroup: 472
+                runAsNonRoot: true
+                runAsUser: 472
+              volumeMounts:
+                - mountPath: /etc/grafana/provisioning/dashboards
+                  name: provisioning-config
+                - mountPath: /var/lib/grafana/dashboards
+                  name: dashboards
+                - name: grafana-ini
+                  mountPath: /etc/grafana/grafana.ini
+                  subPath: grafana.ini
+            - env:
+                - name: LABEL
+                  value: grafana_dashboard
+                - name: LABEL_VALUE
+                  value: "1"
+                - name: FOLDER
+                  value: /var/lib/grafana/dashboards
+                - name: NAMESPACE
+                  value: ALL
+                - name: RESOURCE
+                  value: configmap
+                - name: SKIP_TLS_VERIFY
+                  value: "true"
+              image: ghcr.io/kiwigrid/k8s-sidecar:1.28.4
+              name: k8s-sidecar
+              volumeMounts:
+                - mountPath: /var/lib/grafana/dashboards
+                  name: dashboards
+          securityContext:
+            fsGroup: 472
+            fsGroupChangePolicy: OnRootMismatch
+          volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
+            - emptyDir: {}
+              name: dashboards
+            - configMap:
+                name: provisioning-config
+              name: provisioning-config
+            - configMap:
+                name: grafana-ini
+                defaultMode: 0440
+                optional: false
+              name: grafana-ini
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: local-path
+  version: 11.4.0

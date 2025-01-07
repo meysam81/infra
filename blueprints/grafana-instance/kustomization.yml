@@ -1,0 +1,32 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - name: provisioning-config
+    files:
+      - provisioning.yaml=provisioning.yml
+  - name: grafana-ini
+    files:
+      - grafana.ini
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - clusterrolebinding.yml
+  - clusterrole.yml
+  - externalsecret.yml
+  - grafana.yml
+  - httproute.yml
+
+replacements:
+  - source:
+      kind: Grafana
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: ClusterRoleBinding
+        fieldPaths:
+          - subjects.[name=grafana-sa].namespace
+        options:
+          create: true
+
+namespace: monitoring
