@@ -2,5 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: demo
+  namespace: default
 data:
   hello: world
