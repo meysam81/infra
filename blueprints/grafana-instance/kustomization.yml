@@ -5,9 +5,6 @@ configMapGenerator:
   - name: provisioning-config
     files:
       - provisioning.yaml=provisioning.yml
-  - name: grafana-ini
-    files:
-      - grafana.ini
 
 resources:
   - ciliumnetworkpolicy.yml

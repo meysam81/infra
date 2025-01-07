@@ -1,3 +1,4 @@
+---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: Grafana
 metadata:
@@ -5,6 +6,30 @@ metadata:
     dashboards: grafana
   name: grafana
 spec:
+  config:
+    auth:
+      disable_login_form: "false"
+    auth.google:
+      allow_sign_up: "true"
+      allowed_domains: developer-friendly.blog
+      auth_url: https://accounts.google.com/o/oauth2/auth
+      enabled: "true"
+      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+      token_url: https://accounts.google.com/o/oauth2/token
+    dashboards:
+      default_home_dashboard_path: /var/lib/grafana/dashboards/k8s-resources-cluster.json
+    log:
+      mode: console
+    security:
+      admin_user: admin
+    server:
+      root_url: https://grafana.developer-friendly.blog
+    smtp:
+      enable_tracing: "true"
+      enabled: "true"
+      from_address: grafana@mailing.developer-friendly.blog
+      from_name: Grafana
+      host: smtp.maileroo.com:587
   deployment:
     spec:
       template:
@@ -76,9 +101,6 @@ spec:
                   name: provisioning-config
                 - mountPath: /var/lib/grafana/dashboards
                   name: dashboards
-                - name: grafana-ini
-                  mountPath: /etc/grafana/grafana.ini
-                  subPath: grafana.ini
             - env:
                 - name: LABEL
                   value: grafana_dashboard
@@ -109,11 +131,6 @@ spec:
             - configMap:
                 name: provisioning-config
               name: provisioning-config
-            - configMap:
-                name: grafana-ini
-                defaultMode: 0440
-                optional: false
-              name: grafana-ini
   persistentVolumeClaim:
     spec:
       accessModes:
