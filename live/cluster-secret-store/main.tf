@@ -10,6 +10,8 @@ resource "kubernetes_annotations" "this" {
   annotations = {
     "eks.amazonaws.com/audience" : "sts.amazonaws.com"
     "eks.amazonaws.com/role-arn" : var.role_arn
+    "eks.amazonaws.com/sts-regional-endpoints" : "true"
+    "eks.amazonaws.com/token-expiration" : "86400"
   }
 }
 
