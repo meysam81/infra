@@ -785,6 +785,14 @@ vmagent:
       # Do not store original labels in vmagent's memory by default. This reduces the amount of memory used by vmagent
       # but makes vmagent debugging UI less informative. See: https://docs.victoriametrics.com/vmagent/#relabel-debug
       promscrape.dropOriginalLabels: "true"
+    statefulMode: true
+    statefulStorage:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: hcloud-volumes-encrypted
   # -- (object) VMAgent ingress configuration
   ingress:
     enabled: false
