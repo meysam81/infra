@@ -39,7 +39,7 @@ resource "hcloud_server" "this" {
 
 resource "hcloud_volume" "varlib" {
   name     = "personal-varlib"
-  size     = 20
+  size     = 40
   location = "nbg1"
   format   = "xfs"
 }

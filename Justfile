@@ -14,6 +14,10 @@ plan *args:
 apply:
   terragrunt apply tfplan
 
+[no-cd]
+output *args:
+  terragrunt output {{args}}
+
 lint:
   pre-commit run -a
 
