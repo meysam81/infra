@@ -22,7 +22,6 @@ lint:
   pre-commit run -a
 
 reconcile-k8s:
-  kubectl apply -f kubernetes/newsletter-server/root/
   kubectl apply -f kubernetes/newsletter-server/gitops/
 
 fmt:
