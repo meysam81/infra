@@ -21,6 +21,9 @@ output *args:
 lint:
   pre-commit run -a
 
+reconcile-k8s:
+  kubectl apply -f kubernetes/newsletter-server/gitops/
+
 fmt:
   tofu fmt -write -recursive
   terragrunt run-all hclfmt --terragrunt-non-interactive
