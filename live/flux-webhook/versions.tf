@@ -12,6 +12,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "< 6"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "< 3"
+    }
   }
 
   required_version = "< 2"
