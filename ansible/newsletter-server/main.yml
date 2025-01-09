@@ -172,6 +172,13 @@
         vmagent_remote_write_username: 988203
         vmagent_scrape_interval: 10s
       tags: vmagent
+    - name: meysam81.general.k8s_oidc_github_pages
+      vars:
+        k8s_oidc_github_pages_commit_email: meysam@developer-friendly.blog
+        k8s_oidc_github_pages_github_deploy_key: "{{ lookup('amazon.aws.ssm_parameter', '/github/k8s-oidc-provider/deploy-key', region='ap-southeast-1') }}"
+        k8s_oidc_github_pages_repository_name: secondly-brightly-certain-halibut
+        k8s_oidc_github_pages_repository_owner: meysam81
+      tags: k8s-oidc
   handlers:
     - name: Reload haproxy
       ansible.builtin.systemd:

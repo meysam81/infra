@@ -25,7 +25,7 @@ resource "github_repository" "this" {
 
 resource "tls_private_key" "this" {
   algorithm = "RSA"
-  rsa_bits  = 4096
+  rsa_bits  = 3072
 }
 
 resource "github_repository_deploy_key" "this" {
@@ -44,4 +44,10 @@ resource "github_repository_file" "this" {
   commit_author       = var.commit_name
   commit_email        = var.commit_email
   overwrite_on_create = false
+}
+
+resource "aws_ssm_parameter" "this" {
+  name  = "/github/k8s-oidc-provider/deploy-key"
+  type  = "SecureString"
+  value = tls_private_key.this.private_key_pem
 }

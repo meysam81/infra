@@ -2,15 +2,19 @@ terraform {
   required_providers {
     github = {
       source  = "integrations/github"
-      version = "~> 6.2"
+      version = "< 7"
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.6"
+      version = "< 5"
     }
     tls = {
       source  = "hashicorp/tls"
-      version = "~> 4.0"
+      version = "< 5"
+    }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "< 6"
     }
   }
 
