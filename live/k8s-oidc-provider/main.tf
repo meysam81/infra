@@ -1,13 +1,9 @@
 data "tls_certificate" "this" {
-  for_each = var.oidc_issuer_urls
-
-  url = each.value
+  url = var.oidc_issuer_url
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
-  for_each = data.tls_certificate.this
-
-  url = each.value.url
+  url = data.tls_certificate.this.url
 
   # JWT token audience (aud)
   client_id_list = [
@@ -15,36 +11,33 @@ resource "aws_iam_openid_connect_provider" "this" {
   ]
 
   thumbprint_list = [
-    each.value.certificates[0].sha1_fingerprint
+    data.tls_certificate.this.certificates[0].sha1_fingerprint
   ]
 }
 
 data "aws_iam_policy_document" "this" {
-  dynamic "statement" {
-    for_each = aws_iam_openid_connect_provider.this
-    content {
-      actions = [
-        "sts:AssumeRoleWithWebIdentity"
-      ]
+  statement {
+    actions = [
+      "sts:AssumeRoleWithWebIdentity"
+    ]
 
-      effect = "Allow"
+    effect = "Allow"
 
-      principals {
-        type        = "Federated"
-        identifiers = [statement.value.arn]
-      }
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.this.arn]
+    }
 
-      condition {
-        test     = "StringEquals"
-        variable = "${statement.value.url}:aud"
-        values   = ["sts.amazonaws.com"]
-      }
+    condition {
+      test     = "StringEquals"
+      variable = "${aws_iam_openid_connect_provider.this.url}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
 
-      condition {
-        test     = "StringEquals"
-        variable = "${statement.value.url}:sub"
-        values   = ["system:serviceaccount:external-secrets:external-secrets"]
-      }
+    condition {
+      test     = "StringEquals"
+      variable = "${aws_iam_openid_connect_provider.this.url}:sub"
+      values   = ["system:serviceaccount:external-secrets:external-secrets"]
     }
   }
 }

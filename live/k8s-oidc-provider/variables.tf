@@ -1,5 +1,4 @@
-variable "oidc_issuer_urls" {
-  type     = set(string)
+variable "oidc_issuer_url" {
+  type     = string
   nullable = false
-  default  = ["https://k8s.developer-friendly.blog"]
 }

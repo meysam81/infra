@@ -3,4 +3,9 @@ include "root" {
 }
 
 inputs = {
+  oidc_issuer_url = dependency.oidc_url.outputs.github_pages_url
+}
+
+dependency "oidc_url" {
+  config_path = "../k3s-issuer-pages-repo"
 }
