@@ -47,7 +47,8 @@ resource "github_repository_file" "this" {
 }
 
 resource "aws_ssm_parameter" "this" {
-  name  = "/github/k8s-oidc-provider/deploy-key"
-  type  = "SecureString"
-  value = tls_private_key.this.private_key_pem
+  name      = "/github/k8s-oidc-provider/deploy-key"
+  type      = "SecureString"
+  value     = tls_private_key.this.private_key_pem
+  overwrite = true
 }
