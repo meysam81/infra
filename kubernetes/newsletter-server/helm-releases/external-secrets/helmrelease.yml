@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-secrets
+spec:
+  chart:
+    spec:
+      chart: external-secrets
+      sourceRef:
+        kind: HelmRepository
+        name: external-secrets
+        namespace: flux-system
+      version: 0.x
+  install:
+    createNamespace: true
+  interval: 1h
+  releaseName: external-secrets
+  targetNamespace: external-secrets
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-secrets
