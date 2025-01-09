@@ -20,7 +20,6 @@ LIST_NAME = os.getenv("LIST_NAME", "Developer Friendly Blog")
 SCRAPE_INTERVAL = int(os.getenv("SCRAPE_INTERVAL", 60))
 PORT = int(os.getenv("PORT", 8000))
 
-# either auth header or the user-pass must be specified
 assert (
     LISTMONK_AUTHORIZATION or (LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD)
 ), "Either LISTMONK_AUTHORIZATION or LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD must be provided"

@@ -30,3 +30,16 @@ tflint-fix:
 
 checkov:
   checkov --config-file .checkov_config.yaml -d .
+
+create-tofu-stack dirname:
+  #!/usr/bin/env bash
+
+  mkdir -p live/{{dirname}}
+  touch live/{{dirname}}/{main,versions,variables,outputs}.tf
+  touch live/{{dirname}}/terragrunt.hcl
+
+  cat <<'EOF' > live/{{dirname}}/terragrunt.hcl
+  include "root" {
+    path = find_in_parent_folders()
+  }
+  EOF

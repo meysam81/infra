@@ -9,8 +9,6 @@ generate "remote_state" {
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
     terraform {
-      required_version = "~> 1.5"
-
       backend "remote" {
         hostname     = "${local.tfc_hostname}"
         organization = "${local.tfc_organization}"
@@ -21,5 +19,3 @@ generate "remote_state" {
     }
   EOF
 }
-
-terraform_version_constraint = ">= 1.5, < 2"
