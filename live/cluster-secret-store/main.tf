@@ -27,14 +27,6 @@ resource "kubernetes_manifest" "this" {
         aws = {
           region  = data.aws_region.this.name
           service = "ParameterStore"
-          auth = {
-            jwt = {
-              serviceAccountRef = {
-                name      = "external-secrets"
-                namespace = "external-secrets"
-              }
-            }
-          }
         }
       }
     }
