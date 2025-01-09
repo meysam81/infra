@@ -154,6 +154,16 @@
         recurse: true
       tags:
         - haproxy
+    - name: Increase ulimit for files on haproxy user
+      ansible.builtin.copy:
+        content: |
+          haproxy soft nofile 65536
+          haproxy hard nofile 65536
+        dest: /etc/security/limits.d/haproxy.conf
+        owner: root
+        group: root
+        mode: "0644"
+      tags: haproxy
   roles:
     - name: meysam81.general.node_exporter
       tags: node-exporter

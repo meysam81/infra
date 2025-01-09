@@ -18,6 +18,7 @@ KillMode=mixed
 Restart=always
 SuccessExitStatus=143
 Type=notify
+LimitNOFILE=100000
 
 # The following lines leverage SystemD's sandboxing options to provide
 # defense in depth protection at the expense of restricting some flexibility
