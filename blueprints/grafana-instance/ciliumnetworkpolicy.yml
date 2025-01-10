@@ -18,3 +18,19 @@ spec:
               protocol: TCP
           rules:
             http: [{}]
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/component: operator
+            k8s:app.kubernetes.io/instance: grafana-operator
+            k8s:app.kubernetes.io/name: grafana-operator
+            k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: monitoring
+            k8s:io.cilium.k8s.namespace.labels.name: monitoring
+            k8s:io.cilium.k8s.policy.cluster: default
+            k8s:io.cilium.k8s.policy.serviceaccount: grafana-operator
+            k8s:io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+          rules:
+            http: [{}]

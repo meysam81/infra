@@ -794,7 +794,7 @@ vmagent:
         spec:
           resources:
             requests:
-              storage: 1Gi
+              storage: 2Gi
           storageClassName: local-path
   # -- (object) VMAgent ingress configuration
   ingress:
@@ -885,7 +885,7 @@ grafana:
       multicluster: false
 
   # -- Create datasource configmap even if grafana deployment has been disabled
-  forceDeployDatasource: false
+  forceDeployDatasource: true
 
   # Enabling VictoriaMetrics Datasource in Grafana. See more details here: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#victoriametrics-datasource-for-grafana
   # Note that Grafana will need internet access to install the datasource plugin.
