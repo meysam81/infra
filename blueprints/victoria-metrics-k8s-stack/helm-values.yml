@@ -835,9 +835,9 @@ defaultDatasources:
     datasources:
       - name: VictoriaMetrics
         type: prometheus
-        isDefault: true
-      - name: VictoriaMetrics (DS)
         isDefault: false
+      - name: VictoriaMetrics (DS)
+        isDefault: true
         type: victoriametrics-datasource
   # -- List of alertmanager datasources.
   # Alertmanager generated `url` will be added to each datasource in template if alertmanager is enabled
@@ -885,7 +885,7 @@ grafana:
       multicluster: false
 
   # -- Create datasource configmap even if grafana deployment has been disabled
-  forceDeployDatasource: false
+  forceDeployDatasource: true
 
   # Enabling VictoriaMetrics Datasource in Grafana. See more details here: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#victoriametrics-datasource-for-grafana
   # Note that Grafana will need internet access to install the datasource plugin.
