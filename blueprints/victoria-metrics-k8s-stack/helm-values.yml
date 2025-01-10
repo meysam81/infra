@@ -1400,7 +1400,6 @@ extraObjects:
         repeat_interval: 12h
         routes:
           - group_by:
-              - email
               - subscription_status
             group_interval: 30s
             matchers:
