@@ -257,6 +257,7 @@ jobs:
           redis-port: ${{ secrets.REDIS_PORT }}
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: true
+          store-key: infra-services
           exclusions: |
             hn-submission
             reddit-submission
@@ -283,6 +284,8 @@ jobs:
         with:
           context: ${{ matrix.directory }}
           image-name: ghcr.io/${{ github.repository }}/${{ steps.image-name.outputs.name }}
+          image-extra-tags: |
+            ghcr.io/${{ github.repository }}/${{ steps.image-name.outputs.name }}:${{ github.run_id }}
           kubescape: true
           kubescape-upload-sarif: true
 
@@ -303,6 +306,7 @@ jobs:
           redis-port: ${{ secrets.REDIS_PORT }}
           redis-password: ${{ secrets.REDIS_PASSWORD }}
           redis-ssl: ${{ secrets.REDIS_SSL }}
+          store-key: infra-services
           mode: submit
           exclusions: |
             hn-submission

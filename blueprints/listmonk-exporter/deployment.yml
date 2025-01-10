@@ -18,7 +18,7 @@ spec:
                 name: listmonk-exporter
             - secretRef:
                 name: listmonk-exporter
-          image: ghcr.io/meysam81/listmonk-exporter
+          image: ghcr.io/meysam81/infra/listmonk-exporter
           name: listmonk-exporter
           ports:
             - containerPort: 8000

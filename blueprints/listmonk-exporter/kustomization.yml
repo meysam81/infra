@@ -17,8 +17,8 @@ resources:
   - vmrule.yml
 
 images:
-  - name: ghcr.io/meysam81/listmonk-exporter
-    newTag: "12702278262"
+  - name: ghcr.io/meysam81/infra/listmonk-exporter
+    newTag: "11233813135"
 
 commonLabels:
   app.kubernetes.io/name: listmonk-exporter
