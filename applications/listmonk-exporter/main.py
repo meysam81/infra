@@ -3,7 +3,6 @@
 import logging
 import os
 import threading
-from base64 import b64encode
 
 import httpx
 from prometheus_client import Gauge, start_http_server
@@ -13,23 +12,11 @@ shutdown_event = threading.Event()
 
 current_subscribers = None
 LISTMONK_HOST = os.environ["LISTMONK_HOST"]
-LISTMONK_AUTHORIZATION = os.getenv("LISTMONK_AUTHORIZATION")
-LISTMONK_ADMIN_USERNAME = os.getenv("LISTMONK_ADMIN_USERNAME")
-LISTMONK_ADMIN_PASSWORD = os.getenv("LISTMONK_ADMIN_PASSWORD")
+LISTMONK_API_USER = os.getenv("LISTMONK_API_USER")
+LISTMONK_API_TOKEN = os.getenv("LISTMONK_API_TOKEN")
 LIST_NAME = os.getenv("LIST_NAME", "Developer Friendly Blog")
 SCRAPE_INTERVAL = int(os.getenv("SCRAPE_INTERVAL", 60))
 PORT = int(os.getenv("PORT", 8000))
-
-assert (
-    LISTMONK_AUTHORIZATION or (LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD)
-), "Either LISTMONK_AUTHORIZATION or LISTMONK_ADMIN_USERNAME and LISTMONK_ADMIN_PASSWORD must be provided"
-
-if LISTMONK_AUTHORIZATION:
-    AUTH_HEADER = LISTMONK_AUTHORIZATION
-else:
-    AUTH_HEADER = b64encode(
-        f"{LISTMONK_ADMIN_USERNAME}:{LISTMONK_ADMIN_PASSWORD}".encode()
-    ).decode()
 
 
 def init_metrics():
@@ -71,7 +58,9 @@ def upgrade_metrics():
             "order": "ASC",
             "per_page": "all",
         },
-        headers={"authorization": "Basic " + AUTH_HEADER},
+        headers={
+            "authorization": f"token {LISTMONK_API_USER}:{LISTMONK_API_TOKEN}",
+        },
     ) as client:
         json = client.get("/api/subscribers").json()
 
