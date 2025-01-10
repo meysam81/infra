@@ -157,7 +157,7 @@ securityContext:
   capabilities:
     drop:
       - ALL
-  readOnlyRootFilesystem: true
+  # readOnlyRootFilesystem: true
   runAsNonRoot: true
   privileged: false
   runAsUser: 100
