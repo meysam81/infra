@@ -885,7 +885,7 @@ grafana:
       multicluster: false
 
   # -- Create datasource configmap even if grafana deployment has been disabled
-  forceDeployDatasource: true
+  forceDeployDatasource: false
 
   # Enabling VictoriaMetrics Datasource in Grafana. See more details here: https://github.com/VictoriaMetrics/grafana-datasource/blob/main/README.md#victoriametrics-datasource-for-grafana
   # Note that Grafana will need internet access to install the datasource plugin.
