@@ -791,8 +791,8 @@ vmagent:
         spec:
           resources:
             requests:
-              storage: 10Gi
-          storageClassName: hcloud-volumes-encrypted
+              storage: 8Gi
+          storageClassName: local-path
 
     resources:
       limits: {}
