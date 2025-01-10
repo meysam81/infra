@@ -793,6 +793,9 @@ vmagent:
             requests:
               storage: 10Gi
           storageClassName: hcloud-volumes-encrypted
+
+    resources:
+      limits: {}
   # -- (object) VMAgent ingress configuration
   ingress:
     enabled: false
