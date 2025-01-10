@@ -13,7 +13,7 @@ resources:
   - externalsecret.yml
   - grafana.yml
   - httproute.yml
-  # - datasource.yml
+  - datasource.yml
 
 replacements:
   - source:
