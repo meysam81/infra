@@ -23,7 +23,30 @@ nameOverride: ""
 fullnameOverride: ""
 
 # -- An optional list of init containers to be run before the main containers.
-initContainers: []
+initContainers:
+  - name: create-kubeconfig
+    image: bitnami/kubectl:1.32.0
+    command:
+      - /bin/sh
+      - -c
+      - |
+        kubectl config set-cluster headlamp --server=https://kubernetes.default.svc --certificate-authority=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        kubectl config set-credentials headlamp --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+        kubectl config set-context headlamp --cluster=headlamp --user=headlamp
+        kubectl config use-context headlamp
+    volumeMounts:
+      - name: kubeconfig
+        mountPath: /home/headlamp/.config/Headlamp/kubeconfigs/config
+        subPath: kubeconfig.yml
+    env:
+      - name: KUBERNETES_SERVICE_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+      - name: KUBERNETES_SERVICE_PORT
+        value: "6443"
+      - name: KUBECONFIG
+        value: /home/headlamp/.config/Headlamp/kubeconfigs/config
 
 config:
   # -- base url path at which headlamp should run
@@ -136,10 +159,16 @@ service:
   port: 80
 
 # -- Headlamp containers volume mounts
-volumeMounts: []
+volumeMounts:
+  - mountPath: /home/headlamp/.config/Headlamp/kubeconfigs/config
+    name: kubeconfig
+    readOnly: true
+    subPath: kubeconfig.yml
 
 # -- Headlamp pod's volumes
-volumes: []
+volumes:
+  - name: kubeconfig
+    emptyDir: {}
 
 persistentVolumeClaim:
   # -- Enable Persistent Volume Claim
