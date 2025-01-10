@@ -29,6 +29,7 @@ podDisruptionBudget:
   # -- PodDisruptionBudget extra labels
   extraLabels: {}
 
+
 server:
   # -- Enable deployment of server component. Deployed as StatefulSet
   enabled: true
