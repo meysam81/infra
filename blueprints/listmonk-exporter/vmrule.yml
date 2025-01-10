@@ -133,40 +133,6 @@ spec:
           annotations:
             summary: Uncollectable objects detected
             description: Uncollectable objects found during garbage collection.
-    - name: process.metrics.alerts
-      rules:
-        - alert: HighVirtualMemoryUsage
-          expr: process_virtual_memory_bytes > 1e+09
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: High virtual memory usage
-            description: The virtual memory usage is {{ $value }} bytes.
-        - alert: HighResidentMemoryUsage
-          expr: process_resident_memory_bytes > 5e+08
-          for: 5m
-          labels:
-            severity: critical
-          annotations:
-            summary: High resident memory usage
-            description: The resident memory usage is {{ $value }} bytes.
-        - alert: CPUUsageHigh
-          expr: rate(process_cpu_seconds_total[1m]) > 0.8
-          for: 1m
-          labels:
-            severity: critical
-          annotations:
-            summary: High CPU usage
-            description: The process CPU usage is at {{ $value }} seconds.
-        - alert: TooManyOpenFileDescriptors
-          expr: process_open_fds > 500
-          for: 10m
-          labels:
-            severity: warning
-          annotations:
-            summary: Too many open file descriptors
-            description: The number of open file descriptors is {{ $value }}.
     - name: listmonk.metrics.alerts
       rules:
         - alert: UnsubscribedRateHigh
