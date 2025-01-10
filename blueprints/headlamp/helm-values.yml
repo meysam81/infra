@@ -133,14 +133,12 @@ clusterRoleBinding:
   annotations: {}
 
 # -- Annotations to add to the pod
-podAnnotations:
-  fsGroup: 101
-  fsGroupChangePolicy: Always
+podAnnotations: {}
 
 # -- Headlamp pod's Security Context
 podSecurityContext:
-  {}
-  # fsGroup: 2000
+  fsGroup: 101
+  fsGroupChangePolicy: Always
 
 # -- Headlamp containers Security Context
 securityContext:
