@@ -162,7 +162,7 @@ volumeMounts:
   - mountPath: /home/headlamp/.config/Headlamp/kubeconfigs/config
     name: kubeconfig
     readOnly: true
-    subPath: kubeconfig.yml
+    subPath: config
 
 # -- Headlamp pod's volumes
 volumes:
