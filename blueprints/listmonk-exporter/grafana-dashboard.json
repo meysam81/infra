@@ -103,8 +103,8 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "python_gc_objects_collected_total",
-          "legendFormat": "Generation {{generation}}",
+          "expr": "python:gc_objects_collected_rate:5m{job=\"${job}\"}",
+          "legendFormat": "GC Objects Collected Rate",
           "range": true,
           "refId": "A"
         }
@@ -165,8 +165,8 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "process_virtual_memory_bytes",
-          "legendFormat": "Virtual Memory",
+          "expr": "python:memory_usage_percentage{job=\"${job}\"}",
+          "legendFormat": "Memory Usage Percentage",
           "range": true,
           "refId": "A"
         },
@@ -176,7 +176,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "process_resident_memory_bytes",
+          "expr": "process_resident_memory_bytes{job=\"${job}\"}",
           "hide": false,
           "legendFormat": "Resident Memory",
           "range": true,
@@ -239,7 +239,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "count(listmonk_current_subscribers) by (subscription_status)",
+          "expr": "listmonk:subscribers:by_status{job=\"${job}\"}",
           "legendFormat": "{{subscription_status}}",
           "range": true,
           "refId": "A"
@@ -300,17 +300,203 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "python_gc_collections_total",
-          "legendFormat": "Generation {{generation}}",
+          "expr": "python:gc_collection_rate:5m{job=\"${job}\"}",
+          "legendFormat": "GC Collection Rate",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "GC Collections by Generation",
       "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "changes(listmonk_current_subscribers{job=\"${job}\"}[1d]) > 0",
+          "legendFormat": "New Subscribers",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "New Subscribers",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "min"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "python:memory_usage_trend:1h{job=\"${job}\"}",
+          "legendFormat": "Memory Usage Trend",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "GC Collection Rate",
+      "type": "timeseries"
     }
   ],
-  "refresh": "5s",
+  "refresh": "auto",
   "schemaVersion": 38,
   "style": "dark",
   "tags": [
@@ -330,11 +516,23 @@
         "name": "datasource",
         "query": "prometheus",
         "type": "datasource"
+      },
+      {
+        "current": {
+          "text": "listmonk-exporter",
+          "value": "listmonk-exporter"
+        },
+        "includeAll": true,
+        "label": "Job",
+        "multi": true,
+        "name": "job",
+        "query": "label_values(job)",
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {},
