@@ -15,7 +15,7 @@ spec:
           annotations:
             summary: "New subscriber added: `{{ $labels.name }}`"
             description: "`{{ $labels.subscription_status }}` subscriber with email {{ $labels.email }}"
-    - name: python.rules
+    - name: python.performance.rules
       rules:
         - record: python:gc_collection_rate:5m
           expr: rate(python_gc_collections_total[5m])
@@ -25,6 +25,8 @@ spec:
           expr: rate(python_gc_objects_collected_total[5m])
           labels:
             metric_type: performance
+    - name: python.resource.rules
+      rules:
         - record: python:memory_usage_percentage
           expr: (process_resident_memory_bytes / process_virtual_memory_bytes) * 100
           labels:
@@ -33,6 +35,8 @@ spec:
           expr: rate(process_resident_memory_bytes[1h])
           labels:
             metric_type: resource
+    - name: listmonk.business.rules
+      rules:
         - record: listmonk:subscribers:by_status
           expr: count(listmonk_current_subscribers) by (subscription_status)
           labels:
@@ -83,6 +87,8 @@ spec:
           annotations:
             summary: High number of open file descriptors
             description: Python application is using {{ $value }}% of available file descriptors.
+    - name: listmonk.alerts
+      rules:
         - alert: ListmonkHighUnsubscribeRate
           expr: |
             (
@@ -109,3 +115,73 @@ spec:
           annotations:
             summary: Low confirmation rate detected
             description: More than 30% of subscribers remain unconfirmed for the last 24 hours.
+    - name: python.gc.alerts
+      rules:
+        - alert: HighGarbageCollectionRate
+          expr: rate(python_gc_collections_total{generation="0"}[5m]) > 10
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: High GC collection rate for generation 0
+            description: The garbage collection rate for generation 0 is {{ $value }} collections per minute.
+        - alert: UncollectableObjectsDetected
+          expr: sum(python_gc_objects_uncollectable_total) > 0
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: Uncollectable objects detected
+            description: Uncollectable objects found during garbage collection.
+    - name: process.metrics.alerts
+      rules:
+        - alert: HighVirtualMemoryUsage
+          expr: process_virtual_memory_bytes > 1e+09
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: High virtual memory usage
+            description: The virtual memory usage is {{ $value }} bytes.
+        - alert: HighResidentMemoryUsage
+          expr: process_resident_memory_bytes > 5e+08
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: High resident memory usage
+            description: The resident memory usage is {{ $value }} bytes.
+        - alert: CPUUsageHigh
+          expr: rate(process_cpu_seconds_total[1m]) > 0.8
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: High CPU usage
+            description: The process CPU usage is at {{ $value }} seconds.
+        - alert: TooManyOpenFileDescriptors
+          expr: process_open_fds > 500
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: Too many open file descriptors
+            description: The number of open file descriptors is {{ $value }}.
+    - name: listmonk.metrics.alerts
+      rules:
+        - alert: UnsubscribedRateHigh
+          expr: sum by (subscription_status)(rate(listmonk_current_subscribers{subscription_status="unsubscribed"}[5m])) > 10
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: High unsubscribe rate
+            description: The rate of unsubscribed users is {{ $value }} per minute.
+        - alert: SubscriptionStatusAnomaly
+          expr: count by (subscription_status)(listmonk_current_subscribers) < 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: Missing subscription data
+            description: No users found for at least one subscription status.
