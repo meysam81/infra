@@ -10,14 +10,8 @@ inputs = {
   oidc_commit_email       = dependency.oidc_repository.outputs.commit_email
   oidc_repo_name          = dependency.oidc_repository.outputs.repo_name
   oidc_repository_ssh_url = dependency.oidc_repository.outputs.repository_ssh_url
-
-  gpg_private_key = dependency.gpg_key.outputs.gpg_private_key
 }
 
 dependency "oidc_repository" {
   config_path = "../k3s-issuer-pages-repo"
-}
-
-dependency "gpg_key" {
-  config_path = "../k3s-issuer-gpg-key"
 }

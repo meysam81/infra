@@ -165,23 +165,10 @@
         mode: "0644"
       tags: haproxy
   roles:
-    - name: meysam81.general.node_exporter
-      tags: node-exporter
     - name: meysam81.general.haproxy
       tags: haproxy
       vars:
         haproxy_version: 3.1
-    - name: meysam81.general.vmagent
-      vars:
-        vmagent_fail2ban_enabled: true
-        vmagent_haproxy_exporter_enabled: true
-        vmagent_instance_label: newsletter-server
-        vmagent_node_exporter_enabled: true
-        vmagent_remote_write_password: "{{ lookup('amazon.aws.ssm_parameter', '/grafana_cloud/remote_write/password') }}"
-        vmagent_remote_write_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
-        vmagent_remote_write_username: 988203
-        vmagent_scrape_interval: 10s
-      tags: vmagent
     - name: meysam81.general.k8s_oidc_github_pages
       vars:
         k8s_oidc_github_pages_commit_email: meysam@developer-friendly.blog

@@ -19,8 +19,6 @@ resource "hcloud_server" "this" {
     server_public_ipv6 = hcloud_primary_ip.this["ipv6"].ip_address
 
     apiserver_hostname = "k8s.developer-friendly.blog"
-
-    varlib_device = hcloud_volume.varlib.linux_device
   })
 
   public_net {
@@ -35,17 +33,4 @@ resource "hcloud_server" "this" {
       user_data,
     ]
   }
-}
-
-resource "hcloud_volume" "varlib" {
-  name     = "personal-varlib"
-  size     = 10
-  location = "nbg1"
-  format   = "xfs"
-}
-
-resource "hcloud_volume_attachment" "varlib" {
-  volume_id = hcloud_volume.varlib.id
-  server_id = hcloud_server.this.id
-  automount = true
 }

@@ -42,14 +42,6 @@ runcmd:
   - sed -i -e '/^\(#\|\)AllowAgentForwarding/s/^.*$/AllowAgentForwarding no/' /etc/ssh/sshd_config
   - sed -i -e '/^\(#\|\)AuthorizedKeysFile/s/^.*$/AuthorizedKeysFile .ssh\/authorized_keys/' /etc/ssh/sshd_config
   - |
-    mount ${varlib_device} /mnt
-    rsync -azuvb /var/lib/ /mnt/
-    umount /mnt
-    disk_blkid=$(blkid ${varlib_device} -s UUID -o value)
-    echo "UUID=$disk_blkid /var/lib xfs discard,defaults,nofail 0 0" | tee -a /etc/fstab
-
-    mount -a
-  - |
     curl -s https://get.k3s.io | \
       INSTALL_K3S_CHANNEL=latest \
       INSTALL_K3S_EXEC="

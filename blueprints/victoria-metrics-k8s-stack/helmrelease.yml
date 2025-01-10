@@ -12,6 +12,8 @@ spec:
         name: victoria-metrics
         namespace: flux-system
       version: 0.x
+  install:
+    createNamespace: true
   interval: 1h
   releaseName: victoria-metrics-k8s-stack
   targetNamespace: monitoring
