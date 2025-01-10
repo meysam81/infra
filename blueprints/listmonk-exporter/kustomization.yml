@@ -2,6 +2,12 @@ configMapGenerator:
   - name: listmonk-exporter
     envs:
       - configs.env
+  - name: listmonk-grafana-dashboard
+    files:
+      - listmonk-dashboard.json=grafana-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 
 resources:
   - externalsecret.yml
@@ -12,7 +18,7 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/listmonk-exporter
-    newTag: "11233813135"
+    newTag: "12702278262"
 
 commonLabels:
   app.kubernetes.io/name: listmonk-exporter
@@ -43,3 +49,5 @@ replacements:
           - metadata.labels
         options:
           create: true
+
+namespace: default

@@ -15,3 +15,97 @@ spec:
           annotations:
             summary: "New subscriber added: `{{ $labels.name }}`"
             description: "`{{ $labels.subscription_status }}` subscriber with email {{ $labels.email }}"
+    - name: python.rules
+      rules:
+        - record: python:gc_collection_rate:5m
+          expr: rate(python_gc_collections_total[5m])
+          labels:
+            metric_type: performance
+        - record: python:gc_objects_collected_rate:5m
+          expr: rate(python_gc_objects_collected_total[5m])
+          labels:
+            metric_type: performance
+        - record: python:memory_usage_percentage
+          expr: (process_resident_memory_bytes / process_virtual_memory_bytes) * 100
+          labels:
+            metric_type: resource
+        - record: python:memory_usage_trend:1h
+          expr: rate(process_resident_memory_bytes[1h])
+          labels:
+            metric_type: resource
+        - record: listmonk:subscribers:by_status
+          expr: count(listmonk_current_subscribers) by (subscription_status)
+          labels:
+            metric_type: business
+        - record: listmonk:total_subscribers
+          expr: count(listmonk_current_subscribers)
+          labels:
+            metric_type: business
+    - name: python.alerts
+      rules:
+        - alert: PythonHighMemoryUsage
+          expr: python:memory_usage_percentage > 85
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: High memory usage in Python application
+            description: Python application is using {{ $value }}% of its allocated memory for more than 5 minutes.
+        - alert: PythonMemoryLeakSuspected
+          expr: deriv(process_resident_memory_bytes[30m]) > 0
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: Possible memory leak detected
+            description: Python application shows consistent memory growth over the last hour.
+        - alert: PythonHighGCActivity
+          expr: rate(python_gc_collections_total{generation="2"}[5m]) > 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: High rate of full GC collections
+            description: Python application is performing full GC collections frequently, which may indicate memory pressure.
+        - alert: PythonHighUncollectableObjects
+          expr: python_gc_objects_uncollectable_total > 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: Uncollectable objects detected
+            description: Python application has uncollectable objects, which might indicate memory leaks.
+        - alert: PythonHighFileDescriptors
+          expr: process_open_fds / process_max_fds * 100 > 80
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: High number of open file descriptors
+            description: Python application is using {{ $value }}% of available file descriptors.
+        - alert: ListmonkHighUnsubscribeRate
+          expr: |
+            (
+              count(listmonk_current_subscribers{subscription_status="unsubscribed"})
+              /
+              count(listmonk_current_subscribers)
+            ) * 100 > 20
+          for: 24h
+          labels:
+            severity: warning
+          annotations:
+            summary: High unsubscribe rate detected
+            description: More than 20% of subscribers have unsubscribed in the last 24 hours.
+        - alert: ListmonkLowConfirmationRate
+          expr: |
+            (
+              count(listmonk_current_subscribers{subscription_status="unconfirmed"})
+              /
+              count(listmonk_current_subscribers)
+            ) * 100 > 30
+          for: 24h
+          labels:
+            severity: warning
+          annotations:
+            summary: Low confirmation rate detected
+            description: More than 30% of subscribers remain unconfirmed for the last 24 hours.
