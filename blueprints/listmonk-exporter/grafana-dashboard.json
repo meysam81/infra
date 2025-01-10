@@ -100,7 +100,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "python_gc_objects_collected_total",
@@ -162,7 +162,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "process_virtual_memory_bytes",
@@ -173,7 +173,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "process_resident_memory_bytes",
@@ -236,7 +236,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "count(listmonk_current_subscribers) by (subscription_status)",
@@ -297,7 +297,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "python_gc_collections_total",
