@@ -10,7 +10,7 @@
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
+        "name": "Listmonk",
         "type": "dashboard"
       }
     ]
@@ -22,7 +22,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "2ca65add-3411-439e-819f-3c2fd962e546"
       },
       "fieldConfig": {
         "defaults": {
