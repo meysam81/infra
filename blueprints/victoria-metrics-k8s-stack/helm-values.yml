@@ -26,6 +26,9 @@ argocdReleaseOverride: ""
 # -- VictoriaMetrics Operator dependency chart configuration. More values can be found [here](https://docs.victoriametrics.com/helm/victoriametrics-operator#parameters). Also checkout [here](https://docs.victoriametrics.com/operator/vars) possible ENV variables to configure operator behaviour
 victoria-metrics-operator:
   enabled: true
+  env:
+    - name: VM_VMAGENTDEFAULT_USEDEFAULTRESOURCES
+      value: "false"
   crds:
     plain: true
     cleanup:
@@ -791,12 +794,8 @@ vmagent:
         spec:
           resources:
             requests:
-              storage: 8Gi
+              storage: 1Gi
           storageClassName: local-path
-
-    resources:
-      limits: {}
-      requests: {}
   # -- (object) VMAgent ingress configuration
   ingress:
     enabled: false
