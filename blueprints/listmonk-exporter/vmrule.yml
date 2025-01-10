@@ -45,48 +45,6 @@ spec:
           expr: count(listmonk_current_subscribers)
           labels:
             metric_type: business
-    - name: python.alerts
-      rules:
-        - alert: PythonHighMemoryUsage
-          expr: python:memory_usage_percentage > 85
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: High memory usage in Python application
-            description: Python application is using {{ $value }}% of its allocated memory for more than 5 minutes.
-        - alert: PythonMemoryLeakSuspected
-          expr: deriv(process_resident_memory_bytes[30m]) > 0
-          for: 1h
-          labels:
-            severity: warning
-          annotations:
-            summary: Possible memory leak detected
-            description: Python application shows consistent memory growth over the last hour.
-        - alert: PythonHighGCActivity
-          expr: rate(python_gc_collections_total{generation="2"}[5m]) > 1
-          for: 15m
-          labels:
-            severity: warning
-          annotations:
-            summary: High rate of full GC collections
-            description: Python application is performing full GC collections frequently, which may indicate memory pressure.
-        - alert: PythonHighUncollectableObjects
-          expr: python_gc_objects_uncollectable_total > 0
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: Uncollectable objects detected
-            description: Python application has uncollectable objects, which might indicate memory leaks.
-        - alert: PythonHighFileDescriptors
-          expr: process_open_fds / process_max_fds * 100 > 80
-          for: 5m
-          labels:
-            severity: warning
-          annotations:
-            summary: High number of open file descriptors
-            description: Python application is using {{ $value }}% of available file descriptors.
     - name: listmonk.alerts
       rules:
         - alert: ListmonkHighUnsubscribeRate
