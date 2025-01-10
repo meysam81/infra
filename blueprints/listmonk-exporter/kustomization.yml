@@ -18,7 +18,7 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/infra/listmonk-exporter
-    newTag: "11233813135"
+    newTag: "12702755622"
 
 commonLabels:
   app.kubernetes.io/name: listmonk-exporter

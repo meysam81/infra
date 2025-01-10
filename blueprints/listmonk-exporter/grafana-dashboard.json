@@ -10,7 +10,7 @@
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Listmonk",
+        "name": "Annotations & Alerts",
         "type": "dashboard"
       }
     ]
@@ -326,6 +326,6 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Python Application Metrics",
+  "title": "Listmonk",
   "weekStart": ""
 }
