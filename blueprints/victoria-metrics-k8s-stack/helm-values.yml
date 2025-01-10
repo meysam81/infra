@@ -796,6 +796,7 @@ vmagent:
 
     resources:
       limits: {}
+      requests: {}
   # -- (object) VMAgent ingress configuration
   ingress:
     enabled: false
