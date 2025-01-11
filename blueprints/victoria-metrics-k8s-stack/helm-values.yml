@@ -914,7 +914,7 @@ grafana:
     pathType: Prefix
 
     hosts:
-      - grafana.domain.com
+      - grafana.developer-friendly.blog
     # -- Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
     extraPaths: []
     # - path: /*
