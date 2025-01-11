@@ -140,7 +140,7 @@ clusterRoleBinding:
   create: true
   # -- Set name of the Cluster Role with limited permissions from you cluster
   # for example - clusterRoleName: user-ro
-  clusterRoleName: view
+  clusterRoleName: cluster-admin
   # -- Annotations to add to the cluster role binding
   annotations: {}
 
