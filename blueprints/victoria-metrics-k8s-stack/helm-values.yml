@@ -1405,7 +1405,6 @@ extraObjects:
             matchers:
               - severity = info
             receiver: slack-info
-            repeat_interval: 100h
           - active_time_intervals:
               - everyday
             matchers:
