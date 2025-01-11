@@ -28,6 +28,8 @@ spec:
         - ports:
             - port: "443"
               protocol: TCP
+            - port: "5432"
+              protocol: TCP
     - toPorts:
         - ports:
             - port: "53"
