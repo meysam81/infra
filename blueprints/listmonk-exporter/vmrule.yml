@@ -8,7 +8,7 @@ spec:
       interval: 1m
       rules:
         - alert: NewSubscriber
-          expr: changes(listmonk_current_subscribers[1d]) > 0
+          expr: changes(listmonk_current_subscribers[10m]) > 0
           for: 0s
           labels:
             severity: info
