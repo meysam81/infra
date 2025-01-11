@@ -1,0 +1,6 @@
+resources:
+  - externalsecret-superuser.yml
+  - externalsecret-user.yml
+  - cluster.yml
+
+namespace: database
