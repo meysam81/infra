@@ -766,7 +766,7 @@ vmauth:
 
 vmagent:
   # -- Create VMAgent CR
-  enabled: true
+  enabled: false
   # -- VMAgent annotations
   annotations: {}
   # -- Remote write configuration of VMAgent, allowed parameters defined in a [spec](https://docs.victoriametrics.com/operator/api#vmagentremotewritespec)
