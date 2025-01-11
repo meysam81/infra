@@ -1,6 +1,0 @@
-resources:
-  - ocirepository.yml
-  - kustomize.yml
-  - ciliumnetworkpolicy.yml
-
-namespace: flux-system
