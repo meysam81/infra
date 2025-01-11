@@ -50,7 +50,6 @@ runcmd:
         --kube-apiserver-arg=anonymous-auth=true
         --disable=traefik
         --token-file=/etc/k3s/token
-        --tls-san=${apiserver_hostname}
         --tls-san=${server_public_ipv4}
         --tls-san=${server_public_ipv6}
         --disable-network-policy

@@ -17,8 +17,6 @@ resource "hcloud_server" "this" {
 
     server_public_ipv4 = hcloud_primary_ip.this["ipv4"].ip_address
     server_public_ipv6 = hcloud_primary_ip.this["ipv6"].ip_address
-
-    apiserver_hostname = "k8s.developer-friendly.blog"
   })
 
   public_net {
