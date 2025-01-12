@@ -13,6 +13,8 @@ spec:
   enableSuperuserAccess: true
   failoverDelay: 120
   instances: 1
+  monitoring:
+    enablePodMonitor: true
   postgresql:
     parameters:
       auto_explain.log_min_duration: 500ms
