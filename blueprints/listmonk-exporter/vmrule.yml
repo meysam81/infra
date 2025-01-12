@@ -45,34 +45,6 @@ spec:
           expr: count(listmonk_current_subscribers)
           labels:
             metric_type: business
-    - name: listmonk.alerts
-      rules:
-        - alert: ListmonkHighUnsubscribeRate
-          expr: |
-            (
-              count(listmonk_current_subscribers{subscription_status="unsubscribed"})
-              /
-              count(listmonk_current_subscribers)
-            ) * 100 > 20
-          for: 24h
-          labels:
-            severity: warning
-          annotations:
-            summary: High unsubscribe rate detected
-            description: More than 20% of subscribers have unsubscribed in the last 24 hours.
-        - alert: ListmonkLowConfirmationRate
-          expr: |
-            (
-              count(listmonk_current_subscribers{subscription_status="unconfirmed"})
-              /
-              count(listmonk_current_subscribers)
-            ) * 100 > 30
-          for: 24h
-          labels:
-            severity: warning
-          annotations:
-            summary: Low confirmation rate detected
-            description: More than 30% of subscribers remain unconfirmed for the last 24 hours.
     - name: python.gc.alerts
       rules:
         - alert: HighGarbageCollectionRate
