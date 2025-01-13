@@ -1157,7 +1157,7 @@ hubble:
       # @schema
       # type: [null, string]
       # @schema
-      namespace: ~
+      namespace: monitoring
       labelValue: "1"
       annotations: {}
   # -- Unix domain socket path to listen to when Hubble is enabled.
@@ -2135,7 +2135,7 @@ dashboards:
   # @schema
   # type: [null, string]
   # @schema
-  namespace: ~
+  namespace: monitoring
   labelValue: "1"
   annotations: {}
 # Configure Cilium Envoy options.
@@ -2658,7 +2658,7 @@ operator:
     # @schema
     # type: [null, string]
     # @schema
-    namespace: ~
+    namespace: monitoring
     labelValue: "1"
     annotations: {}
   # -- Skip CRDs creation for cilium-operator
