@@ -528,6 +528,10 @@ config:
             target_label: 'syslog_identifier'
           - source_labels: ['__journal__transport']
             target_label: 'transport'
+          - source_labels: ["unit", "hostname"]
+            target_label: stream
+            regex: (.*);(.*)$
+            replacement: $1_$2
 
     # -- You can put here any additional relabel_configs to "kubernetes-pods" job
     extraRelabelConfigs: []
