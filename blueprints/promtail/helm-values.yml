@@ -516,6 +516,18 @@ config:
         relabel_configs:
           - source_labels: ['__journal__systemd_unit']
             target_label: 'unit'
+          - source_labels: ['__journal__hostname']
+            target_label: 'hostname'
+          - source_labels: ['__journal__boot_id']
+            target_label: 'boot_id'
+          - source_labels: ['__journal__machine_id']
+            target_label: 'machine_id'
+          - source_labels: ['__journal__priority']
+            target_label: 'priority'
+          - source_labels: ['__journal__syslog_identifier']
+            target_label: 'syslog_identifier'
+          - source_labels: ['__journal__transport']
+            target_label: 'transport'
 
     # -- You can put here any additional relabel_configs to "kubernetes-pods" job
     extraRelabelConfigs: []
