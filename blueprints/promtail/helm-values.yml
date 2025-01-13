@@ -529,7 +529,7 @@ config:
           - source_labels: ['__journal__transport']
             target_label: 'transport'
           - source_labels: ["unit", "hostname"]
-            target_label: stream
+            target_label: _stream
             regex: (.*);(.*)$
             replacement: $1_$2
 
