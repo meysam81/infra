@@ -518,9 +518,8 @@ config:
     # @default -- empty
     extraScrapeConfigs: |
       - job_name: systemd-journal
-        json: true
         journal:
-          json: false
+          json: true
           max_age: 7h
         relabel_configs:
           - source_labels: ["__journal__hostname"]
