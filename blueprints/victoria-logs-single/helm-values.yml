@@ -38,7 +38,7 @@ server:
     # -- Image repository
     repository: victoriametrics/victoria-logs
     # -- Image tag
-    tag: ""
+    tag: v1.5.0-victorialogs-scratch
     # -- Image tag suffix, which is appended to `Chart.AppVersion` if no `server.image.tag` is defined
     variant: victorialogs
     # -- Image pull policy
