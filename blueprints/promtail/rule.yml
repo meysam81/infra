@@ -1,10 +1,10 @@
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
-  name: listmonk
+  name: promtail
 spec:
   authenticators:
-    - handler: header
+    - handler: cookie_session
   authorizer:
     handler: allow
   errors:
@@ -18,9 +18,9 @@ spec:
       - PUT
       - DELETE
       - PATCH
-    url: http<s?>://newsletter.developer-friendly.blog</?.*>
+    url: http<s?>://promtail.developer-friendly.blog<.*>
   mutators:
-    - handler: header
+    - handler: noop
   upstream:
     preserveHost: true
-    url: http://listmonk.default:80
+    url: http://promtail.flux-system:80

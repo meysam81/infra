@@ -78,7 +78,7 @@ items:
           - PATCH
         url: http<s?>://hubble.developer-friendly.blog</?.*>
       mutators:
-        - handler: noop
+        - handler: header
       upstream:
         preserveHost: true
         url: http://hubble-ui.kube-system.svc:80

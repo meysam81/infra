@@ -53,7 +53,7 @@ items:
           - PATCH
         url: http<s?>://capacitor.developer-friendly.blog<.*>
       mutators:
-        - handler: noop
+        - handler: header
       upstream:
         preserveHost: true
         url: http://capacitor.flux-system:9000

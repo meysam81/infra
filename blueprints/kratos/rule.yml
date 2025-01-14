@@ -20,7 +20,7 @@ spec:
       - PATCH
     url: http<s?>://kratos-admin.developer-friendly.blog</?.*>
   mutators:
-    - handler: noop
+    - handler: header
   upstream:
     preserveHost: true
     url: http://kratos-admin.auth:80

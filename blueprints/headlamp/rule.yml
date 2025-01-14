@@ -20,7 +20,7 @@ spec:
       - PATCH
     url: http<s?>://headlamp.developer-friendly.blog<.*>
   mutators:
-    - handler: noop
+    - handler: header
   upstream:
     preserveHost: true
     url: http://headlamp.flux-system:80

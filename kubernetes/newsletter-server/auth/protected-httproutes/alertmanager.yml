@@ -53,7 +53,7 @@ items:
           - PATCH
         url: http<s?>://alertmanager.developer-friendly.blog<.*>
       mutators:
-        - handler: noop
+        - handler: header
       upstream:
         preserveHost: true
         url: http://vmalertmanager-victoria-metrics-k8s-stack.monitoring:9093

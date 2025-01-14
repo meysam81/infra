@@ -53,7 +53,7 @@ items:
           - PATCH
         url: http<s?>://vmsingle.developer-friendly.blog<.*>
       mutators:
-        - handler: noop
+        - handler: header
       upstream:
         preserveHost: true
         url: http://vmsingle-victoria-metrics-k8s-stack.monitoring:8429

@@ -20,7 +20,7 @@ spec:
       - PATCH
     url: http<s?>://victorialogs.developer-friendly.blog</?.*>
   mutators:
-    - handler: noop
+    - handler: header
   upstream:
     preserveHost: true
     url: http://monitoring-victoria-logs-single-server.monitoring:9428
