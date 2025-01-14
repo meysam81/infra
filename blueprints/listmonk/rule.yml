@@ -4,7 +4,7 @@ metadata:
   name: listmonk
 spec:
   authenticators:
-    - handler: header
+    - handler: noop
   authorizer:
     handler: allow
   errors:
