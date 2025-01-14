@@ -247,11 +247,18 @@ extraVolumes:
     hostPath:
       path: /var/log/journal
       type: Directory
+  - name: journal-run
+    hostPath:
+      path: /run/log/journal
+      type: Directory
 
 # Extra volume mounts together. Corresponds to `extraVolumes`.
 extraVolumeMounts:
   - name: journal
     mountPath: /var/log/journal
+    readOnly: true
+  - name: journal-run
+    mountPath: /run/log/journal
     readOnly: true
 
 # Extra args for the Promtail container.
