@@ -518,6 +518,7 @@ config:
     # @default -- empty
     extraScrapeConfigs: |
       - job_name: systemd-journal
+        json: true
         journal:
           json: false
           max_age: 7h
