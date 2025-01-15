@@ -3,6 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: amazon-eks-pod-identity-webhook
+  namespace: flux-system
 spec:
   interval: 1h
   path: ./amazon-eks-pod-identity-webhook/overlays/default
