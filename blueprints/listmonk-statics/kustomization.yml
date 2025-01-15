@@ -1,3 +1,14 @@
+configMapGenerator:
+  - name: listmonk-statics
+    envs:
+      - configs.env
+  - name: listmonk-statics-files
+    files:
+      - robots.txt
+  - name: listmonk-statics-config
+    files:
+      - config.toml
+
 resources:
   - service.yml
   - deployment.yml
@@ -9,14 +20,6 @@ images:
     newTag: 2-alpine
   - name: curlimages/curl
     newTag: 8.11.1
-
-configMapGenerator:
-  - name: listmonk-statics
-    envs:
-      - configs.env
-  - name: listmonk-statics-config
-    files:
-      - config.toml
 
 commonLabels:
   app.kubernetes.io/name: listmonk-statics

@@ -28,9 +28,6 @@ spec:
             initialDelaySeconds: 1
             periodSeconds: 10
           resources: {}
-            # limits:
-              # cpu: 100m
-              # memory: 64Mi
           securityContext:
             capabilities:
               add:
@@ -48,6 +45,10 @@ spec:
               name: config-volume
               readOnly: true
               subPath: config.toml
+            - mountPath: /var/public/robots.txt
+              name: static-files
+              readOnly: true
+              subPath: robots.txt
           workingDir: /var/public
       initContainers:
         - args:
@@ -57,7 +58,7 @@ spec:
               curl -Lo logo.webp $LOGO_URL
           command:
             - sh
-            - '-c'
+            - "-c"
           envFrom:
             - configMapRef:
                 name: listmonk-statics
@@ -80,3 +81,8 @@ spec:
         - configMap:
             name: listmonk-statics-config
           name: config-volume
+        - configMap:
+            name: listmonk-statics-files
+            defaultMode: 0444
+            optional: false
+          name: static-files
