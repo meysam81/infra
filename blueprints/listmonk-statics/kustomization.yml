@@ -16,8 +16,8 @@ resources:
   - ciliumnetworkpolicy.yml
 
 images:
-  - name: joseluisq/static-web-server
-    newTag: 2-alpine
+  - name: ghcr.io/static-web-server/static-web-server
+    newTag: "2"
   - name: curlimages/curl
     newTag: 8.11.1
 
