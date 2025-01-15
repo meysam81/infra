@@ -27,7 +27,17 @@ argocdReleaseOverride: ""
 victoria-metrics-operator:
   enabled: true
   env:
+    - name: VM_VMALERTDEFAULT_USEDEFAULTRESOURCES
+      value: "false"
+    - name: VM_VMAUTHDEFAULT_USEDEFAULTRESOURCES
+      value: "false"
+    - name: VM_VMALERTMANAGER_USEDEFAULTRESOURCES
+      value: "false"
+    - name: VM_VMSINGLEDEFAULT_USEDEFAULTRESOURCES
+      value: "false"
     - name: VM_VMAGENTDEFAULT_USEDEFAULTRESOURCES
+      value: "false"
+    - name: VM_VLOGSDEFAULT_USEDEFAULTRESOURCES
       value: "false"
   crds:
     plain: true

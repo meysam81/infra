@@ -28,7 +28,7 @@ spec:
             - name: host
               value: auth-server.developer-friendly.blog
               type: Exact
-        - path:
+          path:
             type: PathPrefix
             value: /
     - backendRefs:
@@ -46,6 +46,6 @@ spec:
             - name: host
               value: kratos-admin.developer-friendly.blog
               type: Exact
-        - path:
+          path:
             type: PathPrefix
             value: /
