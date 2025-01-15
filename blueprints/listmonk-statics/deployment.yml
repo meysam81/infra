@@ -46,16 +46,13 @@ spec:
               name: config-volume
               readOnly: true
               subPath: config.toml
-            - mountPath: /public/robots.txt
-              name: static-files
-              readOnly: true
-              subPath: robots.txt
       initContainers:
         - args:
             - |
               set -eux
               curl -Lo favicon.ico $FAVICON_URL
               curl -Lo logo.webp $LOGO_URL
+              cp /files/robots.txt .
           command:
             - sh
             - "-c"
@@ -76,6 +73,10 @@ spec:
           volumeMounts:
             - mountPath: /public
               name: public-volume
+            - mountPath: /files/robots.txt
+              name: static-files
+              readOnly: true
+              subPath: robots.txt
           workingDir: /public
       securityContext:
         fsGroup: 65534
