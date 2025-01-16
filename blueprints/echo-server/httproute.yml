@@ -16,15 +16,14 @@ spec:
         - kind: Service
           name: oathkeeper-proxy
           port: 80
-          filters:
-            - requestHeaderModifier:
-                set:
-                  - name: x-forwarded-proto
-                    value: https
-                  - name: x-forwarded-host
-                    value: echo.developer-friendly.blog
-              type: RequestHeaderModifier
       filters:
+        - requestHeaderModifier:
+            set:
+              - name: x-forwarded-proto
+                value: https
+              - name: x-forwarded-host
+                value: echo.developer-friendly.blog
+          type: RequestHeaderModifier
         - responseHeaderModifier:
             set:
               - name: Strict-Transport-Security
