@@ -40,7 +40,6 @@ spec:
           ports:
             - containerPort: 7700
               name: meilisearch
-          restartPolicy: Always
           volumeMounts:
             - mountPath: /meili_data
               name: data
