@@ -54,6 +54,9 @@ spec:
                 name: hoarder-secrets
           image: getmeili/meilisearch
           name: meilisearch
+          ports:
+            - containerPort: 7700
+              name: meilisearch
           restartPolicy: Always
           volumeMounts:
             - mountPath: /meili_data

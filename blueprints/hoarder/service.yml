@@ -8,3 +8,7 @@ spec:
       protocol: TCP
       targetPort: http
       name: http
+    - port: 7700
+      protocol: TCP
+      targetPort: meilisearch
+      name: meilisearch
