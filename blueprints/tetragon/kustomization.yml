@@ -12,5 +12,9 @@ resources:
   - httproute.yml
   - rule.yml
   - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/quickstart/file_monitoring.yaml
+  - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/tracingpolicy/tcp-connect.yaml
+  - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/tracingpolicy/host-changes/monitor-kernel-modules.yaml
+  - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/tracingpolicy/process-credentials/process.credentials.changes.at.syscalls.yaml
+  - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/tracingpolicy/process-credentials/creds-capability-usage.yaml
 
 namespace: flux-system

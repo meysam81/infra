@@ -143,9 +143,9 @@ tetragon:
   # -- Access Kubernetes API to associate Tetragon events with Kubernetes pods.
   enableK8sAPI: true
   # -- Enable Capabilities visibility in exec and kprobe events.
-  enableProcessCred: false
+  enableProcessCred: true
   # -- Enable Namespaces visibility in exec and kprobe events.
-  enableProcessNs: false
+  enableProcessNs: true
   # -- Set --btf option to explicitly specify an absolute path to a btf file. For advanced users only.
   btf: ""
   # -- Override the command. For advanced users only.
