@@ -1,0 +1,15 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: tetragon-values
+
+resources:
+  # - ciliumnetworkpolicy.yml
+  - helmrelease.yml
+  # - httproute.yml
+  # - rule.yml
+
+namespace: flux-system

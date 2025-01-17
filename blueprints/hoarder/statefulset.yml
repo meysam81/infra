@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hoarder
+spec:
+  replicas: 1
+  serviceName: hoarder
+  template:
+    spec:
+      containers:
+        - env:
+            - name: S6_READ_ONLY_ROOT
+              value: "1"
+          envFrom:
+            - configMapRef:
+                name: hoarder-envs
+            - secretRef:
+                name: hoarder-secrets
+          image: ghcr.io/hoarder-app/hoarder
+          name: hoarder
+          ports:
+            - containerPort: 3000
+              name: http
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /data
+              name: data
+              subPath: hoarder
+      initContainers:
+        - args:
+            - "--no-sandbox"
+            - "--disable-gpu"
+            - "--disable-dev-shm-usage"
+            - "--remote-debugging-address=0.0.0.0"
+            - "--remote-debugging-port=9222"
+            - "--hide-scrollbars"
+          envFrom:
+            - configMapRef:
+                name: hoarder-envs
+          image: gcr.io/zenika-hub/alpine-chrome
+          name: chrome
+          restartPolicy: Always
+          volumeMounts:
+            - mountPath: /var/run/dbus
+              name: dbus
+        - env:
+            - name: MEILI_NO_ANALYTICS
+              value: "true"
+          envFrom:
+            - configMapRef:
+                name: hoarder-envs
+            - secretRef:
+                name: hoarder-secrets
+          image: getmeili/meilisearch
+          name: meilisearch
+          restartPolicy: Always
+          volumeMounts:
+            - mountPath: /meili_data
+              name: data
+              subPath: meilisearch
+      serviceAccountName: hoarder
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - configMap:
+            defaultMode: 0440
+            name: hoarder-config
+            optional: false
+          name: hoarder-config
+        - hostPath:
+            path: /var/run/dbus
+            type: Directory
+          name: dbus
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: hcloud-volumes-encrypted
