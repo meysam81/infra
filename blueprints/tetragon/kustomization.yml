@@ -9,7 +9,8 @@ configMapGenerator:
 resources:
   # - ciliumnetworkpolicy.yml
   - helmrelease.yml
-  # - httproute.yml
-  # - rule.yml
+  - httproute.yml
+  - rule.yml
+  - https://raw.githubusercontent.com/cilium/tetragon/refs/tags/v1.3.0/examples/quickstart/file_monitoring.yaml
 
 namespace: flux-system

@@ -23,4 +23,4 @@ spec:
     - handler: header
   upstream:
     preserveHost: true
-    url: http://tetragon.flux-system:80
+    url: http://tetragon.kube-system:2112

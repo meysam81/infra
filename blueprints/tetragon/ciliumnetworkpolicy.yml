@@ -8,12 +8,12 @@ spec:
     matchLabels:
       k8s:app.kubernetes.io/instance: tetragon
       k8s:app.kubernetes.io/name: tetragon
-      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/instance: flux-system
+      k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/instance: kube-system
       k8s:io.cilium.k8s.namespace.labels.app.kubernetes.io/part-of: flux
-      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: flux-system
-      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/name: flux-system
-      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/namespace: flux-system
-      k8s:io.kubernetes.pod.namespace: flux-system
+      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: kube-system
+      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/name: kube-system
+      k8s:io.cilium.k8s.namespace.labels.kustomize.toolkit.fluxcd.io/namespace: kube-system
+      k8s:io.kubernetes.pod.namespace: kube-system
   ingress:
     - fromEndpoints:
         - matchExpressions:
