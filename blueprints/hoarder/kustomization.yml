@@ -2,6 +2,12 @@ configMapGenerator:
   - name: hoarder-envs
     envs:
       - configs.env
+  - name: hoarder-grafana-dashboard
+    files:
+      - hoarder-dashboard.json=grafana-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 
 resources:
   - ciliumnetworkpolicy.yml
