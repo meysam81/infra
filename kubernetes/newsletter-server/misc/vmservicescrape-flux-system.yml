@@ -3,6 +3,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
   name: source-controller
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -16,6 +17,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
   name: kustomize-controller
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -29,6 +31,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
   name: helm-controller
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
@@ -42,6 +45,7 @@ apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
   name: notification-controller
+  namespace: flux-system
 spec:
   selector:
     matchLabels:
