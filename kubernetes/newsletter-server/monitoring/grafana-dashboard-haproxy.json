@@ -14167,8 +14167,8 @@
       {
         "current": {
           "selected": true,
-          "text": "default",
-          "value": "default"
+          "text": "VictoriaMetrics",
+          "value": "victoriametrics"
         },
         "hide": 0,
         "includeAll": false,
