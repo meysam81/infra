@@ -1342,7 +1342,7 @@ extraObjects:
       namespace: monitoring
     spec:
       receivers:
-        - name: slack
+        - name: slack-error
           slack_configs:
             - api_url:
                 key: slackWebhook
@@ -1397,7 +1397,7 @@ extraObjects:
                 key: discordWebhook
                 name: alertmanager
                 optional: false
-          name: discord
+          name: discord-info
       route:
         active_time_intervals:
           - workdays
@@ -1406,7 +1406,7 @@ extraObjects:
           - severity
         matchers:
           - severity != none
-        receiver: discord
+        receiver: discord-info
         repeat_interval: 12h
         routes:
           - group_by:
@@ -1418,8 +1418,15 @@ extraObjects:
           - active_time_intervals:
               - everyday
             matchers:
+              - severity = info
+              - kind = HelmRelease
+            receiver: slack-info
+            continue: false
+          - active_time_intervals:
+              - everyday
+            matchers:
               - severity =~ warning|error|critical
-            receiver: slack
+            receiver: slack-error
             repeat_interval: 1h
       time_intervals:
         - name: workdays
