@@ -20,6 +20,7 @@ resources:
 
   - kube-prometheus-dashboards.yml
   - trivy-operator-dashboard.yml
-  - haproxy.yml
+  - vmservicescrape-haproxy.yml
+  - vmservicescrape-flux-system.yml
 
 namespace: monitoring

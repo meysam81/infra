@@ -1,0 +1,52 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: source-controller
+spec:
+  selector:
+    matchLabels:
+      app: source-controller
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: http-prom
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: kustomize-controller
+spec:
+  selector:
+    matchLabels:
+      app: kustomize-controller
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: http-prom
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: helm-controller
+spec:
+  selector:
+    matchLabels:
+      app: helm-controller
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: http-prom
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: notification-controller
+spec:
+  selector:
+    matchLabels:
+      app: notification-controller
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: http-prom
