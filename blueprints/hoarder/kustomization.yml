@@ -10,6 +10,7 @@ resources:
   - service.yml
   - serviceaccount.yml
   - statefulset.yml
+  - vmservicescrape.yml
 
 images:
   - name: ghcr.io/hoarder-app/hoarder

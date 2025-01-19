@@ -1,0 +1,14 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: hoarder
+spec:
+  endpoints:
+    - bearerTokenSecret:
+        key: MEILI_MASTER_KEY
+        name: hoarder-secrets
+        optional: false
+      interval: 30s
+      path: /metrics
+      port: meilisearch
