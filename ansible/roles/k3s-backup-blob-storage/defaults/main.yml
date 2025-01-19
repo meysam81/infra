@@ -1,0 +1,4 @@
+---
+blob_storage_alias: hetzner
+blob_storage_endpoint: https://nbg1.your-objectstorage.com:443
+k3s_backup_script_path: /usr/local/bin/k3s-backup-blob-storage

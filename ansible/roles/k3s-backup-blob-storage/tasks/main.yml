@@ -1,0 +1,44 @@
+---
+- name: Ensure mc client is installed
+  ansible.builtin.apt:
+    name: mc
+    state: present
+    update_cache: true
+- name: Ensure the blob storage credentials are set for root
+  ansible.builtin.command:
+    cmd: |
+      mc alias set {{ blob_storage_alias }} {{ blob_storage_endpoint }} {{ blob_storage_access_key }} {{ blob_storage_secret_key }}
+- name: Copy the shell script for k3s backup
+  ansible.builtin.template:
+    src: k3s-backup-blob-storage.sh.j2
+    dest: "{{ k3s_backup_script_path }}"
+    owner: root
+    group: root
+    mode: "0755"
+- name: Copy the environment variable file for k3s backup
+  ansible.builtin.copy:
+    content: ""
+    dest: /etc/default/k3s-backup-blob-storage
+    owner: root
+    group: root
+    mode: "0644"
+- name: Create the systemd service for k3s backup
+  ansible.builtin.template:
+    src: k3s-backup-blob-storage.service
+    dest: /etc/systemd/system/k3s-backup-blob-storage.service
+    owner: root
+    group: root
+    mode: "0644"
+- name: Create the systemd timer for k3s backup
+  ansible.builtin.template:
+    src: k3s-backup-blob-storage.timer
+    dest: /etc/systemd/system/k3s-backup-blob-storage.timer
+    owner: root
+    group: root
+    mode: "0644"
+- name: Enable the k3s backup timer
+  ansible.builtin.systemd:
+    name: k3s-backup-blob-storage.timer
+    state: started
+    enabled: true
+    daemon_reload: true

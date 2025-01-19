@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+set -eux
+
+export TARGET_FILENAME=/tmp/k3s-db-backup-$(date +%Y%m%dT%H%M%S).tar.gz
+export ALIAS=hetzner
+export BUCKET=meysam
+export DATE=$(date +%Y-%m-%d)
+
+tar czvf "$TARGET_FILENAME" --exclude=state.db-wal /var/lib/rancher/k3s/server/db/
+
+mc cp "$TARGET_FILENAME" "$ALIAS/$BUCKET/$DATE/"

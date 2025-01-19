@@ -1,0 +1,9 @@
+[Unit]
+Description=Run k3s-backup-blob-storage service every 5 minutes
+
+[Timer]
+OnCalendar=*-*-* 00:30:00
+Unit=k3s-backup-blob-storage.service
+
+[Install]
+WantedBy=timers.target

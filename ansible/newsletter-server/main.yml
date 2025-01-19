@@ -176,6 +176,11 @@
         k8s_oidc_github_pages_repository_name: secondly-brightly-certain-halibut
         k8s_oidc_github_pages_repository_owner: meysam81
       tags: k8s-oidc
+    - name: k3s-backup-blob-storage
+      vars:
+        blob_storage_access_key: "{{ lookup('amazon.aws.ssm_parameter', '/hetzner-blob/access-key', region='ap-southeast-1') }}"
+        blob_storage_secret_key: "{{ lookup('amazon.aws.ssm_parameter', '/hetzner-blob/secret-key', region='ap-southeast-1') }}"
+      tags: k3s-backup
   handlers:
     - name: Reload haproxy
       ansible.builtin.systemd:

@@ -1,0 +1,14 @@
+[Unit]
+Description=K3s Backup Blob Storage Service
+After=network.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/default/k3s-backup-blob-storage
+ExecStart={{ k3s_backup_script_path }}
+PrivateTmp=true
+ReadOnlyPaths=/
+ReadWritePaths=/root/.mc
+
+[Install]
+WantedBy=multi-user.target

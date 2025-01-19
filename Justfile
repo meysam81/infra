@@ -50,3 +50,9 @@ create-tofu-stack dirname:
     path = find_in_parent_folders()
   }
   EOF
+
+role-init roleName:
+  #!/usr/bin/env sh
+
+  cd ansible
+  ansible-galaxy init roles/{{roleName}}
