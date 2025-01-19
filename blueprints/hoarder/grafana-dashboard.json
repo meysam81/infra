@@ -1751,10 +1751,7 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "text": "Prometheus",
-          "value": "VictoriaMetrics"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
@@ -1777,10 +1774,7 @@
         "type": "query"
       },
       {
-        "current": {
-          "text": "Prometheus",
-          "value": "VictoriaMetrics"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
@@ -1803,10 +1797,7 @@
         "type": "query"
       },
       {
-        "current": {
-          "text": "Prometheus",
-          "value": "VictoriaMetrics"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
