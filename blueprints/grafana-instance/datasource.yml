@@ -19,7 +19,7 @@ spec:
     orgId: 1
     secureJsonData: {}
     type: prometheus
-    uid: ""
+    uid: victoriametrics
     url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc.cluster.local.:8429
     user: ""
   instanceSelector:
@@ -45,7 +45,7 @@ spec:
     orgId: 1
     secureJsonData: {}
     type: alertmanager
-    uid: ""
+    uid: alertmanager
     url: http://vmalertmanager-victoria-metrics-k8s-stack.monitoring.svc.cluster.local.:9093
     user: ""
   instanceSelector:
