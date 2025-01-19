@@ -1764,7 +1764,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(instance)",
+          "query": "label_values({endpoint=\"meilisearch\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -1787,7 +1787,7 @@
         "name": "Index",
         "options": [],
         "query": {
-          "query": "label_values(index)",
+          "query": "label_values({endpoint=\"meilisearch\"}, index)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -1811,7 +1811,7 @@
         "name": "job",
         "options": [],
         "query": {
-          "query": "label_values(job)",
+          "query": "label_values({endpoint=\"meilisearch\"}, job)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
