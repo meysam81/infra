@@ -98,7 +98,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -150,7 +150,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -167,7 +167,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -215,7 +215,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "expr": "meilisearch_index_docs_count{job=\"$job\", index=\"$Index\", instance=\"$instance\"}",
@@ -230,7 +230,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -282,7 +282,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -299,7 +299,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -351,7 +351,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -368,7 +368,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -416,7 +416,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -433,7 +433,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -481,7 +481,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -498,7 +498,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "description": "",
       "fieldConfig": {
@@ -585,7 +585,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -598,7 +598,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "expr": "meilisearch_used_db_size_bytes{job=\"$job\", instance=\"$instance\"}",
@@ -614,7 +614,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -696,7 +696,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -713,7 +713,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "description": "number of requests per second, faceted by its HTTP status code",
       "fieldConfig": {
@@ -789,7 +789,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "code",
           "expr": "sum(rate(meilisearch_http_requests_total{instance=~\"$instance\",job=~\"$job\"} [$__rate_interval])) by (status)",
@@ -805,7 +805,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "description": "percentage of 4xx and 5xx HTTP responses over the total of the requests",
       "fieldConfig": {
@@ -881,7 +881,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "code",
           "expr": "sum by (status) (rate(meilisearch_http_requests_total{status=~\"(4|5).*\",instance=~\"$instance\",job=~\"$job\"}[$__rate_interval])) / ignoring(status) group_left sum(rate(meilisearch_http_requests_total{instance=~\"$instance\",job=~\"$job\"}[$__rate_interval]))",
@@ -897,7 +897,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -977,7 +977,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1003,7 +1003,7 @@
       "dataFormat": "tsbuckets",
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1078,7 +1078,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1112,7 +1112,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1193,7 +1193,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1210,7 +1210,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1291,7 +1291,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1308,7 +1308,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1389,7 +1389,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1406,7 +1406,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "victoriametrics"
       },
       "fieldConfig": {
         "defaults": {
@@ -1487,7 +1487,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "editorMode": "builder",
           "exemplar": true,
@@ -1518,7 +1518,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1599,7 +1599,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "victoriametrics"
               },
               "editorMode": "builder",
               "exemplar": true,
@@ -1612,7 +1612,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "victoriametrics"
               },
               "exemplar": true,
               "expr": "sum(rate(container_cpu_usage_seconds_total{name='mongodb-redis'}[1m])) by (name)",
@@ -1627,7 +1627,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
+            "uid": "victoriametrics"
           },
           "fieldConfig": {
             "defaults": {
@@ -1706,7 +1706,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "victoriametrics"
               },
               "editorMode": "builder",
               "exemplar": true,
@@ -1719,7 +1719,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "victoriametrics"
               },
               "exemplar": true,
               "expr": "container_memory_usage_bytes{name=\"mongodb-redis\"} / 1024 / 1024",
@@ -1754,7 +1754,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "victoriametrics"
         },
         "definition": "label_values(instance)",
         "hide": 0,
@@ -1777,7 +1777,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "victoriametrics"
         },
         "definition": "label_values(index)",
         "hide": 0,
@@ -1800,7 +1800,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
+          "uid": "victoriametrics"
         },
         "definition": "label_values(job)",
         "description": "Prometheus job_name from scrape config (default is meilisearch)",
