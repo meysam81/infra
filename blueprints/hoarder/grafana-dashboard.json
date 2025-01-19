@@ -5,10 +5,9 @@
       "description": "",
       "label": "prometheus",
       "name": "DS_PROMETHEUS",
-      "pluginId": "victoriametrics",
-      "pluginName": "VictoriaMetrics",
-      "type": "datasource",
-      "value": "VictoriaMetrics"
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus",
+      "type": "datasource"
     }
   ],
   "__requires": [
