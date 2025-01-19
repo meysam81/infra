@@ -14154,7 +14154,7 @@
       "type": "row"
     }
   ],
-  "refresh": "1m",
+  "refresh": "auto",
   "revision": 1,
   "schemaVersion": 38,
   "style": "dark",
