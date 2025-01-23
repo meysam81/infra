@@ -8,7 +8,7 @@
   ansible.builtin.command:
     cmd: |
       mc alias set {{ blob_storage_alias }} {{ blob_storage_endpoint }} {{ blob_storage_access_key }} {{ blob_storage_secret_key }}
-    no_log: true
+  no_log: true
 - name: Copy the shell script for k3s backup
   ansible.builtin.template:
     src: k3s-backup-blob-storage.sh.j2
