@@ -1,120 +1,64 @@
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: source-controller-metrics
-  namespace: flux-system
-  labels:
-    app: source-controller
-spec:
-  ports:
-    - name: http-prom
-      port: 8080
-      targetPort: http-prom
-  selector:
-    app: source-controller
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: kustomize-controller-metrics
-  namespace: flux-system
-  labels:
-    app: kustomize-controller
-spec:
-  ports:
-    - name: http-prom
-      port: 8080
-      targetPort: http-prom
-  selector:
-    app: kustomize-controller
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: helm-controller-metrics
-  namespace: flux-system
-  labels:
-    app: helm-controller
-spec:
-  ports:
-    - name: http-prom
-      port: 8080
-      targetPort: http-prom
-  selector:
-    app: helm-controller
-  type: ClusterIP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: notification-controller-metrics
-  namespace: flux-system
-  labels:
-    app: notification-controller
-spec:
-  ports:
-    - name: http-prom
-      port: 8080
-      targetPort: http-prom
-  selector:
-    app: notification-controller
-  type: ClusterIP
----
 apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMServiceScrape
+kind: VMPodScrape
 metadata:
   name: source-controller
   namespace: flux-system
 spec:
+  podMetricsEndpoints:
+    - port: "http-prom"
+      scheme: http
   selector:
     matchLabels:
       app: source-controller
-  endpoints:
-    - interval: 30s
-      path: /metrics
-      port: http-prom
+  namespaceSelector:
+    matchNames:
+      - flux-system
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMServiceScrape
+kind: VMPodScrape
 metadata:
   name: kustomize-controller
   namespace: flux-system
 spec:
+  podMetricsEndpoints:
+    - port: "http-prom"
+      scheme: http
   selector:
     matchLabels:
       app: kustomize-controller
-  endpoints:
-    - interval: 30s
-      path: /metrics
-      port: http-prom
+  namespaceSelector:
+    matchNames:
+      - flux-system
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMServiceScrape
+kind: VMPodScrape
 metadata:
   name: helm-controller
   namespace: flux-system
 spec:
+  podMetricsEndpoints:
+    - port: "http-prom"
+      scheme: http
   selector:
     matchLabels:
       app: helm-controller
-  endpoints:
-    - interval: 30s
-      path: /metrics
-      port: http-prom
+  namespaceSelector:
+    matchNames:
+      - flux-system
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
-kind: VMServiceScrape
+kind: VMPodScrape
 metadata:
   name: notification-controller
   namespace: flux-system
 spec:
+  podMetricsEndpoints:
+    - port: "http-prom"
+      scheme: http
   selector:
     matchLabels:
       app: notification-controller
-  endpoints:
-    - interval: 30s
-      path: /metrics
-      port: http-prom
+  namespaceSelector:
+    matchNames:
+      - flux-system
