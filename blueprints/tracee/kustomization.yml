@@ -1,0 +1,20 @@
+configurations:
+  - kustomizeconfig.yml
+
+configMapGenerator:
+  - files:
+      - values.yaml=helm-values.yml
+    name: tracee
+  - files:
+      - tracee-dashboard.json=grafana-dashboard.json
+    name: tracee-grafana-dashboard
+    options:
+      labels:
+        grafana_dashboard: '1'
+
+resources:
+  - vmpodscrape.yml
+  - helmrelease.yml
+  - policy.yml
+
+namespace: flux-system

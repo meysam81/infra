@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tracee
+spec:
+  chart:
+    spec:
+      chart: tracee
+      sourceRef:
+        kind: HelmRepository
+        name: aquasecurity
+        namespace: flux-system
+      version: 0.x
+  install:
+    createNamespace: true
+  interval: 1h
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/ports
+                value:
+                  - containerPort: 3366
+                    name: metrics
+            target:
+              kind: DaemonSet
+              name: tracee
+  releaseName: tracee
+  targetNamespace: tracee
+  valuesFrom:
+    - kind: ConfigMap
+      name: tracee

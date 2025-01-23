@@ -1,0 +1,13 @@
+---
+apiVersion: tracee.aquasec.com/v1beta1
+kind: Policy
+metadata:
+  name: file-modification-policy
+spec:
+  scope:
+    - global
+  rules:
+    - event: file_modification
+      filters:
+        - containerName=hoarder
+        - podNamespace=default
