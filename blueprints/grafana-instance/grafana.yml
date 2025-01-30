@@ -139,4 +139,4 @@ spec:
         requests:
           storage: 1Gi
       storageClassName: local-path
-  version: 11.4.0
+  version: 11.5.0
