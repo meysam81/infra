@@ -13,8 +13,8 @@ spec:
     editable: false
     isDefault: true
     jsonData:
+      timeInterval: 5s
       tlsSkipVerify: true
-      timeInterval: "5s"
     name: VictoriaMetrics
     orgId: 1
     secureJsonData: {}
@@ -24,8 +24,8 @@ spec:
     user: ""
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"
-  resyncPeriod: "10m"
+      dashboards: grafana
+  resyncPeriod: 10m
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -50,8 +50,8 @@ spec:
     user: ""
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"
-  resyncPeriod: "10m"
+      dashboards: grafana
+  resyncPeriod: 10m
 ---
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDatasource
@@ -68,9 +68,9 @@ spec:
     jsonData:
       derivedFields:
         - datasourceUid: Loki
-          matcherRegex: ".*"
+          matcherRegex: .*
           name: TraceID
-          url: "http://monitoring-victoria-logs-single-server:9428"
+          url: http://monitoring-victoria-logs-single-server:9428
     name: VictoriaLogs
     orgId: 1
     secureJsonData: {}
@@ -80,5 +80,8 @@ spec:
     user: ""
   instanceSelector:
     matchLabels:
-      dashboards: "grafana"
-  resyncPeriod: "10m"
+      dashboards: grafana
+  plugins:
+    - name: victoriametrics-logs-datasource
+      version: v0.14.3
+  resyncPeriod: 10m
