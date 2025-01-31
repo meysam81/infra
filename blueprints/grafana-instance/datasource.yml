@@ -38,7 +38,7 @@ spec:
     basicAuth: false
     database: ""
     editable: false
-    isDefault: true
+    isDefault: false
     jsonData:
       implementation: prometheus
     name: Alertmanager
@@ -74,7 +74,7 @@ spec:
     name: VictoriaLogs
     orgId: 1
     secureJsonData: {}
-    type: loki
+    type: victoriametrics-logs-datasource
     uid: victorialogs
     url: http://monitoring-victoria-logs-single-server:9428
     user: ""
