@@ -47,5 +47,11 @@ replacements:
           - spec.endpointSelector.matchLabels
         options:
           create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
 
 namespace: default

@@ -51,7 +51,7 @@ spec:
                 - name: GF_AUTH_GOOGLE_CLIENT_ID
                   valueFrom:
                     secretKeyRef:
-                      key: client-secret
+                      key: client-id
                       name: grafana
                       optional: false
                 - name: GF_AUTH_GOOGLE_CLIENT_SECRET
