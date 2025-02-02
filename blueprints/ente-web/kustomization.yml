@@ -1,0 +1,47 @@
+configMapGenerator:
+  - name: ente-web
+    envs:
+      - configs.env
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - deployment.yml
+  - httproute.yml
+  - rule.yml
+  - service.yml
+  - serviceaccount.yml
+  - vmservicescrape.yml
+
+images:
+  - name: ghcr.io/meysam81/ente-docker/ente-photos
+    newTag: "13088319960"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: ente-web
+      app.kubernetes.io/instance: ente-web
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: ente-web
+      app.kubernetes.io/part-of: ente-web
+      app.kubernetes.io/version: v1.0.0
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+
+namespace: default

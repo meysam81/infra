@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ente-web
+  namespace: flux-system
+spec:
+  force: false
+  interval: 1h
+  path: ./blueprints/ente-web
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: default
+  timeout: 1m
+  wait: true

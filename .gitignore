@@ -67,3 +67,4 @@ kubernetes/raspberry-pi/applications/gh-self-hosted-runner/secrets.env
 *.py[cod]
 .helmwave
 backup/
+blueprints/ente-server/secrets.sh

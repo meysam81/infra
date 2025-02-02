@@ -1,0 +1,48 @@
+configMapGenerator:
+  - name: ente-server-envs
+    envs:
+      - configs.env
+
+resources:
+  - externalsecret.yml
+  - ciliumnetworkpolicy.yml
+  - service.yml
+  - serviceaccount.yml
+  - deployment.yml
+  - httproute.yml
+  - vmservicescrape.yml
+
+images:
+  - name: ghcr.io/ente-io/server
+    newName: ghcr.io/meysam81/ente-docker/ente-server
+    newTag: "1738391375-arm64"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: ente-server
+      app.kubernetes.io/instance: ente-server
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: ente-server
+      app.kubernetes.io/part-of: ente-server
+      app.kubernetes.io/version: v1.0.0
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+
+namespace: default

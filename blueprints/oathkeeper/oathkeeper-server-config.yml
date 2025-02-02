@@ -130,7 +130,6 @@ serve:
         - https://developer-friendly.blog
         - https://*.developer-friendly.blog
         - https://*.netlify.app
-        - http://*.localhost.com:8000
       allow_credentials: true
       debug: false
 # tracing:
