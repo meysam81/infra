@@ -7,8 +7,11 @@ spec:
   endpointSelector:
     matchLabels: {}
   ingress:
-    - fromEntities:
-        - ingress
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/name: oathkeeper
+            k8s:io.cilium.k8s.policy.serviceaccount: oathkeeper
+            k8s:io.kubernetes.pod.namespace: auth
       toPorts:
         - ports:
             - port: "8080"

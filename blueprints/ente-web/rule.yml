@@ -22,4 +22,4 @@ spec:
     - handler: header
   upstream:
     preserveHost: true
-    url: http://ente-photos.default:80
+    url: http://ente-web.default:80
