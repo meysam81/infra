@@ -1,4 +1,4 @@
 resources:
-  - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v1.7.2
+  - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v2.1.0
 
 namespace: auth
