@@ -435,10 +435,6 @@ config:
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
   clients:
-    - url: https://logs-prod-012.grafana.net/loki/api/v1/push
-      basic_auth:
-        username: 596709
-        password: ${GRAFANA_CLOUD_PASSWORD}
     - url: http://monitoring-victoria-logs-single-server.monitoring:9428/insert/loki/api/v1/push?_stream_fields=instance,job,host,app
       tenant_id: "0:0"
   # -- Configures where Promtail will save it's positions file, to resume reading after restarts.
