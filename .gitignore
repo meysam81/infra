@@ -68,3 +68,4 @@ kubernetes/raspberry-pi/applications/gh-self-hosted-runner/secrets.env
 .helmwave
 backup/
 blueprints/ente-server/secrets.sh
+blueprints/ente-server/credentials.yml

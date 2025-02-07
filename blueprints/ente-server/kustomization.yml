@@ -2,9 +2,13 @@ configMapGenerator:
   - name: ente-server-envs
     envs:
       - configs.env
+  - name: ente-server-files
+    files:
+      - config.yml
 
 resources:
-  - externalsecret.yml
+  - externalsecret-file.yml
+  - externalsecret-envs.yml
   - ciliumnetworkpolicy.yml
   - service.yml
   - serviceaccount.yml
@@ -15,7 +19,7 @@ resources:
 images:
   - name: ghcr.io/ente-io/server
     newName: ghcr.io/meysam81/ente-docker/ente-server
-    newTag: "1738391375-arm64"
+    newTag: "13190605483-arm64"
 
 labels:
   - includeSelectors: true

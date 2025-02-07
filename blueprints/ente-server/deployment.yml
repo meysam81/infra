@@ -18,7 +18,7 @@ spec:
             - configMapRef:
                 name: ente-server-envs
             - secretRef:
-                name: ente-server
+                name: ente-server-envs
           image: ghcr.io/ente-io/server
           livenessProbe:
             failureThreshold: 3
@@ -54,6 +54,17 @@ spec:
             runAsGroup: 65534
             runAsNonRoot: true
             runAsUser: 65534
+          volumeMounts:
+            - name: ente-server-credentials
+              mountPath: /credentials.yaml
+              readOnly: true
+              subPath: credentials.yaml
+            - name: ente-server-files
+              mountPath: /museum.yaml
+              readOnly: true
+              subPath: config.yml
+            - name: tmp
+              mountPath: /tmp
       securityContext:
         fsGroup: 65534
         fsGroupChangePolicy: Always
@@ -63,3 +74,16 @@ spec:
         sysctls: []
       serviceAccountName: ente-server
       terminationGracePeriodSeconds: 10
+      volumes:
+        - name: ente-server-credentials
+          secret:
+            defaultMode: 0400
+            secretName: ente-server-file
+            optional: false
+        - name: ente-server-files
+          configMap:
+            defaultMode: 0400
+            name: ente-server-files
+            optional: false
+        - name: tmp
+          emptyDir: {}
