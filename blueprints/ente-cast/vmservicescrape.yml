@@ -1,0 +1,10 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: ente-cast
+spec:
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      port: photos

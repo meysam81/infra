@@ -26,7 +26,7 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 2
-          name: photos
+          name: auth
           ports:
             - containerPort: 8080
               name: http

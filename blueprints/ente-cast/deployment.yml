@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ente-accounts
+  name: ente-cast
 spec:
   replicas: 1
   strategy:
@@ -15,8 +15,8 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-                name: ente-accounts
-          image: ghcr.io/meysam81/ente-docker/ente-accounts
+                name: ente-cast
+          image: ghcr.io/meysam81/ente-docker/ente-cast
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -26,7 +26,7 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             timeoutSeconds: 2
-          name: accounts
+          name: cast
           ports:
             - containerPort: 8080
               name: http
@@ -56,5 +56,5 @@ spec:
           type: RuntimeDefault
         supplementalGroups: []
         sysctls: []
-      serviceAccountName: ente-accounts
+      serviceAccountName: ente-cast
       terminationGracePeriodSeconds: 10

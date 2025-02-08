@@ -10,3 +10,5 @@ export DATE=$(date +%Y-%m-%d)
 tar czvf "$TARGET_FILENAME" --exclude=state.db-wal /var/lib/rancher/k3s/server/db/
 
 mc cp "$TARGET_FILENAME" "$ALIAS/$BUCKET/k3s-backups/$DATE/"
+
+mc rm "$ALIAS/$BUCKET/k3s-backups" --older-than 30d -r --force

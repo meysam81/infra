@@ -1,0 +1,25 @@
+---
+apiVersion: oathkeeper.ory.sh/v1alpha1
+kind: Rule
+metadata:
+  name: ente-cast
+spec:
+  authenticators:
+    - handler: anonymous
+  authorizer:
+    handler: allow
+  errors:
+    - handler: json
+  match:
+    methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+    url: http<s?>://cast.developer-friendly.blog</?.*>
+  mutators:
+    - handler: header
+  upstream:
+    preserveHost: true
+    url: http://ente-cast.ente:80
