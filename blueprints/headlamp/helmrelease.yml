@@ -18,3 +18,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: headlamp
+  suspend: false

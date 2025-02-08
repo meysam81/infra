@@ -19,3 +19,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cloudnative-pg-values
+  suspend: false

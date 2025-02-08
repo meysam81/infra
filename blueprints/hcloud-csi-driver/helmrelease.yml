@@ -19,3 +19,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: hcloud-csi-driver-values
+  suspend: false
