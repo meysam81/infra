@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ente-web
+  name: ente-auth
 spec:
   replicas: 1
   strategy:
@@ -15,13 +15,13 @@ spec:
       containers:
         - envFrom:
             - configMapRef:
-                name: ente-web
-          image: ghcr.io/meysam81/ente-docker/ente-photos
+                name: ente-auth
+          image: ghcr.io/meysam81/ente-docker/ente-auth
           livenessProbe:
             failureThreshold: 3
             httpGet:
               path: /health
-              port: photos
+              port: http
             initialDelaySeconds: 5
             periodSeconds: 5
             successThreshold: 1
@@ -29,12 +29,12 @@ spec:
           name: photos
           ports:
             - containerPort: 8080
-              name: photos
+              name: http
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /health
-              port: photos
+              port: http
             initialDelaySeconds: 5
             periodSeconds: 5
             successThreshold: 1
@@ -56,5 +56,5 @@ spec:
           type: RuntimeDefault
         supplementalGroups: []
         sysctls: []
-      serviceAccountName: ente-web
+      serviceAccountName: ente-auth
       terminationGracePeriodSeconds: 10

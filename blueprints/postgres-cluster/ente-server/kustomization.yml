@@ -1,6 +1,7 @@
 resources:
+  - cluster.yml
   - externalsecret-superuser.yml
   - externalsecret-user.yml
-  - cluster.yml
+  - scheduledbackup.yml
 
-namespace: database
+namespace: ente

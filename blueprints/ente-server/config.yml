@@ -1,20 +1,27 @@
+---
+db:
+  host: localhost
+  port: 5432
+  name: ente
 s3:
+  are_local_buckets: false
+  use_path_style_urls: true
   hot_storage:
     primary: b2-eu-cen
-    # secondary: wasabi-eu-central-2-v3
   b2-eu-cen:
     region: eu-central-1
 smtp:
+  port: 587
   sender-name: Developer Friendly
 webauthn:
-  rpid: developer-friendly.blog
+  rpid: ente-server.developer-friendly.blog
   rporigins:
-    - https://ente-auth.developer-friendly.blog
+    - https://accounts.developer-friendly.blog
 internal:
   silent: false
-  admins:
-    - 1580559962386438
-  disable-registration: true
+  # admins:
+  #   - 1580559962386438
+  # disable-registration: true
 jobs:
   cron:
     skip: false
@@ -22,3 +29,8 @@ jobs:
     worker-count: 4
   clear-orphan-objects:
     enabled: true
+apps:
+  public-albums: https://photos.developer-friendly.blog
+  cast: https://cast.developer-friendly.blog
+  accounts: https://accounts.developer-friendly.blog
+  family: https://ente-auth.developer-friendly.blog

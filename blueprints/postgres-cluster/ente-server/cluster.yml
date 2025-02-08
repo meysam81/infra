@@ -4,12 +4,28 @@ kind: Cluster
 metadata:
   name: postgres
 spec:
+  backup:
+    barmanObjectStore:
+      data:
+        compression: bzip2
+      destinationPath: s3://meysam/postgres/ente/
+      endpointURL: https://nbg1.your-objectstorage.com
+      s3Credentials:
+        accessKeyId:
+          key: ACCESS_KEY_ID
+          name: hetzner-blob-storage
+        secretAccessKey:
+          key: ACCESS_SECRET_KEY
+          name: hetzner-blob-storage
+      wal:
+        compression: bzip2
+    retentionPolicy: 90d
   bootstrap:
     initdb:
-      database: listmonk
-      owner: listmonk
+      database: ente
+      owner: ente
       secret:
-        name: postgres-listmonk
+        name: postgres-user
   enableSuperuserAccess: true
   failoverDelay: 120
   instances: 1
@@ -18,32 +34,37 @@ spec:
   postgresql:
     parameters:
       auto_explain.log_min_duration: 500ms
-      autovacuum: "on"
       autovacuum_analyze_scale_factor: "0.1"
       autovacuum_analyze_threshold: "50"
-      autovacuum_max_workers: "3"
+      autovacuum_max_workers: "2"
       autovacuum_naptime: 10min
       autovacuum_vacuum_scale_factor: "0.2"
       autovacuum_vacuum_threshold: "50"
-      checkpoint_completion_target: "0.7"
+      autovacuum: "on"
+      checkpoint_completion_target: "0.9"
       default_statistics_target: "100"
-      effective_cache_size: 2GB
+      effective_cache_size: 1GB
       effective_io_concurrency: "200"
+      huge_pages: off
       log_min_duration_statement: 100ms
-      maintenance_work_mem: 128MB
+      maintenance_work_mem: 256MB
       max_connections: "100"
-      max_wal_size: 4GB
-      min_wal_size: 1GB
+      max_parallel_maintenance_workers: "2"
+      max_parallel_workers_per_gather: "2"
+      max_parallel_workers: "2"
+      max_wal_size: 2GB
+      max_worker_processes: "4"
+      min_wal_size: 128MB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
-      pgaudit.log: all, -misc
       pgaudit.log_catalog: "off"
       pgaudit.log_parameter: "on"
       pgaudit.log_relation: "on"
+      pgaudit.log: all, -misc
       random_page_cost: "1.1"
       shared_buffers: 1GB
       wal_buffers: 16MB
-      work_mem: 64MB
+      work_mem: 26214kB
   storage:
     size: 10Gi
     storageClass: hcloud-volumes-encrypted

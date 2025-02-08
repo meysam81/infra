@@ -1,5 +1,5 @@
 configMapGenerator:
-  - name: ente-web
+  - name: ente-accounts
     envs:
       - configs.env
 
@@ -13,17 +13,17 @@ resources:
   - vmservicescrape.yml
 
 images:
-  - name: ghcr.io/meysam81/ente-docker/ente-photos
-    newTag: "13088319960"
+  - name: ghcr.io/meysam81/ente-docker/ente-accounts
+    newTag: "20250207"
 
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/component: ente-web
-      app.kubernetes.io/instance: ente-web
+      app.kubernetes.io/component: ente-accounts
+      app.kubernetes.io/instance: ente-accounts
       app.kubernetes.io/managed-by: Kustomize
-      app.kubernetes.io/name: ente-web
-      app.kubernetes.io/part-of: ente-web
+      app.kubernetes.io/name: ente-accounts
+      app.kubernetes.io/part-of: ente-accounts
       app.kubernetes.io/version: v1.0.0
 
 replacements:
@@ -44,4 +44,4 @@ replacements:
         options:
           create: true
 
-namespace: default
+namespace: ente

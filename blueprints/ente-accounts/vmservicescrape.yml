@@ -2,7 +2,7 @@
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
 metadata:
-  name: ente-web
+  name: ente-accounts
 spec:
   endpoints:
     - interval: 30s
