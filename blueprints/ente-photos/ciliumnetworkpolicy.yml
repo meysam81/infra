@@ -18,6 +18,14 @@ spec:
               protocol: TCP
           rules:
             http: [{}]
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http: [{}]
     - fromEndpoints:
         - matchLabels:
             k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
