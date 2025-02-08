@@ -19,8 +19,8 @@ webauthn:
     - https://accounts.developer-friendly.blog
 internal:
   silent: false
-  # admins:
-  #   - 1580559962386438
+  admins:
+    - 1580559962386438
   # disable-registration: true
 jobs:
   cron:
