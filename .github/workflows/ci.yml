@@ -62,7 +62,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create Terraform Plugin Cache Dir
-        run: mkdir -p $TF_PLUGIN_CACHE_DIR
+        run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
       - name: Terraform Plugin Cache
         uses: actions/cache@v4
         with:
@@ -277,8 +277,8 @@ jobs:
       - name: Pre-process image name
         id: image-name
         run: |
-          name=$(echo ${{ matrix.directory }} | sed 's/.*\///')
-          echo "name=$name" >> $GITHUB_OUTPUT
+          name="$(echo ${{ matrix.directory }} | sed 's/.*\///')"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
       - name: Build docker
         uses: meysam81/build-docker@v1
         with:

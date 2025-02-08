@@ -73,3 +73,7 @@ repos:
       - id: tofu_fmt
       - id: tofu_tflint
       - id: tofu_docs
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
