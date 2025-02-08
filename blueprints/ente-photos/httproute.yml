@@ -14,8 +14,7 @@ spec:
   rules:
     - backendRefs:
         - kind: Service
-          name: oathkeeper-proxy
-          namespace: auth
+          name: ente-photos
           port: 80
       filters:
         - responseHeaderModifier:
