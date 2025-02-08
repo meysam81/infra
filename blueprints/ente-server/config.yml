@@ -14,7 +14,7 @@ smtp:
   port: 587
   sender-name: Developer Friendly
 webauthn:
-  rpid: ente-server.developer-friendly.blog
+  rpid: developer-friendly.blog
   rporigins:
     - https://accounts.developer-friendly.blog
 internal:
