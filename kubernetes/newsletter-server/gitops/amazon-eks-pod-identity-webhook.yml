@@ -13,6 +13,7 @@ spec:
     kind: OCIRepository
     name: kustomizations
     namespace: flux-system
+  suspend: false
   targetNamespace: kube-system
   timeout: 1m
   wait: true
