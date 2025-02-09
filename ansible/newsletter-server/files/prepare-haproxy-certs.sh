@@ -3,18 +3,30 @@ set -e
 
 certbot renew -q || echo "Certbot not renewed!"
 
-cd /etc/letsencrypt/live/developer-friendly.blog
+domains=(
+    developer-friendly.blog
+    meysam.io
+)
 
-temp_cert=$(mktemp)
+renew_domain_cert() {
+    domain=$1
+    cd /etc/letsencrypt/live/$domain
 
-cat fullchain.pem privkey.pem > "$temp_cert"
+    temp_cert=$(mktemp)
 
-if ! cmp -s "$temp_cert" /etc/haproxy/certs/developer-friendly.blog; then
-    mv "$temp_cert" /etc/haproxy/certs/developer-friendly.blog
-    systemctl reload haproxy
-    echo "Certificate updated and HAProxy reloaded."
-else
-    echo "Certificate unchanged. No reload necessary."
-fi
+    cat fullchain.pem privkey.pem > "$temp_cert"
 
-rm -f "$temp_cert"
+    if ! cmp -s "$temp_cert" /etc/haproxy/certs/$domain; then
+        mv "$temp_cert" /etc/haproxy/certs/$domain
+        systemctl reload haproxy
+        echo "Certificate updated and HAProxy reloaded."
+    else
+        echo "Certificate unchanged. No reload necessary."
+    fi
+
+    rm -f "$temp_cert"
+}
+
+for domain in "${domains[@]}"; do
+    renew_domain_cert $domain
+done
