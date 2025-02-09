@@ -19,7 +19,7 @@ internal:
   silent: false
   admins:
     - 1580559962386438
-  # disable-registration: true
+  disable-registration: false
 jobs:
   cron:
     skip: false
