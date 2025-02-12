@@ -1,4 +1,7 @@
 ---
+db:
+  port: 5432
+  name: ente
 s3:
   are_local_buckets: false
   use_path_style_urls: true
