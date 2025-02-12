@@ -9,7 +9,7 @@ s3:
     primary: b2-eu-cen
 smtp:
   port: 587
-  sender-name: Developer Friendly
+  sender-name: Meysam Ente Server
 webauthn:
   rpid: meysam.io
   rporigins:
