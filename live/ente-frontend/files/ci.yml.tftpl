@@ -28,6 +28,7 @@ jobs:
           repository: ente-io/ente
           ref: main
           token: $${{ github.token }}
+          submodules: recursive
       - name: Set Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,25 +40,32 @@ jobs:
           key: $${{ runner.os }}-node-$${{ hashFiles('**/package.json') }}
           restore-keys: |
             $${{ runner.os }}-node-
-      - name: Run install
+      - name: Enable corepack
+        run: corepack enable
+      - name: Yarn clean cache
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: cache clean
+          dir: web
+      - name: Yarn install
         uses: borales/actions-yarn@v5
         with:
           cmd: install
           dir: web
-      - name: Build production bundle
+      - name: Yarn build
         uses: borales/actions-yarn@v5
         with:
           cmd: build:${build_target}
           dir: web
         env:
-          ENV NEXT_PUBLIC_ENTE_ENDPOINT: https://ente.meysam.io
+          NEXT_PUBLIC_ENTE_ENDPOINT: https://ente.meysam.io
           NEXT_PUBLIC_ENTE_ALBUMS_ENDPOINT: https://photos.meysam.io
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Upload Pages artifact
+      - id: upload-artifact
+        name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: web/apps/${build_target}/out
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
