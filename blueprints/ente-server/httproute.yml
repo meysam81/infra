@@ -5,6 +5,7 @@ metadata:
 spec:
   hostnames:
     - ente-server.developer-friendly.blog
+    - ente.meysam.io
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway

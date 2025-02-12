@@ -1,8 +1,4 @@
 ---
-db:
-  host: localhost
-  port: 5432
-  name: ente
 s3:
   are_local_buckets: false
   use_path_style_urls: true
@@ -12,9 +8,9 @@ smtp:
   port: 587
   sender-name: Developer Friendly
 webauthn:
-  rpid: developer-friendly.blog
+  rpid: meysam.io
   rporigins:
-    - https://accounts.developer-friendly.blog
+    - https://accounts.meysam.io
 internal:
   silent: false
   admins:
@@ -28,7 +24,7 @@ jobs:
   clear-orphan-objects:
     enabled: true
 apps:
-  public-albums: https://photos.developer-friendly.blog
-  cast: https://cast.developer-friendly.blog
-  accounts: https://accounts.developer-friendly.blog
-  family: https://ente-auth.developer-friendly.blog
+  public-albums: https://photos.meysam.io
+  cast: https://cast.meysam.io
+  accounts: https://accounts.meysam.io
+  family: https://auth.meysam.io
