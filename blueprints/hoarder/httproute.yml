@@ -6,6 +6,7 @@ metadata:
 spec:
   hostnames:
     - hoarder.developer-friendly.blog
+    - hoarder.meysam.io
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
