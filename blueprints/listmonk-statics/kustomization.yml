@@ -19,7 +19,7 @@ images:
   - name: ghcr.io/static-web-server/static-web-server
     newTag: "2"
   - name: curlimages/curl
-    newTag: 8.11.1
+    newTag: 8.12.1
 
 commonLabels:
   app.kubernetes.io/name: listmonk-statics
