@@ -1,0 +1,16 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VLogs
+metadata:
+  name: victorialogs
+spec:
+  removePvcAfterDelete: false
+  replicaCount: 1
+  retentionPeriod: 1y
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: hcloud-volumes-encrypted
