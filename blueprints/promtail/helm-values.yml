@@ -101,7 +101,7 @@ image:
   # -- Docker image repository
   repository: grafana/promtail
   # -- Overrides the image tag whose default is the chart's appVersion
-  tag: ""
+  tag: 3.4.1
   # -- Docker image pull policy
   pullPolicy: IfNotPresent
 
