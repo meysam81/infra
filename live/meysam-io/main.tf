@@ -1,13 +1,77 @@
-data "cloudflare_zone" "this" {
-  zone_id = "8fd8676956b357c88a1082d8dc91fb6f"
+resource "cloudflare_email_routing_address" "licenseware" {
+  account_id = data.cloudflare_accounts.meysam.result[0].id
+  email      = "meysam@licenseware.io"
 }
 
-data "hcloud_primary_ip" "ipv4" {
-  name = "personal-ipv4"
+resource "cloudflare_email_routing_rule" "lwarebot" {
+  zone_id = data.cloudflare_zone.this.zone_id
+  name    = "lwarebot"
+  enabled = true
+
+  matchers = [{
+    type  = "literal"
+    field = "to"
+    value = "lwarebot@meysam.io"
+  }]
+
+  actions = [{
+    type  = "forward"
+    value = ["meysam@licenseware.io"]
+  }]
 }
 
-data "hcloud_primary_ip" "ipv6" {
-  name = "personal-ipv6"
+resource "cloudflare_dns_record" "root_a" {
+  for_each = toset([
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+  ])
+
+  zone_id = data.cloudflare_zone.this.zone_id
+
+  name    = "meysam.io"
+  proxied = false
+  ttl     = 3600
+  type    = "A"
+  content = each.value
+}
+
+resource "cloudflare_dns_record" "root_aaaa" {
+  for_each = toset([
+    "2606:50c0:8000::153",
+    "2606:50c0:8001::153",
+    "2606:50c0:8002::153",
+    "2606:50c0:8003::153",
+  ])
+
+  zone_id = data.cloudflare_zone.this.zone_id
+
+  name    = "meysam.io"
+  proxied = false
+  ttl     = 3600
+  type    = "AAAA"
+  content = each.value
+}
+
+resource "cloudflare_dns_record" "www" {
+  zone_id = data.cloudflare_zone.this.zone_id
+
+  name    = "www"
+  proxied = false
+  ttl     = 3600
+  type    = "CNAME"
+  content = "meysam.io"
+}
+
+resource "cloudflare_dns_record" "meysam_io_txt" {
+  zone_id = data.cloudflare_zone.this.zone_id
+
+  name    = "meysam.io"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "\"v=spf1 include:_spf.mx.cloudflare.net ~all\""
 }
 
 resource "cloudflare_dns_record" "wildcard_ipv4" {

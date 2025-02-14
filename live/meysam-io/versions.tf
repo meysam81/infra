@@ -5,7 +5,7 @@ terraform {
       version = "< 6"
     }
     hcloud = {
-      source  = "hashicorp/hcloud"
+      source  = "hetznercloud/hcloud"
       version = "< 2"
     }
   }
