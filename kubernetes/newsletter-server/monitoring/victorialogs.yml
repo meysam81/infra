@@ -4,6 +4,8 @@ kind: VLogs
 metadata:
   name: victorialogs
 spec:
+  image:
+    tag: v1.10.0-victorialogs-scratch
   removePvcAfterDelete: false
   replicaCount: 1
   retentionPeriod: 1y
