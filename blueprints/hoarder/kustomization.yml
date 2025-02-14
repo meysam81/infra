@@ -24,7 +24,7 @@ images:
   - name: gcr.io/zenika-hub/alpine-chrome
     newTag: "124"
   - name: getmeili/meilisearch
-    newTag: v1.11.1 # v1.12.4
+    newTag: v1.12.8 # v1.12.4
 
 labels:
   - includeSelectors: true
