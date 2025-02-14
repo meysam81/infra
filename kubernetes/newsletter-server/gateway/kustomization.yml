@@ -7,6 +7,6 @@ resources:
 
 images:
   - name: ghcr.io/meysam81/default-backend
-    newTag: "12413629118"
+    newTag: "13068215615"
 
 namespace: cert-manager
