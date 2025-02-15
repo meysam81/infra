@@ -1,0 +1,10 @@
+---
+resources:
+  - cluster.yml
+  - externalsecret-hetzner-blob.yml
+  - externalsecret-superuser.yml
+  - externalsecret-user.yml
+  - scheduledbackup.yml
+  - ciliumnetworkpolicy.yml
+
+namespace: plausible

@@ -1,0 +1,53 @@
+configMapGenerator:
+  - name: clickhouse-files
+    files:
+      - files/ipv4-only.xml
+      - files/logs.xml
+      - files/low-resources.xml
+      - files/user-network-access.xml
+      - files/prometheus.xml
+  - name: clickhouse-envs
+    envs:
+      - configs.env
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - externalsecret.yml
+  - service.yml
+  - serviceaccount.yml
+  - statefulset.yml
+  - vmservicescrape.yml
+
+images:
+  - name: clickhouse/clickhouse-server
+    newTag: 25.1-alpine
+
+replacements:
+  - source:
+      kind: StatefulSet
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: clickhouse
+      app.kubernetes.io/instance: clickhouse
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: clickhouse
+      app.kubernetes.io/part-of: plausible
+      app.kubernetes.io/version: v1.0.0
+
+namespace: plausible

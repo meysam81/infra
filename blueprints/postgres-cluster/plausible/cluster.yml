@@ -1,0 +1,53 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  backup:
+    barmanObjectStore:
+      data:
+        compression: bzip2
+      destinationPath: s3://meysam/postgres/plausible/
+      endpointURL: https://nbg1.your-objectstorage.com
+      s3Credentials:
+        accessKeyId:
+          key: ACCESS_KEY_ID
+          name: hetzner-blob-storage
+        secretAccessKey:
+          key: ACCESS_SECRET_KEY
+          name: hetzner-blob-storage
+      wal:
+        compression: bzip2
+    retentionPolicy: 90d
+  bootstrap:
+    initdb:
+      database: plausible
+      owner: plausible
+      secret:
+        name: postgres-user
+  enableSuperuserAccess: true
+  failoverDelay: 120
+  instances: 1
+  monitoring:
+    enablePodMonitor: true
+  postgresql:
+    parameters:
+      checkpoint_completion_target: "0.9"
+      default_statistics_target: "100"
+      effective_cache_size: 3GB
+      effective_io_concurrency: "200"
+      huge_pages: off
+      maintenance_work_mem: 256MB
+      max_connections: "32"
+      max_wal_size: 4GB
+      min_wal_size: 1GB
+      random_page_cost: "1.1"
+      shared_buffers: 1GB
+      wal_buffers: 16MB
+      work_mem: 16MB
+  storage:
+    size: 10Gi
+    storageClass: hcloud-volumes-encrypted
+  superuserSecret:
+    name: postgres-superuser

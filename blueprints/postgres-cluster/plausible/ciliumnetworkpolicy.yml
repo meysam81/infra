@@ -1,0 +1,32 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s:cnpg.io/cluster: postgres
+      k8s:cnpg.io/instanceRole: primary
+      k8s:io.cilium.k8s.namespace.labels.kubernetes.io/metadata.name: plausible
+      k8s:io.kubernetes.pod.namespace: plausible
+      k8s:role: primary
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/name: plausible
+            k8s:io.kubernetes.pod.namespace: plausible
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            k8s:app.kubernetes.io/name: vmagent
+            k8s:io.cilium.k8s.policy.serviceaccount: vmagent-victoria-metrics-k8s-stack
+            k8s:io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "9187"
+              protocol: TCP

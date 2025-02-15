@@ -1,0 +1,47 @@
+configMapGenerator:
+  - name: plausible-envs
+    envs:
+      - configs.env
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - deployment.yml
+  - externalsecret.yml
+  - httproute.yml
+  - service.yml
+  - serviceaccount.yml
+  - vmservicescrape.yml
+
+images:
+  - name: ghcr.io/plausible/community-edition
+    newTag: v2.1.5
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: plausible
+      app.kubernetes.io/instance: plausible
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: plausible
+      app.kubernetes.io/part-of: plausible
+      app.kubernetes.io/version: v1.0.0
+
+namespace: plausible

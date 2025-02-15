@@ -1,0 +1,31 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: clickhouse
+spec:
+  endpointSelector:
+    matchLabels: {}
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/name: plausible
+            k8s:io.kubernetes.pod.namespace: plausible
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+          rules:
+            http: [{}]
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            k8s:app.kubernetes.io/name: vmagent
+            k8s:io.cilium.k8s.policy.serviceaccount: vmagent-victoria-metrics-k8s-stack
+            k8s:io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "8001"
+              protocol: TCP
+          rules:
+            http: [{}]

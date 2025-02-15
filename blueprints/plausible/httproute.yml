@@ -1,11 +1,10 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: ente-server
+  name: plausible
 spec:
   hostnames:
-    - ente-server.developer-friendly.blog
-    - ente.meysam.io
+    - analytics.developer-friendly.blog
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
@@ -15,7 +14,7 @@ spec:
   rules:
     - backendRefs:
         - kind: Service
-          name: ente-server
+          name: plausible
           port: 80
       filters:
         - responseHeaderModifier:
@@ -27,3 +26,17 @@ spec:
         - path:
             type: PathPrefix
             value: /
+    - backendRefs:
+        - kind: Service
+          name: plausible
+          port: 80
+      filters:
+        - responseHeaderModifier:
+            set:
+              - name: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains; preload
+          type: ResponseHeaderModifier
+      matches:
+        - path:
+            type: Exact
+            value: /live/websocket

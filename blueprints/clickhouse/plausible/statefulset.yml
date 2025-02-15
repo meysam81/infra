@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: clickhouse
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: clickhouse-envs
+            - secretRef:
+                name: clickhouse-envs
+          image: clickhouse/clickhouse-server
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          name: clickhouse
+          ports:
+            - containerPort: 8123
+              name: http
+            - containerPort: 9000
+              name: tcp
+            - containerPort: 8001
+              name: metrics
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /var/lib/clickhouse
+              name: storage
+              subPath: data
+            - mountPath: /var/log/clickhouse-server
+              name: storage
+              subPath: logs
+            - mountPath: /etc/clickhouse-server/config.d
+              name: files
+            - mountPath: /etc/clickhouse-server/users.d
+              name: storage
+              subPath: users
+      restartPolicy: Always
+      serviceAccountName: clickhouse
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 0660
+            name: clickhouse-files
+            optional: false
+          name: files
+        - emptyDir: {}
+          name: tmp
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: hcloud-volumes-encrypted
