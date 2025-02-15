@@ -17,3 +17,7 @@ items:
     kind: Namespace
     metadata:
       name: plausible
+  - apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: ente
