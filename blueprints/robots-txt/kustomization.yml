@@ -1,0 +1,49 @@
+configMapGenerator:
+  - name: robots-txt-files
+    files:
+      - robots.txt
+  - name: robots-txt-envs
+    envs:
+      - configs.env
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - service.yml
+  - serviceaccount.yml
+  - deployment.yml
+  - httproute.yml
+  - vmservicescrape.yml
+
+images:
+  - name: ghcr.io/static-web-server/static-web-server
+    newTag: "2"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: robots-txt
+      app.kubernetes.io/instance: robots-txt
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: robots-txt
+      app.kubernetes.io/part-of: robots-txt
+      app.kubernetes.io/version: v1.0.0
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+
+namespace: default
