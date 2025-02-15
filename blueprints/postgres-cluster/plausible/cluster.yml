@@ -33,15 +33,30 @@ spec:
     enablePodMonitor: true
   postgresql:
     parameters:
+      auto_explain.log_min_duration: 500ms
+      autovacuum: "on"
+      autovacuum_analyze_scale_factor: "0.1"
+      autovacuum_analyze_threshold: "50"
+      autovacuum_max_workers: "1"
+      autovacuum_naptime: 10min
+      autovacuum_vacuum_scale_factor: "0.2"
+      autovacuum_vacuum_threshold: "50"
       checkpoint_completion_target: "0.9"
       default_statistics_target: "100"
       effective_cache_size: 3GB
       effective_io_concurrency: "200"
-      huge_pages: off
+      huge_pages: "off"
+      log_min_duration_statement: 100ms
       maintenance_work_mem: 256MB
-      max_connections: "32"
+      max_connections: "100"
       max_wal_size: 4GB
       min_wal_size: 1GB
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track: all
+      pgaudit.log: all, -misc
+      pgaudit.log_catalog: "off"
+      pgaudit.log_parameter: "on"
+      pgaudit.log_relation: "on"
       random_page_cost: "1.1"
       shared_buffers: 1GB
       wal_buffers: 16MB
