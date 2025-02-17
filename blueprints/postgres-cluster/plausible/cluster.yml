@@ -62,7 +62,7 @@ spec:
       wal_buffers: 16MB
       work_mem: 16MB
   storage:
-    size: 10Gi
+    size: 20Gi
     storageClass: hcloud-volumes-encrypted
   superuserSecret:
     name: postgres-superuser
