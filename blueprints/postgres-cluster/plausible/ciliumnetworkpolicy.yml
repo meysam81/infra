@@ -30,3 +30,13 @@ spec:
         - ports:
             - port: "9187"
               protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app.kubernetes.io/instance: cloudnative-pg
+            k8s:app.kubernetes.io/name: cloudnative-pg
+            k8s:io.cilium.k8s.policy.serviceaccount: cloudnative-pg
+            k8s:io.kubernetes.pod.namespace: cnpg-system
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
