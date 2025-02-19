@@ -123,3 +123,19 @@ resource "cloudflare_dns_record" "github_pages_challenge" {
   ttl     = 1
   type    = "TXT"
 }
+
+resource "cloudflare_dns_record" "caa_letsencrypt" {
+  zone_id = data.cloudflare_zone.this.zone_id
+
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "CAA"
+
+  data = {
+    flags = 0
+    tag   = "issuewild"
+    value = "letsencrypt.org"
+  }
+
+}
