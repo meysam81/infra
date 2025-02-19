@@ -14,15 +14,9 @@ spec:
       k8s:io.kubernetes.pod.namespace: auth
   ingress:
     - fromEndpoints:
-        - matchExpressions:
-            - key: k8s:io.kubernetes.pod.namespace
-              operator: In
-              values:
-                - auth
-            - key: k8s:app.kubernetes.io/name
-              operator: In
-              values:
-                - oathkeeper
+        - matchLabels:
+            k8s:app.kubernetes.io/name: oathkeeper
+            k8s:io.kubernetes.pod.namespace: auth
       toPorts:
         - ports:
             - port: "4434"
@@ -38,11 +32,11 @@ spec:
           rules:
             http: [{}]
     - fromEndpoints:
-        - matchExpressions:
-            - key: k8s:io.kubernetes.pod.namespace
-              operator: In
-              values:
-                - monitoring
+        - matchLabels:
+            k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            k8s:app.kubernetes.io/name: vmagent
+            k8s:io.cilium.k8s.policy.serviceaccount: vmagent-victoria-metrics-k8s-stack
+            k8s:io.kubernetes.pod.namespace: monitoring
       toPorts:
         - ports:
             - port: "4434"
