@@ -115,3 +115,11 @@ resource "cloudflare_dns_record" "mail_dmarc" {
   ttl     = 1
   type    = "TXT"
 }
+
+resource "cloudflare_dns_record" "github_pages_challenge" {
+  zone_id = data.cloudflare_zone.this.zone_id
+  content = "\"3200e1b2cfe928e2f6053846b28e86\""
+  name    = "_github-pages-challenge-meysam81"
+  ttl     = 1
+  type    = "TXT"
+}
