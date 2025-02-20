@@ -5,7 +5,7 @@ metadata:
   name: victorialogs
 spec:
   image:
-    tag: v1.10.0-victorialogs-scratch
+    tag: v1.11.0-victorialogs-scratch
   removePvcAfterDelete: false
   replicaCount: 1
   retentionPeriod: 1y
@@ -14,5 +14,5 @@ spec:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 10Gi
+        storage: 20Gi
     storageClassName: hcloud-volumes-encrypted
