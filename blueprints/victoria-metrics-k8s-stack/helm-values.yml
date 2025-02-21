@@ -693,7 +693,7 @@ vmalert:
     evaluationInterval: 15s
     extraArgs:
       http.pathPrefix: "/"
-      external.url: https://alertmanager.developer-friendly.blog
+      external.url: https://vmalert.developer-friendly.blog
 
     # External labels to add to all generated recording rules and alerts
     externalLabels: {}
@@ -1330,6 +1330,7 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
                 *SourceURL:* {{ .ExternalURL }}`}}
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
@@ -1350,6 +1351,7 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
                 *SourceURL:* {{ .ExternalURL }}`}}
               title: "{{`{{ .CommonAnnotations.summary }}`}}"
@@ -1362,6 +1364,7 @@ extraObjects:
                 *Details:*
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
                 {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
                 *SourceURL:* {{ .ExternalURL }}`}}
               send_resolved: false
