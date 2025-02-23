@@ -26,6 +26,6 @@ resources:
 
   - kube-prometheus-dashboards.yml
   - vmservicescrape-haproxy.yml
-  - victorialogs.yml
+  - vlogs-victorialogs.yml
 
 namespace: monitoring

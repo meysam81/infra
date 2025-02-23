@@ -36,7 +36,7 @@ items:
               channel: "#alerts"
               send_resolved: true
               text: |-
-                {{`{{ range .Alerts }}
+                {{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
                 *Details:*
@@ -44,9 +44,9 @@ items:
                 {{ end }}
                 GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
-                *SourceURL:* {{ .ExternalURL }}`}}
-              title: "{{`{{ .CommonAnnotations.summary }}`}}"
-              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
+                *SourceURL:* {{ .ExternalURL }}
+              title: "{{ .CommonAnnotations.summary }}"
+              title_link: "{{ .CommonAnnotations.runbook_url }}"
         - name: slack-info
           slack_configs:
             - api_url:
@@ -57,7 +57,7 @@ items:
               color: good
               send_resolved: false
               text: |-
-                {{`{{ range .Alerts }}
+                {{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
                 *Details:*
@@ -65,12 +65,12 @@ items:
                 {{ end }}
                 GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
-                *SourceURL:* {{ .ExternalURL }}`}}
-              title: "{{`{{ .CommonAnnotations.summary }}`}}"
-              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
+                *SourceURL:* {{ .ExternalURL }}
+              title: "{{ .CommonAnnotations.summary }}"
+              title_link: "{{ .CommonAnnotations.runbook_url }}"
         - discord_configs:
             - message: |-
-                {{`{{ range .Alerts }}
+                {{ range .Alerts }}
                 *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
                 *Description:* {{ .Annotations.description }}
                 *Details:*
@@ -78,9 +78,9 @@ items:
                 {{ end }}
                 GeneratorURL: {{ .GeneratorURL }}
                 {{ end }}
-                *SourceURL:* {{ .ExternalURL }}`}}
+                *SourceURL:* {{ .ExternalURL }}
               send_resolved: false
-              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              title: "{{ .CommonAnnotations.summary }}"
               webhook_url_secret:
                 key: discordWebhook
                 name: alertmanager
