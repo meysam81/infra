@@ -137,5 +137,4 @@ resource "cloudflare_dns_record" "caa_letsencrypt" {
     tag   = "issuewild"
     value = "letsencrypt.org"
   }
-
 }
