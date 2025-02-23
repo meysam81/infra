@@ -102,6 +102,7 @@ items:
               - severity
             matchers:
               - kind =~ GitRepository|Kustomization|HelmRelease
+              - alertname != FluxGitRepositoryNewartifact
               - severity = info
             receiver: slack-info
           - group_by:
@@ -118,13 +119,6 @@ items:
             matchers:
               - severity = info
             receiver: slack-info
-          - active_time_intervals:
-              - everyday
-            matchers:
-              - severity = info
-              - kind = HelmRelease
-            receiver: slack-info
-            continue: false
           - active_time_intervals:
               - everyday
             matchers:
