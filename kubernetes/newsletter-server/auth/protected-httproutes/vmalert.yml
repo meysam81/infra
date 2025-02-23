@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: vmalert
+      namespace: auth
+    spec:
+      hostnames:
+        - vmalert.developer-friendly.blog
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: global
+          namespace: cert-manager
+          sectionName: http
+      rules:
+        - backendRefs:
+            - kind: Service
+              name: oathkeeper-proxy
+              port: 80
+          filters:
+            - responseHeaderModifier:
+                set:
+                  - name: Strict-Transport-Security
+                    value: max-age=31536000; includeSubDomains; preload
+              type: ResponseHeaderModifier
+          matches:
+            - path:
+                type: PathPrefix
+                value: /
+  - apiVersion: oathkeeper.ory.sh/v1alpha1
+    kind: Rule
+    metadata:
+      name: vmalert
+      namespace: auth
+    spec:
+      authenticators:
+        - handler: cookie_session
+      authorizer:
+        handler: allow
+      errors:
+        - config:
+            to: https://auth.developer-friendly.blog/login
+          handler: redirect
+      match:
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+        url: http<s?>://vmalert.developer-friendly.blog<.*>
+      mutators:
+        - handler: header
+      upstream:
+        preserveHost: true
+        url: http://vmalert-victoria-metrics-k8s-stack.monitoring:8080
