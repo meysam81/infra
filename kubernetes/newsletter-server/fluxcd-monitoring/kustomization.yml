@@ -1,0 +1,15 @@
+configurations:
+  - kustomizeconfig.yml
+
+secretGenerator:
+  - name: alertmanager-address
+    literals:
+      - address=http://vmalertmanager-victoria-metrics-k8s-stack.monitoring:9093/api/v2/alerts/
+
+resources:
+  - https://github.com/fluxcd/flux2-monitoring-example//monitoring/configs?ref=main&timeout=2m
+  - alert-info.yml
+  - alert-error.yml
+  - provider.yml
+
+namespace: flux-system

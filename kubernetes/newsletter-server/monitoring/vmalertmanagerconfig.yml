@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: alertmanager
+    spec:
+      data:
+        - remoteRef:
+            key: /slack/developer-friendly/webhooks/alerts
+          secretKey: slackWebhook
+        - remoteRef:
+            key: /slack/developer-friendly/webhooks/notify
+          secretKey: slackWebhookInfo
+        - remoteRef:
+            key: /discord/developer-friendly/webhooks/info
+          secretKey: discordWebhook
+      refreshInterval: 24h
+      secretStoreRef:
+        kind: ClusterSecretStore
+        name: aws-parameter-store
+  - apiVersion: operator.victoriametrics.com/v1beta1
+    kind: VMAlertmanagerConfig
+    metadata:
+      name: alertmanager
+      namespace: monitoring
+    spec:
+      receivers:
+        - name: slack-error
+          slack_configs:
+            - api_url:
+                key: slackWebhook
+                name: alertmanager
+                optional: false
+              channel: "#alerts"
+              send_resolved: true
+              text: |-
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
+                {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
+        - name: slack-info
+          slack_configs:
+            - api_url:
+                key: slackWebhookInfo
+                name: alertmanager
+                optional: false
+              channel: "#notify"
+              color: good
+              send_resolved: false
+              text: |-
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
+                {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              title_link: "{{`{{ .CommonAnnotations.runbook_url }}`}}"
+        - discord_configs:
+            - message: |-
+                {{`{{ range .Alerts }}
+                *Alert:* {{ .Annotations.summary }} - {{ .Labels.severity }}
+                *Description:* {{ .Annotations.description }}
+                *Details:*
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* {{ .Value }}
+                {{ end }}
+                GeneratorURL: {{ .GeneratorURL }}
+                {{ end }}
+                *SourceURL:* {{ .ExternalURL }}`}}
+              send_resolved: false
+              title: "{{`{{ .CommonAnnotations.summary }}`}}"
+              webhook_url_secret:
+                key: discordWebhook
+                name: alertmanager
+                optional: false
+          name: discord-info
+      route:
+        active_time_intervals:
+          - workdays
+        group_by:
+          - namespace
+          - severity
+        matchers:
+          - severity != none
+        receiver: discord-info
+        repeat_interval: 12h
+        routes:
+          - group_by:
+              - kind
+              - severity
+            matchers:
+              - kind =~ GitRepository|Kustomization|HelmRelease
+              - severity = info
+            receiver: slack-info
+          - group_by:
+              - kind
+              - severity
+            matchers:
+              - kind =~ GitRepository|Kustomization|HelmRelease
+              - severity =~ warning|error|critical
+            receiver: slack-error
+            repeat_interval: 1h
+          - group_by:
+              - subscription_status
+            group_interval: 30s
+            matchers:
+              - severity = info
+            receiver: slack-info
+          - active_time_intervals:
+              - everyday
+            matchers:
+              - severity = info
+              - kind = HelmRelease
+            receiver: slack-info
+            continue: false
+          - active_time_intervals:
+              - everyday
+            matchers:
+              - severity =~ warning|error|critical
+            receiver: slack-error
+            repeat_interval: 1h
+      time_intervals:
+        - name: workdays
+          time_intervals:
+            - weekdays:
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+        - name: everyday
+          time_intervals:
+            - weekdays:
+                - monday
+                - tuesday
+                - wednesday
+                - thursday
+                - friday
+                - saturday
+                - sunday
