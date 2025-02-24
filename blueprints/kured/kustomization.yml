@@ -1,0 +1,7 @@
+resources:
+  - https://github.com/kubereboot/kured/releases/download/1.17.0/kured-1.17.0-dockerhub.yaml
+
+patches:
+  - path: daemonset-patch.yml
+    target:
+      kind: DaemonSet
