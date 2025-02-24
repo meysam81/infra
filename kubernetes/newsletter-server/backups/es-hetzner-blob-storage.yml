@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: hetzner-blob-storage
+  namespace: default
+spec:
+  data:
+    - remoteRef:
+        key: /hetzner-blob/access-key
+      secretKey: ACCESS_KEY_ID
+    - remoteRef:
+        key: /hetzner-blob/secret-key
+      secretKey: ACCESS_SECRET_KEY
+  refreshInterval: 24h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: aws-parameter-store

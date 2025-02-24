@@ -1,0 +1,5 @@
+resources:
+  - https://github.com/rancher/system-upgrade-controller/releases/download/v0.15.0/system-upgrade-controller.yaml
+  - https://github.com/rancher/system-upgrade-controller/releases/download/v0.15.0/crd.yaml
+  - plan-agent.yml
+  - plan-server.yml

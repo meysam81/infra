@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-hoarder
+  namespace: default
+spec:
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Replace
+  jobTemplate:
+    metadata:
+      name: backup-hoarder
+    spec:
+      parallelism: 1
+      completions: 1
+      backoffLimit: 3
+      template:
+        metadata:
+          labels:
+            app: backup-hoarder
+        spec:
+          containers:
+            - command:
+                - sh
+                - -c
+              args:
+                - |
+                  set -eu
+                  mc alias set hetzner-blob-storage https://nbg1.your-objectstorage.com $ACCESS_KEY_ID $ACCESS_SECRET_KEY
+                  mc cp --recursive /hoarder/ hetzner-blob-storage/meysam/hoarder/$(date +%Y-%m-%d)/
+                  mc rm --recursive --force hetzner-blob-storage/meysam/hoarder --older-than 30d
+              envFrom:
+                - secretRef:
+                    name: hetzner-blob-storage
+              image: minio/minio:RELEASE.2025-02-18T16-25-55Z
+              name: minio-client
+              resources: {}
+              volumeMounts:
+                - name: hoarder
+                  mountPath: /hoarder
+                  readOnly: true
+          volumes:
+            - name: hoarder
+              persistentVolumeClaim:
+                claimName: data-hoarder-0
+          restartPolicy: OnFailure
+  schedule: "@daily"
