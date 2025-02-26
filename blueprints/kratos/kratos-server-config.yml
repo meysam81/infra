@@ -149,7 +149,7 @@ serve:
     request_log:
       disable_for_health: false
 session:
-  lifespan: 24h
+  lifespan: 168h
   whoami:
     required_aal: highest_available
 # tracing:
