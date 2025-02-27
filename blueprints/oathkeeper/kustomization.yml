@@ -5,7 +5,7 @@ configMapGenerator:
     behavior: replace
 
 resources:
-  - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v2.2.0
+  - https://github.com/meysam81/kustomizations//oathkeeper/overlays/vm?ref=v2.2.1
   - ciliumnetworkpolicy.yml
   - referencegrant.yml
 
