@@ -19,6 +19,7 @@ spec:
     image: rancher/k3s-upgrade
   window:
     days:
+      - saturday
       - sunday
     endTime: "06:00"
     startTime: "00:00"
