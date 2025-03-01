@@ -26,6 +26,7 @@ spec:
       owner: ente
       secret:
         name: postgres-user
+  enablePDB: false
   enableSuperuserAccess: true
   failoverDelay: 120
   instances: 1

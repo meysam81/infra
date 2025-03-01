@@ -26,6 +26,7 @@ spec:
       owner: plausible
       secret:
         name: postgres-user
+  enablePDB: false
   enableSuperuserAccess: true
   failoverDelay: 120
   instances: 1
@@ -36,13 +37,13 @@ spec:
       archive_mode: "on"
       archive_timeout: "60"
       auto_explain.log_min_duration: 500ms
+      autovacuum: "on"
       autovacuum_analyze_scale_factor: "0.1"
       autovacuum_analyze_threshold: "50"
       autovacuum_max_workers: "1"
       autovacuum_naptime: 10min
       autovacuum_vacuum_scale_factor: "0.2"
       autovacuum_vacuum_threshold: "50"
-      autovacuum: "on"
       checkpoint_completion_target: "0.9"
       checkpoint_timeout: 5min
       default_statistics_target: "100"
@@ -56,10 +57,10 @@ spec:
       min_wal_size: 512MB
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
+      pgaudit.log: all, -misc
       pgaudit.log_catalog: "off"
       pgaudit.log_parameter: "on"
       pgaudit.log_relation: "on"
-      pgaudit.log: all, -misc
       random_page_cost: "1.1"
       shared_buffers: 1GB
       wal_buffers: 16MB
