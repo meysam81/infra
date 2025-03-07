@@ -25,7 +25,8 @@ resources:
   - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/refs/tags/v0.79.2/example/prometheus-operator-crd-full/monitoring.coreos.com_thanosrulers.yaml
 
   - kube-prometheus-dashboards.yml
-  - vmservicescrape-haproxy.yml
   - vlogs-victorialogs.yml
+  - vmalertmanagerconfig.yml
+  - vmservicescrape-haproxy.yml
 
 namespace: monitoring
