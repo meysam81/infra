@@ -27,6 +27,7 @@ items:
       namespace: monitoring
     spec:
       receivers:
+        - name: ignore
         - name: slack-error
           slack_configs:
             - api_url:
