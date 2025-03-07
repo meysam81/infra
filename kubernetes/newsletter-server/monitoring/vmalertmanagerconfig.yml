@@ -5,6 +5,7 @@ items:
     kind: ExternalSecret
     metadata:
       name: alertmanager
+      namespace: monitoring
     spec:
       data:
         - remoteRef:

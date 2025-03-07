@@ -296,7 +296,7 @@ vmsingle:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 10Gi
+          storage: 20Gi
       storageClassName: hcloud-volumes-encrypted
   ingress:
     # -- Enable deployment of ingress for server component
