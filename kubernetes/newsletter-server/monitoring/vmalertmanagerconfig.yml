@@ -97,7 +97,9 @@ items:
         receiver: discord-info
         repeat_interval: 12h
         routes:
-          - group_by:
+          - active_time_intervals:
+              - everyday
+            group_by:
               - kind
               - severity
             matchers:
