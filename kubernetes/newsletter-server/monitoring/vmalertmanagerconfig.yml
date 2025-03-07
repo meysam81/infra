@@ -94,33 +94,17 @@ items:
           - severity
         matchers:
           - severity != none
-        receiver: discord-info
+          - alertname !~ FluxGitRepositoryNewartifact|FluxKustomizationProgressing
+        receiver: slack-info
         repeat_interval: 12h
         routes:
           - active_time_intervals:
               - everyday
-            group_by:
-              - kind
-              - severity
-            matchers:
-              - kind =~ GitRepository|Kustomization|HelmRelease
-              - alertname != FluxGitRepositoryNewartifact
-              - severity = info
-            receiver: slack-info
-          - group_by:
-              - kind
-              - severity
-            matchers:
-              - kind =~ GitRepository|Kustomization|HelmRelease
-              - severity =~ warning|error|critical
-            receiver: slack-error
-            repeat_interval: 1h
-          - group_by:
-              - subscription_status
-            group_interval: 30s
             matchers:
               - severity = info
-            receiver: slack-info
+              - alertname = FluxKustomizationDependencynotready
+            receiver: ignore
+            repeat_interval: 12h
           - active_time_intervals:
               - everyday
             matchers:
