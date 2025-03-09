@@ -41,7 +41,6 @@ selfservice:
       after:
         default_browser_return_url: https://auth.developer-friendly.blog/sessions
         hooks:
-          - hook: revoke_active_sessions
           - hook: require_verified_address
       lifespan: 1h
       ui_url: https://auth.developer-friendly.blog/login
