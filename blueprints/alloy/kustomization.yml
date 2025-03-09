@@ -4,7 +4,7 @@ configurations:
 configMapGenerator:
   - files:
       - values.yaml=helm-values.yml
-    name: promtail
+    name: alloy
 
 resources:
   - rule.yml

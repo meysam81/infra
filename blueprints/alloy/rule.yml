@@ -1,7 +1,7 @@
 apiVersion: oathkeeper.ory.sh/v1alpha1
 kind: Rule
 metadata:
-  name: promtail
+  name: alloy
 spec:
   authenticators:
     - handler: cookie_session
@@ -18,9 +18,9 @@ spec:
       - PUT
       - DELETE
       - PATCH
-    url: http<s?>://promtail.developer-friendly.blog<.*>
+    url: http<s?>://alloy.developer-friendly.blog<.*>
   mutators:
     - handler: noop
   upstream:
     preserveHost: true
-    url: http://promtail-metrics.monitoring:3101
+    url: http://alloy.monitoring:12345
