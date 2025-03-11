@@ -19,6 +19,7 @@ discord:
       channel:
       token:
 http:
+  use-tls: false
 internal:
   admins:
     - 1580559962386438
