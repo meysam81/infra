@@ -1,3 +1,6 @@
+---
+ciphers:
+  algorithm: xchacha20-poly1305
 cookies:
   domain: .developer-friendly.blog
   path: /
@@ -27,8 +30,6 @@ secrets:
     - OVERRIDDEN_BY_ENVS
   cookie:
     - OVERRIDDEN_BY_ENVS
-ciphers:
-  algorithm: xchacha20-poly1305
 selfservice:
   allowed_return_urls:
     - https://*.developer-friendly.blog/
@@ -61,9 +62,6 @@ selfservice:
         oidc:
           hooks:
             - hook: session
-        # password:
-        #   hooks:
-        #     - hook: show_verification_ui
       enabled: false
       lifespan: 1h
       ui_url: https://auth.developer-friendly.blog/registration
@@ -90,33 +88,20 @@ selfservice:
     oidc:
       config:
         providers:
-          - id: google
-            provider: google
-            client_id: OVERRIDDEN_BY_ENVS
+          - client_id: OVERRIDDEN_BY_ENVS
             client_secret: OVERRIDDEN_BY_ENVS
+            id: google
             mapper_url: file:///etc/kratos-jsonnet/google.jsonnet
-            scope:
-              - email
-              - profile
+            provider: google
             requested_claims:
               id_token:
                 email:
                   essential: true
                 email_verified:
                   essential: true
-      enabled: true
-    # profile:
-    #   enabled: false
-    password:
-      enabled: false
-    webauthn:
-      config:
-        rp:
-          id: developer-friendly.blog
-          display_name: Developer Friendly Blog
-          origins:
-            - https://auth.developer-friendly.blog
-        passwordless: true
+            scope:
+              - email
+              - profile
       enabled: true
     passkey:
       config:
@@ -126,7 +111,18 @@ selfservice:
           origins:
             - https://auth.developer-friendly.blog
       enabled: true
+    password:
+      enabled: false
     totp:
+      enabled: true
+    webauthn:
+      config:
+        passwordless: true
+        rp:
+          display_name: Developer Friendly Blog
+          id: developer-friendly.blog
+          origins:
+            - https://auth.developer-friendly.blog
       enabled: true
 serve:
   admin:
@@ -151,10 +147,11 @@ session:
   whoami:
     required_aal: highest_available
 tracing:
+  provider: otel
   providers:
     otlp:
-      server_url: alloy.monitoring:4318
       insecure: true
       sampling:
         sampling_ratio: 1
-  provider: otel
+      server_url: alloy.monitoring:4318
+  service_name: kratos

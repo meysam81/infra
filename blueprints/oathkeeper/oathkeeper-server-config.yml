@@ -1,3 +1,4 @@
+---
 access_rules:
   matching_strategy: regexp
   repositories:
@@ -7,22 +8,10 @@ authenticators:
     config:
       subject: guest
     enabled: true
-  cookie_session:
-    config:
-      check_session_url: http://kratos-public.auth/sessions/whoami
-      extra_from: "@this"
-      force_method: GET
-      only:
-        - ory_kratos_session
-      preserve_path: true
-      preserve_query: true
-      subject_from: identity.id
-    enabled: true
   bearer_token:
-    enabled: true
     config:
       check_session_url: http://kratos-public.auth/sessions/whoami
-      extra_from: "@this"
+      extra_from: '@this'
       force_method: GET
       forward_http_headers:
         - x-session-token
@@ -30,25 +19,17 @@ authenticators:
       subject_from: identity.id
       token_from:
         header: x-session-token
-  oauth2_client_credentials:
     enabled: true
+  cookie_session:
     config:
-      token_url: http://hydra-public.auth/oauth2/token
-      retry:
-        give_up_after: "2s"
-        max_delay: "1s"
-      cache:
-        enabled: true
-        ttl: 60s
-        max_tokens: 300
-      required_scope: []
-  oauth2_introspection:
-    config:
-      introspection_url: http://hydra-admin.auth/admin/oauth2/introspect
-      required_scope: []
-      cache:
-        enabled: true
-        ttl: 300s
+      check_session_url: http://kratos-public.auth/sessions/whoami
+      extra_from: '@this'
+      force_method: GET
+      only:
+        - ory_kratos_session
+      preserve_path: true
+      preserve_query: true
+      subject_from: identity.id
     enabled: true
   jwt:
     config:
@@ -56,6 +37,26 @@ authenticators:
         - http://hydra-public.auth/.well-known/jwks.json
     enabled: true
   noop:
+    enabled: true
+  oauth2_client_credentials:
+    config:
+      cache:
+        enabled: true
+        max_tokens: 300
+        ttl: 60s
+      required_scope: []
+      retry:
+        give_up_after: 2s
+        max_delay: 1s
+      token_url: http://hydra-public.auth/oauth2/token
+    enabled: true
+  oauth2_introspection:
+    config:
+      cache:
+        enabled: true
+        ttl: 300s
+      introspection_url: http://hydra-admin.auth/admin/oauth2/introspect
+      required_scope: []
     enabled: true
   unauthorized:
     enabled: true
@@ -66,7 +67,7 @@ authorizers:
     enabled: true
   remote_json:
     config:
-      payload: ""
+      payload: ''
       remote: http://keto-read.auth/relation-tuples/check
     enabled: true
 errors:
@@ -96,26 +97,21 @@ mutators:
       headers:
         x-user-id: "{{ print .Subject }}"
     enabled: true
-  noop:
-    enabled: true
   id_token:
-    enabled: true
     config:
       issuer_url: https://oauth2.developer-friendly.blog
       jwks_url: http://hydra-public.auth/.well-known/jwks.json
+    enabled: true
+  noop:
+    enabled: true
 serve:
   api:
     port: 4456
   prometheus:
     port: 9000
   proxy:
-    port: 4455
-    timeout:
-      read: 60m
-      idle: 60m
-      write: 60m
     cors:
-      enabled: true
+      allow_credentials: true
       allowed_headers:
         - accept
         - authorization
@@ -130,13 +126,19 @@ serve:
         - https://developer-friendly.blog
         - https://*.developer-friendly.blog
         - https://*.netlify.app
-      allow_credentials: true
       debug: false
-# tracing:
-#   provider: jaeger
-#   providers:
-#     jaeger:
-#       local_agent_address: jaeger.monitoring:6831
-#       sampling:
-#         server_url: http://jaeger.monitoring:5778/sampling
-#   service_name: oathkeeper
+      enabled: true
+    port: 4455
+    timeout:
+      idle: 60m
+      read: 60m
+      write: 60m
+tracing:
+  provider: otel
+  providers:
+    otlp:
+      insecure: true
+      sampling:
+        sampling_ratio: 1
+      server_url: alloy.monitoring:4318
+  service_name: oathkeeper

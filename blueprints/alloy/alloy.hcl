@@ -166,6 +166,8 @@ otelcol.receiver.otlp "default" {
 otelcol.connector.servicegraph "default" {
 	dimensions = ["http.method"]
 
+	debug_metrics { }
+
 	output {
 		metrics = [otelcol.exporter.prometheus.default.input]
 	}
