@@ -1,3 +1,7 @@
+livedebugging {
+	enabled = true
+}
+
 discovery.kubernetes "kubernetes_pods" {
 	role = "pod"
 }
