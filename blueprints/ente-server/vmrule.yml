@@ -100,7 +100,7 @@ spec:
           annotations:
             description: "Number of goroutines has exceeded 5000 (current count: {{ $value }})"
             summary: High goroutine count
-          expr: go_goroutines > 5000
+          expr: go_goroutines{job="ente-server"} > 5000
           for: 5m
           labels:
             severity: warning
