@@ -58,10 +58,10 @@ spec:
               name: ente-server-credentials
               readOnly: true
               subPath: credentials.yaml
-            - mountPath: /configurations/prod.yaml
+            - mountPath: /configurations/production.yaml
               name: ente-server-files
               readOnly: false
-              subPath: prod.yaml
+              subPath: config.yml
             - mountPath: /tmp
               name: tmp
       securityContext:
