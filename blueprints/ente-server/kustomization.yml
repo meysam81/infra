@@ -19,7 +19,7 @@ resources:
 images:
   - name: ghcr.io/ente-io/server
     newName: ghcr.io/meysam81/ente-docker/ente-server
-    newTag: "20250226-arm64"
+    newTag: "20250311-arm64"
 
 labels:
   - includeSelectors: true
