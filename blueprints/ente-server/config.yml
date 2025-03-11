@@ -39,7 +39,7 @@ listmonk:
   password:
   server-url:
   username:
-log-file: ""
+log-file: /dev/stdout
 replication:
   enabled: false
   tmp-storage: tmp/replication
