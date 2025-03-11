@@ -5,10 +5,13 @@ configMapGenerator:
   - files:
       - values.yaml=helm-values.yml
     name: alloy
+  - files:
+      - alloy.hcl
+    name: alloy-config-hcl
 
 resources:
   - rule.yml
   - httproute.yml
   - helmrelease.yml
 
-namespace: flux-system
+namespace: monitoring
