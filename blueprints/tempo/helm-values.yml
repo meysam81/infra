@@ -64,7 +64,7 @@ tempo:
   queryFrontend: {}
   #  search:
   #    concurrent_jobs: 2000
-  retention: 365d
+  retention: 8760h
   # Global overrides
   global_overrides:
     per_tenant_override_config: /conf/overrides.yaml

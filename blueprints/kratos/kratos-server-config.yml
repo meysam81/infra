@@ -143,7 +143,6 @@ serve:
         - https://*.developer-friendly.blog
       debug: false
       enabled: true
-      # options_passthrough: true
     port: 4433
     request_log:
       disable_for_health: false
@@ -151,11 +150,11 @@ session:
   lifespan: 168h
   whoami:
     required_aal: highest_available
-# tracing:
-#   provider: jaeger
-#   providers:
-#     jaeger:
-#       local_agent_address: jaeger.monitoring:6831
-#       sampling:
-#         server_url: http://jaeger.monitoring:5778/sampling
-#   service_name: kratos
+tracing:
+  providers:
+    otlp:
+      server_url: alloy.monitoring:4318
+      insecure: true
+      sampling:
+        sampling_ratio: 1
+  provider: otel

@@ -20,8 +20,6 @@ spec:
       default_home_dashboard_path: /var/lib/grafana/dashboards/k8s-resources-cluster.json
     log:
       mode: console
-    security:
-      admin_user: admin
     server:
       root_url: https://grafana.developer-friendly.blog
     smtp:
@@ -123,20 +121,9 @@ spec:
             fsGroup: 472
             fsGroupChangePolicy: OnRootMismatch
           volumes:
-            - name: grafana-data
-              persistentVolumeClaim:
-                claimName: grafana-pvc
             - emptyDir: {}
               name: dashboards
             - configMap:
                 name: provisioning-config
               name: provisioning-config
-  persistentVolumeClaim:
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-      storageClassName: local-path
   version: 11.5.0

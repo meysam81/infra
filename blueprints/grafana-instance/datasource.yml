@@ -64,7 +64,7 @@ spec:
     basicAuth: false
     database: ""
     editable: false
-    isDefault: true
+    isDefault: false
     jsonData:
       derivedFields:
         - datasourceUid: Loki
