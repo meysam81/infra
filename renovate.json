@@ -3,12 +3,17 @@
   "extends": [
     "config:recommended"
   ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
   "packageRules": [
     {
       "automerge": true,
       "automergeStrategy": "rebase",
       "matchUpdateTypes": [
-        "minor",
         "patch",
         "pin",
         "digest"
