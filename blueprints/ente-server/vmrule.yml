@@ -1,0 +1,95 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: ente-server
+spec:
+  groups:
+    - name: Latency_Alerts
+      rules:
+        - alert: HighLatency
+          annotations:
+            description: 95th percentile latency is above 500ms for {{ $labels.host }}{{ $labels.url }}
+            summary: High latency for {{ $labels.host }}{{ $labels.url }}
+          expr: histogram_quantile(0.95, sum(rate(museum_latency_bucket[5m])) by (le, host, url)) > 500
+          for: 5m
+          labels:
+            severity: warning
+        - alert: CriticalLatency
+          annotations:
+            description: 95th percentile latency is above 1000ms for {{ $labels.host }}{{ $labels.url }}
+            summary: Critical latency for {{ $labels.host }}{{ $labels.url }}
+          expr: histogram_quantile(0.95, sum(rate(museum_latency_bucket[5m])) by (le, host, url)) > 1000
+          for: 2m
+          labels:
+            severity: critical
+    - name: Traffic_Alerts
+      rules:
+        - alert: HighTrafficSpike
+          annotations:
+            description: Traffic spike detected for {{ $labels.host }} at {{ $value }} requests per second
+            summary: High traffic spike for {{ $labels.host }}
+          expr: sum(rate(museum_requests_total[5m])) by (host) > 100
+          for: 2m
+          labels:
+            severity: warning
+        - alert: TrafficDropoff
+          annotations:
+            description: Traffic has dropped by more than 50% compared to 1 hour ago for {{ $labels.host }}
+            summary: Traffic drop for {{ $labels.host }}
+          expr: sum(rate(museum_requests_total[5m])) by (host) < sum(rate(museum_requests_total[60m] offset 1h)) by (host) * 0.5
+          for: 5m
+          labels:
+            severity: warning
+    - name: Error_Alerts
+      rules:
+        - alert: HighErrorRate
+          annotations:
+            description: Error rate is above 5% for {{ $labels.host }}
+            summary: High error rate for {{ $labels.host }}
+          expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host) / sum(rate(museum_requests_total[5m])) by (host) > 0.05
+          for: 2m
+          labels:
+            severity: warning
+        - alert: CriticalErrorRate
+          annotations:
+            description: Error rate is above 15% for {{ $labels.host }}
+            summary: Critical error rate for {{ $labels.host }}
+          expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host) / sum(rate(museum_requests_total[5m])) by (host) > 0.15
+          for: 1m
+          labels:
+            severity: critical
+    - name: Saturation_Alerts
+      rules:
+        - alert: HighMemoryUsage
+          annotations:
+            description: Memory usage is above 80% of capacity
+            summary: High memory usage
+          expr: process_resident_memory_bytes / process_virtual_memory_max_bytes > 0.8
+          for: 5m
+          labels:
+            severity: warning
+        - alert: HighDBConnectionUsage
+          annotations:
+            description: Database connection pool is more than 80% utilized
+            summary: High database connection usage
+          expr: go_sql_stats_connections_in_use{db_name="prod_db"} / go_sql_stats_connections_max_open{db_name="prod_db"} > 0.8
+          for: 5m
+          labels:
+            severity: warning
+        - alert: HighGoroutineCount
+          annotations:
+            description: Number of goroutines has exceeded 5000
+            summary: High goroutine count
+          expr: go_goroutines > 5000
+          for: 5m
+          labels:
+            severity: warning
+        - alert: FrequentGarbageCollection
+          annotations:
+            description: Garbage collection is happening more than 10 times per minute
+            summary: Frequent garbage collection
+          expr: rate(go_gc_duration_seconds_count[5m]) > 10
+          for: 5m
+          labels:
+            severity: warning

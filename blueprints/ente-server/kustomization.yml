@@ -7,12 +7,13 @@ configMapGenerator:
       - config.yml
 
 resources:
-  - externalsecret.yml
   - ciliumnetworkpolicy.yml
+  - deployment.yml
+  - externalsecret.yml
+  - httproute.yml
   - service.yml
   - serviceaccount.yml
-  - deployment.yml
-  - httproute.yml
+  - vmrule.yml
   - vmservicescrape.yml
 
 images:
