@@ -163,7 +163,7 @@ otelcol.receiver.otlp "default" {
 	output {
 		metrics = [otelcol.processor.batch.default.input]
 		logs    = [otelcol.processor.batch.default.input]
-		traces  = [otelcol.connector.servicegraph.default.input]
+		traces  = [otelcol.connector.servicegraph.default.input,otelcol.processor.batch.default.input]
 	}
 }
 
