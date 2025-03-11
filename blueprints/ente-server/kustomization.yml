@@ -5,6 +5,12 @@ configMapGenerator:
   - name: ente-server-files
     files:
       - config.yml
+  - name: ente-grafana-dashboard
+    files:
+      - grafana-dashboard.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 
 resources:
   - ciliumnetworkpolicy.yml
