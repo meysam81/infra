@@ -17,9 +17,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: ente-server-envs
-            - secretRef:
-                name: ente-server-envs
-          image: ghcr.io/ente-io/server
+          image: ghcr.io/meysam81/ente-docker/ente-server
           livenessProbe:
             failureThreshold: 3
             httpGet:
@@ -60,9 +58,9 @@ spec:
               readOnly: true
               subPath: credentials.yaml
             - name: ente-server-files
-              mountPath: /museum.yaml
+              mountPath: /configurations/prod.yaml
               readOnly: true
-              subPath: config.yml
+              subPath: prod.yaml
             - name: tmp
               mountPath: /tmp
       securityContext:
@@ -78,7 +76,7 @@ spec:
         - name: ente-server-credentials
           secret:
             defaultMode: 0400
-            secretName: ente-server-file
+            secretName: ente-server
             optional: false
         - name: ente-server-files
           configMap:

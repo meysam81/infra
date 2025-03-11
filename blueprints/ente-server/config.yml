@@ -1,33 +1,77 @@
 ---
+apple:
+  shared-secret:
+apps:
+  accounts: https://accounts.meysam.io
+  cast: https://cast.meysam.io
+  family: https://auth.meysam.io
+  public-albums: https://photos.meysam.io
 db:
-  port: 5432
   name: ente
-s3:
-  are_local_buckets: false
-  use_path_style_urls: true
-  hot_storage:
-    primary: b2-eu-cen
-smtp:
-  port: 587
-  sender-name: Meysam Ente Server
-webauthn:
-  rpid: meysam.io
-  rporigins:
-    - https://accounts.meysam.io
+  port: 5432
+  sslmode: disable
+discord:
+  bot:
+    cha-ching:
+      channel:
+      token:
+    mona-lisa:
+      channel:
+      token:
+http:
 internal:
-  silent: false
   admins:
     - 1580559962386438
   disable-registration: false
+  health-check-url:
+  silent: false
 jobs:
+  clear-orphan-objects:
+    enabled: true
+    prefix: ""
   cron:
     skip: false
   remove-unreported-objects:
     worker-count: 4
-  clear-orphan-objects:
-    enabled: true
-apps:
-  public-albums: https://photos.meysam.io
-  cast: https://cast.meysam.io
-  accounts: https://accounts.meysam.io
-  family: https://auth.meysam.io
+listmonk:
+  list-ids:
+  password:
+  server-url:
+  username:
+log-file: ""
+replication:
+  enabled: false
+  tmp-storage: tmp/replication
+  worker-count: 6
+  worker-url:
+s3:
+  are_local_buckets: false
+  hot_storage:
+    primary: b2-eu-cen
+  use_path_style_urls: true
+smtp:
+  port: 587
+  sender-name: Meysam Ente Server
+stripe:
+  in:
+    key:
+    webhook-secret:
+  path:
+    cancel: "?status=fail&reason=canceled"
+    success: "?status=success&session_id={CHECKOUT_SESSION_ID}"
+  us:
+    key:
+    webhook-secret:
+  whitelisted-redirect-urls: []
+transmail:
+  key:
+webauthn:
+  rpid: meysam.io
+  rporigins:
+    - https://accounts.meysam.io
+zoho:
+  client-id:
+  client-secret:
+  list-key:
+  refresh-token:
+  topic-ids:
