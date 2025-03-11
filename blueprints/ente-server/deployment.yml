@@ -58,7 +58,7 @@ spec:
               name: ente-server-credentials
               readOnly: true
               subPath: credentials.yaml
-            - mountPath: /configurations/production.yaml
+            - mountPath: /museum.yaml
               name: ente-server-files
               readOnly: false
               subPath: config.yml
