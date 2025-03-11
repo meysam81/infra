@@ -18,8 +18,8 @@ on:
   workflow_dispatch:
 
 env:
-  tofu_version: 1.8.5
-  tg_version: 0.69.0
+  tofu_version: 1.9.0
+  tg_version: 0.75.5
   TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform.d/plugin-cache
   PYTHON_VERSION: 3.x
 
@@ -35,7 +35,9 @@ jobs:
     steps:
       - name: "Checkout"
         uses: actions/checkout@v4
-      - name: Check terragrunt HCL
+      - env:
+          TG_HCLFMT_EXCLUDE_DIR: ./blueprints
+        name: Check terragrunt HCL
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tofu_version: ${{ env.tofu_version }}
