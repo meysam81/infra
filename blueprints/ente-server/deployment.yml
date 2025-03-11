@@ -52,17 +52,18 @@ spec:
             runAsGroup: 65534
             runAsNonRoot: true
             runAsUser: 65534
+          terminationMessagePolicy: FallbackToLogsOnError
           volumeMounts:
-            - name: ente-server-credentials
-              mountPath: /credentials.yaml
+            - mountPath: /credentials.yaml
+              name: ente-server-credentials
               readOnly: true
               subPath: credentials.yaml
-            - name: ente-server-files
-              mountPath: /configurations/prod.yaml
-              readOnly: true
+            - mountPath: /configurations/prod.yaml
+              name: ente-server-files
+              readOnly: false
               subPath: prod.yaml
-            - name: tmp
-              mountPath: /tmp
+            - mountPath: /tmp
+              name: tmp
       securityContext:
         fsGroup: 65534
         fsGroupChangePolicy: Always
@@ -76,12 +77,12 @@ spec:
         - name: ente-server-credentials
           secret:
             defaultMode: 0400
-            secretName: ente-server
             optional: false
-        - name: ente-server-files
-          configMap:
-            defaultMode: 0400
+            secretName: ente-server
+        - configMap:
+            defaultMode: 0660
             name: ente-server-files
             optional: false
-        - name: tmp
-          emptyDir: {}
+          name: ente-server-files
+        - emptyDir: {}
+          name: tmp
