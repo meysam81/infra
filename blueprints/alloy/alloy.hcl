@@ -83,6 +83,12 @@ loki.process "kubernetes_pods" {
 	forward_to = [loki.write.default.receiver]
 
 	stage.cri { }
+
+	stage.decolorize { }
+
+	stage.drop {
+		expression = ".*(\\/health|\\/metrics|\\/ping).*"
+	}
 }
 
 loki.source.file "kubernetes_pods" {
@@ -163,7 +169,7 @@ otelcol.receiver.otlp "default" {
 	output {
 		metrics = [otelcol.processor.batch.default.input]
 		logs    = [otelcol.processor.batch.default.input]
-		traces  = [otelcol.connector.servicegraph.default.input,otelcol.processor.batch.default.input]
+		traces  = [otelcol.connector.servicegraph.default.input, otelcol.processor.batch.default.input]
 	}
 }
 
@@ -188,6 +194,10 @@ otelcol.processor.batch "default" {
 otelcol.exporter.otlp "default" {
 	client {
 		endpoint = "tempo.monitoring:4317"
+
+		tls {
+			insecure = true
+		}
 	}
 }
 
