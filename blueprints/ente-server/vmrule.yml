@@ -5,21 +5,40 @@ metadata:
   name: ente-server
 spec:
   groups:
+    - interval: 30s
+      name: Recording_Rules
+      rules:
+        - expr: histogram_quantile(0.95, sum(rate(museum_latency_bucket[5m])) by (le, host, url))
+          record: museum:latency:p95
+        - expr: sum(rate(museum_requests_total[5m])) by (host)
+          record: museum:requests:rate5m
+        - expr: sum(rate(museum_requests_total[60m] offset 1h)) by (host)
+          record: museum:requests:rate60m_previous
+        - expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host)
+          record: museum:errors:rate5m
+        - expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host) / sum(rate(museum_requests_total[5m])) by (host)
+          record: museum:requests:error_ratio
+        - expr: process_resident_memory_bytes / process_virtual_memory_max_bytes
+          record: museum:memory:usage_ratio
+        - expr: go_sql_stats_connections_in_use{db_name="prod_db"} / go_sql_stats_connections_max_open{db_name="prod_db"}
+          record: museum:db:connection_usage_ratio
+        - expr: rate(go_gc_duration_seconds_count[5m])
+          record: museum:gc:rate5m
     - name: Latency_Alerts
       rules:
         - alert: HighLatency
           annotations:
-            description: 95th percentile latency is above 500ms for {{ $labels.host }}{{ $labels.url }}
+            description: "95th percentile latency is above 500ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
             summary: High latency for {{ $labels.host }}{{ $labels.url }}
-          expr: histogram_quantile(0.95, sum(rate(museum_latency_bucket[5m])) by (le, host, url)) > 500
+          expr: museum:latency:p95 > 500
           for: 5m
           labels:
             severity: warning
         - alert: CriticalLatency
           annotations:
-            description: 95th percentile latency is above 1000ms for {{ $labels.host }}{{ $labels.url }}
+            description: "95th percentile latency is above 1000ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
             summary: Critical latency for {{ $labels.host }}{{ $labels.url }}
-          expr: histogram_quantile(0.95, sum(rate(museum_latency_bucket[5m])) by (le, host, url)) > 1000
+          expr: museum:latency:p95 > 1000
           for: 2m
           labels:
             severity: critical
@@ -29,7 +48,7 @@ spec:
           annotations:
             description: Traffic spike detected for {{ $labels.host }} at {{ $value }} requests per second
             summary: High traffic spike for {{ $labels.host }}
-          expr: sum(rate(museum_requests_total[5m])) by (host) > 100
+          expr: museum:requests:rate5m > 100
           for: 2m
           labels:
             severity: warning
@@ -37,7 +56,7 @@ spec:
           annotations:
             description: Traffic has dropped by more than 50% compared to 1 hour ago for {{ $labels.host }}
             summary: Traffic drop for {{ $labels.host }}
-          expr: sum(rate(museum_requests_total[5m])) by (host) < sum(rate(museum_requests_total[60m] offset 1h)) by (host) * 0.5
+          expr: museum:requests:rate5m < museum:requests:rate60m_previous * 0.5
           for: 5m
           labels:
             severity: warning
@@ -45,17 +64,17 @@ spec:
       rules:
         - alert: HighErrorRate
           annotations:
-            description: Error rate is above 5% for {{ $labels.host }}
+            description: "Error rate is above 5% for {{ $labels.host }} (current value: {{ $value | humanizePercentage }})"
             summary: High error rate for {{ $labels.host }}
-          expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host) / sum(rate(museum_requests_total[5m])) by (host) > 0.05
+          expr: museum:requests:error_ratio > 0.05
           for: 2m
           labels:
             severity: warning
         - alert: CriticalErrorRate
           annotations:
-            description: Error rate is above 15% for {{ $labels.host }}
+            description: "Error rate is above 15% for {{ $labels.host }} (current value: {{ $value | humanizePercentage }})"
             summary: Critical error rate for {{ $labels.host }}
-          expr: sum(rate(museum_requests_total{code=~"5.."}[5m])) by (host) / sum(rate(museum_requests_total[5m])) by (host) > 0.15
+          expr: museum:requests:error_ratio > 0.15
           for: 1m
           labels:
             severity: critical
@@ -63,23 +82,23 @@ spec:
       rules:
         - alert: HighMemoryUsage
           annotations:
-            description: Memory usage is above 80% of capacity
+            description: "Memory usage is above 80% of capacity (current usage: {{ $value | humanizePercentage }})"
             summary: High memory usage
-          expr: process_resident_memory_bytes / process_virtual_memory_max_bytes > 0.8
+          expr: museum:memory:usage_ratio > 0.8
           for: 5m
           labels:
             severity: warning
         - alert: HighDBConnectionUsage
           annotations:
-            description: Database connection pool is more than 80% utilized
+            description: "Database connection pool is more than 80% utilized (current usage: {{ $value | humanizePercentage }})"
             summary: High database connection usage
-          expr: go_sql_stats_connections_in_use{db_name="prod_db"} / go_sql_stats_connections_max_open{db_name="prod_db"} > 0.8
+          expr: museum:db:connection_usage_ratio > 0.8
           for: 5m
           labels:
             severity: warning
         - alert: HighGoroutineCount
           annotations:
-            description: Number of goroutines has exceeded 5000
+            description: "Number of goroutines has exceeded 5000 (current count: {{ $value }})"
             summary: High goroutine count
           expr: go_goroutines > 5000
           for: 5m
@@ -87,9 +106,9 @@ spec:
             severity: warning
         - alert: FrequentGarbageCollection
           annotations:
-            description: Garbage collection is happening more than 10 times per minute
+            description: "Garbage collection is happening more than 10 times per minute (current rate: {{ $value }} GCs/min)"
             summary: Frequent garbage collection
-          expr: rate(go_gc_duration_seconds_count[5m]) > 10
+          expr: museum:gc:rate5m > 10
           for: 5m
           labels:
             severity: warning
