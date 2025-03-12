@@ -70,13 +70,13 @@ spec:
         - datasourceUid: Loki
           matcherRegex: .*
           name: TraceID
-          url: http://monitoring-victoria-logs-single-server:9428
+          url: http://vlogs-victorialogs.monitoring:9428
     name: VictoriaLogs
     orgId: 1
     secureJsonData: {}
     type: victoriametrics-logs-datasource
     uid: victorialogs
-    url: http://monitoring-victoria-logs-single-server:9428
+    url: http://vlogs-victorialogs.monitoring:9428
     user: ""
   instanceSelector:
     matchLabels:
