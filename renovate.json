@@ -16,6 +16,7 @@
       "matchUpdateTypes": [
         "patch",
         "pin",
+        "lockFileMaintenance",
         "digest"
       ]
     }
