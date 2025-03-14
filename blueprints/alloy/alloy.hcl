@@ -84,6 +84,10 @@ loki.process "kubernetes_pods" {
 
 	stage.cri { }
 
+	stage.drop {
+		expression = "^\\s*$"
+	}
+
 	stage.decolorize { }
 
 	stage.drop {
