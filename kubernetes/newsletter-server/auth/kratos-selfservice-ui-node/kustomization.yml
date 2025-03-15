@@ -5,7 +5,7 @@ configMapGenerator:
     behavior: merge
 
 resources:
-  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v2.2.9
+  - https://github.com/meysam81/kustomizations//kratos-selfservice-ui-node/overlays/default/?ref=v2.2.10
   - externalsecret.yml
   - httproute.yml
 
