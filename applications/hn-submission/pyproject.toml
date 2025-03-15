@@ -11,7 +11,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
-alembic = "<1.15"
+alembic = "<1.16"
 psycopg2-binary = "<2.10"
 sqlalchemy = "<2.1"
 pydantic = "<2.11"
