@@ -155,7 +155,7 @@ loki.source.journal "systemd_journal" {
 
 loki.write "default" {
 	endpoint {
-		url       = "http://vlogs-victorialogs.monitoring:9428/insert/loki/api/v1/push?_stream_fields=instance,job,host,app"
+		url       = "http://vlogs-victorialogs.monitoring:9428/insert/loki/api/v1/push?_stream_fields=instance,job,host,app&disable_message_parsing=1"
 		tenant_id = "0:0"
 	}
 	external_labels = {}
