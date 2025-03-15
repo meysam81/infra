@@ -90,7 +90,7 @@ items:
           name: discord-info
       route:
         active_time_intervals:
-          - workdays
+          - everyday
         group_by:
           - namespace
           - severity
