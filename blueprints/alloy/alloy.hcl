@@ -161,13 +161,15 @@ loki.process "cluster_events" {
 	forward_to = [loki.write.default.receiver]
 
 	stage.regex {
-		expression = ".*kind=(?P<kind>[^ ]+).*type=(?P<type>[^ ]+).*"
+		expression = ".*name=(?P<name>[^ ]+).*kind=(?P<kind>[^ ]+).*objectAPIversion=(?P<apiVersion>[^ ]+).*type=(?P<type>[^ ]+).*"
 	}
 
 	stage.labels {
 		values = {
 			kubernetes_cluster_events = "job",
+			name                      = "name",
 			kind                      = "kind",
+			apiVersion                = "apiVersion",
 			type                      = "type",
 		}
 	}
