@@ -126,4 +126,5 @@ spec:
             - configMap:
                 name: provisioning-config
               name: provisioning-config
-  version: 11.5.0
+  # renovate: docker=grafana/grafana
+  version: 11.5.2
