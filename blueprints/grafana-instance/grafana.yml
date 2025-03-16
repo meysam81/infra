@@ -121,10 +121,21 @@ spec:
             fsGroup: 472
             fsGroupChangePolicy: OnRootMismatch
           volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
             - emptyDir: {}
               name: dashboards
             - configMap:
                 name: provisioning-config
               name: provisioning-config
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: local-path
   # renovate: docker=grafana/grafana
   version: 11.5.2
