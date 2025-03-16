@@ -84,10 +84,6 @@ loki.process "kubernetes_pods" {
 
 	stage.cri { }
 
-	stage.drop {
-		expression = "^\\s*$"
-	}
-
 	stage.decolorize { }
 
 	stage.drop {
@@ -151,6 +147,24 @@ loki.source.journal "systemd_journal" {
 	relabel_rules = discovery.relabel.systemd_journal.rules
 	forward_to    = [loki.write.default.receiver]
 	labels        = {}
+}
+
+loki.source.kubernetes_events "cluster_events" {
+	job_name   = "integrations/kubernetes/eventhandler"
+	log_format = "logfmt"
+	forward_to = [
+		loki.process.cluster_events.receiver,
+	]
+}
+
+loki.process "cluster_events" {
+	forward_to = [loki.write.default.receiver]
+
+	stage.labels {
+		values = {
+			kubernetes_cluster_events = "job",
+		}
+	}
 }
 
 loki.write "default" {
