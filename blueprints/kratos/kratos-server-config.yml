@@ -25,6 +25,8 @@ log:
   format: json
   leak_sensitive_values: true
   level: debug
+oauth2_provider:
+  url: https://oauth2.developer-friendly.blog/
 secrets:
   cipher:
     - OVERRIDDEN_BY_ENVS
