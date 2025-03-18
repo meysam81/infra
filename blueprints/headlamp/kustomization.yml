@@ -8,10 +8,24 @@ configMapGenerator:
 
 resources:
   - ciliumnetworkpolicy.yml
+  - clusterrole.yml
+  - clusterrolebinding.yml
   - externalsecret.yml
   - helmrelease.yml
   - helmrepository.yml
   - httproute.yml
   - rule.yml
+
+replacements:
+  - source:
+      kind: ServiceAccount
+      fieldPath: metadata.namespace
+    targets:
+      - select:
+          kind: ClusterRoleBinding
+        fieldPaths:
+          - spec.subjects[0].namespace
+        options:
+          create: true
 
 namespace: flux-system
