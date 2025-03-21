@@ -1,0 +1,31 @@
+configMapGenerator:
+  - name: hydra-config
+    files:
+      - hydra-server-config.yml
+    behavior: merge
+
+resources:
+  - https://github.com/meysam81/kustomizations//hydra/overlays/default/?ref=v2.3.4
+  - externalsecret.yml
+  - httproute.yml
+  - statefulset.yml
+
+images:
+  - name: oryd/hydra
+    newName: docker.io/meysam81/hydra
+    newTag: "1742368332"
+
+patches:
+  - path: deployment-delete.yml
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: hydra
+      app.kubernetes.io/instance: hydra
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: hydra
+      app.kubernetes.io/part-of: hydra
+      app.kubernetes.io/version: v1.0.0
+
+namespace: auth

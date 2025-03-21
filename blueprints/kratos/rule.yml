@@ -5,6 +5,7 @@ metadata:
 spec:
   authenticators:
     - handler: cookie_session
+    - handler: oauth2_introspection
   authorizer:
     handler: allow
   errors:

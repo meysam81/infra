@@ -1,0 +1,28 @@
+configMapGenerator:
+  - name: hydra-login-consent-node-envs
+    envs:
+      - configs.env
+
+resources:
+  - deployment.yml
+  - httproute.yml
+  - service.yml
+  - serviceaccount.yml
+
+images:
+  - name: oryd/hydra-login-consent-node
+    newName: meysam81/hydra-login-consent-node
+    # newTag: v2.4.0-alpha.0
+    digest: sha256:8f36a052ff20350353a7730038760a09110411a451c22b5e98349be24d93891c
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: hydra-login-consent-node
+      app.kubernetes.io/instance: hydra-login-consent-node
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: hydra-login-consent-node
+      app.kubernetes.io/part-of: hydra-login-consent-node
+      app.kubernetes.io/version: v1.0.0
+
+namespace: auth

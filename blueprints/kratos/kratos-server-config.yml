@@ -22,11 +22,11 @@ identity:
     - id: admin
       url: file:///etc/kratos-schemas/admin.schema.json
 log:
-  format: json
+  format: text
   leak_sensitive_values: true
-  level: debug
+  level: warning
 oauth2_provider:
-  url: https://oauth2.developer-friendly.blog/
+  url: http://hydra-admin.auth
 secrets:
   cipher:
     - OVERRIDDEN_BY_ENVS

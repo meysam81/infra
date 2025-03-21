@@ -1,0 +1,141 @@
+log:
+  level: warn
+  format: text
+
+dsn: sqlite:///var/lib/hydra/hydra.sqlite?_fk=true&&mode=rwc&_journal_mode=WAL
+db:
+  ignore_unknown_table_columns: false
+
+serve:
+  admin:
+    port: 4445
+  public:
+    port: 4444
+    cors:
+      enabled: true
+      allowed_origins:
+        - https://*.developer-friendly.blog
+        - http://127.0.0.1:4446
+  cookies:
+    same_site_mode: None
+    domain: developer-friendly.blog
+    secure: true
+    paths:
+      session: /
+    # names:
+      # login_csrf: ory_kratos_session
+      # consent_csrf: ory_kratos_session
+      # session: ory_kratos_session
+
+secrets:
+  system:
+    - SECRETS_SYSTEM_0
+  cookie:
+    - SECRETS_COOKIE_0
+
+urls:
+  self:
+    issuer: https://oauth2.developer-friendly.blog
+    public: https://oauth2.developer-friendly.blog
+    admin: https://oauth2-admin.developer-friendly.blog
+  login: https://auth.developer-friendly.blog/login
+  consent: https://oauth2-ui.developer-friendly.blog/consent
+  logout: https://oauth2-ui.developer-friendly.blog/logout
+  error: https://oauth2-ui.developer-friendly.blog/error
+  post_logout_redirect: https://oauth2-ui.developer-friendly.blog/logout/success
+  identity_provider:
+    url: http://kratos-admin.auth
+    publicUrl: https://auth-server.developer-friendly.blog
+  device:
+    verification: https://oauth2-ui.developer-friendly.blog/device/verify
+    success: https://oauth2-ui.developer-friendly.blog/device/success
+
+ttl:
+  login_consent_request: 30m
+  access_token: 1h
+  refresh_token: 720h # 30 days
+  id_token: 1h
+  auth_code: 10m
+
+strategies:
+  access_token: opaque
+  scope: wildcard
+  jwt:
+    scope_claim: both
+
+oidc:
+  subject_identifiers:
+    supported_types:
+      - public
+      - pairwise
+    pairwise:
+      salt: OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT
+  dynamic_client_registration:
+    enabled: false
+    default_scope:
+      - offline_access
+      - offline
+      - openid
+
+oauth2:
+  # pkce:
+  #   enforced: true
+  #   enforced_for_public_clients: true
+  expose_internal_errors: false
+  exclude_not_before_claim: false
+  client_credentials:
+    default_grant_allowed_scope: false
+  hashers:
+    algorithm: pbkdf2
+    bcrypt:
+      cost: 10
+    pbkdf2:
+      iterations: 10000
+  session:
+    encrypt_at_rest: true
+  grant:
+    jwt:
+      jti_optional: false
+      iat_optional: false
+      max_ttl: 720h # 30 days
+    refresh_token:
+      rotation_grace_period: 5m
+  allowed_top_level_claims:
+    - sub
+  mirror_top_level_claims: true
+
+clients:
+  http:
+    disallow_private_ip_ranges: true
+    private_ip_exception_urls: []
+
+webfinger:
+  oidc_discovery:
+    supported_claims:
+      - sub
+      - email
+      - email_verified
+      - name
+      - given_name
+      - family_name
+      - preferred_username
+    supported_scope:
+      - offline_access
+      - offline
+      - openid
+      - email
+      - profile
+
+cgroups:
+  v1:
+    auto_max_procs_enabled: true
+
+tracing:
+  provider: otel
+  providers:
+    otlp:
+      insecure: true
+      sampling:
+        sampling_ratio: 1
+      server_url: alloy.monitoring:4318
+  service_name: hydra

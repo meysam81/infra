@@ -88,9 +88,9 @@ errors:
               - unauthorized
       enabled: true
 log:
-  format: json
+  format: text
   leak_sensitive_values: true
-  level: debug
+  level: warn
 mutators:
   header:
     config:
