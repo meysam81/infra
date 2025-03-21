@@ -30,7 +30,8 @@ rules:
       - watch
   - apiGroups:
       - gateway.networking.k8s.io
-    resources: "*"
+    resources:
+      - "*"
     verbs:
       - get
       - list
@@ -45,7 +46,8 @@ rules:
       - watch
   - apiGroups:
       - cilium.io
-    resources: "*"
+    resources:
+      - "*"
     verbs:
       - get
       - list
