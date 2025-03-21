@@ -7,7 +7,7 @@ secretGenerator:
       - address=http://vmalertmanager-victoria-metrics-k8s-stack.monitoring:9093/api/v2/alerts/
 
 resources:
-  - https://github.com/meysam81/kustomizations//flux2-monitoring?ref=v2.2.10&timeout=2m
+  - https://github.com/meysam81/kustomizations//flux2-monitoring?ref=v2.3.4&timeout=2m
   - alert-info.yml
   - alert-error.yml
   - provider.yml
