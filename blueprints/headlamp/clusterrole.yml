@@ -20,3 +20,79 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - upgrade.cattle.io
+    resources:
+      - plans
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources: "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cert-manager.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - cilium.io
+    resources: "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - grafana.integreatly.org
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - helm.cattle.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - monitoring.coreos.com
+      - operator.victoriametrics.com
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - postgresql.cnpg.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - source.toolkit.fluxcd.io
+      - notification.toolkit.fluxcd.io
+      - ustomize.toolkit.fluxcd.io
+      - image.toolkit.fluxcd.io
+      - helm.toolkit.fluxcd.io
+      - fluxcd.controlplane.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
