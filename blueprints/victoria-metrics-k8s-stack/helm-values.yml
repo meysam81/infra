@@ -694,6 +694,7 @@ vmalert:
     extraArgs:
       http.pathPrefix: "/"
       external.url: https://vmalert.developer-friendly.blog
+      promscrape.maxScrapeSize: 64MiB
 
     # External labels to add to all generated recording rules and alerts
     externalLabels: {}
