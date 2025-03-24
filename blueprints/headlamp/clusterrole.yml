@@ -8,6 +8,7 @@ rules:
       - ""
     resources:
       - nodes
+      - metrics.k8s.io
     verbs:
       - get
       - list
