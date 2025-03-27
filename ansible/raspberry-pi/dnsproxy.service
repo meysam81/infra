@@ -8,7 +8,16 @@ Wants=network-online.target
 Type=simple
 User=nobody
 Group=nogroup
-ExecStart=/usr/local/bin/dnsproxy -u tls://9.9.9.9 -u tls://149.112.112.112 -u 'tls://[2620:fe::fe]' -u 'tls://[2620:fe::9]' -u tls://94.140.15.15 -u tls://94.140.14.14 -u 'tls://[2a10:50c0::ad2:ff]' -u 'tls://[2a10:50c0::ad1:ff]' -p 9053 -v
+ExecStart=/usr/local/bin/dnsproxy \
+  -u tls://1.1.1.1 \
+  -u tls://1.0.0.1 \
+  -u 'tls://[2606:4700:4700::1111]' \
+  -u 'tls://[2606:4700:4700::1001]' \
+  -u tls://9.9.9.9 \
+  -u tls://149.112.112.112 \
+  -u 'tls://[2620:fe::fe]' \
+  -u 'tls://[2620:fe::9]' \
+  -p 9053 -v
 Restart=on-failure
 RestartSec=5s
 
