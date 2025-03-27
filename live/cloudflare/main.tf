@@ -2,15 +2,36 @@ data "cloudflare_zone" "devfriend_blog" {
   name = "developer-friendly.blog"
 }
 
-resource "cloudflare_record" "devfriend_blog_mx" {
+resource "cloudflare_record" "protonmail_verification" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "\"protonmail-verification=1cdf57560b280ac8fc27f6c1d7200f37b6f00910\""
+}
+
+resource "cloudflare_record" "mail_protonmail_ch" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
   name     = "@"
   proxied  = false
   ttl      = 1
   type     = "MX"
-  priority = 1
-  content  = "smtp.google.com"
+  priority = 10
+  content  = "mail.protonmail.ch"
+}
+
+resource "cloudflare_record" "mailsec_protonmail_ch" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name     = "@"
+  proxied  = false
+  ttl      = 1
+  type     = "MX"
+  priority = 20
+  content  = "mailsec.protonmail.ch"
 }
 
 resource "cloudflare_record" "a_record" {
