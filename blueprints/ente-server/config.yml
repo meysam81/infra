@@ -33,7 +33,7 @@ jobs:
   cron:
     skip: false
   remove-unreported-objects:
-    worker-count: 4
+    worker-count: 1
 listmonk:
   list-ids:
   password:
