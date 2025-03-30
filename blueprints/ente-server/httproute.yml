@@ -1,3 +1,4 @@
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -27,3 +28,17 @@ spec:
         - path:
             type: PathPrefix
             value: /
+    - backendRefs:
+        - kind: Service
+          name: ente-server
+          port: 80
+      filters:
+        - responseHeaderModifier:
+            set:
+              - name: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains; preload
+          type: ResponseHeaderModifier
+      matches:
+        - path:
+            type: Exact
+            value: /api/live/ws
