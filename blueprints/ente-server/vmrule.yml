@@ -30,7 +30,7 @@ spec:
           annotations:
             description: "95th percentile latency is above 500ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
             summary: High latency for {{ $labels.host }}{{ $labels.url }}
-          expr: museum:latency:p95 > 500
+          expr: museum:latency:p95 > 5000
           for: 5m
           labels:
             severity: warning
@@ -38,7 +38,7 @@ spec:
           annotations:
             description: "95th percentile latency is above 1000ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
             summary: Critical latency for {{ $labels.host }}{{ $labels.url }}
-          expr: museum:latency:p95 > 1000
+          expr: museum:latency:p95 > 10000
           for: 2m
           labels:
             severity: critical
