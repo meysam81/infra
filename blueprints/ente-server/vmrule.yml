@@ -24,24 +24,6 @@ spec:
           record: museum:db:connection_usage_ratio
         - expr: rate(go_gc_duration_seconds_count[5m])
           record: museum:gc:rate5m
-    - name: Latency_Alerts
-      rules:
-        - alert: HighLatency
-          annotations:
-            description: "95th percentile latency is above 500ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
-            summary: High latency for {{ $labels.host }}{{ $labels.url }}
-          expr: museum:latency:p95 > 5000
-          for: 5m
-          labels:
-            severity: warning
-        - alert: CriticalLatency
-          annotations:
-            description: "95th percentile latency is above 1000ms for {{ $labels.host }}{{ $labels.url }} (current value: {{ $value }}ms)"
-            summary: Critical latency for {{ $labels.host }}{{ $labels.url }}
-          expr: museum:latency:p95 > 10000
-          for: 2m
-          labels:
-            severity: critical
     - name: Traffic_Alerts
       rules:
         - alert: HighTrafficSpike
