@@ -28,7 +28,7 @@ internal:
   silent: false
 jobs:
   clear-orphan-objects:
-    enabled: true
+    enabled: false
     prefix: ""
   cron:
     skip: false
