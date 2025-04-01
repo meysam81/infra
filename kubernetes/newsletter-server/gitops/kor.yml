@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   force: false
-  interval: 1h
+  interval: 5m
   path: ./kubernetes/newsletter-server/applications/kor
   prune: true
   sourceRef:
@@ -15,5 +15,5 @@ spec:
     namespace: flux-system
   suspend: false
   targetNamespace: kube-system
-  timeout: 5m
+  timeout: 10m
   wait: true

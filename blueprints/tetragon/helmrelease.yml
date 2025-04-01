@@ -12,10 +12,11 @@ spec:
         name: cilium
         namespace: flux-system
       version: 1.x
-  interval: 1h
+  interval: 30m
   releaseName: tetragon
   targetNamespace: kube-system
   valuesFrom:
     - kind: ConfigMap
       name: tetragon-values
   suspend: false
+  timeout: 10m

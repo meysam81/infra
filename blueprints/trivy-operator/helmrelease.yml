@@ -13,10 +13,11 @@ spec:
       version: 0.x
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   releaseName: trivy-operator
   targetNamespace: trivy-operator
   valuesFrom:
     - kind: ConfigMap
       name: trivy-operator
   suspend: false
+  timeout: 10m

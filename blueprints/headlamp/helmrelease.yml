@@ -12,10 +12,11 @@ spec:
         name: headlamp
         namespace: flux-system
       version: 0.x
-  interval: 1h
+  interval: 30m
   releaseName: headlamp
   targetNamespace: flux-system
   valuesFrom:
     - kind: ConfigMap
       name: headlamp
   suspend: false
+  timeout: 10m

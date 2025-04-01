@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   force: false
-  interval: 1h
+  interval: 5m
   path: ./blueprints/cilium
   prune: true
   sourceRef:
@@ -14,5 +14,5 @@ spec:
     name: flux-system
     namespace: flux-system
   suspend: false
-  timeout: 1m
+  timeout: 10m
   wait: false

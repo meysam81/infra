@@ -14,7 +14,7 @@ spec:
       version: 0.x
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   releaseName: alloy
   suspend: false
   targetNamespace: monitoring
@@ -27,3 +27,4 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: alloy
+  timeout: 10m

@@ -13,10 +13,11 @@ spec:
       version: 0.x
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   releaseName: cloudnative-pg
   targetNamespace: cnpg-system
   valuesFrom:
     - kind: ConfigMap
       name: cloudnative-pg-values
   suspend: false
+  timeout: 10m

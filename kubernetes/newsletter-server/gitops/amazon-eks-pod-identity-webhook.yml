@@ -5,7 +5,7 @@ metadata:
   name: amazon-eks-pod-identity-webhook
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 5m
   path: ./amazon-eks-pod-identity-webhook/overlays/default
   prune: true
   retryInterval: 2m
@@ -15,5 +15,5 @@ spec:
     namespace: flux-system
   suspend: false
   targetNamespace: kube-system
-  timeout: 1m
+  timeout: 10m
   wait: true

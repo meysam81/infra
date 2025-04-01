@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   force: true
-  interval: 1h
+  interval: 5m
   path: ./blueprints/listmonk-exporter
   prune: true
   sourceRef:
@@ -15,5 +15,5 @@ spec:
     namespace: flux-system
   suspend: false
   targetNamespace: default
-  timeout: 1m
+  timeout: 10m
   wait: true

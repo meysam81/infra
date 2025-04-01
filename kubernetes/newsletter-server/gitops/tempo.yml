@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   force: false
-  interval: 1h
+  interval: 5m
   path: ./blueprints/tempo
   prune: true
   sourceRef:
@@ -15,5 +15,5 @@ spec:
     namespace: flux-system
   suspend: false
   targetNamespace: flux-system
-  timeout: 5m
+  timeout: 10m
   wait: true

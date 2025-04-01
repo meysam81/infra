@@ -13,7 +13,7 @@ spec:
       version: 0.x
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   postRenderers:
     - kustomize:
         patches:
@@ -32,3 +32,4 @@ spec:
     - kind: ConfigMap
       name: tracee
   suspend: false
+  timeout: 10m

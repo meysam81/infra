@@ -13,9 +13,10 @@ spec:
       version: 1.16.5
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   targetNamespace: kube-system
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
   suspend: false
+  timeout: 10m

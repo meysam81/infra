@@ -14,10 +14,11 @@ spec:
       version: 1.x
   install:
     createNamespace: true
-  interval: 1h
+  interval: 30m
   releaseName: tempo
   suspend: false
   targetNamespace: monitoring
   valuesFrom:
     - kind: ConfigMap
       name: tempo
+  timeout: 10m
