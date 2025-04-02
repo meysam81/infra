@@ -177,47 +177,6 @@ resource "cloudflare_record" "click_mailing" {
   content = "click.maileroo.net"
 }
 
-# email octopus
-resource "cloudflare_record" "eo_domainkey_email" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "eo._domainkey.email"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "eo._domainkey.108bfd47c0.arborescens.eoidentity.com"
-}
-
-resource "cloudflare_record" "eom_email" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "eom.email"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "eom.108bfd47c0.arborescens.eoidentity.com"
-}
-
-resource "cloudflare_record" "eot_email" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "eot.email"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "eot.108bfd47c0.arborescens.eoidentity.com"
-}
-
-resource "cloudflare_record" "eo_email" {
-  zone_id = data.cloudflare_zone.devfriend_blog.id
-
-  name    = "45165608.email"
-  proxied = false
-  ttl     = 1
-  type    = "CNAME"
-  content = "45165608.108bfd47c0.arborescens.eoidentity.com"
-}
-
 resource "cloudflare_record" "dmarc_email" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
