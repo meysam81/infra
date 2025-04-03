@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-      version: 0.x
+      version: 0.12.5
   install:
     createNamespace: true
   interval: 30m
