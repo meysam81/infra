@@ -2,4 +2,4 @@ collections:
   - name: hetzner.hcloud
     version: 4.3.0
   - name: meysam81.general
-    version: 1.10.12
+    version: 1.10.13
