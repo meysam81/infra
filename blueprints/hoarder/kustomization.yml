@@ -20,7 +20,8 @@ resources:
 
 images:
   - name: ghcr.io/hoarder-app/hoarder
-    newTag: "0.23.1"
+    newName: ghcr.io/karakeep-app/karakeep
+    newTag: "0.23.2"
   - name: gcr.io/zenika-hub/alpine-chrome
     newTag: "124"
   - name: getmeili/meilisearch
