@@ -5,4 +5,4 @@ metadata:
 spec:
   interval: 1h
   provider: generic
-  url: https://headlamp-k8s.github.io/headlamp/
+  url: https://kubernetes-sigs.github.io/headlamp/
