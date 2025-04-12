@@ -969,16 +969,9 @@ prometheus-node-exporter:
       mountPath: /var/run/dbus
       type: DirectoryOrCreate
       readOnly: true
-    - name: systemd
-      hostPath: /run/systemd
-      mountPath: /run/systemd
-      type: DirectoryOrCreate
-      readOnly: true
-    - name: machine-id
-      hostPath: /etc/machine-id
-      mountPath: /etc/machine-id
-      type: FileOrCreate
-      readOnly: true
+
+  podAnnotations:
+    container.apparmor.security.beta.kubernetes.io/node-exporter: unconfined
 
   vmScrape:
     # whether we should create a service scrape resource for node-exporter
