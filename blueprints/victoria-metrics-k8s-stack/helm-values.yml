@@ -962,6 +962,14 @@ prometheus-node-exporter:
     - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
     - --collector.systemd
   # -- Node Exporter VM scrape config
+
+  extraHostVolumeMounts:
+    - name: dbus
+      hostPath: /var/run/dbus
+      mountPath: /var/run/dbus
+      type: DirectoryOrCreate
+      readOnly: true
+
   vmScrape:
     # whether we should create a service scrape resource for node-exporter
     enabled: true
