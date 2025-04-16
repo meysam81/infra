@@ -17,7 +17,7 @@ spec:
                 name: hoarder-envs
             - secretRef:
                 name: hoarder-secrets
-          image: ghcr.io/hoarder-app/hoarder
+          image: ghcr.io/karakeep-app/karakeep
           name: hoarder
           ports:
             - containerPort: 3000
@@ -43,7 +43,7 @@ spec:
           volumeMounts:
             - mountPath: /meili_data
               name: data
-              subPath: meilisearch
+              subPath: meilisearch-v1-14
       initContainers:
         - args:
             - "--no-sandbox"
