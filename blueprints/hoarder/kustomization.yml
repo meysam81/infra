@@ -20,7 +20,7 @@ resources:
 
 images:
   - name: ghcr.io/karakeep-app/karakeep
-    newTag: "0.23.2"
+    newTag: "0.24.0"
   - name: gcr.io/zenika-hub/alpine-chrome
     newTag: "124"
   - name: getmeili/meilisearch
