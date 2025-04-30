@@ -529,6 +529,15 @@ alertmanager:
     externalURL: https://alertmanager.developer-friendly.blog
     routePrefix: /
 
+    storage:
+      disableMountSubPath: false
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 1Gi
+
     # -- (string) If this one defined, it will be used for alertmanager configuration and config parameter will be ignored
     configSecret: ""
   # -- (object) Alertmanager configuration
