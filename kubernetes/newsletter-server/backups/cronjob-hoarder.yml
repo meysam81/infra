@@ -6,14 +6,15 @@ metadata:
   namespace: default
 spec:
   concurrencyPolicy: Replace
-  failedJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
   jobTemplate:
     metadata:
       name: backup-hoarder
     spec:
-      backoffLimit: 3
+      backoffLimit: 1
       completions: 1
       parallelism: 1
+      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels:
@@ -67,4 +68,4 @@ spec:
             - emptyDir: {}
               name: shared
   schedule: "@daily"
-  successfulJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 2
