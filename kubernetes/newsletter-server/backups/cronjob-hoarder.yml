@@ -10,6 +10,9 @@ spec:
   jobTemplate:
     metadata:
       name: backup-hoarder
+      labels:
+        app: backup-hoarder
+        app.kubernetes.io/name: backup-hoarder
     spec:
       backoffLimit: 1
       completions: 1
