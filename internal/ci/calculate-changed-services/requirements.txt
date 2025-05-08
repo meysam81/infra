@@ -1,1 +1,1 @@
-redis<6
+redis<7
