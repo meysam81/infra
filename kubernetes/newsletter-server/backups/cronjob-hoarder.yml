@@ -9,15 +9,14 @@ spec:
   failedJobsHistoryLimit: 2
   jobTemplate:
     metadata:
-      name: backup-hoarder
       labels:
         app: backup-hoarder
         app.kubernetes.io/name: backup-hoarder
+      name: backup-hoarder
     spec:
       backoffLimit: 1
       completions: 1
       parallelism: 1
-      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels:
@@ -70,5 +69,6 @@ spec:
                 claimName: data-hoarder-0
             - emptyDir: {}
               name: shared
+      ttlSecondsAfterFinished: 3600
   schedule: "@daily"
   successfulJobsHistoryLimit: 2
