@@ -14,7 +14,7 @@ resources:
 
 images:
   - name: ghcr.io/plausible/community-edition
-    newTag: v2.1.5
+    newTag: v3.0.1
 
 replacements:
   - source:
