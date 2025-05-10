@@ -6,7 +6,7 @@ metadata:
 spec:
   image:
     # renovate: docker=victoriametrics/victoria-logs
-    tag: v1.21.0-victorialogs-scratch
+    tag: v1.22.2-victorialogs-scratch
   removePvcAfterDelete: false
   replicaCount: 1
   retentionPeriod: 1y
