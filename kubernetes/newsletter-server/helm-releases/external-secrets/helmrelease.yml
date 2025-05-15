@@ -10,7 +10,7 @@ spec:
         kind: HelmRepository
         name: external-secrets
         namespace: flux-system
-      version: 0.x
+      version: 0.16.x
   install:
     createNamespace: true
   interval: 1h
