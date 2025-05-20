@@ -74,3 +74,4 @@ blueprints/plausible/.env
 blueprints/plausible/clickhouse
 blueprints/plausible/statefulset.yml
 .env
+kubeconfig
