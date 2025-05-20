@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: clickhouse-plausible
+  namespace: flux-system
+spec:
+  force: false
+  interval: 5m
+  path: ./k8s/blueprints/clickhouse/plausible
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  suspend: false
+  timeout: 10m
+  wait: true

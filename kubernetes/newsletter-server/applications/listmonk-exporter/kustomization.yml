@@ -1,4 +1,0 @@
-resources:
-  - ../../../../blueprints/listmonk-exporter
-
-namespace: default

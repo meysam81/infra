@@ -77,7 +77,7 @@ repos:
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.11.9
+    rev: v0.11.10
     hooks:
       - id: ruff
         args:
@@ -94,3 +94,9 @@ repos:
     rev: v1.7.7
     hooks:
       - id: actionlint
+  - repo: https://github.com/reteps/dockerfmt
+    rev: v0.3.7
+    hooks:
+      - id: dockerfmt
+        args:
+          - --indent=4

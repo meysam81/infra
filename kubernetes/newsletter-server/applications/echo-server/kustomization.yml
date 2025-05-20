@@ -1,4 +1,0 @@
-resources:
-  - ../../../../blueprints/echo-server
-
-namespace: default

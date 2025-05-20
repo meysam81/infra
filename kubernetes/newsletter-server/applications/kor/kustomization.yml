@@ -1,4 +1,0 @@
-resources:
-  - ../../../../blueprints/kor
-
-namespace: kube-system
