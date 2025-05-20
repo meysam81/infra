@@ -22,7 +22,7 @@ lint:
   pre-commit run -a
 
 reconcile-k8s:
-  kubectl apply -f kubernetes/newsletter-server/gitops/
+  kubectl apply -f k8s/prod-eu/gitops/
 
 fmt:
   tofu fmt -write -recursive
