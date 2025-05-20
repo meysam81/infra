@@ -1,0 +1,57 @@
+configMapGenerator:
+  - name: n8n-envs
+    envs:
+      - configs.env
+
+resources:
+  - ciliumnetworkpolicy.yml
+  - deployment.yml
+  - externalsecret.yml
+  - httproute.yml
+  - pvc.yml
+  - service.yml
+  - serviceaccount.yml
+
+images:
+  - name: n8nio/n8n
+    newTag: 1.94.0
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: CiliumNetworkPolicy
+        fieldPaths:
+          - spec.endpointSelector.matchLabels
+        options:
+          create: true
+      - select:
+          kind: VMServiceScrape
+        fieldPaths:
+          - spec.selector.matchLabels
+        options:
+          create: true
+  - source:
+      kind: ConfigMap
+      fieldPath: data.N8N_GRACEFUL_SHUTDOWN_TIMEOUT
+    targets:
+      - select:
+          kind: Deployment
+        fieldPaths:
+          - spec.template.spec.terminationGracePeriodSeconds
+        options:
+          create: true
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/component: n8n
+      app.kubernetes.io/instance: n8n
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: n8n
+      app.kubernetes.io/part-of: n8n
+      app.kubernetes.io/version: v1.0.0
+
+namespace: default
