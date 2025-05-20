@@ -52,8 +52,10 @@ spec:
             runAsNonRoot: true
             runAsUser: 65534
           volumeMounts:
-            - mountPath: /home/node/.n8n
+            - mountPath: /.n8n
               name: n8n-data
+            - mountPath: /.cache
+              name: tmp
       restartPolicy: Always
       securityContext:
         fsGroup: 65534
@@ -66,4 +68,6 @@ spec:
       volumes:
         - name: n8n-data
           persistentVolumeClaim:
-            claimName: n8n-data
+            claimName: n8n
+        - emptyDir: {}
+          name: tmp

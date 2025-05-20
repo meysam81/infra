@@ -5,7 +5,6 @@ metadata:
   name: backup-hoarder
   namespace: default
 spec:
-  concurrencyPolicy: Replace
   failedJobsHistoryLimit: 2
   jobTemplate:
     metadata:
