@@ -42,7 +42,7 @@ replacements:
       - select:
           kind: VMServiceScrape
         fieldPaths:
-          - spec.selector.matchLabels
+          - spec.endpointSelector.matchLabels
         options:
           create: true
 
