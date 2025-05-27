@@ -11,6 +11,7 @@ resources:
   - pvc.yml
   - service.yml
   - serviceaccount.yml
+  - vmservicescrape.yml
 
 images:
   - name: n8nio/n8n

@@ -7,7 +7,7 @@ metadata:
 spec:
   force: false
   interval: 5m
-  path: ./kubernetes/newsletter-server/backups
+  path: ./k8s/prod-eu/backups
   prune: true
   sourceRef:
     kind: GitRepository

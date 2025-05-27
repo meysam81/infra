@@ -18,6 +18,11 @@ spec:
           name: n8n
           port: 80
       filters:
+        - requestHeaderModifier:
+            set:
+              - name: x-forwarded-host
+                value: n8n.meysam.io
+          type: RequestHeaderModifier
         - responseHeaderModifier:
             set:
               - name: Strict-Transport-Security

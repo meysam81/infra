@@ -7,7 +7,7 @@ metadata:
 spec:
   force: false
   interval: 5m
-  path: ./kubernetes/newsletter-server/auth/protected-httproutes
+  path: ./k8s/prod-eu/auth/protected-httproutes
   prune: true
   sourceRef:
     kind: GitRepository

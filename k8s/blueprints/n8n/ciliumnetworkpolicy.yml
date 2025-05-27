@@ -13,8 +13,6 @@ spec:
         - ports:
             - port: "5678"
               protocol: TCP
-          rules:
-            http: [{}]
     - fromEndpoints:
         - matchLabels:
             k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
