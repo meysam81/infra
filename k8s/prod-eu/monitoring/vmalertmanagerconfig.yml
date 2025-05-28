@@ -112,7 +112,6 @@ items:
             matchers:
               - severity =~ warning|error|critical
             receiver: slack-error
-            repeat_interval: 1h
       time_intervals:
         - name: workdays
           time_intervals:
