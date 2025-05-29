@@ -15,7 +15,7 @@ resources:
 
 images:
   - name: n8nio/n8n
-    newTag: 1.94.0
+    newTag: 1.95.2
 
 replacements:
   - source:
