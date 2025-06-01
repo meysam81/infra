@@ -1,0 +1,248 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: tarzan-metrics-basic-auth
+spec:
+  data:
+    - remoteRef:
+        key: /tarzan/metrics/auth/username
+      secretKey: username
+    - remoteRef:
+        key: /tarzan/metrics/auth/password
+      secretKey: password
+  refreshInterval: 24h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: aws-parameter-store
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMStaticScrape
+metadata:
+  name: tarzan
+spec:
+  jobName: tarzan
+  targetEndpoints:
+    - basicAuth:
+        password:
+          key: password
+          name: tarzan-metrics-basic-auth
+          optional: false
+        username:
+          key: username
+          name: tarzan-metrics-basic-auth
+          optional: false
+      scheme: https
+      scrape_interval: 1m
+      targets: ["tarzan.meysam.io"]
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: tarzan-rules
+spec:
+  groups:
+    - interval: 30s
+      name: tarzan.recording
+      rules:
+        - expr: rate(tarzan_http_requests_total[5m])
+          record: tarzan:http_request_rate_5m
+        - expr: rate(tarzan_http_requests_total{status_code=~"4..|5.."}[5m])
+          record: tarzan:http_error_rate_5m
+        - expr: rate(tarzan_http_requests_total{status_code=~"2..|3.."}[5m])
+          record: tarzan:http_success_rate_5m
+        - expr: |
+            tarzan:http_error_rate_5m /
+            (tarzan:http_error_rate_5m + tarzan:http_success_rate_5m)
+          record: tarzan:http_error_ratio_5m
+        - expr: histogram_quantile(0.5, rate(tarzan_http_request_duration_seconds_bucket[5m]))
+          record: tarzan:http_request_duration_p50_5m
+        - expr: histogram_quantile(0.95, rate(tarzan_http_request_duration_seconds_bucket[5m]))
+          record: tarzan:http_request_duration_p95_5m
+        - expr: histogram_quantile(0.99, rate(tarzan_http_request_duration_seconds_bucket[5m]))
+          record: tarzan:http_request_duration_p99_5m
+        - expr: rate(tarzan_websocket_connections_total[5m])
+          record: tarzan:websocket_connection_rate_5m
+        - expr: rate(tarzan_email_processing_duration_seconds_count[5m])
+          record: tarzan:email_processing_rate_5m
+        - expr: histogram_quantile(0.95, rate(tarzan_email_processing_duration_seconds_bucket[5m]))
+          record: tarzan:email_processing_duration_p95_5m
+        - expr: rate(tarzan_database_operations_total[5m])
+          record: tarzan:database_operation_rate_5m
+        - expr: rate(tarzan_database_operations_total{status="error"}[5m])
+          record: tarzan:database_operation_error_rate_5m
+    - interval: 30s
+      name: tarzan.alerts
+      rules:
+        - alert: TarzanServiceDown
+          annotations:
+            description: Tarzan service has been down for more than 1 minute
+            runbook_url: https://wiki.example.com/runbooks/tarzan-service-down
+            summary: Tarzan service is down
+          expr: up{job="tarzan"} == 0
+          for: 1m
+          labels:
+            service: tarzan
+            severity: critical
+        - alert: TarzanHighErrorRate
+          annotations:
+            description: HTTP error rate is {{ printf "%.2f" $value }}% over the last 5 minutes
+            runbook_url: https://wiki.example.com/runbooks/tarzan-high-error-rate
+            summary: High HTTP error rate detected
+          expr: tarzan:http_error_ratio_5m > 0.05
+          for: 5m
+          labels:
+            service: tarzan
+            severity: critical
+        - alert: TarzanHighLatency
+          annotations:
+            description: 95th percentile latency is {{ printf "%.3f" $value }}s over the last 5 minutes
+            runbook_url: https://wiki.example.com/runbooks/tarzan-high-latency
+            summary: High HTTP latency detected
+          expr: tarzan:http_request_duration_p95_5m > 1
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanVeryHighLatency
+          annotations:
+            description: 95th percentile latency is {{ printf "%.3f" $value }}s over the last 5 minutes
+            runbook_url: https://wiki.example.com/runbooks/tarzan-high-latency
+            summary: Very high HTTP latency detected
+          expr: tarzan:http_request_duration_p95_5m > 5
+          for: 2m
+          labels:
+            service: tarzan
+            severity: critical
+        - alert: TarzanNoTraffic
+          annotations:
+            description: No HTTP requests received for more than 10 minutes
+            summary: No HTTP traffic to Tarzan service
+          expr: rate(tarzan_http_requests_total[5m]) == 0
+          for: 30d
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanHighMemoryUsage
+          annotations:
+            description: Memory usage is {{ humanize $value }} (>100MB)
+            summary: High memory usage
+          expr: process_resident_memory_bytes{job="tarzan"} > 100 * 1024 * 1024
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanHighGoroutineCount
+          annotations:
+            description: Goroutine count is {{ $value }} (>100)
+            summary: High goroutine count
+          expr: go_goroutines{job="tarzan"} > 100
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanHighDatabaseConnections
+          annotations:
+            description: "Active database connections: {{ $value }} (>10)"
+            summary: High database connection count
+          expr: tarzan_database_connections_active > 10
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanDatabaseOperationErrors
+          annotations:
+            description: 'Database error rate: {{ printf "%.2f" $value }} errors/sec'
+            summary: Database operation errors detected
+          expr: rate(tarzan_database_operations_total{status="error"}[5m]) > 0.1
+          for: 2m
+          labels:
+            service: tarzan
+            severity: critical
+        - alert: TarzanWebSocketConnectionDrop
+          annotations:
+            description: WebSocket connections dropped by >50% to {{ $value }}
+            summary: Significant drop in WebSocket connections
+          expr: |
+            (
+              tarzan_websocket_connections_active <
+              tarzan_websocket_connections_active offset 5m * 0.5
+            ) and tarzan_websocket_connections_active < 10
+          for: 30d
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanEmailProcessingStuck
+          annotations:
+            description: No email processing activity for 15 minutes
+            summary: Email processing appears stuck
+          expr: |
+            increase(tarzan_email_processing_duration_seconds_count[10m]) == 0
+            and tarzan_email_processing_duration_seconds_count > 0
+          for: 15m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanSlowEmailProcessing
+          annotations:
+            description: '95th percentile email processing time: {{ printf "%.1f" $value }}s'
+            summary: Slow email processing detected
+          expr: tarzan:email_processing_duration_p95_5m > 30
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanHighCPUUsage
+          annotations:
+            description: CPU usage is {{ printf "%.1f" $value }}% over 5 minutes
+            summary: High CPU usage
+          expr: rate(process_cpu_seconds_total{job="tarzan"}[5m]) > 0.8
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+        - alert: TarzanTooManyOpenFiles
+          annotations:
+            description: 'File descriptor usage: {{ printf "%.1f" $value }}% of maximum'
+            summary: High file descriptor usage
+          expr: process_open_fds{job="tarzan"} / process_max_fds{job="tarzan"} > 0.8
+          for: 5m
+          labels:
+            service: tarzan
+            severity: warning
+    - interval: 30s
+      name: tarzan.slo
+      rules:
+        - expr: |
+            (
+              rate(tarzan_http_requests_total{status_code=~"2..|3.."}[5m]) /
+              rate(tarzan_http_requests_total[5m])
+            ) or vector(1)
+
+          record: tarzan:sli_availability_5m
+        - expr: |
+            (
+              histogram_quantile(0.95, rate(tarzan_http_request_duration_seconds_bucket[5m])) < 0.5
+            ) or vector(1)
+
+          record: tarzan:sli_latency_5m
+        - alert: TarzanSLOAvailabilityBreach
+          annotations:
+            description: 'Availability SLI: {{ printf "%.3f" $value }} (SLO: 99.5%)'
+            summary: SLO availability breach
+          expr: tarzan:sli_availability_5m < 0.995
+          for: 5m
+          labels:
+            service: tarzan
+            severity: critical
+            slo: availability
+        - alert: TarzanSLOLatencyBreach
+          annotations:
+            description: 95th percentile latency exceeds 500ms SLO
+            summary: SLO latency breach
+          expr: tarzan:sli_latency_5m == 0
+          for: 5m
+          labels:
+            service: tarzan
+            severity: critical
+            slo: latency
