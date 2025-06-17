@@ -23,6 +23,33 @@ resource "cloudflare_record" "mail_protonmail_ch" {
   content  = "mail.protonmail.ch"
 }
 
+resource "cloudflare_record" "mail_protonmail_ch_spf" {
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = "@"
+  proxied = false
+  ttl     = 1
+  type    = "TXT"
+  content = "\"v=spf1 include:_spf.protonmail.ch ~all\""
+}
+
+resource "cloudflare_record" "protonmail_domainkey_cname" {
+  for_each = {
+    "protonmail._domainkey"  = "protonmail.domainkey.def635q5i7k6keye6fldvdzejyc5pb7zw46feb5jkn4mmdzbkqecq.domains.proton.ch."
+    "protonmail2._domainkey" = "protonmail2.domainkey.def635q5i7k6keye6fldvdzejyc5pb7zw46feb5jkn4mmdzbkqecq.domains.proton.ch."
+    "protonmail3._domainkey" = "protonmail3.domainkey.def635q5i7k6keye6fldvdzejyc5pb7zw46feb5jkn4mmdzbkqecq.domains.proton.ch."
+  }
+
+  zone_id = data.cloudflare_zone.devfriend_blog.id
+
+  name    = each.key
+  proxied = false
+  ttl     = 1
+  type    = "CNAME"
+  content = each.value
+}
+
+
 resource "cloudflare_record" "mailsec_protonmail_ch" {
   zone_id = data.cloudflare_zone.devfriend_blog.id
 
