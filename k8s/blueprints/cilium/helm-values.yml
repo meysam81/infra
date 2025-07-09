@@ -39,7 +39,7 @@ imagePullSecrets: []
 # @default -- `"~/.kube/config"`
 kubeConfigPath: ""
 # -- (string) Kubernetes service host - use "auto" for automatic lookup from the cluster-info ConfigMap (kubeadm-based clusters only)
-k8sServiceHost: ""
+k8sServiceHost: 172.16.16.1
 # @schema
 # type: [string, integer]
 # @schema
