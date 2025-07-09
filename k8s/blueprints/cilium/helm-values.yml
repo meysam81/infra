@@ -172,10 +172,8 @@ nodeSelector:
 # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 tolerations:
   - operator: Exists
-    # - key: "key"
-    #   operator: "Equal|Exists"
-    #   value: "value"
-    #   effect: "NoSchedule|PreferNoSchedule|NoExecute(1.6 only)"
+  - key: node
+    effect: NoSchedule
 # -- The priority class to use for cilium-agent.
 priorityClassName: ""
 # -- DNS policy for Cilium agent pods.
