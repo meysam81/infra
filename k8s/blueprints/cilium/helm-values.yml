@@ -44,7 +44,7 @@ k8sServiceHost: 172.16.16.1
 # type: [string, integer]
 # @schema
 # -- (string) Kubernetes service port
-k8sServicePort: ""
+k8sServicePort: 6443
 # -- Configure the client side rate limit for the agent and operator
 #
 # If the amount of requests to the Kubernetes API server exceeds the configured
