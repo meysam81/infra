@@ -39,12 +39,12 @@ imagePullSecrets: []
 # @default -- `"~/.kube/config"`
 kubeConfigPath: ""
 # -- (string) Kubernetes service host - use "auto" for automatic lookup from the cluster-info ConfigMap (kubeadm-based clusters only)
-k8sServiceHost: ""
+k8sServiceHost: 128.140.71.149
 # @schema
 # type: [string, integer]
 # @schema
 # -- (string) Kubernetes service port
-k8sServicePort: ""
+k8sServicePort: 10113
 # -- Configure the client side rate limit for the agent and operator
 #
 # If the amount of requests to the Kubernetes API server exceeds the configured
