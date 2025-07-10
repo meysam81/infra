@@ -20,7 +20,7 @@ resources:
 
 images:
   - name: clickhouse/clickhouse-server
-    newTag: 25.5-alpine
+    newTag: 25.6-alpine
 
 replacements:
   - source:
