@@ -587,12 +587,10 @@ node:
   ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
   ##
   tolerations:
-    # - effect: NoExecute
-    #   operator: Exists
     - effect: NoSchedule
+      key: node
       operator: Exists
-    # - key: CriticalAddonsOnly
-    #   operator: Exists
+      value: bastion
 
   ## @param node.updateStrategy.type node statefulset strategy type
   ## ref: https://kubernetes.io/docs/concepts/workloads/nodes/statefulset/#update-strategies
