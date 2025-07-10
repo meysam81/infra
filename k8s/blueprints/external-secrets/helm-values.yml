@@ -263,11 +263,8 @@ affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       - labelSelector:
-          matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-                - external-secrets
+          matchLabels:
+            app.kubernetes.io/name: external-secrets
         topologyKey: kubernetes.io/hostname
 
 # -- Pod priority class name.
@@ -291,7 +288,7 @@ webhook:
   certCheckInterval: "5m"
   # -- Specifices the lookaheadInterval for certificate validity
   lookaheadInterval: ""
-  replicaCount: 1
+  replicaCount: 2
   # -- Specifices Log Params to the Webhook
   log:
     level: info
@@ -372,12 +369,20 @@ webhook:
       # -- Add extra annotations to the Certificate resource.
       annotations: {}
 
-  tolerations: []
+  tolerations:
+    - effect: NoSchedule
+      key: node
+      value: bastion
 
   topologySpreadConstraints: []
 
   affinity:
-    {}
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: external-secrets-webhook
+          topologyKey: kubernetes.io/hostname
 
     # -- Pod priority class name.
   priorityClassName: ""
