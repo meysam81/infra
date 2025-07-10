@@ -589,7 +589,6 @@ node:
   tolerations:
     - effect: NoSchedule
       key: node
-      operator: Exists
       value: bastion
 
   ## @param node.updateStrategy.type node statefulset strategy type
