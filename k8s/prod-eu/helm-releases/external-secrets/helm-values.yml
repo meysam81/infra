@@ -1,4 +1,0 @@
-certController:
-  create: true
-webhook:
-  create: true
