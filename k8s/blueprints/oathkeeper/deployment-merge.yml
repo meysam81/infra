@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oathkeeper
+spec:
+  template:
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          key: node
+          value: findforce
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels: {}
+          maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule

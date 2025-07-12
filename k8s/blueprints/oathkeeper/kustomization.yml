@@ -9,6 +9,10 @@ resources:
   - ciliumnetworkpolicy.yml
   - referencegrant.yml
 
+replicas:
+  - name: oathkeeper
+    count: 2
+
 patches:
   - patch: |
       - op: add
@@ -30,6 +34,7 @@ patches:
     target:
       kind: Deployment
       name: oathkeeper
+  - path: deployment-merge.yml
 
 replacements:
   - source:
@@ -52,5 +57,13 @@ replacements:
           - spec.endpointSelector.matchLabels.[k8s:io.kubernetes.pod.namespace]
         options:
           create: true
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Deployment
+        fieldPaths:
+          - spec.template.spec.topologySpreadConstraints.[topologyKey=kubernetes.io/hostname].labelSelector.matchLabels
 
 namespace: auth

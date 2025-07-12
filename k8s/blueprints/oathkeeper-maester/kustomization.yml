@@ -1,0 +1,21 @@
+resources:
+  - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v2.3.15
+
+patches:
+  - path: deployment-merge.yml
+
+replicas:
+  - name: oathkeeper-maester
+    count: 1
+
+replacements:
+  - source:
+      kind: Deployment
+      fieldPath: spec.template.metadata.labels
+    targets:
+      - select:
+          kind: Deployment
+        fieldPaths:
+          - spec.template.spec.topologySpreadConstraints.[topologyKey=kubernetes.io/hostname].labelSelector.matchLabels
+
+namespace: auth
