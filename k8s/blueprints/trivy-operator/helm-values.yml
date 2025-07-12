@@ -725,6 +725,10 @@ nodeCollector:
   tolerations:
     - effect: NoSchedule
       key: node
+      value: findforce
+    - effect: NoSchedule
+      key: node
+      value: bastion
 
   # -- If you do want to specify tolerations, uncomment the following lines, adjust them as necessary, and remove the
   # square brackets after 'scanJobTolerations:'.

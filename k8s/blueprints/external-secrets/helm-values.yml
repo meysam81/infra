@@ -257,15 +257,15 @@ tolerations:
     key: node
     value: findforce
 
-topologySpreadConstraints: []
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: external-secrets
 
-affinity:
-  podAntiAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: external-secrets
-        topologyKey: kubernetes.io/hostname
+affinity: {}
 
 # -- Pod priority class name.
 priorityClassName: ""
