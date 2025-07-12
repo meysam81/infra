@@ -255,7 +255,6 @@ nodeSelector: {}
 tolerations:
   - effect: NoSchedule
     key: node
-    value: bastion
 
 topologySpreadConstraints: []
 

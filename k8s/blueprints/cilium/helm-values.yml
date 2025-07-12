@@ -2735,7 +2735,7 @@ operator:
     pullPolicy: "IfNotPresent"
     suffix: ""
   # -- Number of replicas to run for the cilium-operator deployment
-  replicas: 1
+  replicas: 2
   # -- The priority class to use for cilium-operator
   priorityClassName: ""
   # -- DNS policy for Cilium operator pods.
@@ -2775,6 +2775,8 @@ operator:
   # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
   tolerations:
     - operator: Exists
+    - effect: NoSchedule
+      key: node
       # - key: "key"
       #   operator: "Equal|Exists"
       #   value: "value"
