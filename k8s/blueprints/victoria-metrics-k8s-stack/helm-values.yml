@@ -59,7 +59,6 @@ victoria-metrics-operator:
   tolerations:
     - effect: NoSchedule
       key: node
-      value: bastion
   operator:
     # -- By default, operator converts prometheus-operator objects.
     disable_prometheus_converter: false
