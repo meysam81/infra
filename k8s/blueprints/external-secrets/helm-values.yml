@@ -255,6 +255,7 @@ nodeSelector: {}
 tolerations:
   - effect: NoSchedule
     key: node
+    value: findforce
 
 topologySpreadConstraints: []
 
