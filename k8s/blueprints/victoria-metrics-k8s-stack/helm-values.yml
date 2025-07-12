@@ -48,6 +48,18 @@ victoria-metrics-operator:
         pullPolicy: IfNotPresent
   serviceMonitor:
     enabled: true
+  replicaCount: 2
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: victoria-metrics-operator
+          topologyKey: kubernetes.io/hostname
+  tolerations:
+    - effect: NoSchedule
+      key: node
+      value: bastion
   operator:
     # -- By default, operator converts prometheus-operator objects.
     disable_prometheus_converter: false
