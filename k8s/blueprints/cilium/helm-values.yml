@@ -52,12 +52,12 @@ iptablesRandomFully: false
 # @default -- `"~/.kube/config"`
 kubeConfigPath: ""
 # -- (string) Kubernetes service host - use "auto" for automatic lookup from the cluster-info ConfigMap
-k8sServiceHost: ""
+k8sServiceHost: 172.16.16.1
 # @schema
 # type: [string, integer]
 # @schema
 # -- (string) Kubernetes service port
-k8sServicePort: ""
+k8sServicePort: 6443
 # @schema
 # type: [null, string]
 # @schema
