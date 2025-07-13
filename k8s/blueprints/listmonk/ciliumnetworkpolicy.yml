@@ -15,23 +15,3 @@ spec:
             http: [{}]
       fromEntities:
         - all
-  egress:
-    - toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
-            - port: "587"
-              protocol: ANY
-            - port: "2525"
-              protocol: ANY
-    - toPorts:
-        - ports:
-            - port: "443"
-              protocol: TCP
-    - toPorts:
-        - ports:
-            - port: "53"
-              protocol: ANY
-          rules:
-            dns:
-              - matchPattern: "*"
