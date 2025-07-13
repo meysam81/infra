@@ -258,12 +258,12 @@ tolerations:
     value: findforce
 
 topologySpreadConstraints:
-  - maxSkew: 2
-    topologyKey: kubernetes.io/hostname
-    whenUnsatisfiable: DoNotSchedule
-    labelSelector:
+  - labelSelector:
       matchLabels:
         app.kubernetes.io/name: external-secrets
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
 
 affinity: {}
 
