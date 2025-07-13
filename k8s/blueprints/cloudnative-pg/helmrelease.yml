@@ -10,7 +10,7 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg
         namespace: flux-system
-      version: 0.x
+      version: 0.24.x
   install:
     createNamespace: true
   interval: 30m
