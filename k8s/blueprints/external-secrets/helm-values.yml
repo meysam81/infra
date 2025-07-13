@@ -372,7 +372,7 @@ webhook:
   tolerations:
     - effect: NoSchedule
       key: node
-      value: bastion
+      value: findforce
 
   topologySpreadConstraints: []
 
