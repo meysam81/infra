@@ -2108,7 +2108,7 @@ vtep:
 # direct routing and the Kubernetes CIDR is included in the native routing CIDR,
 # the user must configure the routes to reach pods, either manually or by
 # setting the auto-direct-node-routes flag.
-ipv4NativeRoutingCIDR: ""
+ipv4NativeRoutingCIDR: "172.16.0.0/12"
 # -- (string) Allows to explicitly specify the IPv6 CIDR for native routing.
 # When specified, Cilium assumes networking for this CIDR is preconfigured and
 # hands traffic destined for that range to the Linux network stack without
@@ -2673,7 +2673,7 @@ tls:
 #   - vxlan
 #   - geneve
 # @default -- `"vxlan"`
-tunnelProtocol: ""
+tunnelProtocol: vxlan
 # -- Enable native-routing mode or tunneling mode.
 # Possible values:
 #   - ""
@@ -2696,7 +2696,7 @@ serviceNoBackendResponse: reject
 # This value doesn't change the host network interface MTU i.e. eth0 or ens0.
 # It changes the MTU for cilium_net@cilium_host, cilium_host@cilium_net,
 # cilium_vxlan and lxc_health interfaces.
-MTU: 0
+MTU: 1450
 # -- Disable the usage of CiliumEndpoint CRD.
 disableEndpointCRD: false
 wellKnownIdentities:
