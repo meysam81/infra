@@ -1927,7 +1927,7 @@ ipam:
     # type: [array, string]
     # @schema
     # -- IPv4 CIDR list range to delegate to individual nodes for IPAM.
-    clusterPoolIPv4PodCIDRList: ["10.0.0.0/8"]
+    clusterPoolIPv4PodCIDRList: ["10.42.0.0/16"]  # k3s default
     # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv4MaskSize: 24
     # @schema
@@ -2000,7 +2000,7 @@ ipv6:
 k8s:
   # -- requireIPv4PodCIDR enables waiting for Kubernetes to provide the PodCIDR
   # range via the Kubernetes node resource
-  requireIPv4PodCIDR: true
+  requireIPv4PodCIDR: false
   # -- requireIPv6PodCIDR enables waiting for Kubernetes to provide the PodCIDR
   # range via the Kubernetes node resource
   requireIPv6PodCIDR: false
@@ -2680,7 +2680,7 @@ tunnelProtocol: ""
 #   - native
 #   - tunnel
 # @default -- `"tunnel"`
-routingMode: ""
+routingMode: tunnel
 # -- Configure VXLAN and Geneve tunnel port.
 # @default -- Port 8472 for VXLAN, Port 6081 for Geneve
 tunnelPort: 0
