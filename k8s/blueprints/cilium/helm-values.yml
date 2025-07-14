@@ -603,7 +603,7 @@ bpf:
   # @schema
   # -- (bool) Enable native IP masquerade support in eBPF
   # @default -- `false`
-  masquerade: ~
+  masquerade: true
   # @schema
   # type: [null, boolean]
   # @schema
@@ -1039,7 +1039,7 @@ endpointRoutes:
   # @schema
   # -- Enable use of per endpoint routes instead of routing via
   # the cilium_host interface.
-  enabled: false
+  enabled: true
 k8sNetworkPolicy:
   # -- Enable support for K8s NetworkPolicy
   enabled: true
@@ -1915,7 +1915,7 @@ installNoConntrackIptablesRules: false
 ipam:
   # -- Configure IP Address Management mode.
   # ref: https://docs.cilium.io/en/stable/network/concepts/ipam/
-  mode: "cluster-pool"
+  mode: ipam
   # -- Maximum rate at which the CiliumNode custom resource is updated.
   ciliumNodeUpdateRate: "15s"
   # -- Pre-allocation settings for IPAM in Multi-Pool mode
