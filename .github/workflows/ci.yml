@@ -38,7 +38,7 @@ jobs:
       - env:
           TG_HCLFMT_EXCLUDE_DIR: blueprints
         name: Check terragrunt HCL
-        uses: gruntwork-io/terragrunt-action@v2
+        uses: gruntwork-io/terragrunt-action@v3
         with:
           tofu_version: ${{ env.tofu_version }}
           tg_version: ${{ env.tg_version }}
@@ -79,7 +79,7 @@ jobs:
   #         role-session-name: ci-${{ github.ref_name }}-${{ github.run_id }}
   #         aws-region: ${{ vars.AWS_REGION }}
   #     - name: Deploy
-  #       uses: gruntwork-io/terragrunt-action@v2
+  #       uses: gruntwork-io/terragrunt-action@v3
   #       with:
   #         tofu_version: ${{ env.tofu_version }}
   #         tg_version: ${{ env.tg_version }}
