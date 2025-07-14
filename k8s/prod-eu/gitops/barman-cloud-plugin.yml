@@ -1,0 +1,19 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: barman-cloud-plugin
+  namespace: flux-system
+spec:
+  force: false
+  interval: 1m
+  path: ./k8s/blueprints/barman-cloud-plugin
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  suspend: false
+  targetNamespace: cnpg-system
+  timeout: 5m
+  wait: true
