@@ -10,7 +10,7 @@ spec:
         kind: HelmRepository
         name: cilium
         namespace: flux-system
-      version: 1.17.5
+      version: 1.16.x
   install:
     createNamespace: true
   interval: 30m
