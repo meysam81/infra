@@ -223,8 +223,6 @@ nodeSelector:
 # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 tolerations:
   - operator: Exists
-  - effect: NoSchedule
-    key: node
     # - key: "key"
     #   operator: "Equal|Exists"
     #   value: "value"
@@ -603,7 +601,7 @@ bpf:
   # @schema
   # -- (bool) Enable native IP masquerade support in eBPF
   # @default -- `false`
-  masquerade: true
+  masquerade: ~
   # @schema
   # type: [null, boolean]
   # @schema
@@ -961,7 +959,7 @@ gatewayAPI:
   # -- Control how traffic from external sources is routed to the LoadBalancer Kubernetes Service for all Cilium GatewayAPI Gateway instances. Valid values are "Cluster" and "Local".
   # Note that this value will be ignored when `hostNetwork.enabled == true`.
   # ref: https://kubernetes.io/docs/reference/networking/virtual-ips/#external-traffic-policy
-  externalTrafficPolicy: Local
+  externalTrafficPolicy: Cluster
   gatewayClass:
     # -- Enable creation of GatewayClass resource
     # The default value is 'auto' which decides according to presence of gateway.networking.k8s.io/v1/GatewayClass in the cluster.
@@ -979,7 +977,7 @@ gatewayAPI:
   # Host Network related configuration
   hostNetwork:
     # -- Configure whether the Envoy listeners should be exposed on the host network.
-    enabled: true
+    enabled: false
     # Specify the nodes where the Ingress listeners should be exposed
     nodes:
       # -- Specify the labels of the nodes where the Ingress listeners should be exposed
@@ -1039,7 +1037,7 @@ endpointRoutes:
   # @schema
   # -- Enable use of per endpoint routes instead of routing via
   # the cilium_host interface.
-  enabled: true
+  enabled: false
 k8sNetworkPolicy:
   # -- Enable support for K8s NetworkPolicy
   enabled: true
@@ -1915,7 +1913,7 @@ installNoConntrackIptablesRules: false
 ipam:
   # -- Configure IP Address Management mode.
   # ref: https://docs.cilium.io/en/stable/network/concepts/ipam/
-  mode: kubernetes
+  mode: "cluster-pool"
   # -- Maximum rate at which the CiliumNode custom resource is updated.
   ciliumNodeUpdateRate: "15s"
   # -- Pre-allocation settings for IPAM in Multi-Pool mode
@@ -1927,7 +1925,7 @@ ipam:
     # type: [array, string]
     # @schema
     # -- IPv4 CIDR list range to delegate to individual nodes for IPAM.
-    clusterPoolIPv4PodCIDRList: ["10.42.0.0/16"]  # k3s default
+    clusterPoolIPv4PodCIDRList: ["10.42.0.0/16"] # k3s default
     # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv4MaskSize: 24
     # @schema
@@ -2108,7 +2106,7 @@ vtep:
 # direct routing and the Kubernetes CIDR is included in the native routing CIDR,
 # the user must configure the routes to reach pods, either manually or by
 # setting the auto-direct-node-routes flag.
-ipv4NativeRoutingCIDR: "172.16.0.0/12"
+ipv4NativeRoutingCIDR: ""
 # -- (string) Allows to explicitly specify the IPv6 CIDR for native routing.
 # When specified, Cilium assumes networking for this CIDR is preconfigured and
 # hands traffic destined for that range to the Linux network stack without
@@ -2673,14 +2671,14 @@ tls:
 #   - vxlan
 #   - geneve
 # @default -- `"vxlan"`
-tunnelProtocol: vxlan
+tunnelProtocol: ""
 # -- Enable native-routing mode or tunneling mode.
 # Possible values:
 #   - ""
 #   - native
 #   - tunnel
 # @default -- `"tunnel"`
-routingMode: tunnel
+routingMode: ""
 # -- Configure VXLAN and Geneve tunnel port.
 # @default -- Port 8472 for VXLAN, Port 6081 for Geneve
 tunnelPort: 0
@@ -2696,7 +2694,7 @@ serviceNoBackendResponse: reject
 # This value doesn't change the host network interface MTU i.e. eth0 or ens0.
 # It changes the MTU for cilium_net@cilium_host, cilium_host@cilium_net,
 # cilium_vxlan and lxc_health interfaces.
-MTU: 1450
+MTU: 0
 # -- Disable the usage of CiliumEndpoint CRD.
 disableEndpointCRD: false
 wellKnownIdentities:
@@ -2775,8 +2773,6 @@ operator:
   # ref: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
   tolerations:
     - operator: Exists
-    - effect: NoSchedule
-      key: node
       # - key: "key"
       #   operator: "Equal|Exists"
       #   value: "value"
@@ -3602,7 +3598,7 @@ dnsProxy:
   # -- Allow the DNS proxy to compress responses to endpoints that are larger than 512 Bytes or the EDNS0 option, if present.
   enableDnsCompression: true
   # -- Maximum number of IPs to maintain per FQDN name for each endpoint.
-  endpointMaxIpPerHostname: 100
+  endpointMaxIpPerHostname: 1000
   # -- Time during which idle but previously active connections with expired DNS lookups are still considered alive.
   idleConnectionGracePeriod: 0s
   # -- Maximum number of IPs to retain for expired DNS lookups with still-active connections.

@@ -12,7 +12,7 @@ configMapGenerator:
       - jsonnet-mappers/google.jsonnet
 
 resources:
-  - https://github.com/meysam81/kustomizations//kratos/overlays/vm/?ref=v2.3.20
+  - https://github.com/meysam81/kustomizations//kratos/overlays/vm/?ref=v2.4.0
   - httproute.yml
   - externalsecret.yml
   - rule.yml

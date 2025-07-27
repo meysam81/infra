@@ -1,5 +1,5 @@
 resources:
-  - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v2.3.20
+  - https://github.com/meysam81/kustomizations//oathkeeper-maester/overlays/vm?ref=v2.4.0
 
 patches:
   - path: deployment-merge.yml
