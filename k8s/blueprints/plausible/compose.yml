@@ -11,7 +11,7 @@ services:
       start_period: 1m
 
   plausible_events_db:
-    image: clickhouse/clickhouse-server:25.6.4.12-alpine
+    image: clickhouse/clickhouse-server:25.6.5.41-alpine
     restart: always
     volumes:
       - event-data:/var/lib/clickhouse
