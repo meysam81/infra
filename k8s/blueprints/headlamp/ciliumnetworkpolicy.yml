@@ -16,15 +16,10 @@ spec:
       k8s:io.kubernetes.pod.namespace: flux-system
   ingress:
     - fromEndpoints:
-        - matchExpressions:
-            - key: k8s:io.kubernetes.pod.namespace
-              operator: In
-              values:
-                - auth
-            - key: k8s:app.kubernetes.io/name
-              operator: In
-              values:
-                - oathkeeper
+        - matchLabels:
+            k8s:app.kubernetes.io/instance: oathkeeper-maester
+            k8s:app.kubernetes.io/name: oathkeeper-maester
+            k8s:io.kubernetes.pod.namespace: auth
       toPorts:
         - ports:
             - port: "4466"
