@@ -139,4 +139,4 @@ spec:
           storage: 1Gi
       storageClassName: local-path
   # renovate: docker=grafana/grafana
-  version: 12.1.0
+  version: 12.1.1
