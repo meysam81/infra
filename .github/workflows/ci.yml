@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - env:
           TG_HCLFMT_EXCLUDE_DIR: blueprints
         name: Check terragrunt HCL
@@ -62,7 +62,7 @@ jobs:
   #   environment: prod
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v5
   #     - name: Create Terraform Plugin Cache Dir
   #       run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
   #     - name: Terraform Plugin Cache
@@ -113,7 +113,7 @@ jobs:
   #       working-directory: ./ansible
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v4
+  #       uses: actions/checkout@v5
   #     - id: python
   #       name: Setup Python
   #       uses: actions/setup-python@v5
@@ -142,7 +142,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: kubescape/github-action@main
         continue-on-error: true
         with:
@@ -165,7 +165,7 @@ jobs:
         working-directory: ./applications/hn-submission
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install poetry
         uses: actions/setup-python@v5
         with:
@@ -206,7 +206,7 @@ jobs:
         working-directory: ./applications/reddit-submission
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install poetry
         uses: actions/setup-python@v5
         with:
@@ -248,7 +248,7 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
       length: ${{ steps.matrix.outputs.length }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         name: Checkout
       - id: matrix
         name: Discover changed services
@@ -297,7 +297,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         name: Checkout
       - id: matrix
         name: Discover changed services
@@ -323,7 +323,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: PR Labeler
         uses: srvaroa/labeler@master
         env:
