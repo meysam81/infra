@@ -25,7 +25,7 @@ resources:
 images:
   - name: ghcr.io/meysam81/ente-docker/ente-server
     # renovate: docker=ghcr.io/meysam81/ente-docker/ente-server
-    newTag: "20250331-arm64"
+    newTag: "20250825-arm64"
 
 labels:
   - includeSelectors: true
