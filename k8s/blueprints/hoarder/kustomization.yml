@@ -18,6 +18,10 @@ resources:
   - statefulset.yml
   - vmservicescrape.yml
 
+replicas:
+  - name: hoarder
+    count: 0
+
 images:
   - name: ghcr.io/karakeep-app/karakeep
     newTag: "0.27.0"
