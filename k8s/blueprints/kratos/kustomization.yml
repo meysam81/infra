@@ -25,4 +25,15 @@ images:
 patches:
   - path: deployment-merge.yml
 
+labels:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
+      app.kubernetes.io/component: kratos
+      app.kubernetes.io/instance: kratos
+      app.kubernetes.io/managed-by: Kustomize
+      app.kubernetes.io/name: kratos
+      app.kubernetes.io/part-of: kratos
+      app.kubernetes.io/version: v1.0.0
+
 namespace: auth
