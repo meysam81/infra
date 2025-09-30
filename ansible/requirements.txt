@@ -1,4 +1,4 @@
-ansible<12
+ansible<13
 boto3<2
 botocore<2
 python-dateutil<3
