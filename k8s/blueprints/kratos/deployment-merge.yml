@@ -61,17 +61,6 @@ spec:
             - mountPath: /var/lib/kratos
               name: kratos-data
       initContainers:
-        - name: kratos-init-db-dir
-          image: busybox:1.35
-          command:
-            - sh
-            - -c
-            - |
-              mkdir -p /var/lib/kratos
-              chown -R 65534:65534 /var/lib/kratos
-          volumeMounts:
-            - mountPath: /var/lib/kratos
-              name: kratos-data
         - args:
             - migrate
             - sql
@@ -121,7 +110,6 @@ spec:
             name: kratos-jsonnet
             optional: false
           name: kratos-jsonnet
-        - hostPath:
-            path: /var/lib/kratos
-            type: DirectoryOrCreate
-          name: kratos-data
+        - name: kratos-data
+          persistentVolumeClaim:
+            claimName: kratos-data

@@ -13,10 +13,11 @@ configMapGenerator:
 
 resources:
   - https://github.com/meysam81/kustomizations//kratos/overlays/vm/?ref=v2.4.0
-  - httproute.yml
-  - externalsecret.yml
-  - rule.yml
   - ciliumnetworkpolicy.yml
+  - externalsecret.yml
+  - httproute.yml
+  - pvc.yml
+  - rule.yml
 
 images:
   - name: oryd/kratos
