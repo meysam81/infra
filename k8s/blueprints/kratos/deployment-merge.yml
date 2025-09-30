@@ -110,3 +110,7 @@ spec:
             name: kratos-jsonnet
             optional: false
           name: kratos-jsonnet
+        - hostPath:
+            path: /var/lib/kratos
+            type: DirectoryOrCreate
+          name: kratos-data

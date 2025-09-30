@@ -11,7 +11,7 @@ authenticators:
   bearer_token:
     config:
       check_session_url: http://kratos-public.auth/sessions/whoami
-      extra_from: '@this'
+      extra_from: "@this"
       force_method: GET
       forward_http_headers:
         - x-session-token
@@ -23,7 +23,7 @@ authenticators:
   cookie_session:
     config:
       check_session_url: http://kratos-public.auth/sessions/whoami
-      extra_from: '@this'
+      extra_from: "@this"
       force_method: GET
       only:
         - ory_kratos_session
@@ -67,7 +67,7 @@ authorizers:
     enabled: true
   remote_json:
     config:
-      payload: ''
+      payload: ""
       remote: http://keto-read.auth/relation-tuples/check
     enabled: true
 errors:
