@@ -11,7 +11,7 @@ courier:
     from_address: auth@mailing.developer-friendly.blog
     from_name: Developer Friendly Blog
   template_override_path: /conf/courier-templates
-dsn: sqlite:///var/lib/kratos/db.sqlite?_fk=true&_journal_mode=WAL&cache=shared&mode=rwc
+dsn: sqlite:///var/lib/kratos/db.sqlite?_fk=true&_journal_mode=WAL&mode=rwc
 hashers:
   algorithm: bcrypt
   bcrypt:
