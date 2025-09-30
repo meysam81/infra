@@ -23,8 +23,6 @@ images:
     newTag: v1.3.1-distroless
 
 patches:
-  - path: deployment-patch.yml
-    target:
-      kind: Deployment
+  - path: deployment-merge.yml
 
 namespace: auth

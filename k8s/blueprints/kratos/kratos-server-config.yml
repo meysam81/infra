@@ -11,7 +11,7 @@ courier:
     from_address: auth@mailing.developer-friendly.blog
     from_name: Developer Friendly Blog
   template_override_path: /conf/courier-templates
-dsn: OVERRIDDEN_BY_ENVS
+dsn: sqlite:///var/lib/kratos/db.sqlite?_fk=true&_journal_mode=WAL&cache=shared
 hashers:
   algorithm: bcrypt
   bcrypt:
@@ -35,7 +35,6 @@ secrets:
 selfservice:
   allowed_return_urls:
     - https://*.developer-friendly.blog/
-    - http://*.developer-friendly.blog/
   default_browser_return_url: https://auth.developer-friendly.blog
   flows:
     error:

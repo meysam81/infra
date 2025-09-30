@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kratos
+spec:
+  template:
+    spec:
+      containers:
+        - args:
+            - serve
+            - all
+            - "--config=/etc/kratos/config.yml"
+          command:
+            - kratos
+          envFrom:
+            - configMapRef:
+                name: kratos-envs
+            - secretRef:
+                name: kratos
+          image: oryd/kratos
+          name: kratos
+          volumeMounts:
+            - mountPath: /etc/kratos/config.yml
+              name: kratos-config
+              readOnly: true
+              subPath: config.yml
+            - mountPath: /etc/kratos-schemas
+              name: kratos-schemas
+              readOnly: true
+            - mountPath: /etc/kratos-jsonnet
+              name: kratos-jsonnet
+              readOnly: true
+            - mountPath: /var/lib/kratos
+              name: kratos-data
+        - args:
+            - courier
+            - watch
+            - "--expose-metrics-port=4435"
+            - "--config=/etc/kratos/config.yml"
+          command:
+            - kratos
+          envFrom:
+            - configMapRef:
+                name: kratos-envs
+            - secretRef:
+                name: kratos
+          image: oryd/kratos
+          name: kratos-courier
+          volumeMounts:
+            - mountPath: /etc/kratos/config.yml
+              name: kratos-config
+              readOnly: true
+              subPath: config.yml
+            - mountPath: /etc/kratos-schemas
+              name: kratos-schemas
+              readOnly: true
+            - mountPath: /etc/kratos-jsonnet
+              name: kratos-jsonnet
+              readOnly: true
+            - mountPath: /var/lib/kratos
+              name: kratos-data
+      initContainers:
+        - args:
+            - migrate
+            - sql
+            - "-e"
+            - "--yes"
+            - "--config=/etc/kratos/config.yml"
+          command:
+            - kratos
+          envFrom:
+            - configMapRef:
+                name: kratos-envs
+            - secretRef:
+                name: kratos
+          image: oryd/kratos
+          name: kratos-automigrate
+          volumeMounts:
+            - mountPath: /etc/kratos/config.yml
+              name: kratos-config
+              readOnly: true
+              subPath: config.yml
+            - mountPath: /etc/kratos-schemas
+              name: kratos-schemas
+              readOnly: true
+            - mountPath: /etc/kratos-jsonnet
+              name: kratos-jsonnet
+              readOnly: true
+            - mountPath: /var/lib/kratos
+              name: kratos-data
+      volumes:
+        - configMap:
+            defaultMode: 292
+            items:
+              - key: config.yml
+                path: config.yml
+            name: kratos-config
+          name: kratos-config
+        - configMap:
+            defaultMode: 292
+            items:
+              - key: admin.schema.json
+                path: admin.schema.json
+            name: kratos-schemas
+            optional: false
+          name: kratos-schemas
+        - configMap:
+            defaultMode: 292
+            name: kratos-jsonnet
+            optional: false
+          name: kratos-jsonnet
