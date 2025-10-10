@@ -5,7 +5,7 @@ configMapGenerator:
     behavior: replace
 
 resources:
-  - github.com/meysam81/kustomizations//kratos-admin-ui/overlays/default?ref=v2.4.0&timeout=5m
+  - github.com/meysam81/kustomizations//kratos-admin-ui/overlays/default?ref=v2.7.5&timeout=5m
   - httproute.yml
   - rule.yml
 
