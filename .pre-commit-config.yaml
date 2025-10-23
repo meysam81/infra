@@ -17,7 +17,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
         args: ["--maxkb=800"]
@@ -44,7 +44,6 @@ repos:
             kubernetes/raspberry-pi/applications/reddit-submission/subreddit.md
           )$
       - id: check-builtin-literals
-      - id: check-byte-order-marker
       - id: check-case-conflict
       - id: check-docstring-first
       - id: check-merge-conflict
@@ -56,7 +55,6 @@ repos:
       - id: destroyed-symlinks
       - id: file-contents-sorter
       - id: fix-byte-order-marker
-      - id: fix-encoding-pragma
       - id: forbid-new-submodules
       - id: forbid-submodules
       - id: mixed-line-ending
@@ -68,13 +66,13 @@ repos:
         args:
           - --autofix
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.22.0
+    rev: v9.23.0
     hooks:
       - id: commitlint
         stages: [commit-msg]
         additional_dependencies: ["@commitlint/config-conventional"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.5
+    rev: v0.14.1
     hooks:
       - id: ruff
         args:
@@ -82,18 +80,25 @@ repos:
           - --select=I
       - id: ruff-format
   - repo: https://github.com/tofuutils/pre-commit-opentofu
-    rev: v2.2.1
+    rev: v2.2.2
     hooks:
       - id: tofu_fmt
       # - id: tofu_tflint
       # - id: tofu_docs
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.7
+    rev: v1.7.8
     hooks:
       - id: actionlint
   - repo: https://github.com/reteps/dockerfmt
-    rev: v0.3.7
+    rev: v0.3.9
     hooks:
       - id: dockerfmt
         args:
           - --indent=4
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        language: system
+        pass_filenames: false
+        entry: bunx prettier --write .

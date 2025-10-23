@@ -20,5 +20,4 @@ patches:
       kind: Deployment
       name: kratos-selfservice-ui-node
 
-
 namespace: auth

@@ -1,0 +1,10 @@
+**/helm-values.yml
+k8s/blueprints/ente-server/grafana-dashboard.json
+k8s/blueprints/hoarder/grafana-dashboard.json
+k8s/blueprints/kratos/schemas/admin.schema.json
+k8s/blueprints/listmonk-exporter/grafana-dashboard.json
+k8s/blueprints/listmonk/static/**/*
+k8s/blueprints/tracee/grafana-dashboard.json
+k8s/prod-eu/monitoring/grafana-dashboard-haproxy.json
+k8s/prod-eu/monitoring/grafana-dashboard-trivy-operator.json
+renovate.json

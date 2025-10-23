@@ -23,9 +23,9 @@ serve:
     paths:
       session: /
     # names:
-      # login_csrf: ory_kratos_session
-      # consent_csrf: ory_kratos_session
-      # session: ory_kratos_session
+    # login_csrf: ory_kratos_session
+    # consent_csrf: ory_kratos_session
+    # session: ory_kratos_session
 
 secrets:
   system:
