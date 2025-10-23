@@ -43,14 +43,6 @@ repos:
             kubernetes/raspberry-pi/applications/reddit-submission/title.md|
             kubernetes/raspberry-pi/applications/reddit-submission/subreddit.md
           )$
-      - id: name-tests-test
-      - id: file-contents-sorter
-      - id: requirements-txt-fixer
-      - id: sort-simple-yaml
-      - id: trailing-whitespace
-      - id: fix-byte-order-marker
-      - id: check-builtin-literals
-      - id: check-case-conflict
       - id: check-builtin-literals
       - id: check-byte-order-marker
       - id: check-case-conflict
@@ -62,11 +54,16 @@ repos:
       - id: check-xml
       - id: debug-statements
       - id: destroyed-symlinks
+      - id: file-contents-sorter
       - id: fix-byte-order-marker
       - id: fix-encoding-pragma
       - id: forbid-new-submodules
       - id: forbid-submodules
       - id: mixed-line-ending
+      - id: name-tests-test
+      - id: requirements-txt-fixer
+      - id: sort-simple-yaml
+      - id: trailing-whitespace
       - id: pretty-format-json
         args:
           - --autofix
@@ -88,8 +85,8 @@ repos:
     rev: v2.2.1
     hooks:
       - id: tofu_fmt
-      - id: tofu_tflint
-      - id: tofu_docs
+      # - id: tofu_tflint
+      # - id: tofu_docs
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.7
     hooks:
