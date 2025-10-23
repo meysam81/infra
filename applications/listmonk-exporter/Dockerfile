@@ -13,4 +13,4 @@ RUN pip install -e . --no-cache-dir
 
 USER appuser:appuser
 
-CMD ["python", "main.py"]
+ENTRYPOINT ["python", "main.py"]
