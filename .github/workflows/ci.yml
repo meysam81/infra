@@ -151,7 +151,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install poetry
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
       - name: Install dependencies
         run: |
           pip install 'poetry<2'
@@ -190,7 +190,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install poetry
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Install dependencies
